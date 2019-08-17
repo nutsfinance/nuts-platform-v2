@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represents the status of a financial instrument.
+ */
+message InstrumentStatus {
+    .solidity.address instrumentAddress = 1;
+    .solidity.address fspAddress = 2;
+    bool active = 3;
+    .solidity.uint256 creation = 4;
+    .solidity.uint256 expiration = 5;
+}
+
+/**
+ * Represents the status of an FSP(Financial Service Provider).
+ */
+message FSPStatus {
+    .solidity.address fspAddress = 1;
+    repeated .solidity.address instrumentAddresses = 2;
+}

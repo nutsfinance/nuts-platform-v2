@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+message StakeMiningParameters {
+    repeated .solidity.address supportedTokens = 1;
+    bool supportETH = 2;
+    .solidity.address mintedToken = 3;
+    .solidity.uint256 startBlock = 4;
+    .solidity.uint256 endBlock = 5;
+    .solidity.uint256 tokensPerBlock = 6;
+    .solidity.uint256 minimumBalance = 7;
+    .solidity.address teamWallet = 8;
+    .solidity.uint256 teamPercentage = 9;
+    .solidity.address priceOracle = 10;
+}
+
+message StakeMiningProperties {
+    repeated .solidity.address tokens = 1;
+    repeated bool tokenSupported = 2;
+    .solidity.address mintedToken = 3;
+    .solidity.uint256 startBlock = 4;
+    .solidity.uint256 endBlock = 5;
+    .solidity.uint256 tokensPerBlock = 6;
+    .solidity.uint256 minimumBalance = 7;
+    .solidity.address teamWallet = 8;
+    .solidity.uint256 teamPercentage = 9;
+    .solidity.address priceOracle = 10;
+    .solidity.uint256 accountCount = 11;
+    .solidity.uint256 lastMintBlock = 12;
+}
+
+message Account {
+    .solidity.address accountAddress = 1;
+    repeated .solidity.uint256 balances = 2;
+}

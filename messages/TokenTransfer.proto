@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represent a single transfer action from issuance to user.
+ * User to issuance transfer is triggered via NutsPlatform so
+ * that it's not defined as message.
+ */
+message Transfer {
+    bool isEther = 1;
+    .solidity.address tokenAddress = 2;
+    .solidity.address receiverAddress = 3;
+    .solidity.uint256 amount = 4;
+}
+
+/**
+ * Represents a series of token transfer actions.
+ */
+message Transfers {
+    repeated Transfer actions = 1;
+}

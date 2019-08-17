@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represents the input parameters from sellers in
+ * creating new loan issuance.
+ */
+message SellerParameters {
+  .solidity.address collateralTokenAddress = 1;
+  .solidity.uint256 collateralTokenAmount = 2;
+  .solidity.uint256 borrowAmount = 3;
+  .solidity.uint32 depositDueDays = 4;
+  .solidity.uint32 collateralDueDays = 5;
+  .solidity.uint32 engagementDueDays = 6;
+  .solidity.uint32 tenorDays = 7;
+  .solidity.uint32 interestRate = 8;
+  .solidity.uint32 gracePeriod = 9;
+}
+
+/**
+ * Represents the properties of a loan issuance.
+ */
+message LoanProperties {
+  .solidity.address sellerAddress = 1;
+  .solidity.uint256 startDate = 2;
+  .solidity.address collateralTokenAddress = 3;
+  .solidity.uint256 collateralTokenAmount = 4;
+  .solidity.uint256 borrowAmount = 5;
+  .solidity.uint32 collateralDueDays = 6;
+  .solidity.uint32 engagementDueDays = 7;
+  .solidity.uint32 tenorDays = 8;
+  .solidity.uint32 interestRate = 9;
+  .solidity.uint32 gracePeriod = 10;
+  bool collateralComplete = 11;
+  .solidity.uint256 interest = 12;
+  .solidity.address buyerAddress = 13;
+  .solidity.uint256 engageDate = 14;
+}
