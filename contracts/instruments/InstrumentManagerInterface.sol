@@ -50,16 +50,6 @@ interface InstrumentManagerInterface {
             external returns (IssuanceActiveness activeness);
 
     /**
-     * @dev Buyer/Seller has made an Ether deposit to the issuance.
-     * @param issuanceId The id of the issuance
-     * @param fromAddress The address of the Ether sender
-     * @param amount The amount of Ether transfered
-     * @return activeness The activeness of the issuance.
-     */
-    function processDeposit(uint256 issuanceId, address fromAddress, uint256 amount)
-            external returns (IssuanceActiveness activeness);
-
-    /**
      * @dev Buyer/Seller has made an ERC20 token deposit to the issuance
      * @param issuanceId The id of the issuance
      * @param fromAddress The address of the ERC20 token sender
@@ -68,16 +58,6 @@ interface InstrumentManagerInterface {
      * @return activeness The activeness of the issuance.
      */
     function processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount)
-            external returns (IssuanceActiveness activeness);
-
-    /**
-     * @dev Buyer/Seller has made an Ether withdraw from the issuance
-     * @param issuanceId The id of the issuance
-     * @param toAddress The address of the Ether receiver
-     * @param amount The amount of Ether transfered
-     * @return activeness The activeness of the issuance.
-     */
-    function processWithdraw(uint256 issuanceId, address toAddress, uint256 amount)
             external returns (IssuanceActiveness activeness);
 
     /**
@@ -92,24 +72,13 @@ interface InstrumentManagerInterface {
             external returns (IssuanceActiveness activeness);
 
     /**
-     * @dev Process scheduled event
+     * @dev Process event. This event can be scheduled events or custom events.
      * @param issuanceId The id of the issuance
      * @param notifierAddress The address which notifies this scheduled event
      * @param eventName Name of the custom event, eventName of EventScheduled event
      * @param eventPayload Payload of the custom event, eventPayload of EventScheduled event
      * @return activeness The activeness of the issuance.
      */
-    function processScheduledEvent(uint256 issuanceId, address notifierAddress, string calldata eventName, bytes calldata eventPayload)
-            external returns (IssuanceActiveness activeness);
-
-    /**
-     * @dev Process customer event
-     * @param issuanceId The id of the issuance
-     * @param notifierAddress The address which notifies this custom event
-     * @param eventName Name of the custom event, eventName of EventScheduled event
-     * @param eventPayload Payload of the custom event, eventPayload of EventScheduled event
-     * @return activeness The activeness of the issuance.
-     */
-    function processCustomEvent(uint256 issuanceId, address notifierAddress, string calldata eventName, bytes calldata eventPayload)
+    function processEvent(uint256 issuanceId, address notifierAddress, string calldata eventName, bytes calldata eventPayload)
             external returns (IssuanceActiveness activeness);
 }

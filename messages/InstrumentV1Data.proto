@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represents custom instrument parameters in creating Instrument V1 manager.
+ */
+message InstrumentParameters {
+    .solidity.uint256 expiration = 1;
+}
+
+/**
+ * Represents common properties shared by all financial instruments.
+ */
+message IssuanceProperties {
+    .solidity.address sellerAddress = 1;
+    .solidity.uint256 creationTimestamp = 2;
+    .solidity.uint8 state = 3;
+}

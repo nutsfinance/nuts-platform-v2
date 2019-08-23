@@ -50,22 +50,6 @@ contract InstrumentV1 is Instrument {
             public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
 
     /**
-     * @dev Buyer/Seller has made an Ether deposit to the issuance.
-     * @param issuanceId The id of the issuance
-     * @param state The current state of the issuance
-     * @param properties The properties for this issuance
-     * @param balances The current balance of the issuance (after the deposit)
-     * @param fromAddress The address of the Ether sender
-     * @param amount The amount of Ether transfered
-     * @return updatedProperties The updated properties of the issuance.
-     * @return updatedState The new state of the issuance.
-     * @return transfers The transfers to perform after the invocation
-     */
-    function processDeposit(uint256 issuanceId, IssuanceStates state, bytes memory properties,
-        bytes memory balances, address fromAddress, uint256 amount)
-            public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
-
-    /**
      * @dev Buyer/Seller has made an ERC20 token deposit to the issuance
      * @param issuanceId The id of the issuance
      * @param state The current state of the issuance
@@ -82,21 +66,6 @@ contract InstrumentV1 is Instrument {
         bytes memory balances, address fromAddress, address tokenAddress, uint256 amount)
             public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
 
-    /**
-     * @dev Buyer/Seller has made an Ether withdraw from the issuance
-     * @param issuanceId The id of the issuance
-     * @param state The current state of the issuance
-     * @param properties The properties for this issuance
-     * @param balances The current balance of the issuance (after the withdraw)
-     * @param toAddress The address of the Ether receiver
-     * @param amount The amount of Ether transfered
-     * @return updatedState The new state of the issuance.
-     * @return updatedProperties The updated properties of the issuance.
-     * @return transfers The transfers to perform after the invocation
-     */
-    function processWithdraw(uint256 issuanceId, IssuanceStates state, bytes memory properties,
-        bytes memory balances, address toAddress, uint256 amount)
-            public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
 
     /**
      * @dev Buyer/Seller has made an ERC20 token withdraw from the issuance
@@ -116,24 +85,7 @@ contract InstrumentV1 is Instrument {
             public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
 
     /**
-     * @dev Process scheduled event
-     * @param issuanceId The id of the issuance
-     * @param state The current state of the issuance
-     * @param properties The properties for this issuance
-     * @param notifierAddress The address which notifies this scheduled event
-     * @param balances The current balance of the issuance (after the withdraw)
-     * @param eventName Name of the custom event, eventName of EventScheduled event
-     * @param eventPayload Payload of the custom event, eventPayload of EventScheduled event
-     * @return updatedState The new state of the issuance.
-     * @return updatedProperties The updated properties of the issuance.
-     * @return transfers The transfers to perform after the invocation
-     */
-    function processScheduledEvent(uint256 issuanceId, IssuanceStates state, bytes memory properties,
-        bytes memory balances, address notifierAddress, string memory eventName, bytes memory eventPayload)
-            public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
-
-    /**
-     * @dev Process customer event
+     * @dev Process event. This event can be scheduled events or custom events.
      * @param issuanceId The id of the issuance
      * @param state The current state of the issuance
      * @param properties The properties for this issuance
@@ -145,7 +97,7 @@ contract InstrumentV1 is Instrument {
      * @return updatedProperties The updated properties of the issuance.
      * @return transfers The transfers to perform after the invocation
      */
-    function processCustomEvent(uint256 issuanceId, IssuanceStates state, bytes memory properties,
+    function processEvent(uint256 issuanceId, IssuanceStates state, bytes memory properties,
         bytes memory balances, address notifierAddress, string memory eventName, bytes memory eventPayload)
             public returns (IssuanceStates updatedState, bytes memory updatedProperties, bytes memory transfers);
 }

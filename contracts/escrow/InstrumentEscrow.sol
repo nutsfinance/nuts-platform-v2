@@ -12,7 +12,7 @@ import "../lib/util/Constants.sol";
 /**
  * @title Escrow for both user and issuance.
  */
-contract NutsEscrow is EscrowInterface, Ownable {
+contract InstrumentEscrow is EscrowInterface, Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
