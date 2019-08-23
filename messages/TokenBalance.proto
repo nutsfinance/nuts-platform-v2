@@ -6,9 +6,8 @@ import "SolidityTypes.proto";
  * Represents a single token balance information.
  */
 message Balance {
-    bool isEther = 1;
-    .solidity.address tokenAddress = 2;
-    .solidity.uint256 amount = 4;
+    .solidity.address tokenAddress = 1;
+    .solidity.uint256 amount = 2;
 }
 
 /**

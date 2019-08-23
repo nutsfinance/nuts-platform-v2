@@ -3,19 +3,21 @@ syntax = "proto3";
 import "SolidityTypes.proto";
 
 /**
- * Represent a single transfer action from issuance to user.
- * User to issuance transfer is triggered via NutsPlatform so
- * that it's not defined as message.
+ * Represent a single transfer action between issuance and user.
  */
 message Transfer {
-    bool isEther = 1;
-    .solidity.address tokenAddress = 2;
-    .solidity.address receiverAddress = 3;
-    .solidity.uint256 amount = 4;
+    // When fromUser = true, the transfer is from user to issuance
+    // When fromUser = false, the transfer is from issuance to user
+    bool fromUser = 1;
+    .solidity.uint256 issuanceId = 2;
+    .solidity.address userAddress = 3;
+    .solidity.address tokenAddress = 4;
+    .solidity.uint256 amount = 5;
 }
 
 /**
  * Represents a series of token transfer actions.
+ * Unlike Token Balance, two Transfer actions might have the same token address.
  */
 message Transfers {
     repeated Transfer actions = 1;

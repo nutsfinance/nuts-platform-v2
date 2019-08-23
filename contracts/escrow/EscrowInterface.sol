@@ -4,13 +4,42 @@ import "../lib/token/IERC20.sol";
 
 /**
  * @title Interface for user and issuance escrow.
+ * Consists of APIs for both users and instrument managers.
  */
 interface EscrowInterface  {
+    /**
+     * Token is deposited into escrow by user.
+     * @param depositer The address of the user who deposits token.
+     * @param token The deposit token address.
+     * @param amount The deposit token amount.
+     */
+    event TokenDepositedToEscrow(address indexed depositer, address indexed token, uint256 amount);
 
-    event EtherDeposited(address indexed payee, uint256 amount);
-    event EtherWithdrawn(address indexed payee, uint256 amount);
-    event TokenDeposited(address indexed payee, address indexed token, uint256 amount);
-    event TokenWithdrawn(address indexed payee, address indexed token, uint256 amount);
+    /**
+     * Token is withdrawn from escrow by user.
+     * @param withdrawer The address of the user who withdraws token.
+     * @param token The withdrawal token address.
+     * @param amount The withdrawal token amount.
+     */
+    event TokenWithdrawnFromEscrow(address indexed withdrawer, address indexed token, uint256 amount);
+
+    /**
+     * Token in the escrow is tranferred from user to issuance.
+     * @param issuanceId The id of the issuance to which the token is transferred.
+     * @param user The address of the user from which the token is transferred.
+     * @param token The transfer token address.
+     * @param amount The transfer token amount.
+     */
+    event TokenTransferredToIssuance(uint256 indexed issuanceId, address indexed user, address indexed token, uint256 amount);
+
+    /**
+     * Token in the escrow is tranferred from issuance to user.
+     * @param issuanceId The id of the issuance from which the token is transferred.
+     * @param user The address of the user to which the token is transferred.
+     * @param token The transfer token address.
+     * @param amount The transfer token amount.
+     */
+    event TokenTransferredFromIssuance(uint256 indexed issuanceId, address indexed user, address indexed token, uint256 amount);
 
     /**********************************************
      * API for users to deposit and withdraw Ether
@@ -58,72 +87,48 @@ interface EscrowInterface  {
      */
     function withdrawToken(IERC20 token, uint256 amount) external;
 
-    /**
-     * @dev Get the balance information about all tokens of the user.
-     * @param payee The user address
-     * @return The balance of all tokens about this user.
-     */
-    function getUserBalances(address payee) external view returns (string memory);
-
     /***********************************************
-     *  API used by NUTS platform to hold tokens for issuance
+     *  API to get balance information.
      **********************************************/
 
     /**
-     * @dev Get the Ether balance of an issuance in the escrow
-     * @param issuanceId The id of the issuance
-     * @return The Ether balance of the issuance in the escrow
+     * @dev Get the balance information about all tokens of the user.
+     * @param userAddress The user address to check balance
+     * @return The balance of all tokens about this user.
      */
-    function balanceOfIssuance(uint256 issuanceId) external view returns (uint256);
-
-    /**
-     * @dev Transfer Ethers from a seller/buyer to the issuance
-     * @param payee The address of the seller/buyer
-     * @param issuanceId The id of the issuance
-     * @param amount The amount of Ether to transfer
-     */
-    function transferToIssuance(address payee, uint256 issuanceId, uint256 amount) external;
-
-    /**
-     * @dev Transfer Ethers from an issuance to a seller/buyer
-     * @param payee The address of the seller/buyer
-     * @param issuanceId The id of the issuance
-     * @param amount The amount of Ether to transfer
-     */
-    function transferFromIssuance(address payee, uint256 issuanceId, uint256 amount) external;
-
-    /**
-     * @dev Get the IERC20 token balance of an issuance in the escrow
-     * @param issuanceId The id of the issuance
-     * @param token The IERC20 token to check balance
-     * @return The IERC20 token balance of the issuance in the escrow
-     */
-    function tokenBalanceOfIssuance(uint256 issuanceId, IERC20 token) external view returns (uint256);
-
-    /**
-     * @dev Transfer IERC20 token from a seller/buyer to the issuance
-     * @param payee The address of the seller/buyer
-     * @param issuanceId The id of the issuance
-     * @param token The IERC20 token to transfer
-     * @param amount The amount of IERC20 token to transfer
-     */
-    function transferTokenToIssuance(address payee, uint256 issuanceId, IERC20 token, uint256 amount) external;
-
-    /**
-     * @dev Transfer IERC20 token from the issuance to a seller/buyer
-     * @param payee The address of the seller/buyer
-     * @param issuanceId The id of the issuance
-     * @param token The IERC20 token to transfer
-     * @param amount The amount of IERC20 token to transfer
-     */
-    function transferTokenFromIssuance(address payee, uint256 issuanceId, IERC20 token, uint256 amount) external;
+    function getUserBalances(address userAddress) external view returns (bytes memory);
 
     /**
      * @dev Get the balance information about all tokens of the issuance.
-     * @param issuanceId The issuance id
+     * @param issuanceId The id of issuance to check balance
      * @return The balance of all tokens about this issuance.
      */
     function getIssuanceBalances(uint256 issuanceId) external view returns (bytes memory);
+
+    /**
+     * @dev Get the ETH balance of an issuance
+     * @param issuanceId The id of the issuance to check ETH balance.
+     * @return The issuance ETH balance.
+     */
+    function issuanceBalanceOf(uint256 issuanceId) external view returns (uint256);
+
+    /**
+     * @dev Get the ERC20 token balance of an issuance
+     * @param issuanceId The id of the issuance to check ERC20 token balance.
+     * @param token Which token is checked.
+     * @return The issuance ETH balance.
+     */
+    function issuanceTokenBalanceOf(uint256 issuanceId, IERC20 token) external view returns (uint256);
+
+    /***********************************************
+     *  API used by Instrument Manager to manager tokens for issuance
+     **********************************************/
+
+    /**
+     * @dev Process transfer actions between users and issuance.
+     * @param transfersData The serialized transfer actions
+     */
+    function processTransfers(bytes calldata transfersData) external;
 
     /**
      * @dev Migrate the balances of one issuance to another

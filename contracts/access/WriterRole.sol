@@ -1,13 +1,13 @@
 pragma solidity ^0.5.0;
 
 import "../lib/access/Roles.sol";
-import "../lib/access/WhitelistAdminRole.sol";
+import "../lib/access/Ownable.sol";
 
 /**
- * @dev Defines the writer role. Only the admin can grant the writer role.
+ * @dev Defines the writer role. Only the owner can grant the writer role.
  * The writer can renounce their own writer role.
  */
-contract WriterRole is WhitelistAdminRole {
+contract WriterRole is Ownable {
     using Roles for Roles.Role;
 
     event WriterAdded(address indexed account);
@@ -24,11 +24,11 @@ contract WriterRole is WhitelistAdminRole {
         return _writers.has(account);
     }
 
-    function addWriter(address account) public onlyWhitelistAdmin {
+    function addWriter(address account) public onlyOwner {
         _addWriter(account);
     }
 
-    function removeWriter(address account) public onlyWhitelistAdmin {
+    function removeWriter(address account) public onlyOwner {
         _removeWriter(account);
     }
 

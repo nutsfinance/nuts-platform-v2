@@ -1,0 +1,872 @@
+{
+  "contractName": "OwnerOnlyUpgradeabilityProxy",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "proxyOwner",
+      "outputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newImplementation",
+          "type": "address"
+        }
+      ],
+      "name": "upgradeTo",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "implementation",
+      "outputs": [
+        {
+          "name": "impl",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferProxyOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "implementation",
+          "type": "address"
+        }
+      ],
+      "name": "ImplementationUpgraded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "ProxyOwnershipTransferred",
+      "type": "event"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"proxyOwner\",\"outputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newImplementation\",\"type\":\"address\"}],\"name\":\"upgradeTo\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"implementation\",\"outputs\":[{\"name\":\"impl\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferProxyOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"implementation\",\"type\":\"address\"}],\"name\":\"ImplementationUpgraded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"ProxyOwnershipTransferred\",\"type\":\"event\"}],\"devdoc\":{\"details\":\"Gives the possibility to delegate any call to a foreign implementation. Only the proxy owner can call the proxy methods.\",\"methods\":{\"implementation()\":{\"details\":\"Tells the address of the current implementation\",\"return\":\"address of the current implementation\"},\"proxyOwner()\":{\"details\":\"Tells the address of the owner\",\"return\":\"the address of the owner\"},\"transferProxyOwnership(address)\":{\"details\":\"Allows the current owner to transfer control of the contract to a newOwner.\",\"params\":{\"newOwner\":\"The address to transfer ownership to.\"}},\"upgradeTo(address)\":{\"details\":\"Allows the proxy owner to upgrade the current version of the proxy.\",\"params\":{\"newImplementation\":\"representing the address of the new implementation to be set.\"}}},\"title\":\"OwnerOnlyUpgradeabilityProxy\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnerOnlyUpgradeabilityProxy.sol\":\"OwnerOnlyUpgradeabilityProxy\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnedStorage.sol\":{\"keccak256\":\"0x4aea242daaf59addd287f89a14ac06d857e724c763ea1a9f791496a29176f1df\",\"urls\":[\"bzzr://37d40050c5411873b1184f3890b8fdd289dede46e69b7d7cb054900f3136efc1\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnedUpgradeabilityStorage.sol\":{\"keccak256\":\"0x1d387951b5da2b17e97ae9a5d20fbffb09ec34eb48fb96a988fd458da57f9cab\",\"urls\":[\"bzzr://04ee9cb39135fb8dfb147cc358d3f6fc8356daea3233aed5997816e8f51029ac\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnerOnlyUpgradeabilityProxy.sol\":{\"keccak256\":\"0x42a5ff51af209e0d6c0ba80a341993b0ae201032ce4cda52f5cdb35f5a7fed38\",\"urls\":[\"bzzr://f87214ddf0cf8b09e122d1feec208bbe97087012352786ad81d965bf6080f6dd\"]}},\"version\":1}",
+  "bytecode": "0x60806040526100133361001860201b60201c565b61004d565b604080517f66696e616e63652e6e7574732e70726f78792e6f776e657200000000000000008152905190819003601801902055565b6105548061005c6000396000f3fe60806040526004361061003f5760003560e01c8063025313a2146101125780633659cfe6146101435780635c60da1b14610178578063f1739cae1461018d575b6100476101c0565b6001600160a01b0316336001600160a01b03161461009957604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b60006100a36101f6565b90506001600160a01b0381166100ed57604051600160e51b62461bcd02815260040180806020018281038252602c815260200180610499602c913960400191505060405180910390fd5b60405136600082376000803683855af43d806000843e81801561010e578184f35b8184fd5b34801561011e57600080fd5b506101276101c0565b604080516001600160a01b039092168252519081900360200190f35b34801561014f57600080fd5b506101766004803603602081101561016657600080fd5b50356001600160a01b0316610219565b005b34801561018457600080fd5b506101276101f6565b34801561019957600080fd5b50610176600480360360208110156101b057600080fd5b50356001600160a01b031661027f565b604080517f66696e616e63652e6e7574732e70726f78792e6f776e65720000000000000000815290519081900360180190205490565b60008060405180806104c560219139604051908190036021019020549392505050565b6102216101c0565b6001600160a01b0316336001600160a01b03161461027357604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b61027c81610375565b50565b6102876101c0565b6001600160a01b0316336001600160a01b0316146102d957604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b6001600160a01b03811661032157604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b7f5a3e66efaa1e445ebd894728a69d6959842ea1e97bd79b892797106e270efcd961034a6101c0565b604080516001600160a01b03928316815291841660208301528051918290030190a161027c81610416565b600061037f6101f6565b9050816001600160a01b0316816001600160a01b031614156103d557604051600160e51b62461bcd0281526004018080602001828103825260438152602001806104e66043913960600191505060405180910390fd5b6103de8261044b565b6040516001600160a01b038316907f51ea6ffdc9909d5ca341259f7221902e0676585d833e2bb21fa923c85e86288690600090a25050565b604080517f66696e616e63652e6e7574732e70726f78792e6f776e657200000000000000008152905190819003601801902055565b600060405180806104c56021913960405190819003602101902092909255505056fe4f776e6564557067726164656162696c69747953746f726167653a204e6f742070726f7879206f776e6572557067726164656162696c69747950726f78793a20496d706c656d656e746174696f6e206e6f74207365742e66696e616e63652e6e7574732e70726f78792e696d706c656d656e746174696f6e4f776e6564557067726164656162696c69747953746f726167653a204e657720696d706c656d656e746174696f6e2073686f756c6420626520646966666572656e742ea165627a7a723058206dc0ac109adf2c33ce82e161c3e067a57290451c1e24e32075ee1f411bbb9e9f0029",
+  "deployedBytecode": "0x60806040526004361061003f5760003560e01c8063025313a2146101125780633659cfe6146101435780635c60da1b14610178578063f1739cae1461018d575b6100476101c0565b6001600160a01b0316336001600160a01b03161461009957604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b60006100a36101f6565b90506001600160a01b0381166100ed57604051600160e51b62461bcd02815260040180806020018281038252602c815260200180610499602c913960400191505060405180910390fd5b60405136600082376000803683855af43d806000843e81801561010e578184f35b8184fd5b34801561011e57600080fd5b506101276101c0565b604080516001600160a01b039092168252519081900360200190f35b34801561014f57600080fd5b506101766004803603602081101561016657600080fd5b50356001600160a01b0316610219565b005b34801561018457600080fd5b506101276101f6565b34801561019957600080fd5b50610176600480360360208110156101b057600080fd5b50356001600160a01b031661027f565b604080517f66696e616e63652e6e7574732e70726f78792e6f776e65720000000000000000815290519081900360180190205490565b60008060405180806104c560219139604051908190036021019020549392505050565b6102216101c0565b6001600160a01b0316336001600160a01b03161461027357604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b61027c81610375565b50565b6102876101c0565b6001600160a01b0316336001600160a01b0316146102d957604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b6001600160a01b03811661032157604051600160e51b62461bcd02815260040180806020018281038252602b81526020018061046e602b913960400191505060405180910390fd5b7f5a3e66efaa1e445ebd894728a69d6959842ea1e97bd79b892797106e270efcd961034a6101c0565b604080516001600160a01b03928316815291841660208301528051918290030190a161027c81610416565b600061037f6101f6565b9050816001600160a01b0316816001600160a01b031614156103d557604051600160e51b62461bcd0281526004018080602001828103825260438152602001806104e66043913960600191505060405180910390fd5b6103de8261044b565b6040516001600160a01b038316907f51ea6ffdc9909d5ca341259f7221902e0676585d833e2bb21fa923c85e86288690600090a25050565b604080517f66696e616e63652e6e7574732e70726f78792e6f776e657200000000000000008152905190819003601801902055565b600060405180806104c56021913960405190819003602101902092909255505056fe4f776e6564557067726164656162696c69747953746f726167653a204e6f742070726f7879206f776e6572557067726164656162696c69747950726f78793a20496d706c656d656e746174696f6e206e6f74207365742e66696e616e63652e6e7574732e70726f78792e696d706c656d656e746174696f6e4f776e6564557067726164656162696c69747953746f726167653a204e657720696d706c656d656e746174696f6e2073686f756c6420626520646966666572656e742ea165627a7a723058206dc0ac109adf2c33ce82e161c3e067a57290451c1e24e32075ee1f411bbb9e9f0029",
+  "sourceMap": "248:739:26:-;;;688:34:24;711:10;688:22;;;:34;;:::i;:::-;248:739:26;;1240:171:24;520:37;;;;;;;;;;;;;;;;1370:31;1362:45::o;248:739:26:-;;;;;;;",
+  "deployedSourceMap": "248:739:26:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;859:12:24;:10;:12::i;:::-;-1:-1:-1;;;;;845:26:24;:10;-1:-1:-1;;;;;845:26:24;;837:82;;;;-1:-1:-1;;;;;837:82:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;544:13:26;560:16;:14;:16::i;:::-;544:32;-1:-1:-1;;;;;;590:19:26;;582:76;;;;-1:-1:-1;;;;;582:76:26;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;699:4;693:11;732:12;729:1;724:3;711:34;813:1;810;796:12;791:3;784:5;779:3;766:49;834:14;878:4;875:1;870:3;855:28;898:6;911:28;;;;968:4;963:3;956:17;911:28;932:4;927:3;920:17;1026:158:24;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1026:158:24;;;:::i;:::-;;;;-1:-1:-1;;;;;1026:158:24;;;;;;;;;;;;;;2370:108:25;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2370:108:25;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2370:108:25;-1:-1:-1;;;;;2370:108:25;;:::i;:::-;;1195:164;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1195:164:25;;;:::i;811:259::-;;8:9:-1;5:2;;;30:1;27;20:12;5:2;811:259:25;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;811:259:25;-1:-1:-1;;;;;811:259:25;;:::i;1026:158:24:-;520:37;;;;;;;;;;;;;;;;1159:15;;1142:38::o;1195:164:25:-;1242:12;1262:16;603:46;;;;;;;;;;;;;;;;;;1334:15;;1318:37;-1:-1:-1;;;1318:37:25:o;2370:108::-;859:12:24;:10;:12::i;:::-;-1:-1:-1;;;;;845:26:24;:10;-1:-1:-1;;;;;845:26:24;;837:82;;;;-1:-1:-1;;;;;837:82:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2444:29:25;2455:17;2444:10;:29::i;:::-;2370:108;:::o;811:259::-;859:12:24;:10;:12::i;:::-;-1:-1:-1;;;;;845:26:24;:10;-1:-1:-1;;;;;845:26:24;;837:82;;;;-1:-1:-1;;;;;837:82:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;897:22:25;;889:78;;;;-1:-1:-1;;;;;889:78:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;978:49;1004:12;:10;:12::i;:::-;978:49;;;-1:-1:-1;;;;;978:49:25;;;;;;;;;;;;;;;;;;;;;1033:32;1056:8;1033:22;:32::i;1847:337::-;1909:29;1941:16;:14;:16::i;:::-;1909:48;;1996:17;-1:-1:-1;;;;;1971:42:25;:21;-1:-1:-1;;;;;1971:42:25;;;1963:122;;;;-1:-1:-1;;;;;1963:122:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2091:36;2109:17;2091;:36::i;:::-;2138:41;;-1:-1:-1;;;;;2138:41:25;;;;;;;;1847:337;;:::o;1240:171:24:-;520:37;;;;;;;;;;;;;;;;1370:31;1362:45::o;1516:178:25:-;1585:16;603:46;;;;;;;;;;;;;;;;;;1649:35;;;;-1:-1:-1;;1641:49:25:o",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"./OwnedUpgradeabilityStorage.sol\";\n\n/**\n * @title OwnerOnlyUpgradeabilityProxy\n * @dev Gives the possibility to delegate any call to a foreign implementation.\n * Only the proxy owner can call the proxy methods.\n */\ncontract OwnerOnlyUpgradeabilityProxy is OwnedUpgradeabilityStorage {\n\n  /**\n  * @dev Fallback function allowing to perform a delegatecall to the given implementation.\n  * This function will return whatever the implementation call returns\n  */\n  function () external payable onlyProxyOwner {\n    address _impl = implementation();\n    require(_impl != address(0), \"UpgradeabilityProxy: Implementation not set.\");\n\n    assembly {\n      let ptr := mload(0x40)\n      calldatacopy(ptr, 0, calldatasize)\n      let result := delegatecall(gas, _impl, ptr, calldatasize, 0, 0)\n      let size := returndatasize\n      returndatacopy(ptr, 0, size)\n\n      switch result\n      case 0 { revert(ptr, size) }\n      default { return(ptr, size) }\n    }\n  }\n}\n",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnerOnlyUpgradeabilityProxy.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnerOnlyUpgradeabilityProxy.sol",
+    "exportedSymbols": {
+      "OwnerOnlyUpgradeabilityProxy": [
+        12690
+      ]
+    },
+    "id": 12691,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12665,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:26"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnedUpgradeabilityStorage.sol",
+        "file": "./OwnedUpgradeabilityStorage.sol",
+        "id": 12666,
+        "nodeType": "ImportDirective",
+        "scope": 12691,
+        "sourceUnit": 12664,
+        "src": "25:42:26",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 12667,
+              "name": "OwnedUpgradeabilityStorage",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 12663,
+              "src": "289:26:26",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_OwnedUpgradeabilityStorage_$12663",
+                "typeString": "contract OwnedUpgradeabilityStorage"
+              }
+            },
+            "id": 12668,
+            "nodeType": "InheritanceSpecifier",
+            "src": "289:26:26"
+          }
+        ],
+        "contractDependencies": [
+          12561,
+          12663
+        ],
+        "contractKind": "contract",
+        "documentation": "@title OwnerOnlyUpgradeabilityProxy\n@dev Gives the possibility to delegate any call to a foreign implementation.\nOnly the proxy owner can call the proxy methods.",
+        "fullyImplemented": true,
+        "id": 12690,
+        "linearizedBaseContracts": [
+          12690,
+          12663,
+          12561
+        ],
+        "name": "OwnerOnlyUpgradeabilityProxy",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 12688,
+              "nodeType": "Block",
+              "src": "538:447:26",
+              "statements": [
+                {
+                  "assignments": [
+                    12674
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 12674,
+                      "name": "_impl",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 12688,
+                      "src": "544:13:26",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 12673,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "544:7:26",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 12677,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 12675,
+                      "name": "implementation",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 12613,
+                      "src": "560:14:26",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                        "typeString": "function () view returns (address)"
+                      }
+                    },
+                    "id": 12676,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "560:16:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "544:32:26"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 12683,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 12679,
+                          "name": "_impl",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 12674,
+                          "src": "590:5:26",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "hexValue": "30",
+                              "id": 12681,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "607:1:26",
+                              "subdenomination": null,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 12680,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "599:7:26",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": "address"
+                          },
+                          "id": 12682,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "599:10:26",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "src": "590:19:26",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "557067726164656162696c69747950726f78793a20496d706c656d656e746174696f6e206e6f74207365742e",
+                        "id": 12684,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "611:46:26",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_3679de6dfdb8ca164753702bdb33755c3c8c0119c46c121db5d9bb6f094a9c11",
+                          "typeString": "literal_string \"UpgradeabilityProxy: Implementation not set.\""
+                        },
+                        "value": "UpgradeabilityProxy: Implementation not set."
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_3679de6dfdb8ca164753702bdb33755c3c8c0119c46c121db5d9bb6f094a9c11",
+                          "typeString": "literal_string \"UpgradeabilityProxy: Implementation not set.\""
+                        }
+                      ],
+                      "id": 12678,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        14403,
+                        14404
+                      ],
+                      "referencedDeclaration": 14404,
+                      "src": "582:7:26",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 12685,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "582:76:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 12686,
+                  "nodeType": "ExpressionStatement",
+                  "src": "582:76:26"
+                },
+                {
+                  "externalReferences": [
+                    {
+                      "_impl": {
+                        "declaration": 12674,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "784:5:26",
+                        "valueSize": 1
+                      }
+                    }
+                  ],
+                  "id": 12687,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    let ptr := mload(0x40)\n    calldatacopy(ptr, 0, calldatasize())\n    let result := delegatecall(gas(), _impl, ptr, calldatasize(), 0, 0)\n    let size := returndatasize()\n    returndatacopy(ptr, 0, size)\n    switch result\n    case 0 {\n        revert(ptr, size)\n    }\n    default {\n        return(ptr, size)\n    }\n}",
+                  "src": "665:316:26"
+                }
+              ]
+            },
+            "documentation": "@dev Fallback function allowing to perform a delegatecall to the given implementation.\nThis function will return whatever the implementation call returns",
+            "id": 12689,
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 12671,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 12670,
+                  "name": "onlyProxyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 12511,
+                  "src": "523:14:26",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "523:14:26"
+              }
+            ],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12669,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "503:2:26"
+            },
+            "returnParameters": {
+              "id": 12672,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "538:0:26"
+            },
+            "scope": 12690,
+            "src": "494:491:26",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12691,
+        "src": "248:739:26"
+      }
+    ],
+    "src": "0:988:26"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnerOnlyUpgradeabilityProxy.sol",
+    "exportedSymbols": {
+      "OwnerOnlyUpgradeabilityProxy": [
+        12690
+      ]
+    },
+    "id": 12691,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12665,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:26"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/OwnedUpgradeabilityStorage.sol",
+        "file": "./OwnedUpgradeabilityStorage.sol",
+        "id": 12666,
+        "nodeType": "ImportDirective",
+        "scope": 12691,
+        "sourceUnit": 12664,
+        "src": "25:42:26",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 12667,
+              "name": "OwnedUpgradeabilityStorage",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 12663,
+              "src": "289:26:26",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_OwnedUpgradeabilityStorage_$12663",
+                "typeString": "contract OwnedUpgradeabilityStorage"
+              }
+            },
+            "id": 12668,
+            "nodeType": "InheritanceSpecifier",
+            "src": "289:26:26"
+          }
+        ],
+        "contractDependencies": [
+          12561,
+          12663
+        ],
+        "contractKind": "contract",
+        "documentation": "@title OwnerOnlyUpgradeabilityProxy\n@dev Gives the possibility to delegate any call to a foreign implementation.\nOnly the proxy owner can call the proxy methods.",
+        "fullyImplemented": true,
+        "id": 12690,
+        "linearizedBaseContracts": [
+          12690,
+          12663,
+          12561
+        ],
+        "name": "OwnerOnlyUpgradeabilityProxy",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 12688,
+              "nodeType": "Block",
+              "src": "538:447:26",
+              "statements": [
+                {
+                  "assignments": [
+                    12674
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 12674,
+                      "name": "_impl",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 12688,
+                      "src": "544:13:26",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 12673,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "544:7:26",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 12677,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 12675,
+                      "name": "implementation",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 12613,
+                      "src": "560:14:26",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                        "typeString": "function () view returns (address)"
+                      }
+                    },
+                    "id": 12676,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "560:16:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "544:32:26"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 12683,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 12679,
+                          "name": "_impl",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 12674,
+                          "src": "590:5:26",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "hexValue": "30",
+                              "id": 12681,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "607:1:26",
+                              "subdenomination": null,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 12680,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "599:7:26",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": "address"
+                          },
+                          "id": 12682,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "599:10:26",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "src": "590:19:26",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "557067726164656162696c69747950726f78793a20496d706c656d656e746174696f6e206e6f74207365742e",
+                        "id": 12684,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "611:46:26",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_3679de6dfdb8ca164753702bdb33755c3c8c0119c46c121db5d9bb6f094a9c11",
+                          "typeString": "literal_string \"UpgradeabilityProxy: Implementation not set.\""
+                        },
+                        "value": "UpgradeabilityProxy: Implementation not set."
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_3679de6dfdb8ca164753702bdb33755c3c8c0119c46c121db5d9bb6f094a9c11",
+                          "typeString": "literal_string \"UpgradeabilityProxy: Implementation not set.\""
+                        }
+                      ],
+                      "id": 12678,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        14403,
+                        14404
+                      ],
+                      "referencedDeclaration": 14404,
+                      "src": "582:7:26",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 12685,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "582:76:26",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 12686,
+                  "nodeType": "ExpressionStatement",
+                  "src": "582:76:26"
+                },
+                {
+                  "externalReferences": [
+                    {
+                      "_impl": {
+                        "declaration": 12674,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "784:5:26",
+                        "valueSize": 1
+                      }
+                    }
+                  ],
+                  "id": 12687,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    let ptr := mload(0x40)\n    calldatacopy(ptr, 0, calldatasize())\n    let result := delegatecall(gas(), _impl, ptr, calldatasize(), 0, 0)\n    let size := returndatasize()\n    returndatacopy(ptr, 0, size)\n    switch result\n    case 0 {\n        revert(ptr, size)\n    }\n    default {\n        return(ptr, size)\n    }\n}",
+                  "src": "665:316:26"
+                }
+              ]
+            },
+            "documentation": "@dev Fallback function allowing to perform a delegatecall to the given implementation.\nThis function will return whatever the implementation call returns",
+            "id": 12689,
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 12671,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 12670,
+                  "name": "onlyProxyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 12511,
+                  "src": "523:14:26",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "523:14:26"
+              }
+            ],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12669,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "503:2:26"
+            },
+            "returnParameters": {
+              "id": 12672,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "538:0:26"
+            },
+            "scope": 12690,
+            "src": "494:491:26",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12691,
+        "src": "248:739:26"
+      }
+    ],
+    "src": "0:988:26"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-08-23T05:26:32.200Z",
+  "devdoc": {
+    "details": "Gives the possibility to delegate any call to a foreign implementation. Only the proxy owner can call the proxy methods.",
+    "methods": {
+      "implementation()": {
+        "details": "Tells the address of the current implementation",
+        "return": "address of the current implementation"
+      },
+      "proxyOwner()": {
+        "details": "Tells the address of the owner",
+        "return": "the address of the owner"
+      },
+      "transferProxyOwnership(address)": {
+        "details": "Allows the current owner to transfer control of the contract to a newOwner.",
+        "params": {
+          "newOwner": "The address to transfer ownership to."
+        }
+      },
+      "upgradeTo(address)": {
+        "details": "Allows the proxy owner to upgrade the current version of the proxy.",
+        "params": {
+          "newImplementation": "representing the address of the new implementation to be set."
+        }
+      }
+    },
+    "title": "OwnerOnlyUpgradeabilityProxy"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

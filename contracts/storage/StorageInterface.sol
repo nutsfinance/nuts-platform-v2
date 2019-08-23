@@ -6,10 +6,6 @@ pragma solidity ^0.5.0;
  * Complex types should look for serialization/deserialization frameworks.
  */
 interface StorageInterface {
-    function addWriter(address account) external;
-
-    function removeWriter(address account) external;
-
     function getString(string calldata key) external view returns (string memory);
 
     function setString(string calldata key, string calldata value) external;

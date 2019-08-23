@@ -1,0 +1,104 @@
+{
+  "contractName": "InstrumentV1Manager",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/instruments/v1/InstrumentV1Manager.sol\":\"InstrumentV1Manager\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/instruments/v1/InstrumentV1Manager.sol\":{\"keccak256\":\"0x4eabae68af49d6a336330bc514085ac014bb230f383c3d85363b87694bfb5f57\",\"urls\":[\"bzzr://c0881b691a1a9e7068e8dde0205a618c0375153a157722d2e09b3b172742870a\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a7230582046744fd9a65ef3919bd1e97f7114dda75e1a41c695bcefe279e8a0aad1fa576c0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a7230582046744fd9a65ef3919bd1e97f7114dda75e1a41c695bcefe279e8a0aad1fa576c0029",
+  "sourceMap": "25:37:11:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:37:11;;;;;;;",
+  "deployedSourceMap": "25:37:11:-;;;;;",
+  "source": "pragma solidity ^0.5.0;\n\ncontract InstrumentV1Manager {\n    \n}",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instruments/v1/InstrumentV1Manager.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instruments/v1/InstrumentV1Manager.sol",
+    "exportedSymbols": {
+      "InstrumentV1Manager": [
+        1419
+      ]
+    },
+    "id": 1420,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1418,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:11"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1419,
+        "linearizedBaseContracts": [
+          1419
+        ],
+        "name": "InstrumentV1Manager",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 1420,
+        "src": "25:37:11"
+      }
+    ],
+    "src": "0:62:11"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instruments/v1/InstrumentV1Manager.sol",
+    "exportedSymbols": {
+      "InstrumentV1Manager": [
+        1419
+      ]
+    },
+    "id": 1420,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1418,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:11"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1419,
+        "linearizedBaseContracts": [
+          1419
+        ],
+        "name": "InstrumentV1Manager",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 1420,
+        "src": "25:37:11"
+      }
+    ],
+    "src": "0:62:11"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-08-23T05:26:32.047Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
