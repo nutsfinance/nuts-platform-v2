@@ -22,13 +22,26 @@ contract InstrumentManagerFactory {
             // Create new InstrumentEscrow instance
             InstrumentEscrow escrow = new InstrumentEscrow();
             // Create new Proxy for the InstrumentEscrow instance
-            OwnerOnlyUpgradeabilityProxy proxy = new OwnerOnlyUpgradeabilityProxy();
-            proxy.upgradeTo(address(escrow));
-            // Transfer proxy ownership
-            proxy.transferProxyOwnership(msg.sender);
+            OwnerOnlyUpgradeabilityProxy escrowProxy = new OwnerOnlyUpgradeabilityProxy();
+            escrowProxy.upgradeTo(address(escrow));
 
-            InstrumentManagerInterface manager = new InstrumentV1Manager(InstrumentV1(instrumentAddress),
-                escrow, fspAddress, instrumentParameters);
+            // Create new InstrumentV1Manager instance
+            InstrumentV1Manager manager = new InstrumentV1Manager();
+            // Create new Proxy for InstrumentV1Manager
+            OwnerOnlyUpgradeabilityProxy managerProxy = new OwnerOnlyUpgradeabilityProxy();
+            managerProxy.upgradeTo(address(manager));
+            // Transfer escrow proxy ownership to instrument manager proxy
+            escrowProxy.transferProxyOwnership(address(managerProxy));
+
+            InstrumentEscrow proxiedEscrow = InstrumentEscrow(address(escrowProxy));
+            InstrumentV1Manager proxiedManager = InstrumentV1Manager(address(managerProxy));
+            // Initialize the instrument manager.
+            // Please note that for escrow parameter, it's the proxy instead of the escrow instance!
+            proxiedManager.initialize(InstrumentV1(instrumentAddress), proxiedEscrow, fspAddress, instrumentParameters);
+
+            // Transfer manager proxy ownership after initialization
+            managerProxy.transferProxyOwnership(msg.sender);
+            
             return manager;
         } else if (StringUtil.equals(version, "v2")) {
 

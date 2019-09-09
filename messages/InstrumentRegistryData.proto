@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represents the status of a financial instrument.
+ */
+message InstrumentStatus {
+    .solidity.address instrumentManagerAddress = 1;
+    .solidity.address fspAddress = 2;
+    .solidity.uint8 activeness = 3;
+    .solidity.uint256 creation = 4;
+    .solidity.uint256 tokenDeposited = 5;
+}
+
+/**
+ * Represents the status of an issuance.
+ */
+message IssuanceStatus {
+    .solidity.address instrumentManagerAddress = 1;
+    .solidity.address sellerAddress = 2;
+    .solidity.uint8 activeness = 3;
+    .solidity.uint256 creation = 4;
+    .solidity.uint256 tokenDeposited = 5;
+}

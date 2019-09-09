@@ -9,15 +9,53 @@ import "../../lib/protobuf/InstrumentV1Data.sol";
 
 contract InstrumentV1Manager is InstrumentManagerInterface {
 
+    /**
+     * Common properties for issuance
+     */
+    struct IssuanceProperty {
+        address sellerAddress;
+        uint256 creationTimestamp;
+        Instrument.IssuanceStates state;
+    }
+
+    /**
+     * The v1 instrument implementation.
+     */
     InstrumentV1 private _instrument;
+    /**
+     * The instrument escrow shared by all issuances of this instrument.
+     * This instrument escrow is owned by the issuance manager, and is frontend with a proxy.
+     */
     EscrowInterface private _escrow;
+    /**
+     * The address of the FSP who creates this instrument.
+     */
     address private _fspAddress;
+    /**
+     * When the instrument is created.
+     */
     uint256 private _creationTimestamp;
+    /**
+     * When the instrument expires. If expiration timestamp = creation timestamp, it means the instrument never expires.
+     */
     uint256 private _expirationTimestamp;
-    mapping(uint256 => bytes) private _issuanceCommonProperties;
+    /**
+     * Common properties shared by all issuances.
+     */
+    mapping(uint256 => IssuanceProperty) private _issuanceCommonProperties;
+    /**
+     * Custom properties defined in the instrument implementation.
+     * These properties are opaque to the instrument manager.
+     */
     mapping(uint256 => bytes) private _issuanceCustomProperties;
 
-    constructor(InstrumentV1 instrument, EscrowInterface escrow, address fspAddress, bytes memory instrumentParameters) public {
+    /**
+     * @dev Initialize the instrument manager.
+     * This is not done as constructor as instrument manager is also fronted by a proxy.
+     */
+    function initialize(InstrumentV1 instrument, EscrowInterface escrow, address fspAddress,
+        bytes memory instrumentParameters) public {
+        require(address(_instrument) == address(0x0), "InstrumentV1Manager: Already initialized");
         _instrument = instrument;
         _escrow = escrow;
         _fspAddress = fspAddress;
@@ -31,21 +69,28 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
      * @param issuanceId The id of the issuance
      * @param sellerAddress The address of the seller who creates this issuance
      * @param sellerParameters The custom parameters to the newly created issuance
-     * @return activeness The activeness of the issuance.
+     * @return Whether the issuance is active
      */
     function createIssuance(uint256 issuanceId, address sellerAddress, bytes memory sellerParameters)
-        public returns (IssuanceActiveness activeness) {
+        public returns (bool) {
         require(issuanceId > 0, "InstrumentV1Manager: Issuance Id must be set.");
         require(sellerAddress != address(0x0), "InstrumentV1Manager: Seller address must be set.");
         // No new issuance is allowed when the instrument expires.
-        require(_creationTimestamp == _expirationTimestamp || now <= _expirationTimestamp, "InstrumentV1Manager: Instrument expired.");
-        require(_issuanceCommonProperties[issuanceId].length == 0, "InstrumentV1Manager: Issuance already exist.");
+        require(_creationTimestamp == _expirationTimestamp || now <= _expirationTimestamp,
+            "InstrumentV1Manager: Instrument expired.");
+        require(_issuanceCommonProperties[issuanceId].sellerAddress == address(0x0),
+            "InstrumentV1Manager: Issuance already exist.");
 
-        IssuanceProperties.Data memory commonProperties = IssuanceProperties.Data(sellerAddress, now, 0);
+        IssuanceProperty storage commonProperties = _issuanceCommonProperties[issuanceId];
+        commonProperties.sellerAddress = sellerAddress;
+        commonProperties.creationTimestamp = now;
         (Instrument.IssuanceStates updatedState, bytes memory updatedProperties,
             bytes memory transfers) = _instrument.createIssuance(issuanceId, sellerAddress, sellerParameters);
+        commonProperties.state = updatedState;
+        _issuanceCustomProperties[issuanceId] = updatedProperties;
+        _escrow.processTransfers(transfers);
 
-        return postProcessing(issuanceId, commonProperties, updatedState, updatedProperties, transfers);
+        return !_instrument.isTerminationState(updatedState);
     }
 
     /**
@@ -53,21 +98,25 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
      * @param issuanceId The id of the issuance
      * @param buyerAddress The address of the buyer who engages in the issuance
      * @param buyerParameters The custom parameters to the new engagement
-     * @return activeness The activeness of the issuance.
+     * @return Whether the issuance is active
      */
     function engageIssuance(uint256 issuanceId, address buyerAddress, bytes memory buyerParameters)
-        public returns (IssuanceActiveness activeness) {
+        public returns (bool) {
         require(issuanceId > 0, "InstrumentV1Manager: Issuance Id must be set.");
         require(buyerAddress != address(0x0), "InstrumentV1Manager: Buyer address must be set.");
-        require(_issuanceCommonProperties[issuanceId].length > 0, "InstrumentV1Manager: Issuance does not exist.");
-        IssuanceProperties.Data memory commonProperties = IssuanceProperties.decode(_issuanceCommonProperties[issuanceId]);
+        require(_issuanceCommonProperties[issuanceId].sellerAddress != address(0x0),
+            "InstrumentV1Manager: Issuance does not exist.");
+        IssuanceProperty storage commonProperties = _issuanceCommonProperties[issuanceId];
         bytes memory customProperties = _issuanceCustomProperties[issuanceId];
         bytes memory balances = _escrow.getIssuanceBalances(issuanceId);
         (Instrument.IssuanceStates updatedState, bytes memory updatedProperties,
             bytes memory transfers) = _instrument.engageIssuance(issuanceId, Instrument.IssuanceStates(commonProperties.state),
             customProperties, balances, buyerAddress, buyerParameters);
-        
-        return postProcessing(issuanceId, commonProperties, updatedState, updatedProperties, transfers);
+        commonProperties.state = updatedState;
+        _issuanceCustomProperties[issuanceId] = updatedProperties;
+        _escrow.processTransfers(transfers);
+
+        return !_instrument.isTerminationState(updatedState);
     }
 
     /**
@@ -75,21 +124,25 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
      * @param issuanceId The id of the issuance
      * @param settlerAddress The address of the buyer who settles in the issuance
      * @param settlerParameters The custom parameters to the settlement
-     * @return activeness The activeness of the issuance.
+     * @return Whether the issuance is active
      */
     function settleIssuance(uint256 issuanceId, address settlerAddress, bytes memory settlerParameters)
-        public returns (IssuanceActiveness activeness) {
+        public returns (bool) {
         require(issuanceId > 0, "InstrumentV1Manager: Issuance Id must be set.");
         require(settlerAddress != address(0x0), "InstrumentV1Manager: Settler address must be set.");
-        require(_issuanceCommonProperties[issuanceId].length > 0, "InstrumentV1Manager: Issuance does not exist.");
-        IssuanceProperties.Data memory commonProperties = IssuanceProperties.decode(_issuanceCommonProperties[issuanceId]);
+        require(_issuanceCommonProperties[issuanceId].sellerAddress != address(0x0),
+            "InstrumentV1Manager: Issuance does not exist.");
+        IssuanceProperty storage commonProperties = _issuanceCommonProperties[issuanceId];
         bytes memory customProperties = _issuanceCustomProperties[issuanceId];
         bytes memory balances = _escrow.getIssuanceBalances(issuanceId);
         (Instrument.IssuanceStates updatedState, bytes memory updatedProperties,
             bytes memory transfers) = _instrument.settleIssuance(issuanceId, Instrument.IssuanceStates(commonProperties.state),
             customProperties, balances, settlerAddress, settlerParameters);
-        
-        return postProcessing(issuanceId, commonProperties, updatedState, updatedProperties, transfers);
+        commonProperties.state = updatedState;
+        _issuanceCustomProperties[issuanceId] = updatedProperties;
+        _escrow.processTransfers(transfers);
+
+        return !_instrument.isTerminationState(updatedState);
     }
 
     /**
@@ -98,28 +151,32 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
      * @param fromAddress The address of the ERC20 token sender
      * @param tokenAddress The address of the ERC20 token
      * @param amount The amount of ERC20 token transfered
-     * @return activeness The activeness of the issuance.
+     * @return Whether the issuance is active
      */
     function processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount)
-        public returns (IssuanceActiveness activeness) {
+        public returns (bool) {
         require(issuanceId > 0, "InstrumentV1Manager: Issuance Id must be set.");
         require(fromAddress != address(0x0), "InstrumentV1Manager: Sender address must be set.");
         require(tokenAddress != address(0x0), "InstrumentV1Manager: Token address must be set.");
         require(amount > 0, "InstrumentV1Manager: Transfer amount should be larger than zero.");
-        require(_issuanceCommonProperties[issuanceId].length > 0, "InstrumentV1Manager: Issuance does not exist.");
+        require(_issuanceCommonProperties[issuanceId].sellerAddress != address(0x0),
+            "InstrumentV1Manager: Issuance does not exist.");
 
         // Complete the token deposit first.
         processUserTransfer(issuanceId, fromAddress, tokenAddress, amount);
 
-        IssuanceProperties.Data memory commonProperties = IssuanceProperties.decode(_issuanceCommonProperties[issuanceId]);
+        IssuanceProperty storage commonProperties = _issuanceCommonProperties[issuanceId];
         bytes memory customProperties = _issuanceCustomProperties[issuanceId];
         // The balances show the state after transfering token to issuance.
         bytes memory balances = _escrow.getIssuanceBalances(issuanceId);
         (Instrument.IssuanceStates updatedState, bytes memory updatedProperties,
             bytes memory transfers) = _instrument.processTokenDeposit(issuanceId, Instrument.IssuanceStates(commonProperties.state),
             customProperties, balances, fromAddress, tokenAddress, amount);
-        
-        return postProcessing(issuanceId, commonProperties, updatedState, updatedProperties, transfers);
+        commonProperties.state = updatedState;
+        _issuanceCustomProperties[issuanceId] = updatedProperties;
+        _escrow.processTransfers(transfers);
+
+        return !_instrument.isTerminationState(updatedState);
     }
 
     /**
@@ -128,28 +185,33 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
      * @param toAddress The address of the ERC20 token receiver
      * @param tokenAddress The address of the ERC20 token
      * @param amount The amount of ERC20 token transfered
-     * @return activeness The activeness of the issuance.
+     * @return Whether the issuance is active
      */
     function processTokenWithdraw(uint256 issuanceId, address toAddress, address tokenAddress, uint256 amount)
-        public returns (IssuanceActiveness activeness) {
+        public returns (bool) {
         require(issuanceId > 0, "InstrumentV1Manager: Issuance Id must be set.");
         require(toAddress != address(0x0), "InstrumentV1Manager: Receiver address must be set.");
         require(tokenAddress != address(0x0), "InstrumentV1Manager: Token address must be set.");
         require(amount > 0, "InstrumentV1Manager: Transfer amount should be larger than zero.");
-        require(_issuanceCommonProperties[issuanceId].length > 0, "InstrumentV1Manager: Issuance does not exist.");
+        require(_issuanceCommonProperties[issuanceId].sellerAddress != address(0x0),
+            "InstrumentV1Manager: Issuance does not exist.");
 
         // Complete the token deposit first.
         processUserTransfer(issuanceId, toAddress, tokenAddress, amount);
 
-        IssuanceProperties.Data memory commonProperties = IssuanceProperties.decode(_issuanceCommonProperties[issuanceId]);
+        IssuanceProperty storage commonProperties = _issuanceCommonProperties[issuanceId];
         bytes memory customProperties = _issuanceCustomProperties[issuanceId];
         // The balances show the state after transfering token from issuance.
         bytes memory balances = _escrow.getIssuanceBalances(issuanceId);
         (Instrument.IssuanceStates updatedState, bytes memory updatedProperties,
             bytes memory transfers) = _instrument.processTokenWithdraw(issuanceId, Instrument.IssuanceStates(commonProperties.state),
             customProperties, balances, toAddress, tokenAddress, amount);
-        
-        return postProcessing(issuanceId, commonProperties, updatedState, updatedProperties, transfers);
+        commonProperties.state = updatedState;
+        _issuanceCustomProperties[issuanceId] = updatedProperties;
+        _escrow.processTransfers(transfers);
+
+        return !_instrument.isTerminationState(updatedState);
+
     }
 
     /**
@@ -158,22 +220,26 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
      * @param notifierAddress The address which notifies this scheduled event
      * @param eventName Name of the custom event, eventName of EventScheduled event
      * @param eventPayload Payload of the custom event, eventPayload of EventScheduled event
-     * @return activeness The activeness of the issuance.
+     * @return Whether the issuance is active
      */
     function processEvent(uint256 issuanceId, address notifierAddress, string memory eventName, bytes memory eventPayload)
-        public returns (IssuanceActiveness activeness) {
+        public returns (bool) {
         require(issuanceId > 0, "InstrumentV1Manager: Issuance Id must be set.");
         require(notifierAddress != address(0x0), "InstrumentV1Manager: Notifier address must be set.");
         require(bytes(eventName).length > 0, "InstrumentV1Manager: Event name must be set.");
-        require(_issuanceCommonProperties[issuanceId].length > 0, "InstrumentV1Manager: Issuance does not exist.");
-        IssuanceProperties.Data memory commonProperties = IssuanceProperties.decode(_issuanceCommonProperties[issuanceId]);
+        require(_issuanceCommonProperties[issuanceId].sellerAddress != address(0x0),
+            "InstrumentV1Manager: Issuance does not exist.");
+        IssuanceProperty storage commonProperties = _issuanceCommonProperties[issuanceId];
         bytes memory customProperties = _issuanceCustomProperties[issuanceId];
         bytes memory balances = _escrow.getIssuanceBalances(issuanceId);
         (Instrument.IssuanceStates updatedState, bytes memory updatedProperties,
             bytes memory transfers) = _instrument.processEvent(issuanceId, Instrument.IssuanceStates(commonProperties.state),
             customProperties, balances, notifierAddress, eventName, eventPayload);
-        
-        return postProcessing(issuanceId, commonProperties, updatedState, updatedProperties, transfers);
+        commonProperties.state = updatedState;
+        _issuanceCustomProperties[issuanceId] = updatedProperties;
+        _escrow.processTransfers(transfers);
+
+        return !_instrument.isTerminationState(updatedState);
     }
 
     /**
@@ -193,24 +259,5 @@ contract InstrumentV1Manager is InstrumentManagerInterface {
             amount: amount
         });
         _escrow.processTransfers(Transfers.encode(tokenDeposits));
-    }
-
-    /**
-     * @dev Post processing after invoking instrument methods.
-     */
-    function postProcessing(uint256 issuanceId, IssuanceProperties.Data memory commonProperties, Instrument.IssuanceStates updatedState,
-        bytes memory updatedProperties, bytes memory transfers) private returns (IssuanceActiveness activeness) {
-        // Update and save common properties
-        commonProperties.state = uint8(updatedState);
-        _issuanceCommonProperties[issuanceId] = IssuanceProperties.encode(commonProperties);
-
-        // Save the custom properties
-        _issuanceCustomProperties[issuanceId] = updatedProperties;
-
-        // Process the transfer actions
-        _escrow.processTransfers(transfers);
-
-        // Define the return value
-        return _instrument.isTerminationState(updatedState) ? IssuanceActiveness.Inactive : IssuanceActiveness.Active;
     }
 }
