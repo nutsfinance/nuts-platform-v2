@@ -62,7 +62,7 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface {
     function withdraw(uint256 amount) public {
         address payable account = msg.sender;
         require(getBalance(account) >= amount, "InstrumentEscrow: Insufficient balance.");
-        _addToBalance(account, Constants.getEthAddress(), amount);
+        _reduceFromBalance(account, Constants.getEthAddress(), amount);
 
         account.transfer(amount);
 

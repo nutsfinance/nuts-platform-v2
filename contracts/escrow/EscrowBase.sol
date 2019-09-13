@@ -11,6 +11,16 @@ import "./EscrowBaseInterface.sol";
  * @title Base contract for both instrument and issuance escrow.
  */
 contract EscrowBase is EscrowBaseInterface, Ownable {
+    /**
+     * Balance is increased.
+     */
+    event BalanceIncreased(address account, address token, uint256 amount);
+
+    /**
+     * Balance is decreased.
+     */
+    event BalanceDecreased(address account, address token, uint256 amount);
+
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -61,22 +71,21 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param account The address to check the deposited token list.
      * @return The list of tokens deposited in the escrow.
      */
-    function getDepositTokens(address account) public view returns (address[] memory tokens) {
+    function getTokenList(address account) public view returns (address[] memory tokens) {
         address[] storage tokenList = _accountBalances[account].tokenList;
         address ethAddress = Constants.getEthAddress();
-        bool ethFound = false;
+        uint256 tokenCount = 0;
 
-        // Don't return ETH as it's treated with a special address internally.
+        // We don't return ETH or token whose balance is 0!
         for (uint256 i = 0; i < tokenList.length; i++) {
-            if (tokenList[i] == ethAddress) {
-                ethFound = true;
-                break;
+            if (tokenList[i] != ethAddress && _accountBalances[account].tokenBalances[tokenList[i]] > 0) {
+                tokenCount++;
             }
         }
-        tokens = new address[](ethFound ? tokenList.length - 1 : tokenList.length);
+        tokens = new address[](tokenCount);
         uint256 j = 0;
         for (uint i = 0; i < tokenList.length; i++) {
-            if (tokenList[i] != ethAddress) {
+            if (tokenList[i] != ethAddress && _accountBalances[account].tokenBalances[tokenList[i]] > 0) {
                 tokens[j] = tokenList[i];
                 j++;
             }
@@ -89,30 +98,35 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
 
     /**
      * @dev Deposits ETH from Instrument Manager into an account.
-     * The tranfer action is done outside this function.
      * @param account The account to deposit ETH.
      */
     function depositByAdmin(address account) public payable onlyOwner {
         uint256 amount = msg.value;
+        require(account != address(0x0), "EscrowBase: Account must be set.");
+        require(amount > 0, "EscrowBase: Amount must be set.");
+
         _addToBalance(account, Constants.getEthAddress(), amount);
     }
 
     /**
      * @dev Deposits ERC20 tokens from Instrument Manager into an account.
-     * The transfer action is done outside this function.
-     * Note: There is NO WAY to verify that ERC20 token is indeed transferred.
-     * We trust the caller, i.e. Instrument Manager handles it propertly.
+     * Note: The owner, i.e. Instrument Manager must set the allowance before hand.
      * @param account The account to deposit ERC20 tokens.
      * @param token The ERC20 token to deposit.
      * @param amount The amount of ERC20 token to deposit.
      */
     function depositTokenByAdmin(address account, address token, uint256 amount) public onlyOwner {
+        require(account != address(0x0), "EscrowBase: Account must be set.");
+        require(token != address(0x0), "EscrowBase: Token must be set.");
+        require(amount > 0, "EscrowBase: Amount must be set.");
+
         _addToBalance(account, token, amount);
+
+        IERC20(token).safeTransferFrom(owner(), address(this), amount);
     }
 
     /**
      * @dev Withdraw ETH from an account to Instrument Manager.
-     * The transfer action is done inside this function.
      * @param account The account to withdraw ETH.
      * @param amount The amount of ETH to withdraw.
      */
@@ -141,7 +155,7 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
 
         _reduceFromBalance(account, token, amount);
 
-        IERC20(token).transfer(owner(), amount);
+        IERC20(token).safeTransfer(owner(), amount);
     }
 
     /****************************************************************
@@ -163,6 +177,8 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
             accountBalance.tokenList.push(token);
             accountBalance.tokenIndeces[token] = accountBalance.tokenList.length;
         }
+
+        emit BalanceIncreased(account, token, amount);
     }
 
     /**
@@ -175,19 +191,7 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
         AccountBalance storage accountBalance = _accountBalances[account];
         accountBalance.tokenBalances[token] = accountBalance.tokenBalances[token].sub(amount);
 
-        // If the balance is zero, remove from token list.
-        if (accountBalance.tokenBalances[token] == 0) {
-            // If there are more than 1 token in the list
-            if (accountBalance.tokenList.length > 1) {
-                // Move the last token to replace the current token
-                address lastTokenAddress = accountBalance.tokenList[accountBalance.tokenList.length - 1];
-                accountBalance.tokenList[accountBalance.tokenIndeces[token]] = lastTokenAddress;
-            }
-
-            accountBalance.tokenList.length = accountBalance.tokenList.length - 1;
-            delete accountBalance.tokenBalances[token];
-            delete accountBalance.tokenIndeces[token];
-        }
+        emit BalanceDecreased(account, token, amount);
     }
 
     /**

@@ -28,5 +28,5 @@ contract EscrowBaseInterface {
      * @param account The address to check the deposited token list.
      * @return The list of tokens deposited in the escrow.
      */
-    function getDepositTokens(address account) public view returns (address[] memory tokens);
+    function getTokenList(address account) public view returns (address[] memory tokens);
 }
