@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Parameters in creating Instrument Manager for Instrument v1, v2 and v3.
+ */
+message InstrumentParameters {
+    .solidity.uint256 expiration = 1;
+    bool supportMakerWhitelist = 2;
+    bool supportTakerWhitelist = 3;
+}
+

@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 /**
  * @title Base contract for v1, v2, v3 instruments.
  */
-contract Instrument {
+contract InstrumentBase {
 
     // The states of an instrument.
     enum IssuanceStates {

@@ -6,9 +6,10 @@ library Transfer {
 
   //struct definition
   struct Data {
-    bool fromUser;
-    uint256 issuanceId;
-    address userAddress;
+    bool isEther;
+    bool isOutbound;
+    address fromAddress;
+    address toAddress;
     address tokenAddress;
     uint256 amount;
   }
@@ -47,7 +48,7 @@ library Transfer {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[6] memory counters;
+    uint[7] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -57,18 +58,21 @@ library Transfer {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
       if(fieldId == 1) {
-        pointer += _read_fromUser(pointer, bs, r, counters);
+        pointer += _read_isEther(pointer, bs, r, counters);
       }
       else if(fieldId == 2) {
-        pointer += _read_issuanceId(pointer, bs, r, counters);
+        pointer += _read_isOutbound(pointer, bs, r, counters);
       }
       else if(fieldId == 3) {
-        pointer += _read_userAddress(pointer, bs, r, counters);
+        pointer += _read_fromAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 4) {
-        pointer += _read_tokenAddress(pointer, bs, r, counters);
+        pointer += _read_toAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 5) {
+        pointer += _read_tokenAddress(pointer, bs, r, counters);
+      }
+      else if(fieldId == 6) {
         pointer += _read_amount(pointer, bs, r, counters);
       }
       else {
@@ -107,7 +111,7 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_fromUser(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_isEther(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -115,7 +119,7 @@ library Transfer {
     if(isNil(r)) {
       counters[1] += 1;
     } else {
-      r.fromUser = x;
+      r.isEther = x;
       if(counters[1] > 0) counters[1] -= 1;
     }
     return sz;
@@ -129,15 +133,15 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_isOutbound(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    (bool x, uint sz) = ProtoBufRuntime._decode_bool(p, bs);
     if(isNil(r)) {
       counters[2] += 1;
     } else {
-      r.issuanceId = x;
+      r.isOutbound = x;
       if(counters[2] > 0) counters[2] -= 1;
     }
     return sz;
@@ -151,7 +155,7 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_userAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_fromAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -159,7 +163,7 @@ library Transfer {
     if(isNil(r)) {
       counters[3] += 1;
     } else {
-      r.userAddress = x;
+      r.fromAddress = x;
       if(counters[3] > 0) counters[3] -= 1;
     }
     return sz;
@@ -173,7 +177,7 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_toAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -181,7 +185,7 @@ library Transfer {
     if(isNil(r)) {
       counters[4] += 1;
     } else {
-      r.tokenAddress = x;
+      r.toAddress = x;
       if(counters[4] > 0) counters[4] -= 1;
     }
     return sz;
@@ -195,16 +199,38 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_amount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+    /**
+     * if `r` is NULL, then only counting the number of fields.
+     */
+    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if(isNil(r)) {
+      counters[5] += 1;
+    } else {
+      r.tokenAddress = x;
+      if(counters[5] > 0) counters[5] -= 1;
+    }
+    return sz;
+  }
+
+  /**
+   * @dev The decoder for reading a field
+   * @param p The offset of bytes array to start decode
+   * @param bs The bytes array to be decoded
+   * @param r The in-memory struct
+   * @param counters The counters for repeated fields
+   * @return The number of bytes decoded
+   */
+  function _read_amount(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
     (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
     if(isNil(r)) {
-      counters[5] += 1;
+      counters[6] += 1;
     } else {
       r.amount = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if(counters[6] > 0) counters[6] -= 1;
     }
     return sz;
   }
@@ -240,14 +266,16 @@ library Transfer {
     uint pointer = p;
     
     pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.Varint, pointer, bs);
-    pointer += ProtoBufRuntime._encode_bool(r.fromUser, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_uint256(r.issuanceId, pointer, bs);
+    pointer += ProtoBufRuntime._encode_bool(r.isEther, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.Varint, pointer, bs);
+    pointer += ProtoBufRuntime._encode_bool(r.isOutbound, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.userAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.fromAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.toAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint256(r.amount, pointer, bs);
     return pointer - offset;
   }
@@ -287,7 +315,8 @@ library Transfer {
   function _estimate(Data memory /* r */) internal pure returns (uint) {
     uint e;
     e += 1 + 1;
-    e += 1 + 35;
+    e += 1 + 1;
+    e += 1 + 23;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 35;
@@ -301,9 +330,10 @@ library Transfer {
    * @param output The in-storage struct
    */
   function store(Data memory input, Data storage output) internal {
-    output.fromUser = input.fromUser;
-    output.issuanceId = input.issuanceId;
-    output.userAddress = input.userAddress;
+    output.isEther = input.isEther;
+    output.isOutbound = input.isOutbound;
+    output.fromAddress = input.fromAddress;
+    output.toAddress = input.toAddress;
     output.tokenAddress = input.tokenAddress;
     output.amount = input.amount;
 

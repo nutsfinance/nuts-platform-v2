@@ -3,16 +3,23 @@ syntax = "proto3";
 import "SolidityTypes.proto";
 
 /**
- * Represent a single transfer action between issuance and user.
+ * Represent a single token transfer action triggerred from issuance.
+ * As it's triggered from Instrument, the transfer is either from Issuance Escrow
+ * to Instrument Escrow, or inside the same Issuance Escrow. 
  */
 message Transfer {
-    // When fromUser = true, the transfer is from user to issuance
-    // When fromUser = false, the transfer is from issuance to user
-    bool fromUser = 1;
-    .solidity.uint256 issuanceId = 2;
-    .solidity.address userAddress = 3;
-    .solidity.address tokenAddress = 4;
-    .solidity.uint256 amount = 5;
+    // Whether it's ETH transfer. When set to true, tokenAddress is not used.
+    bool isEther = 1;
+    // Whether it's an outbound transfer.
+    // If true, the transfer is from Issuance Escrow to Instrument Escrow.
+    // If false, the transfer is done inside the Issuance Escrow.
+    bool isOutbound = 2;
+    // Where the token is transferred from.
+    .solidity.address fromAddress = 3;
+    // Where the token is transferred to.
+    .solidity.address toAddress = 4;
+    .solidity.address tokenAddress = 5;
+    .solidity.uint256 amount = 6;
 }
 
 /**

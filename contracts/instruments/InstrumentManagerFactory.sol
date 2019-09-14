@@ -17,7 +17,7 @@ contract InstrumentManagerFactory {
      * @param instrumentParameters Custom parameters about this instrument.
      */
     function createInstrumentManager(address instrumentAddress, address fspAddress, string memory version, bytes memory instrumentParameters)
-        public returns (InstrumentManagerInterface) {
+        public returns (address instrumentManagerAddress, address instrumentEscrowAddress) {
         // if (StringUtil.equals(version, "v1")) {
         //     // Create new InstrumentEscrow instance
         //     InstrumentEscrow escrow = new InstrumentEscrow();

@@ -1,12 +1,12 @@
 pragma solidity ~0.5.0;
 
-import "../Instrument.sol";
+import "../InstrumentBase.sol";
 
 /**
  * @title Instrument v1 base contract.
  * All issuance states are passed in and returned as a string.
  */
-contract InstrumentV1 is Instrument {
+contract InstrumentV1 is InstrumentBase {
     // /**
     //  * @dev Create a new issuance of the financial instrument
     //  * @param issuanceId The id of the issuance

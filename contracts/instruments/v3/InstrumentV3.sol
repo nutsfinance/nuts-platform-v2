@@ -1,12 +1,12 @@
 pragma solidity ^0.5.0;
 
-import "../Instrument.sol";
+import "../InstrumentBase.sol";
 
 /**
  * Instrument v3 base contract.
  * A storage proxy is created for each issuance.
  */
-contract InstrumentV3 is Instrument {
+contract InstrumentV3 is InstrumentBase {
 /**
      * @dev Create a new issuance of the financial instrument
      * @param issuanceId The id of the issuance

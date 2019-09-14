@@ -16,5 +16,5 @@ interface InstrumentManagerFactoryInterface {
      * @param instrumentParameters Custom parameters about this instrument.
      */
     function createInstrumentManager(address instrumentAddress, address fspAddress, string calldata version, bytes calldata instrumentParameters)
-        external returns (InstrumentManagerInterface);
+        external returns (address instrumentManagerAddress, address instrumentEscrowAddress);
 }

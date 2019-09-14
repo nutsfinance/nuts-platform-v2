@@ -6,66 +6,85 @@ pragma solidity ^0.5.0;
  * of Instrument Manager on each version.
  */
 interface InstrumentManagerInterface {
+
+    /**
+     * @dev Updates the maker whitelist. The maker whitelist only affects new issuances.
+     * @param makerAddress The maker address to update in whitelist
+     * @param allowed Whether this maker is allowed to create new issuance.
+     */
+    function setMakerWhitelist(address makerAddress, bool allowed) external;
+
+    /**
+     * @dev Updates the taker whitelist. The taker whitelist only affects new engagement.
+     * @param takerAddress The taker address to update in whitelist
+     * @param allowed Whether this taker is allowed to engage issuance.
+     */
+    function setTakerWhitelist(address takerAddress, bool allowed) external;
+
     /**
      * @dev Create a new issuance of the financial instrument
-     * @param issuanceId The id of the issuance
-     * @param sellerAddress The address of the seller who creates this issuance
      * @param sellerParameters The custom parameters to the newly created issuance
-     * @return Whether the issuance is active
+     * @return The id of the newly created issuance.
      */
-    function createIssuance(uint256 issuanceId, address sellerAddress, bytes calldata sellerParameters)
-        external returns (bool);
+    function createIssuance(bytes calldata sellerParameters) external returns (uint256);
 
     /**
      * @dev A buyer engages to the issuance
      * @param issuanceId The id of the issuance
-     * @param buyerAddress The address of the buyer who engages in the issuance
      * @param buyerParameters The custom parameters to the new engagement
-     * @return Whether the issuance is active
      */
-    function engageIssuance(uint256 issuanceId, address buyerAddress, bytes calldata buyerParameters)
-            external returns (bool);
+    function engageIssuance(uint256 issuanceId, bytes calldata buyerParameters) external;
 
     /**
      * @dev The caller attempts to complete one settlement.
      * @param issuanceId The id of the issuance
-     * @param settlerAddress The address of the buyer who settles in the issuance
      * @param settlerParameters The custom parameters to the settlement
-     * @return Whether the issuance is active
      */
-    function settleIssuance(uint256 issuanceId, address settlerAddress, bytes calldata settlerParameters)
-            external returns (bool);
+    function settleIssuance(uint256 issuanceId, bytes calldata settlerParameters) external;
 
     /**
-     * @dev Buyer/Seller has made an ERC20 token deposit to the issuance
+     * @dev The caller deposits ETH, which is currently deposited in Instrument Escrow, into issuance.
      * @param issuanceId The id of the issuance
-     * @param fromAddress The address of the ERC20 token sender
+     * @param amount The amount of ERC20 token transfered
+     */
+    function depositToIssuance(uint256 issuanceId, uint256 amount) external;
+
+    /**
+     * @dev The caller deposits ERC20 token, which is currently deposited in Instrument Escrow, into issuance.
+     * @param issuanceId The id of the issuance
      * @param tokenAddress The address of the ERC20 token
      * @param amount The amount of ERC20 token transfered
-     * @return Whether the issuance is active
      */
-    function processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount)
-            external returns (bool);
+    function depositTokenToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
 
     /**
-     * @dev Buyer/Seller has made an ERC20 token withdraw from the issuance
+     * @dev The caller withdraws ETH from issuance to Instrument Escrow.
      * @param issuanceId The id of the issuance
-     * @param toAddress The address of the ERC20 token receiver
+     * @param amount The amount of ERC20 token transfered
+     */
+    function withdrawFromIssuance(uint256 issuanceId, uint256 amount) external;
+
+    /**
+     * @dev The caller withdraws ERC20 token from issuance to Instrument Escrow.
+     * @param issuanceId The id of the issuance
      * @param tokenAddress The address of the ERC20 token
      * @param amount The amount of ERC20 token transfered
-     * @return Whether the issuance is active
      */
-    function processTokenWithdraw(uint256 issuanceId, address toAddress, address tokenAddress, uint256 amount)
-            external returns (bool);
+    function withdrawTokenFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
 
     /**
-     * @dev Process event. This event can be scheduled events or custom events.
+     * @dev Notify custom events to issuance. This could be invoked by any caller.
      * @param issuanceId The id of the issuance
-     * @param notifierAddress The address which notifies this scheduled event
-     * @param eventName Name of the custom event, eventName of EventScheduled event
-     * @param eventPayload Payload of the custom event, eventPayload of EventScheduled event
-     * @return Whether the issuance is active
+     * @param eventName Name of the custom event
+     * @param eventPayload Payload of the custom event
      */
-    function processEvent(uint256 issuanceId, address notifierAddress, string calldata eventName, bytes calldata eventPayload)
-            external returns (bool);
+    function notifyCustomEvent(uint256 issuanceId, string calldata eventName, bytes calldata eventPayload) external;
+
+    /**
+     * @dev Notify scheduled events to issuance. This could be invoked by Timer Oracle only.
+     * @param issuanceId The id of the issuance
+     * @param eventName Name of the scheduled event, eventName of EventScheduled event
+     * @param eventPayload Payload of the scheduled event, eventPayload of EventScheduled event
+     */
+    function notifyScheduledEvent(uint256 issuanceId, string calldata eventName, bytes calldata eventPayload) external;
 }
