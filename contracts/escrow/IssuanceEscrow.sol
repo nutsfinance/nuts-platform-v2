@@ -1,5 +1,6 @@
 pragma solidity ^0.5.0;
 
+import "../lib/util/Constants.sol";
 import "../lib/token/IERC20.sol";
 import "./EscrowBase.sol";
 
@@ -9,13 +10,23 @@ import "./EscrowBase.sol";
 contract IssuanceEscrow is EscrowBase {
 
     /**
-     * @dev Transfers the ownership of tokens in this escrow.
+     * @dev Transfers the ownership of ETH in this escrow.
      * @param source The account where the tokens are from.
      * @param dest The account where the tokens are transferred to.
-     * @param token The tokens to transfer.
      * @param amount The amount to trasfer.
      */
-    function transferTokenOwnership(address source, address dest, address token, uint256 amount) public onlyOwner {
+    function transfer(address source, address dest, uint256 amount) public onlyOwner {
+        transferToken(source, dest, Constants.getEthAddress(), amount);
+    }
+
+    /**
+     * @dev Transfers the ownership of ERC20 tokens in this escrow.
+     * @param source The account where the ERC20 tokens are from.
+     * @param dest The account where the ERC20 tokens are transferred to.
+     * @param token The ERC20 tokens to transfer.
+     * @param amount The amount to trasfer.
+     */
+    function transferToken(address source, address dest, address token, uint256 amount) public onlyOwner {
         require(source != address(0x0), "IssuanceEscrow: Source must be set.");
         require(dest != address(0x0), "IssuanceEscrow: Dest must be set.");
         require(token != address(0x0), "IssuanceEscrow: Token must be set.");
