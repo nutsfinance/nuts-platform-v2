@@ -5,7 +5,6 @@ import "./v1/InstrumentV1Manager.sol";
 import "./v2/InstrumentV2Manager.sol";
 import "./v3/InstrumentV3Manager.sol";
 import "../escrow/InstrumentEscrow.sol";
-import "../lib/proxy/OwnerOnlyUpgradeabilityProxy.sol";
 import "../lib/util/StringUtil.sol";
 
 contract InstrumentManagerFactory {

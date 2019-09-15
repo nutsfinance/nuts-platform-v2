@@ -1,31 +1,29 @@
 pragma solidity ^0.5.0;
 
-import "./OwnedUpgradeabilityStorage.sol";
+import './BaseUpgradeabilityProxy.sol';
 
 /**
  * @title UpgradeabilityProxy
- * @dev Gives the possibility to delegate any call to a foreign implementation.
+ * @dev Extends BaseUpgradeabilityProxy with a constructor for initializing
+ * implementation and init data.
+ *
+ * Credit: https://github.com/OpenZeppelin/openzeppelin-sdk/blob/master/packages/lib/contracts/upgradeability/UpgradeabilityProxy.sol
  */
-contract UpgradeabilityProxy is OwnedUpgradeabilityStorage {
-
+contract UpgradeabilityProxy is BaseUpgradeabilityProxy {
   /**
-  * @dev Fallback function allowing to perform a delegatecall to the given implementation.
-  * This function will return whatever the implementation call returns
-  */
-  function () external payable {
-    address _impl = implementation();
-    require(_impl != address(0), "UpgradeabilityProxy: Implementation not set.");
-
-    assembly {
-      let ptr := mload(0x40)
-      calldatacopy(ptr, 0, calldatasize)
-      let result := delegatecall(gas, _impl, ptr, calldatasize, 0, 0)
-      let size := returndatasize
-      returndatacopy(ptr, 0, size)
-
-      switch result
-      case 0 { revert(ptr, size) }
-      default { return(ptr, size) }
+   * @dev Contract constructor.
+   * @param _logic Address of the initial implementation.
+   * @param _data Data to send as msg.data to the implementation to initialize the proxied contract.
+   * It should include the signature and the parameters of the function to be called, as described in
+   * https://solidity.readthedocs.io/en/v0.4.24/abi-spec.html#function-selector-and-argument-encoding.
+   * This parameter is optional, if no data is given the initialization call to proxied contract will be skipped.
+   */
+  constructor(address _logic, bytes memory _data) public payable {
+    assert(IMPLEMENTATION_SLOT == bytes32(uint256(keccak256('eip1967.proxy.implementation')) - 1));
+    _setImplementation(_logic);
+    if(_data.length > 0) {
+      (bool success,) = _logic.delegatecall(_data);
+      require(success);
     }
   }
 }

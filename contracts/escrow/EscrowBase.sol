@@ -43,6 +43,17 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      */
     mapping(address => AccountBalance) _accountBalances;
 
+
+    /**
+     * @dev IMPORTANT: Initialization method for all escrows to update the owner.
+     * This function must be invoked immediately after creating the proxy and updating implementation.
+     * If it's invoked in a separate transaction, it's possible that it's already invoked by someone else.
+     */
+    function initialize(address newOwner) public {
+        require(owner() == address(0x0), "EscrowBase: Already initialized.");
+        _transferOwnership(newOwner);
+    }
+
     /*******************************************************
      * Implements methods defined in EscrowBaseInterface.
      *******************************************************/
