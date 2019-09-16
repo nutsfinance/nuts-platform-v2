@@ -56,24 +56,21 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     InstrumentEscrow internal _instrumentEscrow;
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
 
-    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
-        address instrumentEscrowAddress, bytes memory instrumentParameters) public {
-        initialize(fspAddress, instrumentAddress, instrumentConfigAddress,
-            instrumentEscrowAddress, instrumentParameters);
-    }
-
     /**
      * @dev IMPORTANT: Initialization method for all instrument managers.
      * This function must be invoked immediately after creating the proxy and updating implementation.
      * If it's invoked in a separate transaction, it's possible that it's already invoked by someone else.
+     * @param fspAddress Address of FSP that activates this financial instrument.
+     * @param instrumentAddress Address of the financial instrument contract.
+     * @param instrumentConfigAddress Address of the Instrument Config contract.
+     * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    function initialize(address fspAddress, address instrumentAddress,
-        address instrumentConfigAddress, address instrumentEscrowAddress, bytes memory instrumentParameters) public {
+    function initialize(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
+        bytes memory instrumentParameters) public {
         require(_instrumentAddress == address(0x0), "InstrumentManagerBase: Already initialized.");
         require(fspAddress != address(0x0), "InstrumentManagerBase: FSP address must be provided.");
         require(instrumentAddress != address(0x0), "InstrumentManagerBase: Instrument address must be provided.");
         require(instrumentConfigAddress != address(0x0), "InstrumentManagerBase: Instrument Config address must be provided.");
-        require(instrumentEscrowAddress != address(0x0), "InstrumentManagerBase: Instrument Escrow address must be provided.");
         require(instrumentParameters.length > 0, "InstrumentManagerBase: Instrument parameters must be provided.");
 
         InstrumentParameters.Data memory parameters = InstrumentParameters.decode(instrumentParameters);
@@ -90,7 +87,22 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         _instrumentConfigAddress = instrumentConfigAddress;
         _lastIssuanceId = 1;
         _depositAmount = InstrumentConfig(_instrumentConfigAddress).instrumentDeposit();
-        _instrumentEscrow = InstrumentEscrow(instrumentEscrowAddress);
+
+        // Create Instrument Escrow
+        InstrumentEscrow instrumentEscrow = new InstrumentEscrow();
+        AdminUpgradeabilityProxy instrumentEscrowProxy = new AdminUpgradeabilityProxy(address(instrumentEscrow),
+            InstrumentConfig(_instrumentConfigAddress).proxyAdminAddress(), new bytes(0));
+        // The owner of Instrument Escrow is Instrument Manager
+        IssuanceEscrow(address(instrumentEscrowProxy)).initialize(address(this));
+
+        _instrumentEscrow = InstrumentEscrow(address(instrumentEscrowProxy));
+    }
+
+    /**
+     * @dev Get the address of Instrument Escrow.
+     */
+    function getInstrumentEscrow() public returns (address) {
+        return address(_instrumentEscrow);
     }
 
     /**

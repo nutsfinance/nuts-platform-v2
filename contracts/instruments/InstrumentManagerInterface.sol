@@ -8,6 +8,17 @@ pragma solidity ^0.5.0;
 interface InstrumentManagerInterface {
 
     /**
+     * @dev Initializes the Instrument Manager.
+     */
+    function initialize(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
+        bytes calldata instrumentParameters) external;
+
+    /**
+     * @dev Get the address of Instrument Escrow.
+     */
+    function getInstrumentEscrow() external returns (address);
+
+    /**
      * @dev Deactivates the instrument.
      */
     function deactivate() external;

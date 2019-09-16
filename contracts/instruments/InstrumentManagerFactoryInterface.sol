@@ -10,11 +10,14 @@ interface InstrumentManagerFactoryInterface {
 
     /**
      * @dev Create a new instrument manager instance
-     * @param instrumentAddress The deployed address of the instrument.
      * @param fspAddress The address of the FSP who deploy the instrument.
+     * @param instrumentAddress The deployed address of the instrument.
+     * @param instrumentConfigAddress The address of InstrumentConfig contract.
      * @param version The instrument manager version.
      * @param instrumentParameters Custom parameters about this instrument.
+     * @return The address of the created Instrument Manager.
      */
-    function createInstrumentManager(address instrumentAddress, address fspAddress, string calldata version, bytes calldata instrumentParameters)
-        external returns (address instrumentManagerAddress, address instrumentEscrowAddress);
+    function createInstrumentManager(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
+        string calldata version, bytes calldata instrumentParameters)
+        external returns (address instrumentManagerAddress);
 }
