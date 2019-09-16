@@ -4,6 +4,9 @@ import "../InstrumentManagerBase.sol";
 import "../InstrumentBase.sol";
 import "./InstrumentV1.sol";
 
+/**
+ * @title Instrument Manager for Instrument v1.
+ */
 contract InstrumentV1Manager is InstrumentManagerBase {
     // Mapping: Issuance Id => Issuance data
     mapping(uint256 => bytes) private _issuanceData;

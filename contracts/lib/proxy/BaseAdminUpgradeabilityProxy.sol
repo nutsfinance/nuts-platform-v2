@@ -111,12 +111,4 @@ contract BaseAdminUpgradeabilityProxy is BaseUpgradeabilityProxy {
       sstore(slot, newAdmin)
     }
   }
-
-  /**
-   * @dev Only fall back when the sender is not the admin.
-   */
-  function _willFallback() internal {
-    require(msg.sender != _admin(), "Cannot call fallback function from the proxy admin");
-    super._willFallback();
-  }
 }

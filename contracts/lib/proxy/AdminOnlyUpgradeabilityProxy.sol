@@ -3,13 +3,15 @@ pragma solidity ^0.5.0;
 import './BaseAdminUpgradeabilityProxy.sol';
 
 /**
- * @title AdminUpgradeabilityProxy
+ * @title AdminOnlyUpgradeabilityProxy
  * @dev Extends from BaseAdminUpgradeabilityProxy with a constructor for
  * initializing the implementation, admin, and init data.
  *
- * Credit: https://github.com/OpenZeppelin/openzeppelin-sdk/blob/master/packages/lib/contracts/upgradeability/AdminUpgradeabilityProxy.sol
+ * The difference between AdminUpgradeabilityProxy and AdminOnlyUpgradeabilityProxy:
+ * AdminUpgradeabilityProxy: Only fallback when the sender is not proxy admin.
+ * AdminOnlyUpgradeabilityProxy: Only fallback when the sender is proxy admin.
  */
-contract AdminUpgradeabilityProxy is BaseAdminUpgradeabilityProxy, UpgradeabilityProxy {
+contract AdminOnlyUpgradeabilityProxy is BaseAdminUpgradeabilityProxy, UpgradeabilityProxy {
     /**
     * Contract constructor.
     * @param _logic address of the initial implementation.
@@ -25,10 +27,10 @@ contract AdminUpgradeabilityProxy is BaseAdminUpgradeabilityProxy, Upgradeabilit
     }
 
     /**
-    * @dev Only fall back when the sender is not the admin.
+    * @dev Only fall back when the sender is the admin.
     */
     function _willFallback() internal {
-      require(msg.sender != _admin(), "Cannot call fallback function from the proxy admin");
+      require(msg.sender == _admin(), "AdminOnlyUpgradeabilityProxy: Only admin can call the proxy fallback.");
       super._willFallback();
     }
 }

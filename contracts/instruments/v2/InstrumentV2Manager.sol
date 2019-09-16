@@ -8,6 +8,9 @@ import "../InstrumentBase.sol";
 import "../InstrumentManagerBase.sol";
 import "./InstrumentV2.sol";
 
+/**
+ * @title Instrument Manager for Instrument v2.
+ */
 contract InstrumentV2Manager is InstrumentManagerBase {
 
     // Mapping: Issuance Id => Issuance storage contract address

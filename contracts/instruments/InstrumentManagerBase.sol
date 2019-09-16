@@ -70,7 +70,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, Ownable, TimerOrac
      */
     function initialize(address newOwner, address fspAddress, address instrumentAddress,
         address instrumentConfigAddress, address instrumentEscrowAddress, bytes memory instrumentParameters) public {
-        require(owner() == address(0x0), "InstrumentManagerBase: Already initialized.");
+        require(_instrumentAddress == address(0x0), "InstrumentManagerBase: Already initialized.");
         require(newOwner != address(0x0), "InstrumentManagerBase: Owner address must be provided.");
         require(fspAddress != address(0x0), "InstrumentManagerBase: FSP address must be provided.");
         require(instrumentAddress != address(0x0), "InstrumentManagerBase: Instrument address must be provided.");
