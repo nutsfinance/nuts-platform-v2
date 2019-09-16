@@ -7,7 +7,6 @@ import "../access/TimerOracleRole.sol";
 import "../escrow/InstrumentEscrow.sol";
 import "../escrow/IssuanceEscrow.sol";
 import "../escrow/DepositEscrow.sol";
-import "../lib/access/Ownable.sol";
 import "../lib/token/IERC20.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
@@ -17,7 +16,7 @@ import "../lib/proxy/AdminUpgradeabilityProxy.sol";
 /**
  * Base instrument manager for instrument v1, v2 and v3.
  */
-contract InstrumentManagerBase is InstrumentManagerInterface, Ownable, TimerOracleRole {
+contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     using SafeERC20 for IERC20;
 
     /**
@@ -59,7 +58,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, Ownable, TimerOrac
 
     constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
         address instrumentEscrowAddress, bytes memory instrumentParameters) public {
-        initialize(msg.sender, fspAddress, instrumentAddress, instrumentConfigAddress,
+        initialize(fspAddress, instrumentAddress, instrumentConfigAddress,
             instrumentEscrowAddress, instrumentParameters);
     }
 
@@ -68,10 +67,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface, Ownable, TimerOrac
      * This function must be invoked immediately after creating the proxy and updating implementation.
      * If it's invoked in a separate transaction, it's possible that it's already invoked by someone else.
      */
-    function initialize(address newOwner, address fspAddress, address instrumentAddress,
+    function initialize(address fspAddress, address instrumentAddress,
         address instrumentConfigAddress, address instrumentEscrowAddress, bytes memory instrumentParameters) public {
         require(_instrumentAddress == address(0x0), "InstrumentManagerBase: Already initialized.");
-        require(newOwner != address(0x0), "InstrumentManagerBase: Owner address must be provided.");
         require(fspAddress != address(0x0), "InstrumentManagerBase: FSP address must be provided.");
         require(instrumentAddress != address(0x0), "InstrumentManagerBase: Instrument address must be provided.");
         require(instrumentConfigAddress != address(0x0), "InstrumentManagerBase: Instrument Config address must be provided.");
@@ -85,10 +83,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, Ownable, TimerOrac
         _makerWhitelistEnabled = parameters.supportMakerWhitelist;
         _takerWhitelistEnabled = parameters.supportTakerWhitelist;
 
-        // Set owner
-        _transferOwnership(newOwner);
         // Set Timer Oracle Role
-        _addTimerOracle(newOwner);
+        _addTimerOracle(InstrumentConfig(_instrumentConfigAddress).timerOracleAddress());
         _fspAddress = fspAddress;
         _instrumentAddress = instrumentAddress;
         _instrumentConfigAddress = instrumentConfigAddress;

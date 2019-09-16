@@ -17,16 +17,20 @@ contract InstrumentConfig {
     // Note: Non-updateable after initialization.
     address public depositTokenAddress;
     // Address of proxy admin
-    // Note: Udateable after initialization.
+    // Note: Updateable after initialization.
     address public proxyAdminAddress;
+    // Address of Timer Oracle
+    // Note: Non-updatable after initialization.
+    address public timerOracleAddress;
 
     constructor(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositEscrowAddress,
-        address newDepositTokenAddress, address newProxyAdminAddress) internal {
+        address newDepositTokenAddress, address newProxyAdminAddress, address newTimerOracleAddress) internal {
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositEscrowAddress = newDepositEscrowAddress;
         depositTokenAddress = newDepositTokenAddress;
         proxyAdminAddress = newProxyAdminAddress;
+        timerOracleAddress = newTimerOracleAddress;
     }
 
     function _setInstrumentDeposit(uint256 newInstrumentDeposit) internal {
