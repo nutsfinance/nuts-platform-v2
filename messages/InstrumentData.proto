@@ -11,9 +11,3 @@ message InstrumentParameters {
     bool supportTakerWhitelist = 3;
 }
 
-message IssuanceProperties {
-    .solidity.uint256 depositAmount = 1;
-    .solidity.address issuanceEscrow = 2;
-    .solidity.address makerAddress = 3;
-}
-
