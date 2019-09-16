@@ -44,12 +44,4 @@ contract InstrumentBase {
      * @param eventPayload The payload the custom event
      */
     event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, string eventName, bytes eventPayload);
-
-    /**
-     * @dev Determines whether the issuance is in termination states.
-     */
-    function isTerminationState(IssuanceStates state) public pure returns (bool) {
-        return state == IssuanceStates.Unfunded || state == IssuanceStates.CompleteNotEngaged
-            || state == IssuanceStates.CompleteEngaged || state == IssuanceStates.Delinquent;
-    }
 }

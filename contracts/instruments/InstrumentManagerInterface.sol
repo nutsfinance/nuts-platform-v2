@@ -8,6 +8,11 @@ pragma solidity ^0.5.0;
 interface InstrumentManagerInterface {
 
     /**
+     * @dev Deactivates the instrument.
+     */
+    function deactivate() external;
+
+    /**
      * @dev Updates the maker whitelist. The maker whitelist only affects new issuances.
      * @param makerAddress The maker address to update in whitelist
      * @param allowed Whether this maker is allowed to create new issuance.
