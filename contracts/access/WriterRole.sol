@@ -5,7 +5,7 @@ import "../lib/access/Ownable.sol";
 
 /**
  * @dev Defines the writer role. Only the owner can grant the writer role.
- * The writer can renounce their own writer role.
+ * The owner can remove writer, and the writer can renounce their own writer role.
  */
 contract WriterRole is Ownable {
     using Roles for Roles.Role;

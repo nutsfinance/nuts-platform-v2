@@ -5,8 +5,9 @@ import "../access/WriterRole.sol";
 
 /**
  * @title A generic data storage contract.
- * Supported values include: String, address, int, uint, bool.
+ * Supported values include: string, bytes, address, int, uint, bool.
  * Complex types should look for serialization/deserialization frameworks.
+ * Any account have read access to the storage, but only writer can write to it.
  */
 contract UnifiedStorage is StorageInterface, WriterRole {
     mapping(string => string) private _stringData;
@@ -15,7 +16,7 @@ contract UnifiedStorage is StorageInterface, WriterRole {
     mapping(string => int) private _intData;
     mapping(string => bool) private _boolData;
 
-    function getString(string memory key) public view onlyWriter returns (string memory) {
+    function getString(string memory key) public view returns (string memory) {
         return _stringData[key];
     }
 
@@ -23,15 +24,15 @@ contract UnifiedStorage is StorageInterface, WriterRole {
        _stringData[key] = value;
     }
 
-    function getBytes(string calldata key) external view returns (bytes memory) {
+    function getBytes(string memory key) public view returns (bytes memory) {
         return bytes(_stringData[key]);
     }
 
-    function setBytes(string calldata key, bytes calldata value) external {
+    function setBytes(string memory key, bytes memory value) public {
         _stringData[key] = string(value);
     }
 
-    function getAddress(string memory key) public view onlyWriter returns (address) {
+    function getAddress(string memory key) public view returns (address) {
         return _addressData[key];
     }
 
@@ -39,7 +40,7 @@ contract UnifiedStorage is StorageInterface, WriterRole {
        _addressData[key] = value;
     }
 
-    function getUint(string memory key) public view onlyWriter returns (uint) {
+    function getUint(string memory key) public view returns (uint) {
         return _uintData[key];
     }
 
@@ -47,7 +48,7 @@ contract UnifiedStorage is StorageInterface, WriterRole {
        _uintData[key] = value;
     }
 
-    function getInt(string memory key) public view onlyWriter returns (int) {
+    function getInt(string memory key) public view returns (int) {
         return _intData[key];
     }
 
@@ -55,7 +56,7 @@ contract UnifiedStorage is StorageInterface, WriterRole {
        _intData[key] = value;
     }
 
-    function getBool(string memory key) public view onlyWriter returns (bool) {
+    function getBool(string memory key) public view returns (bool) {
         return _boolData[key];
     }
 
