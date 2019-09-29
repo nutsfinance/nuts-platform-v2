@@ -40,21 +40,16 @@ contract InstrumentV2Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance engage processing.
      * @param issuanceId ID of the issuance.
-     * @param takerAddress Address of the taker which engages the issuance.
-     * @param takerParameters Custom engagement parameters.
-     * @param state The current issuance state
-     * @param escrow The Issuance Escrow for this issuance.
+     * @param issuanceParametersData Issuance Parameters.
      */
-    function _processEngageIssuance(uint256 issuanceId, address takerAddress, bytes memory takerParameters,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
         UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
-        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).engageIssuance(issuanceId,
-            takerAddress, takerParameters, issuanceStorage, state, escrow);
+        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).engageIssuance(issuanceParametersData, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);

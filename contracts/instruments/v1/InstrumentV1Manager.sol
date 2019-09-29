@@ -25,17 +25,13 @@ contract InstrumentV1Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance engage processing.
      * @param issuanceId ID of the issuance.
-     * @param takerAddress Address of the taker which engages the issuance.
-     * @param takerParameters Custom engagement parameters.
-     * @param state The current issuance state
-     * @param escrow The Issuance Escrow for this issuance.
+     * @param issuanceParametersData Issuance Parameters.
      */
-    function _processEngageIssuance(uint256 issuanceId, address takerAddress, bytes memory takerParameters,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
-        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).engageIssuance(issuanceId,
-            takerAddress, takerParameters, _issuanceData[issuanceId], state, escrow);
+        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress)
+            .engageIssuance(issuanceParametersData, _issuanceData[issuanceId]);
     }
 
     /**

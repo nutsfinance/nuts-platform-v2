@@ -215,8 +215,11 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
 
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processEngageIssuance(issuanceId,
-            msg.sender, takerParameters, property.state, EscrowBaseInterface(property.escrowAddress));
+        property.takerAddress = msg.sender;
+        property.engagementTimestamp = now;
+
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, string(takerParameters), address(0x0), 0, '');
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processEngageIssuance(issuanceId, issuanceParametersData);
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -528,18 +531,14 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     /**
      * @dev Instrument type-specific issuance creation processing.
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal returns (InstrumentBase.IssuanceStates);
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+        returns (InstrumentBase.IssuanceStates);
 
     /**
      * @dev Instrument type-specific issuance engage processing.
-     * @param issuanceId ID of the issuance.
-     * @param takerAddress Address of the taker which engages the issuance.
-     * @param takerParameters Custom engagement parameters.
-     * @param state The current issuance state
-     * @param escrow The Issuance Escrow for this issuance.
      */
-    function _processEngageIssuance(uint256 issuanceId, address takerAddress, bytes memory takerParameters,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+        returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
      * @dev Instrument type-specific issuance ERC20 token deposit processing.

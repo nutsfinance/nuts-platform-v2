@@ -18,17 +18,11 @@ contract InstrumentV3 is InstrumentBase {
 
     /**
      * @dev A taker engages to the issuance
-     * @param issuanceId The id of the issuance
-     * @param takerAddress The address of the taker who engages in the issuance
-     * @param takerParameters The custom parameters to the new engagement
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
+     * @param issuanceParametersData Issuance Parameters.
      * @return updatedState The new state of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function engageIssuance(uint256 issuanceId, address takerAddress, bytes memory takerParameters,
-        IssuanceStates state, EscrowBaseInterface escrow)
-        public returns (IssuanceStates updatedState, bytes memory transfersData);
+    function engageIssuance(bytes memory issuanceParametersData) public returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token deposit to the issuance

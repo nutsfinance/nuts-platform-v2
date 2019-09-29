@@ -18,18 +18,13 @@ contract InstrumentV1 is InstrumentBase {
 
     /**
      * @dev A taker engages to the issuance
-     * @param issuanceId The id of the issuance
-     * @param takerAddress The address of the taker who engages in the issuance
-     * @param takerParameters The custom parameters to the new engagement
-     * @param data The data for this issuance
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
+     * @param issuanceParametersData Issuance Parameters.
+     * @param data The custom data for this issuance
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function engageIssuance(uint256 issuanceId, address takerAddress, bytes memory takerParameters,
-        bytes memory data, IssuanceStates state, EscrowBaseInterface escrow)
+    function engageIssuance(bytes memory issuanceParametersData, bytes memory data)
         public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
 
     /**
