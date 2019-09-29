@@ -27,6 +27,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         address makerAddress;
         // When the issuance is created
         uint256 creationTimestamp;
+        // Address of issuance taker
+        address takerAddress;
+        // When the issuance is engaged
+        uint256 engagementTimestamp;
         // Amount of NUTS token deposited in creating this issuance
         uint256 deposit;
         // Address of Issuance Escrow
@@ -49,6 +53,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     mapping(address => bool) internal _takerWhitelist;
 
     address internal _fspAddress;
+    address internal _brokerAddress;
     address internal _instrumentAddress;
     address internal _instrumentConfigAddress;
     uint256 internal _lastIssuanceId;
@@ -83,6 +88,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Set Timer Oracle Role
         _addTimerOracle(InstrumentConfig(_instrumentConfigAddress).timerOracleAddress());
         _fspAddress = fspAddress;
+        // If broker address is not provided, default to fsp address.
+        _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;
         _instrumentAddress = instrumentAddress;
         _instrumentConfigAddress = instrumentConfigAddress;
         _lastIssuanceId = 1;
@@ -185,6 +192,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         IssuanceProperty memory property = IssuanceProperty({
             makerAddress: msg.sender,
             creationTimestamp: now,
+            takerAddress: address(0x0),
+            engagementTimestamp: 0,
             deposit: config.issuanceDeposit(),
             escrowAddress: address(issuanceEscrowProxy),
             state: state

@@ -7,7 +7,35 @@ import "SolidityTypes.proto";
  */
 message InstrumentParameters {
     .solidity.uint256 expiration = 1;
-    bool supportMakerWhitelist = 2;
-    bool supportTakerWhitelist = 3;
+    .solidity.address brokerAddress = 2;
+    bool supportMakerWhitelist = 3;
+    bool supportTakerWhitelist = 4;
 }
 
+/**
+ * Parameters in invoking Instrument methods for Instrument v1, v2 and v3.
+ */
+message IssuanceParameters {
+    // Common parameters in all methods
+    .solidity.uint256 issuanceId = 1;                   // Id of the target issuance.
+    .solidity.address fspAddress = 2;                   // Address of FSP who creates the instrument.
+    .solidity.address brokerAddress = 3;                // Address of the instrument broker.
+    .solidity.address makerAddress = 4;                 // Address of the issuance maker.
+    .solidity.uint256 creationTimestamp = 5;            // Timestamp when issuance is created.
+    .solidity.address takerAddress = 6;                 // Address of the issuance taker.
+    .solidity.uint256 engagementTimestamp = 7;          // Timestamp when issuance is engaged.
+    .solidity.uint8 state = 8;                          // Current issuance state.
+    .solidity.address escrowAddress = 9;                // Address of the issuance escrow.
+    .solidity.address callerAddress = 10;               // Address of the caller that triggers the issuance operation.
+
+    // Common parameters in createIssuance(), engagementIssuance(), settleIssuance(),
+    // processCustomEvent() and processScheduledEvent()
+    string parameters = 11;                             // Custom parameters
+
+    // Common parameters in processDeposit() and processWithdraw()
+    .solidity.address tokenAddress = 12;                // Adress of the token deposited/withdrawn.
+    .solidity.uint256 amount = 13;                      // Amount of token deposited/withdrawn.
+    
+    // Common parameters in processCustomEvent() and processScheduledEvent()
+    string eventName = 14;                              // Name of the scheduled/custom event.
+}
