@@ -320,10 +320,6 @@ library IssuanceParameters {
     uint8 state;
     address escrowAddress;
     address callerAddress;
-    string customParameters;
-    address tokenAddress;
-    uint256 amount;
-    string eventName;
   }
 
   // Decoder section
@@ -360,7 +356,7 @@ library IssuanceParameters {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[15] memory counters;
+    uint[11] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -399,18 +395,6 @@ library IssuanceParameters {
       else if(fieldId == 10) {
         pointer += _read_callerAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 11) {
-        pointer += _read_customParameters(pointer, bs, r, counters);
-      }
-      else if(fieldId == 12) {
-        pointer += _read_tokenAddress(pointer, bs, r, counters);
-      }
-      else if(fieldId == 13) {
-        pointer += _read_amount(pointer, bs, r, counters);
-      }
-      else if(fieldId == 14) {
-        pointer += _read_eventName(pointer, bs, r, counters);
-      }
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
           uint size;
@@ -447,7 +431,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -469,7 +453,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_fspAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_fspAddress(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -491,7 +475,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_brokerAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_brokerAddress(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -513,7 +497,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -535,7 +519,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -557,7 +541,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -579,7 +563,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -601,7 +585,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_state(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_state(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -623,7 +607,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_escrowAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_escrowAddress(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -645,7 +629,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_callerAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_callerAddress(uint p, bytes memory bs, Data memory r, uint[11] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -655,94 +639,6 @@ library IssuanceParameters {
     } else {
       r.callerAddress = x;
       if(counters[10] > 0) counters[10] -= 1;
-    }
-    return sz;
-  }
-
-  /**
-   * @dev The decoder for reading a field
-   * @param p The offset of bytes array to start decode
-   * @param bs The bytes array to be decoded
-   * @param r The in-memory struct
-   * @param counters The counters for repeated fields
-   * @return The number of bytes decoded
-   */
-  function _read_customParameters(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
-    /**
-     * if `r` is NULL, then only counting the number of fields.
-     */
-    (string memory x, uint sz) = ProtoBufRuntime._decode_string(p, bs);
-    if(isNil(r)) {
-      counters[11] += 1;
-    } else {
-      r.customParameters = x;
-      if(counters[11] > 0) counters[11] -= 1;
-    }
-    return sz;
-  }
-
-  /**
-   * @dev The decoder for reading a field
-   * @param p The offset of bytes array to start decode
-   * @param bs The bytes array to be decoded
-   * @param r The in-memory struct
-   * @param counters The counters for repeated fields
-   * @return The number of bytes decoded
-   */
-  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
-    /**
-     * if `r` is NULL, then only counting the number of fields.
-     */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
-      counters[12] += 1;
-    } else {
-      r.tokenAddress = x;
-      if(counters[12] > 0) counters[12] -= 1;
-    }
-    return sz;
-  }
-
-  /**
-   * @dev The decoder for reading a field
-   * @param p The offset of bytes array to start decode
-   * @param bs The bytes array to be decoded
-   * @param r The in-memory struct
-   * @param counters The counters for repeated fields
-   * @return The number of bytes decoded
-   */
-  function _read_amount(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
-    /**
-     * if `r` is NULL, then only counting the number of fields.
-     */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
-      counters[13] += 1;
-    } else {
-      r.amount = x;
-      if(counters[13] > 0) counters[13] -= 1;
-    }
-    return sz;
-  }
-
-  /**
-   * @dev The decoder for reading a field
-   * @param p The offset of bytes array to start decode
-   * @param bs The bytes array to be decoded
-   * @param r The in-memory struct
-   * @param counters The counters for repeated fields
-   * @return The number of bytes decoded
-   */
-  function _read_eventName(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
-    /**
-     * if `r` is NULL, then only counting the number of fields.
-     */
-    (string memory x, uint sz) = ProtoBufRuntime._decode_string(p, bs);
-    if(isNil(r)) {
-      counters[14] += 1;
-    } else {
-      r.eventName = x;
-      if(counters[14] > 0) counters[14] -= 1;
     }
     return sz;
   }
@@ -797,14 +693,6 @@ library IssuanceParameters {
     pointer += ProtoBufRuntime._encode_sol_address(r.escrowAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.callerAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_string(r.customParameters, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(12, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(13, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_uint256(r.amount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(14, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_string(r.eventName, pointer, bs);
     return pointer - offset;
   }
   // nested encoder
@@ -838,10 +726,9 @@ library IssuanceParameters {
 
   /**
    * @dev The estimator for a struct
-   * @param r The struct to be encoded
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory r) internal pure returns (uint) {
+  function _estimate(Data memory /* r */) internal pure returns (uint) {
     uint e;
     e += 1 + 35;
     e += 1 + 23;
@@ -853,10 +740,6 @@ library IssuanceParameters {
     e += 1 + 4;
     e += 1 + 23;
     e += 1 + 23;
-    e += 1 + ProtoBufRuntime._sz_lendelim(bytes(r.customParameters).length);
-    e += 1 + 23;
-    e += 1 + 35;
-    e += 1 + ProtoBufRuntime._sz_lendelim(bytes(r.eventName).length);
     return e;
   }
 
@@ -877,10 +760,6 @@ library IssuanceParameters {
     output.state = input.state;
     output.escrowAddress = input.escrowAddress;
     output.callerAddress = input.callerAddress;
-    output.customParameters = input.customParameters;
-    output.tokenAddress = input.tokenAddress;
-    output.amount = input.amount;
-    output.eventName = input.eventName;
 
   }
 

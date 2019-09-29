@@ -16,9 +16,10 @@ contract InstrumentV3Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
+     * @param makerParameters The custom parameters to the newly created issuance
      * @param issuanceParametersData Issuance Parameters.
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
         returns (InstrumentBase.IssuanceStates updatedState) {
 
         // Create an AdminOnlyUpgradeabilityProxy for the new issuance
@@ -27,18 +28,19 @@ contract InstrumentV3Manager is InstrumentManagerBase {
         AdminOnlyUpgradeabilityProxy proxy = new AdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this), new bytes(0));
         _issuanceProxies[issuanceId] = address(proxy);
 
-        updatedState = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceParametersData);
+        updatedState = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceParametersData, issuanceParametersData);
     }
 
     /**
      * @dev Instrument type-specific issuance engage processing.
      * @param issuanceId ID of the issuance.
      * @param issuanceParametersData Issuance Parameters.
+     * @param takerParameters The custom parameters to the new engagement
      */
-    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters) internal
         returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
-        (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).engageIssuance(issuanceParametersData);
+        (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).engageIssuance(issuanceParametersData, takerParameters);
     }
 
     /**

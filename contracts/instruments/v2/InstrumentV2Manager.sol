@@ -19,9 +19,10 @@ contract InstrumentV2Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
+     * @param makerParameters The custom parameters to the newly created issuance
      * @param issuanceParametersData Issuance Parameters.
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
         returns (InstrumentBase.IssuanceStates updatedState) {
 
         // Create storage contract
@@ -31,7 +32,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         // Temporary grant writer role
         issuanceStorage.addWriter(_instrumentAddress);
 
-        updatedState = InstrumentV2(_instrumentAddress).createIssuance(issuanceParametersData, issuanceStorage);
+        updatedState = InstrumentV2(_instrumentAddress).createIssuance(issuanceParametersData, issuanceParametersData, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);
@@ -40,16 +41,18 @@ contract InstrumentV2Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance engage processing.
      * @param issuanceId ID of the issuance.
+     * @param takerParameters The custom parameters to the new engagement
      * @param issuanceParametersData Issuance Parameters.
      */
-    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData)
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
         UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
-        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).engageIssuance(issuanceParametersData, issuanceStorage);
+        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).engageIssuance(issuanceParametersData,
+            takerParameters, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);
@@ -59,22 +62,16 @@ contract InstrumentV2Manager is InstrumentManagerBase {
      * @dev Instrument type-specific issuance ERC20 token deposit processing.
      * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
      * @param issuanceId ID of the issuance.
-     * @param fromAddress Address whose balance is the ERC20 token transferred from.
-     * @param tokenAddress Address the deposited ERC20 token.
-     * @param amount Amount of ERC20 deposited.
-     * @param state The current issuance state.
-     * @param escrow The Issuance Escrow for this issuance.
+     * @param issuanceParametersData Issuance Parameters.
      */
-    function _processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
-        internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
+    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData) internal
+        returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
         UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
-        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processTokenDeposit(issuanceId,
-            fromAddress, tokenAddress, amount, issuanceStorage, state, escrow);
+        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processTokenDeposit(issuanceParametersData, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);

@@ -12,38 +12,34 @@ contract InstrumentV2 is InstrumentBase {
        /**
      * @dev Create a new issuance of the financial instrument
      * @param issuanceParametersData Issuance Parameters.
+     * @param makerParameters The custom parameters to the newly created issuance
      * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
      */
-    function createIssuance(bytes memory issuanceParametersData, StorageInterface issuanceStorage)
+    function createIssuance(bytes memory issuanceParametersData, bytes memory makerParameters, StorageInterface issuanceStorage)
         public returns (IssuanceStates updatedState);
 
     /**
      * @dev A taker engages to the issuance
      * @param issuanceParametersData Issuance Parameters.
+     * @param takerParameters The custom parameters to the new engagement
      * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function engageIssuance(bytes memory issuanceParametersData, StorageInterface issuanceStorage)
+    function engageIssuance(bytes memory issuanceParametersData, bytes memory takerParameters, StorageInterface issuanceStorage)
         public returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token deposit to the issuance
-     * @param issuanceId The id of the issuance
-     * @param fromAddress The address of the ERC20 token sender.
-     * @param tokenAddress The address of the ERC20 token deposited.
-     * @param amount The amount of ERC20 token deposited.
+     * @param issuanceParametersData Issuance Parameters.
      * @param issuanceStorage The storage contract for this issuance.
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount,
-        StorageInterface issuanceStorage, IssuanceStates state, EscrowBaseInterface escrow)
-        public returns (IssuanceStates updatedState, bytes memory transfersData);
+    function processTokenDeposit(bytes memory issuanceParametersData, StorageInterface issuanceStorage) public
+        returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token withdraw from the issuance

@@ -15,23 +15,26 @@ contract InstrumentV1Manager is InstrumentManagerBase {
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
      * @param issuanceParametersData Issuance Parameters.
+     * @param makerParameters The custom parameters to the newly created issuance
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
         returns (InstrumentBase.IssuanceStates updatedState) {
 
-        (updatedState, _issuanceData[issuanceId]) = InstrumentV1(_instrumentAddress).createIssuance(issuanceParametersData);
+        (updatedState, _issuanceData[issuanceId]) = InstrumentV1(_instrumentAddress)
+            .createIssuance(issuanceParametersData, issuanceParametersData);
     }
 
     /**
      * @dev Instrument type-specific issuance engage processing.
      * @param issuanceId ID of the issuance.
+     * @param takerParameters The custom parameters to the new engagement
      * @param issuanceParametersData Issuance Parameters.
      */
-    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData)
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress)
-            .engageIssuance(issuanceParametersData, _issuanceData[issuanceId]);
+            .engageIssuance(issuanceParametersData, takerParameters, _issuanceData[issuanceId]);
     }
 
     /**

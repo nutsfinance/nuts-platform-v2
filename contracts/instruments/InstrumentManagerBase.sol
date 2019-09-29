@@ -200,8 +200,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         });
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, string(makerParameters), address(0x0), 0, '');
-        _issuanceProperties[issuanceId].state = _processCreateIssuance(issuanceId, issuanceParametersData);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
+        _issuanceProperties[issuanceId].state = _processCreateIssuance(issuanceId, issuanceParametersData, makerParameters);
     }
 
     /**
@@ -218,8 +218,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         property.takerAddress = msg.sender;
         property.engagementTimestamp = now;
 
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, string(takerParameters), address(0x0), 0, '');
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processEngageIssuance(issuanceId, issuanceParametersData);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processEngageIssuance(issuanceId,
+            issuanceParametersData, takerParameters);
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -447,8 +448,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     /**
      * @dev Get issuance parameters passed to Instruments.
      */
-    function _getIssuanceParameters(uint256 issuanceId, string memory customParameters, address tokenAddress, uint256 amount,
-        string memory eventName) private view returns (bytes memory) {
+    function _getIssuanceParameters(uint256 issuanceId) private view returns (bytes memory) {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.Data({
             issuanceId: issuanceId,
@@ -460,11 +460,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             engagementTimestamp: property.engagementTimestamp,
             state: uint8(property.state),
             escrowAddress: property.escrowAddress,
-            callerAddress: msg.sender,
-            customParameters: customParameters,
-            tokenAddress: tokenAddress,
-            amount: amount,
-            eventName: eventName
+            callerAddress: msg.sender
         });
 
         return IssuanceParameters.encode(issuanceParameters);
@@ -531,13 +527,13 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     /**
      * @dev Instrument type-specific issuance creation processing.
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
         returns (InstrumentBase.IssuanceStates);
 
     /**
      * @dev Instrument type-specific issuance engage processing.
      */
-    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters) internal
         returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
