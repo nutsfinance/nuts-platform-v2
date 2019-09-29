@@ -34,21 +34,6 @@ contract InstrumentV3 is InstrumentBase {
         public returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
-     * @dev An account attempts to settle the issuance.
-     * @param issuanceId The id of the issuance
-     * @param settlerAddress The address of the taker who settles the issuance.
-     * @param settlerParameters The custom parameters to the settlement
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
-     * @return updatedState The new state of the issuance.
-     * @return updatedData The updated data of the issuance.
-     * @return transfersData The transfers to perform after the invocation
-     */
-    function settleIssuance(uint256 issuanceId, address settlerAddress, bytes memory settlerParameters,
-        IssuanceStates state, EscrowBaseInterface escrow)
-        public returns (IssuanceStates updatedState, bytes memory transfersData);
-
-    /**
      * @dev An account has made an ETH deposit to the issuance
      * @param issuanceId The id of the issuance
      * @param fromAddress The address of the ETH sender.

@@ -41,22 +41,6 @@ contract InstrumentV1Manager is InstrumentManagerBase {
     }
 
     /**
-     * @dev Instrument type-specific issuance settle processing.
-     * @param issuanceId ID of the issuance.
-     * @param settlerAddress Address of the caller who triggers settlement.
-     * @param settlerParameters Custom settlement parameters.
-     * @param state The current issuance state
-     * @param escrow The Issuance Escrow for this issuance.
-     */
-    function _processSettleIssuance(uint256 issuanceId, address settlerAddress, bytes memory settlerParameters,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
-        internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
-
-        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).settleIssuance(issuanceId,
-            settlerAddress, settlerParameters, _issuanceData[issuanceId], state, escrow);
-    }
-
-    /**
      * @dev Instrument type-specific issuance ETH deposit processing.
      * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
      * @param issuanceId ID of the issuance.
