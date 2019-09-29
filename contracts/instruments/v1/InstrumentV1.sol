@@ -36,22 +36,6 @@ contract InstrumentV1 is InstrumentBase {
         public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
 
     /**
-     * @dev An account has made an ETH deposit to the issuance
-     * @param issuanceId The id of the issuance
-     * @param fromAddress The address of the ETH sender.
-     * @param amount The amount of ETH deposited.
-     * @param data The data for this issuance
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
-     * @return updatedState The new state of the issuance.
-     * @return updatedData The updated data of the issuance.
-     * @return transfersData The transfers to perform after the invocation
-     */
-    function processDeposit(uint256 issuanceId, address fromAddress, uint256 amount,
-        bytes memory data, IssuanceStates state, EscrowBaseInterface escrow)
-        public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
-
-    /**
      * @dev An account has made an ERC20 token deposit to the issuance
      * @param issuanceId The id of the issuance
      * @param fromAddress The address of the ERC20 token sender.
@@ -68,22 +52,6 @@ contract InstrumentV1 is InstrumentBase {
         bytes memory data, IssuanceStates state, EscrowBaseInterface escrow)
         public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
 
-
-    /**
-     * @dev An account has made an ETH withdraw from the issuance
-     * @param issuanceId The id of the issuance
-     * @param toAddress The address of the ETH withdrawer.
-     * @param amount The amount of ETH withdrawn.
-     * @param data The data for this issuance
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
-     * @return updatedState The new state of the issuance.
-     * @return updatedData The updated data of the issuance.
-     * @return transfersData The transfers to perform after the invocation
-     */
-    function processWithdraw(uint256 issuanceId, address toAddress, uint256 amount,
-        bytes memory data, IssuanceStates state, EscrowBaseInterface escrow)
-        public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token withdraw from the issuance

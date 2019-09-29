@@ -41,23 +41,6 @@ contract InstrumentV1Manager is InstrumentManagerBase {
     }
 
     /**
-     * @dev Instrument type-specific issuance ETH deposit processing.
-     * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
-     * @param issuanceId ID of the issuance.
-     * @param fromAddress Address whose balance is the ETH transferred from.
-     * @param amount Amount of ETH deposited.
-     * @param state The current issuance state.
-     * @param escrow The Issuance Escrow for this issuance.
-     */
-    function _processDeposit(uint256 issuanceId, address fromAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
-        internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
-
-        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).processDeposit(issuanceId,
-            fromAddress, amount, _issuanceData[issuanceId], state, escrow);
-    }
-
-    /**
      * @dev Instrument type-specific issuance ERC20 token deposit processing.
      * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
      * @param issuanceId ID of the issuance.
@@ -73,23 +56,6 @@ contract InstrumentV1Manager is InstrumentManagerBase {
 
         (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).processTokenDeposit(issuanceId,
             fromAddress, tokenAddress, amount, _issuanceData[issuanceId], state, escrow);
-    }
-
-    /**
-     * @dev Instrument type-specific issuance ETH withdraw processing.
-     * Note: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.
-     * @param issuanceId ID of the issuance.
-     * @param toAddress Address whose balance is ETH transferred to.
-     * @param amount Amount of ETH transferred.
-     * @param state The current issuance state.
-     * @param escrow Issuance Escrow for this issuance.
-     */
-    function _processWithdraw(uint256 issuanceId, address toAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
-        internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
-
-        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).processWithdraw(issuanceId,
-            toAddress, amount, _issuanceData[issuanceId], state, escrow);
     }
 
     /**

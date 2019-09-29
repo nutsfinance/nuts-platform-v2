@@ -12,6 +12,7 @@ import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";
 import "../lib/proxy/AdminUpgradeabilityProxy.sol";
+import "../lib/util/Constants.sol";
 
 /**
  * Base instrument manager for instrument v1, v2 and v3.
@@ -240,8 +241,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Deposit ETH to Issuance Escrow
         IssuanceEscrow(property.escrowAddress).depositByAdmin.value(amount)(msg.sender);
 
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processDeposit(issuanceId,
-            msg.sender, amount, property.state, EscrowBaseInterface(property.escrowAddress));
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenDeposit(issuanceId,
+            msg.sender, Constants.getEthAddress(), amount, property.state, EscrowBaseInterface(property.escrowAddress));
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -300,8 +301,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Deposit ETH to Instrument Escrow
         _instrumentEscrow.depositByAdmin.value(amount)(msg.sender);
 
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processWithdraw(issuanceId,
-            msg.sender, amount, property.state, EscrowBaseInterface(property.escrowAddress));
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
+            msg.sender, Constants.getEthAddress(), amount, property.state, EscrowBaseInterface(property.escrowAddress));
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -517,18 +518,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
-     * @dev Instrument type-specific issuance ETH deposit processing.
-     * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
-     * @param issuanceId ID of the issuance.
-     * @param fromAddress Address whose balance is the ETH transferred from.
-     * @param amount Amount of ETH deposited.
-     * @param state The current issuance state.
-     * @param escrow The Issuance Escrow for this issuance.
-     */
-    function _processDeposit(uint256 issuanceId, address fromAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
      * @dev Instrument type-specific issuance ERC20 token deposit processing.
      * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
      * @param issuanceId ID of the issuance.
@@ -539,18 +528,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
      * @param escrow The Issuance Escrow for this issuance.
      */
     function _processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific issuance ETH withdraw processing.
-     * Note: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.
-     * @param issuanceId ID of the issuance.
-     * @param toAddress Address whose balance is ETH transferred to.
-     * @param amount Amount of ETH transferred.
-     * @param state The current issuance state.
-     * @param escrow Issuance Escrow for this issuance.
-     */
-    function _processWithdraw(uint256 issuanceId, address toAddress, uint256 amount,
         InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
