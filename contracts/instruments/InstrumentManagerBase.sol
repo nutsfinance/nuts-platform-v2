@@ -395,8 +395,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
         require(bytes(eventName).length > 0, "InstrumentManagerBase: Event name must be provided.");
 
+        // Invoke Instrument
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processScheduledEvent(issuanceId,
-            msg.sender, eventName, eventPayload, property.state, EscrowBaseInterface(property.escrowAddress));
+            issuanceParametersData, eventName, eventPayload);
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -569,13 +571,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
 
     /**
      * @dev Instrument type-specific scheduled event processing.
-     * @param issuanceId ID of the issuance.
-     * @param notifierAddress Address of the caller who notifies this scheduled event.
-     * @param eventName Name of the schedule event
-     * @param eventPayload Custom parameters for this scheduled event
-     * @param state The current issuance state
-     * @param escrow The Issuance Escrow for this issuance
      */
-    function _processScheduledEvent(uint256 issuanceId, address notifierAddress, string memory eventName, bytes memory eventPayload,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
+    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName,
+        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 }

@@ -72,18 +72,14 @@ contract InstrumentV1 is InstrumentBase {
 
     /**
      * @dev A scheduled event is triggered.
-     * @param issuanceId The id of the issuance
-     * @param notifierAddress The address of the caller who notifies the scheduled event.
+     * @param issuanceParametersData Issuance Parameters.
      * @param eventName The name of the custom event.
      * @param eventPayload The custom parameters to the custom event
      * @param data The data for this issuance
-     * @param state The current state of the issuance
-     * @param escrow The Issuance Escrow of the issuance
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processScheduledEvent(uint256 issuanceId, address notifierAddress, string memory eventName, bytes memory eventPayload,
-        bytes memory data, IssuanceStates state, EscrowBaseInterface escrow)
+    function processScheduledEvent(bytes memory issuanceParametersData, string memory eventName, bytes memory eventPayload, bytes memory data)
         public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
 }

@@ -90,17 +90,14 @@ contract InstrumentV3Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific scheduled event processing.
      * @param issuanceId ID of the issuance.
-     * @param notifierAddress Address of the caller who notifies this scheduled event.
-     * @param eventName Name of the schedule event
-     * @param eventPayload Custom parameters for this scheduled event
-     * @param state The current issuance state
-     * @param escrow The Issuance Escrow for this issuance
+     * @param issuanceParametersData Issuance Parameters.
+     * @param eventName The name of the custom event.
+     * @param eventPayload The custom parameters to the custom event
      */
-    function _processScheduledEvent(uint256 issuanceId, address notifierAddress, string memory eventName, bytes memory eventPayload,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
+    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName, bytes memory eventPayload)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
-        (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).processScheduledEvent(issuanceId,
-            notifierAddress, eventName, eventPayload, state, escrow);
+        (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).processScheduledEvent(
+            issuanceParametersData, eventName, eventPayload);
     }
 }
