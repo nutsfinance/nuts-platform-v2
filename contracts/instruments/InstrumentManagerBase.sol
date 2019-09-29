@@ -473,7 +473,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             engagementTimestamp: property.engagementTimestamp,
             state: uint8(property.state),
             escrowAddress: property.escrowAddress,
-            callerAddress: msg.sender
+            callerAddress: msg.sender,
+            priceOracleAddress: InstrumentConfig(_instrumentConfigAddress).priceOracleAddress()
         });
 
         return IssuanceParameters.encode(issuanceParameters);

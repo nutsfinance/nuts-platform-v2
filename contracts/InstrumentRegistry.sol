@@ -30,15 +30,17 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param depositTokenAddress Address of NUTS token.
      * @param proxyAdminAddress Address of proxy admin.
      * @param timerOracleAddress Address of Timer Oracle
+     * @param priceOracleAddress Address of Price Oracle
      */
     function initialize(address owner, address instrumentManagerFactoryAddress, uint256 instrumentDeposit, uint256 issuanceDeposit,
-        address depositTokenAddress, address proxyAdminAddress, address timerOracleAddress) public {
+        address depositTokenAddress, address proxyAdminAddress, address timerOracleAddress, address priceOracleAddress) public {
         require(address(_instrumentManagerFactory) == address(0x0), "InstrumentRegistry: Already initialized.");
         require(owner != address(0x0), "InstrumentRegistry: Owner must be provided.");
         require(instrumentManagerFactoryAddress != address(0x0), "InstrumentRegistry: Instrument Manager Factory address must be provided.");
         require(depositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
         require(proxyAdminAddress != address(0x0), "InstrumentRegistry: Proxy admin address must be provided.");
         require(timerOracleAddress != address(0x0), "InstrumentRegistry: Timer Oracle address must be provided.");
+        require(priceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
 
         // Set owner
         _transferOwnership(owner);
@@ -51,7 +53,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         DepositEscrow(address(depositEscrowProxy)).initialize(address(this));
 
         InstrumentConfig.initialize(instrumentDeposit, issuanceDeposit, address(depositEscrowProxy), depositTokenAddress,
-            proxyAdminAddress, timerOracleAddress);
+            proxyAdminAddress, timerOracleAddress, priceOracleAddress);
     }
 
     /**

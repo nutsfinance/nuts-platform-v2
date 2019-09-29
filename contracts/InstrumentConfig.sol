@@ -22,18 +22,22 @@ contract InstrumentConfig {
     // Address of Timer Oracle
     // Note: updatable after initialization.
     address public timerOracleAddress;
+    // Address of Price Oracle
+    // Note: Non-updatable after initialization.
+    address public priceOracleAddress;
 
     /**
      * @dev Initialization method for InstrumentConfid.
      * As it's an internal method, it's up to the parent to do parameter validation and re-entrancy check.
      */
     function initialize(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositEscrowAddress,
-        address newDepositTokenAddress, address newProxyAdminAddress, address newTimerOracleAddress) internal {
+        address newDepositTokenAddress, address newProxyAdminAddress, address newTimerOracleAddress, address newPriceOracleAddress) internal {
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositEscrowAddress = newDepositEscrowAddress;
         depositTokenAddress = newDepositTokenAddress;
         proxyAdminAddress = newProxyAdminAddress;
         timerOracleAddress = newTimerOracleAddress;
+        priceOracleAddress = newPriceOracleAddress;
     }
 }

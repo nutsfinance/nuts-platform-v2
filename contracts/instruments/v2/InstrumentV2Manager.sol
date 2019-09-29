@@ -10,6 +10,7 @@ import "./InstrumentV2.sol";
 
 /**
  * @title Instrument Manager for Instrument v2.
+ * A storage contract is created for each issuance.
  */
 contract InstrumentV2Manager is InstrumentManagerBase {
 

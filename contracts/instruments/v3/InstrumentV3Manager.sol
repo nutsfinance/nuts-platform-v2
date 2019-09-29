@@ -7,6 +7,7 @@ import "./InstrumentV3.sol";
 
 /**
  * @title Instrument Manager for Instrument v3.
+ * A storage proxy is created for each issuance.
  */
 contract InstrumentV3Manager is InstrumentManagerBase {
 

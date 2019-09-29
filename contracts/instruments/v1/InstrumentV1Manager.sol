@@ -6,6 +6,7 @@ import "./InstrumentV1.sol";
 
 /**
  * @title Instrument Manager for Instrument v1.
+ * All issuance data are passed in and returned as a string.
  */
 contract InstrumentV1Manager is InstrumentManagerBase {
     // Mapping: Issuance Id => Issuance data
