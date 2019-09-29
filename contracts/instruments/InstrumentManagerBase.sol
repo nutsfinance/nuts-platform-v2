@@ -312,8 +312,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Deposit ETH to Instrument Escrow
         _instrumentEscrow.depositByAdmin.value(amount)(msg.sender);
 
+        // Invoke Instrument
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
-            msg.sender, Constants.getEthAddress(), amount, property.state, EscrowBaseInterface(property.escrowAddress));
+            issuanceParametersData, Constants.getEthAddress(), amount);
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -344,8 +346,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Deposit ERC20 token to Instrument Escrow
         _instrumentEscrow.depositTokenByAdmin(msg.sender, tokenAddress, amount);
 
+        // Invoke Instrument
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
-            msg.sender, tokenAddress, amount, property.state, EscrowBaseInterface(property.escrowAddress));
+            issuanceParametersData, tokenAddress, amount);
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -366,8 +370,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
         require(bytes(eventName).length > 0, "InstrumentManagerBase: Event name must be provided.");
 
+        // Invoke Instrument
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processCustomEvent(issuanceId,
-            msg.sender, eventName, eventPayload, property.state, EscrowBaseInterface(property.escrowAddress));
+            issuanceParametersData, eventName, eventPayload);
 
         property.state = state;
         if (_isIssuanceTerminated(state)) {
@@ -551,27 +557,15 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     /**
      * @dev Instrument type-specific issuance ERC20 withdraw processing.
      * Note: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.
-     * @param issuanceId ID of the issuance.
-     * @param toAddress Address whose balance is the ERC20 token transferred to.
-     * @param tokenAddress The ERC20 token to withdraw.
-     * @param amount Amount of ERC20 token to withdraw.
-     * @param state The current issuance state.
-     * @param escrow The Issuance Escrow for this issuance.
      */
-    function _processTokenWithdraw(uint256 issuanceId, address toAddress, address tokenAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
+    function _processTokenWithdraw(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
+        returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
      * @dev Instrument type-specific custom event processing.
-     * @param issuanceId ID of the issuance.
-     * @param notifierAddress Address of the caller who notifies this custom event
-     * @param eventName Name of the custom event
-     * @param eventPayload Custom parameters for this custom event.
-     * @param state The current issuance state.
-     * @param escrow The Issuance Escrow for this issuance.
      */
-    function _processCustomEvent(uint256 issuanceId, address notifierAddress, string memory eventName, bytes memory eventPayload,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow) internal returns (InstrumentBase.IssuanceStates, bytes memory);
+    function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName,
+        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
      * @dev Instrument type-specific scheduled event processing.
