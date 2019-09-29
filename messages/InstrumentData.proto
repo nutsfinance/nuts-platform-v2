@@ -28,7 +28,7 @@ message IssuanceParameters {
     .solidity.address escrowAddress = 9;                // Address of the issuance escrow.
     .solidity.address callerAddress = 10;               // Address of the caller that triggers the issuance operation.
 
-    // Common parameters in createIssuance(), engagementIssuance(), settleIssuance(),
+    // Common parameters in createIssuance(), engagementIssuance()
     // processCustomEvent() and processScheduledEvent()
     string parameters = 11;                             // Custom parameters
 

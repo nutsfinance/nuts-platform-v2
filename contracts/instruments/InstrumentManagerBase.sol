@@ -219,27 +219,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
-    }
-
-    /**
-     * @dev The caller attempts to complete one settlement.
-     * @param issuanceId The id of the issuance
-     * @param settlerParameters The custom parameters to the settlement
-     */
-    function settleIssuance(uint256 issuanceId, bytes memory settlerParameters) public {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processSettleIssuance(issuanceId,
-            msg.sender, settlerParameters, property.state, EscrowBaseInterface(property.escrowAddress));
-
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -252,6 +232,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
         require(amount > 0, "InstrumentManagerBase: Amount must be set.");
+        // The deposit can only come from issuance maker, issuance taker and instrument broker.
+        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Deposit is not allowed.");
 
         // Withdraw ETH from Instrument Escrow
         _instrumentEscrow.withdrawByAdmin(msg.sender, amount);
@@ -265,7 +247,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -280,6 +262,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
         require(tokenAddress != address(0x0), "InstrumentManagerBase: Token address must be set.");
         require(amount > 0, "InstrumentManagerBase: Amount must be set.");
+        // The deposit can only come from issuance maker, issuance taker and instrument broker.
+        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Deposit is not allowed.");
 
         // Withdraw ERC20 token from Instrument Escrow
         _instrumentEscrow.withdrawTokenByAdmin(msg.sender, tokenAddress, amount);
@@ -295,7 +279,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -308,6 +292,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
         require(amount > 0, "InstrumentManagerBase: Amount must be set.");
+        // The withdraw can only come from issuance maker, issuance taker and instrument broker.
+        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Withdrawal is not allowed.");
 
         // Withdraw ETH from Issuance Escrow
         IssuanceEscrow(property.escrowAddress).withdrawByAdmin(msg.sender, amount);
@@ -321,7 +307,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -336,6 +322,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
         require(tokenAddress != address(0x0), "InstrumentManagerBase: Token address must be set.");
         require(amount > 0, "InstrumentManagerBase: Amount must be set.");
+        // The withdraw can only come from issuance maker, issuance taker and instrument broker.
+        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Withdrawal is not allowed.");
 
         // Withdraw ERC20 token from Issuance Escrow
         IssuanceEscrow(property.escrowAddress).withdrawTokenByAdmin(msg.sender, tokenAddress, amount);
@@ -351,7 +339,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -373,7 +361,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -396,7 +384,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_isIssuanceTerminated(state)) {
             _returnIssuanceDeposit(issuanceId);
         }
-        _processTransfers(property.escrowAddress, transfersData);
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -440,6 +428,17 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     }
 
     /**
+     * @dev Determines whether the target address can take part in a transfer action.
+     * For one issuance, only the issuance maker, issuance taker and instrument broker can
+     * deposit to or withdraw from the issuance.
+     */
+    function _isTransferAllowed(uint256 issuanceId, address targetAddress) internal view returns (bool) {
+        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        return property.makerAddress == targetAddress || property.takerAddress == targetAddress
+            || _brokerAddress == targetAddress;
+    }
+
+    /**
      * @dev Return the deposited NUTS token to the maker.
      */
     function _returnIssuanceDeposit(uint256 issuanceId) internal {
@@ -457,11 +456,16 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     /**
      * @dev Process the transfers triggered by Instrumetns.
      */
-    function _processTransfers(address issuanceEscrowAddress, bytes memory transfersData) internal {
+    function _processTransfers(uint256 issuanceId, bytes memory transfersData) internal {
         Transfers.Data memory transfers = Transfers.decode(transfersData);
-        IssuanceEscrow issuanceEscrow = IssuanceEscrow(issuanceEscrowAddress);
+        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        IssuanceEscrow issuanceEscrow = IssuanceEscrow(property.escrowAddress);
         for (uint256 i = 0; i < transfers.actions.length; i++) {
             Transfer.Data memory transfer = transfers.actions[i];
+            // The transfer can only come from issuance maker, issuance taker and instrument broker.
+            require(_isTransferAllowed(issuanceId, transfer.fromAddress), "InstrumentManagerBase: Transfer source is not allowed.");
+            // The transfer can only send to issuance maker, issuance taker and instrument broker.
+            require(_isTransferAllowed(issuanceId, transfer.toAddress), "InstrumentManagerBase: Transfer target is not allowed.");
             // Check wether it's an outbound transfer
             if (transfer.isOutbound) {
                 if (transfer.isEther) {

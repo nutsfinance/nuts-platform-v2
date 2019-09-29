@@ -52,13 +52,6 @@ interface InstrumentManagerInterface {
     function engageIssuance(uint256 issuanceId, bytes calldata buyerParameters) external;
 
     /**
-     * @dev The caller attempts to complete one settlement.
-     * @param issuanceId The id of the issuance
-     * @param settlerParameters The custom parameters to the settlement
-     */
-    function settleIssuance(uint256 issuanceId, bytes calldata settlerParameters) external;
-
-    /**
      * @dev The caller deposits ETH, which is currently deposited in Instrument Escrow, into issuance.
      * @param issuanceId The id of the issuance
      * @param amount The amount of ERC20 token transfered
