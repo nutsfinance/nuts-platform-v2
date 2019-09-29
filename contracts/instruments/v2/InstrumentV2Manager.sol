@@ -32,7 +32,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         // Temporary grant writer role
         issuanceStorage.addWriter(_instrumentAddress);
 
-        updatedState = InstrumentV2(_instrumentAddress).createIssuance(issuanceParametersData, issuanceParametersData, issuanceStorage);
+        updatedState = InstrumentV2(_instrumentAddress).createIssuance(issuanceParametersData, makerParameters, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);
@@ -63,15 +63,18 @@ contract InstrumentV2Manager is InstrumentManagerBase {
      * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
      * @param issuanceId ID of the issuance.
      * @param issuanceParametersData Issuance Parameters.
+     * @param tokenAddress The address of the ERC20 token to deposit.
+     * @param amount The amount of ERC20 token deposited.
      */
-    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData) internal
+    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
         returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
         UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
-        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processTokenDeposit(issuanceParametersData, issuanceStorage);
+        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processTokenDeposit(issuanceParametersData,
+            tokenAddress, amount, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);

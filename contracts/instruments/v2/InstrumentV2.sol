@@ -33,13 +33,15 @@ contract InstrumentV2 is InstrumentBase {
     /**
      * @dev An account has made an ERC20 token deposit to the issuance
      * @param issuanceParametersData Issuance Parameters.
+     * @param tokenAddress The address of the ERC20 token to deposit.
+     * @param amount The amount of ERC20 token deposited.
      * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processTokenDeposit(bytes memory issuanceParametersData, StorageInterface issuanceStorage) public
-        returns (IssuanceStates updatedState, bytes memory transfersData);
+    function processTokenDeposit(bytes memory issuanceParametersData, address tokenAddress, uint256 amount,
+        StorageInterface issuanceStorage) public returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token withdraw from the issuance

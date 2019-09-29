@@ -21,7 +21,7 @@ contract InstrumentV1Manager is InstrumentManagerBase {
         returns (InstrumentBase.IssuanceStates updatedState) {
 
         (updatedState, _issuanceData[issuanceId]) = InstrumentV1(_instrumentAddress)
-            .createIssuance(issuanceParametersData, issuanceParametersData);
+            .createIssuance(issuanceParametersData, makerParameters);
     }
 
     /**
@@ -41,18 +41,15 @@ contract InstrumentV1Manager is InstrumentManagerBase {
      * @dev Instrument type-specific issuance ERC20 token deposit processing.
      * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
      * @param issuanceId ID of the issuance.
-     * @param fromAddress Address whose balance is the ERC20 token transferred from.
-     * @param tokenAddress Address the deposited ERC20 token.
-     * @param amount Amount of ERC20 deposited.
-     * @param state The current issuance state.
-     * @param escrow The Issuance Escrow for this issuance.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param tokenAddress The address of the ERC20 token to deposit.
+     * @param amount The amount of ERC20 token deposited.
      */
-    function _processTokenDeposit(uint256 issuanceId, address fromAddress, address tokenAddress, uint256 amount,
-        InstrumentBase.IssuanceStates state, EscrowBaseInterface escrow)
+    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
-        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).processTokenDeposit(issuanceId,
-            fromAddress, tokenAddress, amount, _issuanceData[issuanceId], state, escrow);
+        (updatedState, _issuanceData[issuanceId], transfersData) = InstrumentV1(_instrumentAddress).processTokenDeposit(
+            issuanceParametersData, tokenAddress, amount, _issuanceData[issuanceId]);
     }
 
     /**
