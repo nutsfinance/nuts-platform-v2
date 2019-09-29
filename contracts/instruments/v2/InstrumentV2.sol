@@ -11,13 +11,11 @@ import "../../storage/StorageInterface.sol";
 contract InstrumentV2 is InstrumentBase {
        /**
      * @dev Create a new issuance of the financial instrument
-     * @param issuanceId The id of the issuance
-     * @param makerAddress The address of the maker who creates this issuance
-     * @param makerParameters The custom parameters to the newly created issuance
+     * @param issuanceParametersData Issuance Parameters.
      * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
      */
-    function createIssuance(uint256 issuanceId, address makerAddress, bytes memory makerParameters, StorageInterface issuanceStorage)
+    function createIssuance(bytes memory issuanceParametersData, StorageInterface issuanceStorage)
         public returns (IssuanceStates updatedState);
 
     /**

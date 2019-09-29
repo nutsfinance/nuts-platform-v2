@@ -320,7 +320,7 @@ library IssuanceParameters {
     uint8 state;
     address escrowAddress;
     address callerAddress;
-    string parameters;
+    string customParameters;
     address tokenAddress;
     uint256 amount;
     string eventName;
@@ -400,7 +400,7 @@ library IssuanceParameters {
         pointer += _read_callerAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 11) {
-        pointer += _read_parameters(pointer, bs, r, counters);
+        pointer += _read_customParameters(pointer, bs, r, counters);
       }
       else if(fieldId == 12) {
         pointer += _read_tokenAddress(pointer, bs, r, counters);
@@ -667,7 +667,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_parameters(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
+  function _read_customParameters(uint p, bytes memory bs, Data memory r, uint[15] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -675,7 +675,7 @@ library IssuanceParameters {
     if(isNil(r)) {
       counters[11] += 1;
     } else {
-      r.parameters = x;
+      r.customParameters = x;
       if(counters[11] > 0) counters[11] -= 1;
     }
     return sz;
@@ -798,7 +798,7 @@ library IssuanceParameters {
     pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.callerAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_string(r.parameters, pointer, bs);
+    pointer += ProtoBufRuntime._encode_string(r.customParameters, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(12, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(13, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
@@ -853,7 +853,7 @@ library IssuanceParameters {
     e += 1 + 4;
     e += 1 + 23;
     e += 1 + 23;
-    e += 1 + ProtoBufRuntime._sz_lendelim(bytes(r.parameters).length);
+    e += 1 + ProtoBufRuntime._sz_lendelim(bytes(r.customParameters).length);
     e += 1 + 23;
     e += 1 + 35;
     e += 1 + ProtoBufRuntime._sz_lendelim(bytes(r.eventName).length);
@@ -877,7 +877,7 @@ library IssuanceParameters {
     output.state = input.state;
     output.escrowAddress = input.escrowAddress;
     output.callerAddress = input.callerAddress;
-    output.parameters = input.parameters;
+    output.customParameters = input.customParameters;
     output.tokenAddress = input.tokenAddress;
     output.amount = input.amount;
     output.eventName = input.eventName;

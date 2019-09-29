@@ -178,10 +178,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             DepositEscrow(config.depositEscrowAddress()).depositToken(IERC20(config.depositTokenAddress()), config.issuanceDeposit());
         }
 
-        // Invoke Instrument
+        // Get issuance Id
         uint256 issuanceId = _lastIssuanceId;
         _lastIssuanceId++;
-        InstrumentBase.IssuanceStates state = _processCreateIssuance(issuanceId, msg.sender, makerParameters);
 
         // Create Issuance Escrow
         IssuanceEscrow issuanceEscrow = new IssuanceEscrow();
@@ -190,16 +189,19 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         IssuanceEscrow(address(issuanceEscrowProxy)).initialize(address(this));
 
         // Create Issuance Property
-        IssuanceProperty memory property = IssuanceProperty({
+        _issuanceProperties[issuanceId] = IssuanceProperty({
             makerAddress: msg.sender,
             creationTimestamp: now,
             takerAddress: address(0x0),
             engagementTimestamp: 0,
             deposit: config.issuanceDeposit(),
             escrowAddress: address(issuanceEscrowProxy),
-            state: state
+            state: InstrumentBase.IssuanceStates.Initiated
         });
-        _issuanceProperties[issuanceId] = property;
+
+        // Invoke Instrument
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, string(makerParameters), address(0x0), 0, '');
+        _issuanceProperties[issuanceId].state = _processCreateIssuance(issuanceId, issuanceParametersData);
     }
 
     /**
@@ -440,6 +442,32 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     }
 
     /**
+     * @dev Get issuance parameters passed to Instruments.
+     */
+    function _getIssuanceParameters(uint256 issuanceId, string memory customParameters, address tokenAddress, uint256 amount,
+        string memory eventName) private view returns (bytes memory) {
+        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.Data({
+            issuanceId: issuanceId,
+            fspAddress: _fspAddress,
+            brokerAddress: _brokerAddress,
+            makerAddress: property.makerAddress,
+            creationTimestamp: property.creationTimestamp,
+            takerAddress: property.takerAddress,
+            engagementTimestamp: property.engagementTimestamp,
+            state: uint8(property.state),
+            escrowAddress: property.escrowAddress,
+            callerAddress: msg.sender,
+            customParameters: customParameters,
+            tokenAddress: tokenAddress,
+            amount: amount,
+            eventName: eventName
+        });
+
+        return IssuanceParameters.encode(issuanceParameters);
+    }
+
+    /**
      * @dev Return the deposited NUTS token to the maker.
      */
     function _returnIssuanceDeposit(uint256 issuanceId) internal {
@@ -499,12 +527,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
 
     /**
      * @dev Instrument type-specific issuance creation processing.
-     * @param issuanceId ID of the issuance.
-     * @param makerAddress Address of the maker which creates the new issuance.
-     * @param makerParameters Custom issuance parameters.
      */
-    function _processCreateIssuance(uint256 issuanceId, address makerAddress, bytes memory makerParameters)
-        internal returns (InstrumentBase.IssuanceStates);
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal returns (InstrumentBase.IssuanceStates);
 
     /**
      * @dev Instrument type-specific issuance engage processing.

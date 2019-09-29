@@ -30,7 +30,7 @@ message IssuanceParameters {
 
     // Common parameters in createIssuance(), engagementIssuance()
     // processCustomEvent() and processScheduledEvent()
-    string parameters = 11;                             // Custom parameters
+    string customParameters = 11;                             // Custom parameters
 
     // Common parameters in processDeposit() and processWithdraw()
     .solidity.address tokenAddress = 12;                // Adress of the token deposited/withdrawn.

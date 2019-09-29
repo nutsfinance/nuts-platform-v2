@@ -14,14 +14,12 @@ contract InstrumentV1Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
-     * @param makerAddress Address of the maker which creates the new issuance.
-     * @param makerParameters Custom issuance parameters.
+     * @param issuanceParametersData Issuance Parameters.
      */
-    function _processCreateIssuance(uint256 issuanceId, address makerAddress, bytes memory makerParameters)
-        internal returns (InstrumentBase.IssuanceStates updatedState) {
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+        returns (InstrumentBase.IssuanceStates updatedState) {
 
-        (updatedState, _issuanceData[issuanceId]) = InstrumentV1(_instrumentAddress).createIssuance(issuanceId,
-            makerAddress, makerParameters);
+        (updatedState, _issuanceData[issuanceId]) = InstrumentV1(_instrumentAddress).createIssuance(issuanceParametersData);
     }
 
     /**

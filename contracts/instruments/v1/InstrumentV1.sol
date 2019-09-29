@@ -10,14 +10,11 @@ import "../InstrumentBase.sol";
 contract InstrumentV1 is InstrumentBase {
     /**
      * @dev Create a new issuance of the financial instrument
-     * @param issuanceId The id of the issuance
-     * @param makerAddress The address of the maker who creates this issuance
-     * @param makerParameters The custom parameters to the newly created issuance
+     * @param issuanceParametersData Issuance Parameters.
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      */
-    function createIssuance(uint256 issuanceId, address makerAddress, bytes memory makerParameters)
-        public returns (IssuanceStates updatedState, bytes memory updatedData);
+    function createIssuance(bytes memory issuanceParametersData) public returns (IssuanceStates updatedState, bytes memory updatedData);
 
     /**
      * @dev A taker engages to the issuance

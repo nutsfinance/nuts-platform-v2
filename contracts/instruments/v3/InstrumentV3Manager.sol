@@ -16,11 +16,10 @@ contract InstrumentV3Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
-     * @param makerAddress Address of the maker which creates the new issuance.
-     * @param makerParameters Custom issuance parameters.
+     * @param issuanceParametersData Issuance Parameters.
      */
-    function _processCreateIssuance(uint256 issuanceId, address makerAddress, bytes memory makerParameters)
-        internal returns (InstrumentBase.IssuanceStates updatedState) {
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData) internal
+        returns (InstrumentBase.IssuanceStates updatedState) {
 
         // Create an AdminOnlyUpgradeabilityProxy for the new issuance
         // Current Instrument Manager is the proxy admin for this proxy, and only the current
@@ -28,8 +27,7 @@ contract InstrumentV3Manager is InstrumentManagerBase {
         AdminOnlyUpgradeabilityProxy proxy = new AdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this), new bytes(0));
         _issuanceProxies[issuanceId] = address(proxy);
 
-        (updatedState) = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceId,
-            makerAddress, makerParameters);
+        updatedState = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceParametersData);
     }
 
     /**
