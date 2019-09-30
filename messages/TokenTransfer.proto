@@ -8,18 +8,16 @@ import "SolidityTypes.proto";
  * to Instrument Escrow, or inside the same Issuance Escrow. 
  */
 message Transfer {
-    // Whether it's ETH transfer. When set to true, tokenAddress is not used.
-    bool isEther = 1;
     // Whether it's an outbound transfer.
     // If true, the transfer is from Issuance Escrow to Instrument Escrow.
     // If false, the transfer is done inside the Issuance Escrow.
-    bool isOutbound = 2;
+    bool outbound = 1;
     // Where the token is transferred from.
-    .solidity.address fromAddress = 3;
+    .solidity.address fromAddress = 2;
     // Where the token is transferred to.
-    .solidity.address toAddress = 4;
-    .solidity.address tokenAddress = 5;
-    .solidity.uint256 amount = 6;
+    .solidity.address toAddress = 3;
+    .solidity.address tokenAddress = 4;
+    .solidity.uint256 amount = 5;
 }
 
 /**

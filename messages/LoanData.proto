@@ -3,10 +3,10 @@ syntax = "proto3";
 import "SolidityTypes.proto";
 
 /**
- * Represents the input parameters from sellers in
+ * Represents the input parameters from makers in
  * creating new loan issuance.
  */
-message SellerParameters {
+message MakerParameters {
   .solidity.address collateralTokenAddress = 1;
   .solidity.address lendingTokenAddress = 2;
   .solidity.uint256 lendingAmount = 3;

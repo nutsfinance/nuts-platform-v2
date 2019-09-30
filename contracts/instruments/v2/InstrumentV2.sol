@@ -12,11 +12,11 @@ contract InstrumentV2 is InstrumentBase {
        /**
      * @dev Create a new issuance of the financial instrument
      * @param issuanceParametersData Issuance Parameters.
-     * @param makerParameters The custom parameters to the newly created issuance
+     * @param makerParametersData The custom parameters to the newly created issuance
      * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
      */
-    function createIssuance(bytes memory issuanceParametersData, bytes memory makerParameters, StorageInterface issuanceStorage)
+    function createIssuance(bytes memory issuanceParametersData, bytes memory makerParametersData, StorageInterface issuanceStorage)
         public returns (IssuanceStates updatedState);
 
     /**

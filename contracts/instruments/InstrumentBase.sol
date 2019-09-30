@@ -11,8 +11,8 @@ contract InstrumentBase {
         Initiated,
         // The issuance is ready for engagement
         Engageable,
-        // The issuance is active
-        Active,
+        // The issuance is engaged
+        Engaged,
         // The issuance fails to meet the requirements make it engageable.
         // Unfunded is a terminating state.
         Unfunded,

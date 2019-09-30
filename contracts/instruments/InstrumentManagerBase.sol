@@ -212,8 +212,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     function engageIssuance(uint256 issuanceId, bytes memory takerParameters) public {
         require(_isTakerAllowed(msg.sender), "InstrumentManagerBase: Not an eligible taker.");
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        require(property.state == InstrumentBase.IssuanceStates.Engageable, "InstrumentManagerBase: Issuance not engageable.");
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
 
         property.takerAddress = msg.sender;
         property.engagementTimestamp = now;
@@ -509,8 +509,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             // The transfer can only send to issuance maker, issuance taker and instrument broker.
             require(_isTransferAllowed(issuanceId, transfer.toAddress), "InstrumentManagerBase: Transfer target is not allowed.");
             // Check wether it's an outbound transfer
-            if (transfer.isOutbound) {
-                if (transfer.isEther) {
+            if (transfer.outbound) {
+                if (transfer.tokenAddress == Constants.getEthAddress()) {
                     // First withdraw ETH from Issuance Escrow to owner
                     issuanceEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
                     // Then deposit the ETH from owner to Instrument Escrow
@@ -525,7 +525,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
                 }
             } else {
                 // It's a transfer inside the issuance escrow
-                if (transfer.isEther) {
+                if (transfer.tokenAddress == Constants.getEthAddress()) {
                     issuanceEscrow.transfer(transfer.fromAddress, transfer.toAddress, transfer.amount);
                 } else {
                     issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
@@ -541,7 +541,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     /**
      * @dev Instrument type-specific issuance creation processing.
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
         returns (InstrumentBase.IssuanceStates);
 
     /**

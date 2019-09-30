@@ -20,10 +20,10 @@ contract InstrumentV2Manager is InstrumentManagerBase {
     /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
-     * @param makerParameters The custom parameters to the newly created issuance
+     * @param makerParametersData The custom parameters to the newly created issuance
      * @param issuanceParametersData Issuance Parameters.
      */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
         returns (InstrumentBase.IssuanceStates updatedState) {
 
         // Create storage contract
@@ -33,7 +33,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         // Temporary grant writer role
         issuanceStorage.addWriter(_instrumentAddress);
 
-        updatedState = InstrumentV2(_instrumentAddress).createIssuance(issuanceParametersData, makerParameters, issuanceStorage);
+        updatedState = InstrumentV2(_instrumentAddress).createIssuance(issuanceParametersData, makerParametersData, issuanceStorage);
 
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);

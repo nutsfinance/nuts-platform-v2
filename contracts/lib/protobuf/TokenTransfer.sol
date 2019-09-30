@@ -6,8 +6,7 @@ library Transfer {
 
   //struct definition
   struct Data {
-    bool isEther;
-    bool isOutbound;
+    bool outbound;
     address fromAddress;
     address toAddress;
     address tokenAddress;
@@ -48,7 +47,7 @@ library Transfer {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[7] memory counters;
+    uint[6] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -58,21 +57,18 @@ library Transfer {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
       if(fieldId == 1) {
-        pointer += _read_isEther(pointer, bs, r, counters);
+        pointer += _read_outbound(pointer, bs, r, counters);
       }
       else if(fieldId == 2) {
-        pointer += _read_isOutbound(pointer, bs, r, counters);
-      }
-      else if(fieldId == 3) {
         pointer += _read_fromAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if(fieldId == 3) {
         pointer += _read_toAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if(fieldId == 4) {
         pointer += _read_tokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 6) {
+      else if(fieldId == 5) {
         pointer += _read_amount(pointer, bs, r, counters);
       }
       else {
@@ -111,7 +107,7 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_isEther(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_outbound(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -119,7 +115,7 @@ library Transfer {
     if(isNil(r)) {
       counters[1] += 1;
     } else {
-      r.isEther = x;
+      r.outbound = x;
       if(counters[1] > 0) counters[1] -= 1;
     }
     return sz;
@@ -133,15 +129,15 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_isOutbound(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_fromAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (bool x, uint sz) = ProtoBufRuntime._decode_bool(p, bs);
+    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
     if(isNil(r)) {
       counters[2] += 1;
     } else {
-      r.isOutbound = x;
+      r.fromAddress = x;
       if(counters[2] > 0) counters[2] -= 1;
     }
     return sz;
@@ -155,7 +151,7 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_fromAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_toAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -163,7 +159,7 @@ library Transfer {
     if(isNil(r)) {
       counters[3] += 1;
     } else {
-      r.fromAddress = x;
+      r.toAddress = x;
       if(counters[3] > 0) counters[3] -= 1;
     }
     return sz;
@@ -177,7 +173,7 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_toAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -185,7 +181,7 @@ library Transfer {
     if(isNil(r)) {
       counters[4] += 1;
     } else {
-      r.toAddress = x;
+      r.tokenAddress = x;
       if(counters[4] > 0) counters[4] -= 1;
     }
     return sz;
@@ -199,38 +195,16 @@ library Transfer {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
-    /**
-     * if `r` is NULL, then only counting the number of fields.
-     */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
-      counters[5] += 1;
-    } else {
-      r.tokenAddress = x;
-      if(counters[5] > 0) counters[5] -= 1;
-    }
-    return sz;
-  }
-
-  /**
-   * @dev The decoder for reading a field
-   * @param p The offset of bytes array to start decode
-   * @param bs The bytes array to be decoded
-   * @param r The in-memory struct
-   * @param counters The counters for repeated fields
-   * @return The number of bytes decoded
-   */
-  function _read_amount(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_amount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
     (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
     if(isNil(r)) {
-      counters[6] += 1;
+      counters[5] += 1;
     } else {
       r.amount = x;
-      if(counters[6] > 0) counters[6] -= 1;
+      if(counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -266,16 +240,14 @@ library Transfer {
     uint pointer = p;
     
     pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.Varint, pointer, bs);
-    pointer += ProtoBufRuntime._encode_bool(r.isEther, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.Varint, pointer, bs);
-    pointer += ProtoBufRuntime._encode_bool(r.isOutbound, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_bool(r.outbound, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.fromAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.toAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint256(r.amount, pointer, bs);
     return pointer - offset;
   }
@@ -315,7 +287,6 @@ library Transfer {
   function _estimate(Data memory /* r */) internal pure returns (uint) {
     uint e;
     e += 1 + 1;
-    e += 1 + 1;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 23;
@@ -330,8 +301,7 @@ library Transfer {
    * @param output The in-storage struct
    */
   function store(Data memory input, Data storage output) internal {
-    output.isEther = input.isEther;
-    output.isOutbound = input.isOutbound;
+    output.outbound = input.outbound;
     output.fromAddress = input.fromAddress;
     output.toAddress = input.toAddress;
     output.tokenAddress = input.tokenAddress;
