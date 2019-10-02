@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "./InstrumentEscrow.sol";
+import "./InstrumentEscrowInterface.sol";
 
 /**
  * @title Escrow to hold the deposited NUTS token.
@@ -8,5 +8,5 @@ import "./InstrumentEscrow.sol";
  * 1. Deposit Escrow is owned by Instrument Registry instead of Instrument Manager;
  * 2. Deposit Escrow is used to hold NUTS token.
  */
-contract DepositEscrow is InstrumentEscrow {
+contract DepositEscrowInterface is InstrumentEscrowInterface {
 }

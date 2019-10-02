@@ -3,11 +3,12 @@ pragma solidity ^0.5.0;
 import "../lib/util/Constants.sol";
 import "../lib/token/IERC20.sol";
 import "./EscrowBase.sol";
+import "./IssuanceEscrowInterface.sol";
 
 /**
  * @title Issuance Escrow that keeps assets that are locked by issuance.
  */
-contract IssuanceEscrow is EscrowBase {
+contract IssuanceEscrow is EscrowBase, IssuanceEscrowInterface {
 
     /**
      * @dev Transfers the ownership of ETH in this escrow.

@@ -9,6 +9,13 @@ import "../lib/token/IERC20.sol";
 contract EscrowBaseInterface {
 
     /**
+     * @dev IMPORTANT: Initialization method for all escrows to update the owner.
+     * This function must be invoked immediately after creating the proxy and updating implementation.
+     * If it's invoked in a separate transaction, it's possible that it's already invoked by someone else.
+     */
+    function initialize(address newOwner) public;
+
+    /**
      * @dev Get the current ETH balance of an account in the escrow.
      * @param account The account to check ETH balance.
      * @return Current ETH balance of the account.
@@ -29,4 +36,35 @@ contract EscrowBaseInterface {
      * @return The list of tokens deposited in the escrow.
      */
     function getTokenList(address account) public view returns (address[] memory tokens);
+
+    /**
+     * @dev Deposits ETH from Instrument Manager into an account.
+     * @param account The account to deposit ETH.
+     */
+    function depositByAdmin(address account) public payable;
+
+    /**
+     * @dev Deposits ERC20 tokens from Instrument Manager into an account.
+     * Note: The owner, i.e. Instrument Manager must set the allowance before hand.
+     * @param account The account to deposit ERC20 tokens.
+     * @param token The ERC20 token to deposit.
+     * @param amount The amount of ERC20 token to deposit.
+     */
+    function depositTokenByAdmin(address account, address token, uint256 amount) public;
+
+    /**
+     * @dev Withdraw ETH from an account to Instrument Manager.
+     * @param account The account to withdraw ETH.
+     * @param amount The amount of ETH to withdraw.
+     */
+    function withdrawByAdmin(address account, uint256 amount) public;
+
+    /**
+     * @dev Withdraw ERC20 token from an account to Instrument Manager.
+     * The transfer action is done inside this function.
+     * @param account The account to withdraw ERC20 token.
+     * @param token The ERC20 token to withdraw.
+     * @param amount The amount of ERC20 tokens to withdraw.
+     */
+    function withdrawTokenByAdmin(address account, address token, uint256 amount) public;
 }

@@ -6,7 +6,7 @@ import "../InstrumentConfig.sol";
 import "../access/TimerOracleRole.sol";
 import "../escrow/InstrumentEscrow.sol";
 import "../escrow/IssuanceEscrow.sol";
-import "../escrow/DepositEscrow.sol";
+import "../escrow/DepositEscrowInterface.sol";
 import "../lib/token/IERC20.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
@@ -124,7 +124,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (_depositAmount > 0) {
             // Withdraw NUTS token from Deposit Escrow
             InstrumentConfig config = InstrumentConfig(_instrumentConfigAddress);
-            DepositEscrow depositEscrow = DepositEscrow(config.depositEscrowAddress());
+            DepositEscrowInterface depositEscrow = DepositEscrowInterface(config.depositEscrowAddress());
             depositEscrow.withdrawToken(IERC20(config.depositTokenAddress()), _depositAmount);
 
             // Transfer to FSP
@@ -175,7 +175,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             // Deposit NUTS token to Deposit Escrow
             IERC20(config.depositTokenAddress()).safeApprove(config.depositEscrowAddress(), config.issuanceDeposit());
             // Note: The owner of Deposit Escrow is Instrument Registry, not Instrument Manager!
-            DepositEscrow(config.depositEscrowAddress()).depositToken(IERC20(config.depositTokenAddress()), config.issuanceDeposit());
+            DepositEscrowInterface(config.depositEscrowAddress()).depositToken(IERC20(config.depositTokenAddress()), config.issuanceDeposit());
         }
 
         // Get issuance Id
@@ -488,7 +488,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         if (property.deposit > 0) {
             // Withdraws NUTS token
             InstrumentConfig config = InstrumentConfig(_instrumentConfigAddress);
-            DepositEscrow(config.depositEscrowAddress()).withdrawToken(IERC20(config.depositTokenAddress()), property.deposit);
+            DepositEscrowInterface(config.depositEscrowAddress()).withdrawToken(IERC20(config.depositTokenAddress()), property.deposit);
 
             // Transfer NUTS token to maker
             IERC20(config.depositTokenAddress()).safeTransfer(property.makerAddress, property.deposit);
