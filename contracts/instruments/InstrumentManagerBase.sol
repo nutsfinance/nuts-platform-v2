@@ -4,9 +4,10 @@ import "./InstrumentManagerInterface.sol";
 import "./InstrumentBase.sol";
 import "../InstrumentConfig.sol";
 import "../access/TimerOracleRole.sol";
-import "../escrow/InstrumentEscrow.sol";
-import "../escrow/IssuanceEscrow.sol";
+import "../escrow/InstrumentEscrowInterface.sol";
+import "../escrow/IssuanceEscrowInterface.sol";
 import "../escrow/DepositEscrowInterface.sol";
+import "../escrow/EscrowFactoryInterface.sol";
 import "../lib/token/IERC20.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
@@ -56,10 +57,19 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     address internal _fspAddress;
     address internal _brokerAddress;
     address internal _instrumentAddress;
-    address internal _instrumentConfigAddress;
     uint256 internal _lastIssuanceId;
+    // Amount of NUTS token deposited in creating this Instrument Manager.
+    // As instrument deposit might change over time, Instrument Manager should remember the amount
+    // of NUTS token deposited.
     uint256 internal _depositAmount;
-    InstrumentEscrow internal _instrumentEscrow;
+    InstrumentConfig internal _instrumentConfig;
+    // Instrument Escrow is singleton per each Instrument Manager.
+    InstrumentEscrowInterface internal _instrumentEscrow;
+    // Issuance Escrow is singleton per issuance. However, since we are using proxy to store the data,
+    // all Issuance Escrows can share the same implementation.
+    IssuanceEscrowInterface internal _issuanceEscrow;
+    // We can derive the list of issuance id as [1, 2, 3, ..., _lastIssuanceId - 1]
+    // so we don't need a separate array to store the issuance id list.
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
 
     /**
@@ -85,32 +95,35 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         _startTimestamp = now;
         _makerWhitelistEnabled = parameters.supportMakerWhitelist;
         _takerWhitelistEnabled = parameters.supportTakerWhitelist;
+        _instrumentConfig = InstrumentConfig(instrumentConfigAddress);
 
         // Set Timer Oracle Role
-        _addTimerOracle(InstrumentConfig(_instrumentConfigAddress).timerOracleAddress());
+        _addTimerOracle(_instrumentConfig.timerOracleAddress());
         _fspAddress = fspAddress;
         // If broker address is not provided, default to fsp address.
         _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;
         _instrumentAddress = instrumentAddress;
-        _instrumentConfigAddress = instrumentConfigAddress;
         _lastIssuanceId = 1;
-        _depositAmount = InstrumentConfig(_instrumentConfigAddress).instrumentDeposit();
+        _depositAmount = _instrumentConfig.instrumentDeposit();
 
         // Create Instrument Escrow
-        InstrumentEscrow instrumentEscrow = new InstrumentEscrow();
+        InstrumentEscrowInterface instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress()).createInstrumentEscrow();
         AdminUpgradeabilityProxy instrumentEscrowProxy = new AdminUpgradeabilityProxy(address(instrumentEscrow),
-            InstrumentConfig(_instrumentConfigAddress).proxyAdminAddress(), new bytes(0));
+            _instrumentConfig.proxyAdminAddress(), new bytes(0));
         // The owner of Instrument Escrow is Instrument Manager
-        IssuanceEscrow(address(instrumentEscrowProxy)).initialize(address(this));
+        _instrumentEscrow = InstrumentEscrowInterface(address(instrumentEscrowProxy));
+        _instrumentEscrow.initialize(address(this));
 
-        _instrumentEscrow = InstrumentEscrow(address(instrumentEscrowProxy));
+        // Create Issuance Escrow. This serves as the implementation for Issuance Escrow proxies,
+        // as all Issuance Escrows can share the same implementation.
+        _issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress()).createIssuanceEscrow();
     }
 
     /**
-     * @dev Get the address of Instrument Escrow.
+     * @dev Get the Instrument Escrow.
      */
-    function getInstrumentEscrow() public returns (address) {
-        return address(_instrumentEscrow);
+    function getInstrumentEscrow() public returns (InstrumentEscrowInterface) {
+        return _instrumentEscrow;
     }
 
     /**
@@ -123,12 +136,11 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Return the deposited NUTS token
         if (_depositAmount > 0) {
             // Withdraw NUTS token from Deposit Escrow
-            InstrumentConfig config = InstrumentConfig(_instrumentConfigAddress);
-            DepositEscrowInterface depositEscrow = DepositEscrowInterface(config.depositEscrowAddress());
-            depositEscrow.withdrawToken(IERC20(config.depositTokenAddress()), _depositAmount);
+            DepositEscrowInterface depositEscrow = DepositEscrowInterface(_instrumentConfig.depositEscrowAddress());
+            depositEscrow.withdrawToken(IERC20(_instrumentConfig.depositTokenAddress()), _depositAmount);
 
             // Transfer to FSP
-            IERC20(config.depositTokenAddress()).safeTransfer(_fspAddress, _depositAmount);
+            IERC20(_instrumentConfig.depositTokenAddress()).safeTransfer(_fspAddress, _depositAmount);
         }
 
         _active = false;
@@ -159,6 +171,16 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     }
 
     /**
+     * @dev A special function for proxy admin to update the shared Issuance Escrow implementation.
+     * Note that this only chnage the implementation for Issuance Escrow of newly created issuances.
+     * Updating implementation for existing Issuance Escrow should be performed individually.
+     */
+    function updateIssuanceEscrow() public {
+        require(msg.sender == _instrumentConfig.proxyAdminAddress(), "InstrumentManagerBase: Only Proxy admin can update Issuance Escrow.");
+        _issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress()).createIssuanceEscrow();
+    }
+
+    /**
      * @dev Create a new issuance of the financial instrument
      * @param makerParameters The custom parameters to the newly created issuance
      * @return The id of the newly created issuance.
@@ -168,25 +190,26 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(_isMakerAllowed(msg.sender), "InstrumentManagerBase: Not an eligible maker.");
 
         // Deposit NUTS token
-        InstrumentConfig config = InstrumentConfig(_instrumentConfigAddress);
-        if (config.issuanceDeposit() > 0) {
+        if (_instrumentConfig.issuanceDeposit() > 0) {
             // Withdraw NUTS token from Instrument Escrow
-            _instrumentEscrow.withdrawTokenByAdmin(msg.sender, config.depositTokenAddress(), config.issuanceDeposit());
+            _instrumentEscrow.withdrawTokenByAdmin(msg.sender, _instrumentConfig.depositTokenAddress(), _instrumentConfig.issuanceDeposit());
             // Deposit NUTS token to Deposit Escrow
-            IERC20(config.depositTokenAddress()).safeApprove(config.depositEscrowAddress(), config.issuanceDeposit());
+            IERC20(_instrumentConfig.depositTokenAddress()).safeApprove(_instrumentConfig.depositEscrowAddress(), _instrumentConfig.issuanceDeposit());
             // Note: The owner of Deposit Escrow is Instrument Registry, not Instrument Manager!
-            DepositEscrowInterface(config.depositEscrowAddress()).depositToken(IERC20(config.depositTokenAddress()), config.issuanceDeposit());
+            DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
+                .depositToken(IERC20(_instrumentConfig.depositTokenAddress()), _instrumentConfig.issuanceDeposit());
         }
 
         // Get issuance Id
         uint256 issuanceId = _lastIssuanceId;
         _lastIssuanceId++;
 
-        // Create Issuance Escrow
-        IssuanceEscrow issuanceEscrow = new IssuanceEscrow();
-        AdminUpgradeabilityProxy issuanceEscrowProxy = new AdminUpgradeabilityProxy(address(issuanceEscrow),
-            config.proxyAdminAddress(), new bytes(0));
-        IssuanceEscrow(address(issuanceEscrowProxy)).initialize(address(this));
+        // Create Issuance Escrow.
+        // Note that all Issuance Escrow shared the same implementation. As data is stored in proxy,
+        // only new proxy is created for the new issuance.
+        AdminUpgradeabilityProxy issuanceEscrowProxy = new AdminUpgradeabilityProxy(address(_issuanceEscrow),
+            _instrumentConfig.proxyAdminAddress(), new bytes(0));
+        IssuanceEscrowInterface(address(issuanceEscrowProxy)).initialize(address(this));
 
         // Create Issuance Property
         _issuanceProperties[issuanceId] = IssuanceProperty({
@@ -194,7 +217,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             creationTimestamp: now,
             takerAddress: address(0x0),
             engagementTimestamp: 0,
-            deposit: config.issuanceDeposit(),
+            deposit: _instrumentConfig.issuanceDeposit(),
             escrowAddress: address(issuanceEscrowProxy),
             state: InstrumentBase.IssuanceStates.Initiated
         });
@@ -246,7 +269,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // Withdraw ETH from Instrument Escrow
         _instrumentEscrow.withdrawByAdmin(msg.sender, amount);
         // Deposit ETH to Issuance Escrow
-        IssuanceEscrow(property.escrowAddress).depositByAdmin.value(amount)(msg.sender);
+        IssuanceEscrowInterface(property.escrowAddress).depositByAdmin.value(amount)(msg.sender);
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
@@ -280,7 +303,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         // IMPORTANT: Set allowance before deposit
         IERC20(tokenAddress).safeApprove(property.escrowAddress, amount);
         // Deposit ERC20 token to Issuance Escrow
-        IssuanceEscrow(property.escrowAddress).depositTokenByAdmin(msg.sender, tokenAddress, amount);
+        IssuanceEscrowInterface(property.escrowAddress).depositTokenByAdmin(msg.sender, tokenAddress, amount);
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
@@ -308,7 +331,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Withdrawal is not allowed.");
 
         // Withdraw ETH from Issuance Escrow
-        IssuanceEscrow(property.escrowAddress).withdrawByAdmin(msg.sender, amount);
+        IssuanceEscrowInterface(property.escrowAddress).withdrawByAdmin(msg.sender, amount);
         // Deposit ETH to Instrument Escrow
         _instrumentEscrow.depositByAdmin.value(amount)(msg.sender);
 
@@ -340,7 +363,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Withdrawal is not allowed.");
 
         // Withdraw ERC20 token from Issuance Escrow
-        IssuanceEscrow(property.escrowAddress).withdrawTokenByAdmin(msg.sender, tokenAddress, amount);
+        IssuanceEscrowInterface(property.escrowAddress).withdrawTokenByAdmin(msg.sender, tokenAddress, amount);
         // IMPORTANT: Set allowance before deposit
         IERC20(tokenAddress).safeApprove(address(_instrumentEscrow), amount);
         // Deposit ERC20 token to Instrument Escrow
@@ -474,7 +497,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             state: uint8(property.state),
             escrowAddress: property.escrowAddress,
             callerAddress: msg.sender,
-            priceOracleAddress: InstrumentConfig(_instrumentConfigAddress).priceOracleAddress()
+            priceOracleAddress: _instrumentConfig.priceOracleAddress()
         });
 
         return IssuanceParameters.encode(issuanceParameters);
@@ -487,11 +510,11 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         if (property.deposit > 0) {
             // Withdraws NUTS token
-            InstrumentConfig config = InstrumentConfig(_instrumentConfigAddress);
-            DepositEscrowInterface(config.depositEscrowAddress()).withdrawToken(IERC20(config.depositTokenAddress()), property.deposit);
+            DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
+                .withdrawToken(IERC20(_instrumentConfig.depositTokenAddress()), property.deposit);
 
             // Transfer NUTS token to maker
-            IERC20(config.depositTokenAddress()).safeTransfer(property.makerAddress, property.deposit);
+            IERC20(_instrumentConfig.depositTokenAddress()).safeTransfer(property.makerAddress, property.deposit);
         }
     }
 
@@ -501,7 +524,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     function _processTransfers(uint256 issuanceId, bytes memory transfersData) internal {
         Transfers.Data memory transfers = Transfers.decode(transfersData);
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        IssuanceEscrow issuanceEscrow = IssuanceEscrow(property.escrowAddress);
+        IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
         for (uint256 i = 0; i < transfers.actions.length; i++) {
             Transfer.Data memory transfer = transfers.actions[i];
             // The transfer can only come from issuance maker, issuance taker and instrument broker.

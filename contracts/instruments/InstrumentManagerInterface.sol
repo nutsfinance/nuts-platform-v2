@@ -1,5 +1,7 @@
 pragma solidity ^0.5.0;
 
+import "../escrow/InstrumentEscrowInterface.sol";
+
 /**
  * @title The interace of instrument manager.
  * It serves as the interface between Instrument Registry and detailed implementation
@@ -16,7 +18,7 @@ interface InstrumentManagerInterface {
     /**
      * @dev Get the address of Instrument Escrow.
      */
-    function getInstrumentEscrow() external returns (address);
+    function getInstrumentEscrow() external returns (InstrumentEscrowInterface);
 
     /**
      * @dev Deactivates the instrument.
