@@ -12,13 +12,12 @@ import "../lib/token/IERC20.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";
-import "../lib/proxy/AdminUpgradeabilityProxy.sol";
 import "../lib/util/Constants.sol";
 
 /**
  * Base instrument manager for instrument v1, v2 and v3.
  */
-contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
+contract InstrumentManagerBase is TimerOracleRole {
     using SafeERC20 for IERC20;
 
     /**
@@ -65,9 +64,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     InstrumentConfig internal _instrumentConfig;
     // Instrument Escrow is singleton per each Instrument Manager.
     InstrumentEscrowInterface internal _instrumentEscrow;
-    // Issuance Escrow is singleton per issuance. However, since we are using proxy to store the data,
-    // all Issuance Escrows can share the same implementation.
-    IssuanceEscrowInterface internal _issuanceEscrow;
     // We can derive the list of issuance id as [1, 2, 3, ..., _lastIssuanceId - 1]
     // so we don't need a separate array to store the issuance id list.
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
@@ -107,22 +103,14 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         _depositAmount = _instrumentConfig.instrumentDeposit();
 
         // Create Instrument Escrow
-        InstrumentEscrowInterface instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress()).createInstrumentEscrow();
-        AdminUpgradeabilityProxy instrumentEscrowProxy = new AdminUpgradeabilityProxy(address(instrumentEscrow),
-            _instrumentConfig.proxyAdminAddress(), new bytes(0));
-        // The owner of Instrument Escrow is Instrument Manager
-        _instrumentEscrow = InstrumentEscrowInterface(address(instrumentEscrowProxy));
-        _instrumentEscrow.initialize(address(this));
-
-        // Create Issuance Escrow. This serves as the implementation for Issuance Escrow proxies,
-        // as all Issuance Escrows can share the same implementation.
-        _issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress()).createIssuanceEscrow();
+        _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
+            .createInstrumentEscrow(_instrumentConfig.proxyAdminAddress(), address(this));
     }
 
     /**
      * @dev Get the Instrument Escrow.
      */
-    function getInstrumentEscrow() public returns (InstrumentEscrowInterface) {
+    function getInstrumentEscrow() public view returns (InstrumentEscrowInterface) {
         return _instrumentEscrow;
     }
 
@@ -171,16 +159,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     }
 
     /**
-     * @dev A special function for proxy admin to update the shared Issuance Escrow implementation.
-     * Note that this only chnage the implementation for Issuance Escrow of newly created issuances.
-     * Updating implementation for existing Issuance Escrow should be performed individually.
-     */
-    function updateIssuanceEscrow() public {
-        require(msg.sender == _instrumentConfig.proxyAdminAddress(), "InstrumentManagerBase: Only Proxy admin can update Issuance Escrow.");
-        _issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress()).createIssuanceEscrow();
-    }
-
-    /**
      * @dev Create a new issuance of the financial instrument
      * @param makerParameters The custom parameters to the newly created issuance
      * @return The id of the newly created issuance.
@@ -205,11 +183,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         _lastIssuanceId++;
 
         // Create Issuance Escrow.
-        // Note that all Issuance Escrow shared the same implementation. As data is stored in proxy,
-        // only new proxy is created for the new issuance.
-        AdminUpgradeabilityProxy issuanceEscrowProxy = new AdminUpgradeabilityProxy(address(_issuanceEscrow),
-            _instrumentConfig.proxyAdminAddress(), new bytes(0));
-        IssuanceEscrowInterface(address(issuanceEscrowProxy)).initialize(address(this));
+        IssuanceEscrowInterface issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
+            .createIssuanceEscrow(_instrumentConfig.proxyAdminAddress(), address(this));
 
         // Create Issuance Property
         _issuanceProperties[issuanceId] = IssuanceProperty({
@@ -218,7 +193,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             takerAddress: address(0x0),
             engagementTimestamp: 0,
             deposit: _instrumentConfig.issuanceDeposit(),
-            escrowAddress: address(issuanceEscrowProxy),
+            escrowAddress: address(issuanceEscrow),
             state: InstrumentBase.IssuanceStates.Initiated
         });
 
@@ -246,11 +221,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processEngageIssuance(issuanceId,
             issuanceParametersData, takerParameters);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -276,11 +247,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenDeposit(issuanceId,
             issuanceParametersData, Constants.getEthAddress(), amount);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -310,11 +277,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenDeposit(issuanceId,
             issuanceParametersData, tokenAddress, amount);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -340,11 +303,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
             issuanceParametersData, Constants.getEthAddress(), amount);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -374,11 +333,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
             issuanceParametersData, tokenAddress, amount);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -398,11 +353,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processCustomEvent(issuanceId,
             issuanceParametersData, eventName, eventPayload);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -423,11 +374,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processScheduledEvent(issuanceId,
             issuanceParametersData, eventName, eventPayload);
 
-        property.state = state;
-        if (_isIssuanceTerminated(state)) {
-            _returnIssuanceDeposit(issuanceId);
-        }
-        _processTransfers(issuanceId, transfersData);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -504,11 +451,12 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
     }
 
     /**
-     * @dev Return the deposited NUTS token to the maker.
+     * @dev Process updated state and transfers after instrument invocation.
      */
-    function _returnIssuanceDeposit(uint256 issuanceId) internal {
+    function _postProcessing(uint256 issuanceId, InstrumentBase.IssuanceStates state, bytes memory transfersData) internal {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        if (property.deposit > 0) {
+        property.state = state;
+        if (_isIssuanceTerminated(state) && property.deposit > 0) {
             // Withdraws NUTS token
             DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
                 .withdrawToken(IERC20(_instrumentConfig.depositTokenAddress()), property.deposit);
@@ -516,6 +464,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             // Transfer NUTS token to maker
             IERC20(_instrumentConfig.depositTokenAddress()).safeTransfer(property.makerAddress, property.deposit);
         }
+        _processTransfers(issuanceId, transfersData);
     }
 
     /**
@@ -556,46 +505,4 @@ contract InstrumentManagerBase is InstrumentManagerInterface, TimerOracleRole {
             }
         }
     }
-
-    /****************************************************************
-     * Hook methods for Instrument type-specific implementations.
-     ***************************************************************/
-
-    /**
-     * @dev Instrument type-specific issuance creation processing.
-     */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
-        returns (InstrumentBase.IssuanceStates);
-
-    /**
-     * @dev Instrument type-specific issuance engage processing.
-     */
-    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific issuance ERC20 token deposit processing.
-     * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
-     */
-    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific issuance ERC20 withdraw processing.
-     * Note: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.
-     */
-    function _processTokenWithdraw(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific custom event processing.
-     */
-    function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName,
-        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific scheduled event processing.
-     */
-    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName,
-        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 }

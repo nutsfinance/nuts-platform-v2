@@ -25,25 +25,25 @@ contract InstrumentManagerFactory {
         public returns (address instrumentManagerAddress) {
 
         // Create Instrument Manager contract.
-        InstrumentManagerInterface instrumentManager;
-        if (version.equals("v1")) {
-            instrumentManager = new InstrumentV1Manager();
-        } else if (version.equals("v2")) {
-            instrumentManager = new InstrumentV2Manager();
-        } else if (version.equals("v3")) {
-            instrumentManager = new InstrumentV3Manager();
-        } else {
-            revert("Unknown instrument version.");
-        }
+        // InstrumentManagerInterface instrumentManager;
+        // if (version.equals("v1")) {
+        //     instrumentManager = new InstrumentV1Manager();
+        // } else if (version.equals("v2")) {
+        //     instrumentManager = new InstrumentV2Manager();
+        // } else if (version.equals("v3")) {
+        //     instrumentManager = new InstrumentV3Manager();
+        // } else {
+        //     revert("Unknown instrument version.");
+        // }
 
-        // Create AdminUpgradeabilityProxy for Instrument Manager
-        AdminUpgradeabilityProxy instrumentManagerProxy = new AdminUpgradeabilityProxy(address(instrumentManager),
-            InstrumentConfig(instrumentConfigAddress).proxyAdminAddress(), new bytes(0));
+        // // Create AdminUpgradeabilityProxy for Instrument Manager
+        // AdminUpgradeabilityProxy instrumentManagerProxy = new AdminUpgradeabilityProxy(address(instrumentManager),
+        //     InstrumentConfig(instrumentConfigAddress).proxyAdminAddress(), new bytes(0));
 
-        // Initialize Instrument Manager
-        InstrumentManagerInterface(address(instrumentManagerProxy)).initialize(fspAddress, instrumentAddress, instrumentConfigAddress,
-            instrumentParameters);
+        // // Initialize Instrument Manager
+        // InstrumentManagerInterface(address(instrumentManagerProxy)).initialize(fspAddress, instrumentAddress, instrumentConfigAddress,
+        //     instrumentParameters);
 
-        instrumentManagerAddress = address(instrumentManagerProxy);
+        // instrumentManagerAddress = address(instrumentManagerProxy);
     }
 }

@@ -7,7 +7,6 @@ import "./instruments/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
 import "./lib/token/SafeERC20.sol";
 import "./lib/access/Ownable.sol";
-import "./lib/proxy/AdminUpgradeabilityProxy.sol";
 import "./InstrumentConfig.sol";
 
 /**
@@ -21,12 +20,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     mapping(address => address) _instrumentManagers;
 
     InstrumentManagerFactoryInterface private _instrumentManagerFactory;
-
-    // constructor(address instrumentManagerFactoryAddress, uint256 instrumentDeposit, uint256 issuanceDeposit,
-    //     address depositTokenAddress, address proxyAdminAddress, address timerOracleAddress, address priceOracleAddress) public {
-    //     initialize(msg.sender, instrumentManagerFactoryAddress, instrumentDeposit, issuanceDeposit, depositTokenAddress,
-    //         proxyAdminAddress, timerOracleAddress, priceOracleAddress);
-    // }
 
     /**
      * @dev Initialization method for Instrument Registry.
@@ -56,12 +49,10 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         _instrumentManagerFactory = InstrumentManagerFactoryInterface(instrumentManagerFactoryAddress);
 
         // Create new Deposit Escrow
-        DepositEscrowInterface depositEscrow = EscrowFactoryInterface(escrowFactoryAddress).createDepositEscrow();
-        AdminUpgradeabilityProxy depositEscrowProxy = new AdminUpgradeabilityProxy(address(depositEscrow), proxyAdminAddress, new bytes(0));
-        // The owner of DepositEscrow is Instrument Registry.
-        DepositEscrowInterface(address(depositEscrowProxy)).initialize(address(this));
+        DepositEscrowInterface depositEscrow = EscrowFactoryInterface(escrowFactoryAddress)
+            .createDepositEscrow(proxyAdminAddress, address(this));
 
-        InstrumentConfig.initialize(instrumentDeposit, issuanceDeposit, address(depositEscrowProxy), depositTokenAddress,
+        InstrumentConfig.initialize(instrumentDeposit, issuanceDeposit, address(depositEscrow), depositTokenAddress,
             proxyAdminAddress, timerOracleAddress, priceOracleAddress, escrowFactoryAddress);
     }
 
