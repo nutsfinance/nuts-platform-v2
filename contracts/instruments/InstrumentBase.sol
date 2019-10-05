@@ -34,7 +34,7 @@ contract InstrumentBase {
      * @param eventName The name of the custom event
      * @param eventPayload The payload the custom event
      */
-    event EventTimeScheduled(uint256 indexed issuanceId, uint256 timestamp, string eventName, bytes eventPayload);
+    event EventTimeScheduled(uint256 indexed issuanceId, uint256 timestamp, bytes32 eventName, bytes eventPayload);
 
     /**
      * @dev The event used to schedule contract events after specific block.
@@ -43,5 +43,5 @@ contract InstrumentBase {
      * @param eventName The name of the custom event
      * @param eventPayload The payload the custom event
      */
-    event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, string eventName, bytes eventPayload);
+    event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, bytes32 eventName, bytes eventPayload);
 }

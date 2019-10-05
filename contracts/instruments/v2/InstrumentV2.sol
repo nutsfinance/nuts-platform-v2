@@ -65,7 +65,7 @@ contract InstrumentV2 is InstrumentBase {
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processCustomEvent(bytes memory issuanceParametersData, string memory eventName, bytes memory eventPayload,
+    function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload,
         StorageInterface issuanceStorage) public returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
@@ -77,7 +77,7 @@ contract InstrumentV2 is InstrumentBase {
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processScheduledEvent(bytes memory issuanceParametersData, string memory eventName, bytes memory eventPayload,
+    function processScheduledEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload,
         StorageInterface issuanceStorage) public returns (IssuanceStates updatedState, bytes memory transfersData);
 
 }

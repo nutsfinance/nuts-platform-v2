@@ -100,6 +100,7 @@ contract InstrumentManagerBase is TimerOracleRole {
         _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;
         _instrumentAddress = instrumentAddress;
         _lastIssuanceId = 1;
+        // Deposit amount for Instrument activation might change. Need to record the amount deposited.
         _depositAmount = _instrumentConfig.instrumentDeposit();
 
         // Create Instrument Escrow
@@ -342,11 +343,10 @@ contract InstrumentManagerBase is TimerOracleRole {
      * @param eventName Name of the custom event
      * @param eventPayload Payload of the custom event
      */
-    function notifyCustomEvent(uint256 issuanceId, string memory eventName, bytes memory eventPayload) public {
+    function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-        require(bytes(eventName).length > 0, "InstrumentManagerBase: Event name must be provided.");
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
@@ -363,11 +363,10 @@ contract InstrumentManagerBase is TimerOracleRole {
      * @param eventName Name of the scheduled event, eventName of EventScheduled event
      * @param eventPayload Payload of the scheduled event, eventPayload of EventScheduled event
      */
-    function notifyScheduledEvent(uint256 issuanceId, string memory eventName, bytes memory eventPayload) public onlyTimerOracle {
+    function notifyScheduledEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public onlyTimerOracle {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-        require(bytes(eventName).length > 0, "InstrumentManagerBase: Event name must be provided.");
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
@@ -505,4 +504,46 @@ contract InstrumentManagerBase is TimerOracleRole {
             }
         }
     }
+
+    /****************************************************************
+     * Hook methods for Instrument type-specific implementations.
+     ***************************************************************/
+
+    /**
+     * @dev Instrument type-specific issuance creation processing.
+     */
+    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
+        returns (InstrumentBase.IssuanceStates);
+
+    /**
+     * @dev Instrument type-specific issuance engage processing.
+     */
+    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters) internal
+        returns (InstrumentBase.IssuanceStates, bytes memory);
+
+    /**
+     * @dev Instrument type-specific issuance ERC20 token deposit processing.
+     * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
+     */
+    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
+        returns (InstrumentBase.IssuanceStates, bytes memory);
+
+    /**
+     * @dev Instrument type-specific issuance ERC20 withdraw processing.
+     * Note: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.
+     */
+    function _processTokenWithdraw(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
+        returns (InstrumentBase.IssuanceStates, bytes memory);
+
+    /**
+     * @dev Instrument type-specific custom event processing.
+     */
+    function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName,
+        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
+
+    /**
+     * @dev Instrument type-specific scheduled event processing.
+     */
+    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName,
+        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 }

@@ -22,10 +22,10 @@ contract LendingV1 is InstrumentV3 {
     uint256 constant INTEREST_RATE_DECIMALS = 6;                // 0.0001%
 
     // Scheduled event list
-    string constant PRINCIPAL_DUE_EVENT = "principal_due";
-    string constant ENGAGEMENT_DUE_EVENT = "engagement_due";
-    string constant COLLATERAL_DUE_EVENT = "collateral_due";
-    string constant LENDING_DUE_EVENT = "lending_due";
+    bytes32 constant PRINCIPAL_DUE_EVENT = "principal_due";
+    bytes32 constant ENGAGEMENT_DUE_EVENT = "engagement_due";
+    bytes32 constant COLLATERAL_DUE_EVENT = "collateral_due";
+    bytes32 constant LENDING_DUE_EVENT = "lending_due";
 
     // Lending parameters
     address private _lendingTokenAddress;
@@ -191,33 +191,31 @@ contract LendingV1 is InstrumentV3 {
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processScheduledEvent(bytes memory issuanceParametersData, string memory eventName, bytes memory /* eventPayload */)
+    function processScheduledEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory /* eventPayload */)
         public returns (IssuanceStates updatedState, bytes memory transfersData) {
-        // Validations
-        require(bytes(eventName).length > 0, "LoanV1: Event name must be set.");
 
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
         updatedState = IssuanceStates(issuanceParameters.state);
-        if (eventName.equals(PRINCIPAL_DUE_EVENT)) {
+        if (eventName == PRINCIPAL_DUE_EVENT) {
             // Principal is due if the issuance is in Initiated state
             if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Initiated) {
                 // Maker must deposit principal in full. Therefore, the maker principal token balance must be zero.
                 updatedState = IssuanceStates.Unfunded;
             }
-        } else if (eventName.equals(ENGAGEMENT_DUE_EVENT)) {
+        } else if (eventName == ENGAGEMENT_DUE_EVENT) {
             // Engagement is due if the issuance is in Engageable state
             if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable) {
                 updatedState = IssuanceStates.Unfunded;
                 transfersData = _transferPrincipalToMaker(issuanceParameters);
             }
-        } else if (eventName.equals(COLLATERAL_DUE_EVENT)) {
+        } else if (eventName == COLLATERAL_DUE_EVENT) {
             // Collateral is due if _collateralComplete = false
             if (!_collateralComplete) {
                 // Taker must deposit collateral in full. Therefore, the taker collateral token balance must be zero.
                 updatedState = IssuanceStates.Delinquent;
                 transfersData = _transferPrincipalToMaker(issuanceParameters);
             }
-        } else if (eventName.equals(LENDING_DUE_EVENT)) {
+        } else if (eventName == LENDING_DUE_EVENT) {
             // Lending is due if the issuance is not in Complate Engaged state
             if (IssuanceStates(issuanceParameters.state) != IssuanceStates.CompleteEngaged) {
                 // Transfer collateral to maker.

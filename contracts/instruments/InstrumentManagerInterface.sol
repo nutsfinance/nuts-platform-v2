@@ -89,7 +89,7 @@ interface InstrumentManagerInterface {
      * @param eventName Name of the custom event
      * @param eventPayload Payload of the custom event
      */
-    function notifyCustomEvent(uint256 issuanceId, string calldata eventName, bytes calldata eventPayload) external;
+    function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes calldata eventPayload) external;
 
     /**
      * @dev Notify scheduled events to issuance. This could be invoked by Timer Oracle only.
@@ -97,5 +97,5 @@ interface InstrumentManagerInterface {
      * @param eventName Name of the scheduled event, eventName of EventScheduled event
      * @param eventPayload Payload of the scheduled event, eventPayload of EventScheduled event
      */
-    function notifyScheduledEvent(uint256 issuanceId, string calldata eventName, bytes calldata eventPayload) external;
+    function notifyScheduledEvent(uint256 issuanceId, bytes32 eventName, bytes calldata eventPayload) external;
 }
