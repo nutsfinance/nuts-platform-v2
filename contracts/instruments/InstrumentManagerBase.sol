@@ -17,7 +17,7 @@ import "../lib/util/Constants.sol";
 /**
  * Base instrument manager for instrument v1, v2 and v3.
  */
-contract InstrumentManagerBase is TimerOracleRole {
+contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
     using SafeERC20 for IERC20;
 
     /**

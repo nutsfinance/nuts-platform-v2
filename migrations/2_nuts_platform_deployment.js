@@ -2,9 +2,9 @@ const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const InstrumentManagerFactory = artifacts.require('./instruments/InstrumentManagerFactory.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const InstrumentV1Manager = artifacts.require('./instruments/InstrumentV1Manager.sol');
-const InstrumentV2Manager = artifacts.require('./instruments/InstrumentV2Manager.sol');
-const InstrumentV3Manager = artifacts.require('./instruments/InstrumentV3Manager.sol');
+const InstrumentV1ManagerFactory = artifacts.require('./instruments/InstrumentV1ManagerFactory.sol');
+const InstrumentV2ManagerFactory = artifacts.require('./instruments/InstrumentV2ManagerFactory.sol');
+const InstrumentV3ManagerFactory = artifacts.require('./instruments/InstrumentV3ManagerFactory.sol');
 const InstrumentEscrow = artifacts.require('./escrow/InstrumentEscrow.sol');
 const IssuanceEscrow = artifacts.require('./escrow/IssuanceEscrow.sol');
 
@@ -21,9 +21,9 @@ const deployNutsPlatform = async function(deployer, accounts) {
     // let instrumentEscrow = await deployer.deploy(InstrumentEscrow);
     // let issuanceEscrow = await deployer.deploy(IssuanceEscrow);
 
-    let instrumentV1Manager = await deployer.deploy(InstrumentV1Manager);
-    let instrumentV2Manager = await deployer.deploy(InstrumentV2Manager);
-    let instrumentV3Manager = await deployer.deploy(InstrumentV3Manager);
+    let instrumentV1ManagerFactory = await deployer.deploy(InstrumentV1ManagerFactory);
+    let instrumentV2ManagerFactory = await deployer.deploy(InstrumentV2ManagerFactory);
+    let instrumentV3ManagerFactory = await deployer.deploy(InstrumentV3ManagerFactory);
 
     // let lending = await deployer.deploy(Lending);
 
