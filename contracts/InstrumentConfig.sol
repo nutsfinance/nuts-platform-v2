@@ -28,6 +28,9 @@ contract InstrumentConfig {
     // Address of Escrow Factory
     // Note: Updatable after initialization.
     address public escrowFactoryAddress;
+    // Address of Storage Factory
+    // Note: Updatable after initialization
+    address public storageFactoryAddress;
 
     /**
      * @dev Initialization method for InstrumentConfid.
@@ -35,7 +38,7 @@ contract InstrumentConfig {
      */
     function initialize(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositEscrowAddress,
         address newDepositTokenAddress, address newProxyAdminAddress, address newTimerOracleAddress,
-        address newPriceOracleAddress, address newEscrowFactoryAddress) internal {
+        address newPriceOracleAddress) internal {
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositEscrowAddress = newDepositEscrowAddress;
@@ -43,6 +46,5 @@ contract InstrumentConfig {
         proxyAdminAddress = newProxyAdminAddress;
         timerOracleAddress = newTimerOracleAddress;
         priceOracleAddress = newPriceOracleAddress;
-        escrowFactoryAddress = newEscrowFactoryAddress;
     }
 }

@@ -3,7 +3,8 @@ pragma solidity ^0.5.0;
 import "../../access/WriterRole.sol";
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../storage/StorageInterface.sol";
-import "../../storage/UnifiedStorage.sol";
+import "../../storage/StorageFactoryInterface.sol";
+import "../../InstrumentConfig.sol";
 import "../InstrumentBase.sol";
 import "../InstrumentManagerBase.sol";
 import "./InstrumentV2.sol";
@@ -27,7 +28,8 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         returns (InstrumentBase.IssuanceStates updatedState) {
 
         // Create storage contract
-        UnifiedStorage issuanceStorage = new UnifiedStorage();
+        StorageFactoryInterface storageFactory = StorageFactoryInterface(_instrumentConfig.storageFactoryAddress());
+        StorageInterface issuanceStorage = storageFactory.createStorageInstance();
         _issuanceStorages[issuanceId] = address(issuanceStorage);
 
         // Temporary grant writer role
@@ -49,7 +51,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
-        UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
+        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
         (updatedState, transfersData) = InstrumentV2(_instrumentAddress).engageIssuance(issuanceParametersData,
@@ -71,7 +73,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
-        UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
+        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
         (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processTokenDeposit(issuanceParametersData,
@@ -93,7 +95,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
-        UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
+        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
         (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processTokenWithdraw(issuanceParametersData,
@@ -114,7 +116,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
-        UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
+        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
 
         (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processCustomEvent(
@@ -135,9 +137,9 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Temporary grant writer role
-        UnifiedStorage issuanceStorage = UnifiedStorage(_issuanceStorages[issuanceId]);
+        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
         issuanceStorage.addWriter(_instrumentAddress);
-        
+
         (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processScheduledEvent(
             issuanceParametersData, eventName, eventPayload, issuanceStorage);
 

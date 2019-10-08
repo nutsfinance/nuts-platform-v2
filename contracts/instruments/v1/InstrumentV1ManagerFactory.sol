@@ -1,14 +1,14 @@
 pragma solidity ^0.5.0;
 
 import "../InstrumentManagerInterface.sol";
-import "../InstrumentManagerFactoryBase.sol";
+import "../InstrumentManagerFactoryInterface.sol";
 import "./InstrumentV1Manager.sol";
 
-contract InstrumentV1ManagerFactory is InstrumentManagerFactoryBase {
+contract InstrumentV1ManagerFactory is InstrumentManagerFactoryInterface {
     /**
      * @dev Create instance of Instrument Manager.
      */
-    function _createInstrumentManagerInstance() internal returns (InstrumentManagerInterface) {
+    function createInstrumentManagerInstance() public returns (InstrumentManagerInterface) {
         return new InstrumentV1Manager();
     }
 }
