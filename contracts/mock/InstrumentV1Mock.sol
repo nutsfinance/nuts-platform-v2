@@ -1,7 +1,7 @@
 pragma solidity ~0.5.0;
 
 import "../escrow/EscrowBaseInterface.sol";
-import "../instruments/v1/InstrumentV1.sol";
+import "../instrument/v1/InstrumentV1.sol";
 
 /**
  * @title Instrument v1 base contract.

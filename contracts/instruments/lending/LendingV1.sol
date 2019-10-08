@@ -9,7 +9,7 @@ import "../../lib/protobuf/TokenTransfer.sol";
 import "../../lib/token/IERC20.sol";
 import "../../lib/util/Constants.sol";
 import "../../lib/util/StringUtil.sol";
-import "../v3/InstrumentV3.sol";
+import "../../instrument/v3/InstrumentV3.sol";
 
 contract LendingV1 is InstrumentV3 {
     using SafeMath for uint256;
@@ -178,7 +178,7 @@ contract LendingV1 is InstrumentV3 {
      * @dev A custom event is triggered.
      */
     function processCustomEvent(bytes memory /* issuanceParametersData */, string memory /* eventName  */, bytes memory /* eventPayload */)
-        public returns (IssuanceStates, bytes memory) {
+        public pure returns (IssuanceStates, bytes memory) {
 
         revert("LoanV1: Unsupported operation.");
     }

@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "../instruments/InstrumentManagerBase.sol";
+import "../instrument/InstrumentManagerBase.sol";
 
 /**
  * @title Instrument Manager Mock.
