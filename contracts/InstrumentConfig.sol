@@ -31,6 +31,9 @@ contract InstrumentConfig {
     // Address of Storage Factory
     // Note: Updatable after initialization
     address public storageFactoryAddress;
+    // Address of Proxy Factory
+    // Note: Updatable after initialization.
+    address public proxyFactoryAddress;
 
     /**
      * @dev Initialization method for InstrumentConfid.

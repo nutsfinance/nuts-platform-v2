@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "../../lib/proxy/AdminOnlyUpgradeabilityProxy.sol";
+import "../../lib/proxy/ProxyFactoryInterface.sol";
 import "../InstrumentManagerBase.sol";
 import "../InstrumentBase.sol";
 import "./InstrumentV3.sol";
@@ -26,8 +26,8 @@ contract InstrumentV3Manager is InstrumentManagerBase {
         // Create an AdminOnlyUpgradeabilityProxy for the new issuance
         // Current Instrument Manager is the proxy admin for this proxy, and only the current
         // Instrument Manager can call fallback on the proxy.
-        AdminOnlyUpgradeabilityProxy proxy = new AdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this), new bytes(0));
-        _issuanceProxies[issuanceId] = address(proxy);
+        ProxyFactoryInterface proxyFactory = ProxyFactoryInterface(_instrumentConfig.proxyFactoryAddress());
+        _issuanceProxies[issuanceId] = proxyFactory.createAdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this));
 
         updatedState = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceParametersData, makerParameters);
     }

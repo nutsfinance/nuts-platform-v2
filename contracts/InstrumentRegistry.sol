@@ -8,6 +8,7 @@ import "./instrument/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
 import "./lib/token/SafeERC20.sol";
 import "./lib/access/Ownable.sol";
+import "./lib/proxy/ProxyFactory.sol";
 import "./InstrumentConfig.sol";
 
 /**
@@ -47,8 +48,10 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         // Create Factories
         EscrowFactory escrowFactory = new EscrowFactory();
         StorageFactory storageFactory = new StorageFactory();
+        ProxyFactory proxyFactory = new ProxyFactory();
         escrowFactoryAddress = address(escrowFactory);
         storageFactoryAddress = address(storageFactory);
+        proxyFactoryAddress = address(proxyFactory);
 
         // Create new Deposit Escrow
         DepositEscrowInterface depositEscrow = escrowFactory.createDepositEscrow(proxyAdminAddress, address(this));
@@ -99,6 +102,10 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
 
     function setStorageFactory(address newStorageFactoryAddress) public onlyOwner {
         storageFactoryAddress = newStorageFactoryAddress;
+    }
+
+    function setProxyFactory(address newProxyFactoryAddress) public onlyOwner {
+        proxyFactoryAddress = newProxyFactoryAddress;
     }
 
     /**
