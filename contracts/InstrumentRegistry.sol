@@ -1,14 +1,14 @@
 pragma solidity ^0.5.0;
 
 import "./escrow/DepositEscrowInterface.sol";
-import "./escrow/EscrowFactory.sol";
-import "./storage/StorageFactory.sol";
+import "./escrow/EscrowFactoryInterface.sol";
+import "./storage/StorageFactoryInterface.sol";
 import "./instrument/InstrumentManagerInterface.sol";
 import "./instrument/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
 import "./lib/token/SafeERC20.sol";
 import "./lib/access/Ownable.sol";
-import "./lib/proxy/ProxyFactory.sol";
+import "./lib/proxy/ProxyFactoryInterface.sol";
 import "./InstrumentConfig.sol";
 
 /**
@@ -25,40 +25,49 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev Initialization method for Instrument Registry.
      * @param owner Owner of Instrument Registry.
-     * @param instrumentDeposit The NUTS token deposited for new Instrument,
-     * @param issuanceDeposit The NUTS token deposited for new Issuance.
-     * @param depositTokenAddress Address of NUTS token.
-     * @param proxyAdminAddress Address of proxy admin.
-     * @param timerOracleAddress Address of Timer Oracle
-     * @param priceOracleAddress Address of Price Oracle
+     * @param newInstrumentDeposit The NUTS token deposited for new Instrument,
+     * @param newIssuanceDeposit The NUTS token deposited for new Issuance.
+     * @param newDepositTokenAddress Address of NUTS token.
+     * @param newProxyAdminAddress Address of proxy admin.
+     * @param newTimerOracleAddress Address of Timer Oracle
+     * @param newPriceOracleAddress Address of Price Oracle
+     * @param newInstrumentManagerFactoryAddress Address of Instrument Manager Factory.
+     * @param newEscrowFactoryAddress Address of Escrow Factory.
+     * @param newStorageFactoryAddress Address of Storage Factory.
+     * @param newProxyFactoryAddress Address of Proxy Factory.
      */
-    function initialize(address owner, uint256 instrumentDeposit, uint256 issuanceDeposit, address depositTokenAddress,
-        address proxyAdminAddress, address timerOracleAddress, address priceOracleAddress, address instrumentManagerFactoryAddress) public {
+    function initialize(address owner, uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
+        address newProxyAdminAddress, address newTimerOracleAddress, address newPriceOracleAddress, address newInstrumentManagerFactoryAddress,
+        address newEscrowFactoryAddress, address newStorageFactoryAddress, address newProxyFactoryAddress) public {
         require(address(depositTokenAddress) == address(0x0), "InstrumentRegistry: Already initialized.");
         require(owner != address(0x0), "InstrumentRegistry: Owner must be provided.");
-        require(depositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
-        require(proxyAdminAddress != address(0x0), "InstrumentRegistry: Proxy admin address must be provided.");
-        require(timerOracleAddress != address(0x0), "InstrumentRegistry: Timer Oracle address must be provided.");
-        require(priceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
-        require(instrumentManagerFactoryAddress != address(0x0), "InstrumentRegistry: Instrument Manager Factory address must be provided.");
+        require(newDepositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
+        require(newProxyAdminAddress != address(0x0), "InstrumentRegistry: Proxy admin address must be provided.");
+        require(newTimerOracleAddress != address(0x0), "InstrumentRegistry: Timer Oracle address must be provided.");
+        require(newPriceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
+        require(newInstrumentManagerFactoryAddress != address(0x0), "InstrumentRegistry: Instrument Manager Factory address must be provided.");
+        require(newEscrowFactoryAddress != address(0x0), "InstrumentRegistry: Escrow Factory address must be provided.");
+        require(newStorageFactoryAddress != address(0x0), "InstrumentRegistry: Storage Factory address must be provided.");
+        require(newProxyFactoryAddress != address(0x0), "InstrumentRegistry: Proxy Factory address must be provided.");
 
         // Set owner
         _transferOwnership(owner);
 
-        // Create Factories
-        EscrowFactory escrowFactory = new EscrowFactory();
-        StorageFactory storageFactory = new StorageFactory();
-        ProxyFactory proxyFactory = new ProxyFactory();
-        escrowFactoryAddress = address(escrowFactory);
-        storageFactoryAddress = address(storageFactory);
-        proxyFactoryAddress = address(proxyFactory);
+        instrumentDeposit = newInstrumentDeposit;
+        issuanceDeposit = newIssuanceDeposit;
+        depositTokenAddress = newDepositTokenAddress;
+        proxyAdminAddress = newProxyAdminAddress;
+        timerOracleAddress = newTimerOracleAddress;
+        priceOracleAddress = newPriceOracleAddress;
+        escrowFactoryAddress = newEscrowFactoryAddress;
+        storageFactoryAddress = newStorageFactoryAddress;
+        proxyFactoryAddress = newProxyFactoryAddress;
 
         // Create new Deposit Escrow
-        DepositEscrowInterface depositEscrow = escrowFactory.createDepositEscrow(proxyAdminAddress, address(this));
+        EscrowFactoryInterface escrowFactory = EscrowFactoryInterface(newEscrowFactoryAddress);
+        depositEscrowAddress = address(escrowFactory.createDepositEscrow(proxyAdminAddress, address(this)));
 
-        _instrumentManagerFactory = InstrumentManagerFactoryInterface(instrumentManagerFactoryAddress);
-        InstrumentConfig.initialize(instrumentDeposit, issuanceDeposit, address(depositEscrow), depositTokenAddress,
-            proxyAdminAddress, timerOracleAddress, priceOracleAddress);
+        _instrumentManagerFactory = InstrumentManagerFactoryInterface(newInstrumentManagerFactoryAddress);
     }
 
     /**
@@ -96,15 +105,24 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         timerOracleAddress = newTimerOracleAddress;
     }
 
+    /**
+     * @dev Update Escrow Factory address.
+     */
     function setEscrowFactoryAddress(address newEscrowFactoryAddress) public onlyOwner {
         escrowFactoryAddress = newEscrowFactoryAddress;
     }
 
-    function setStorageFactory(address newStorageFactoryAddress) public onlyOwner {
+    /**
+     * @dev Update Storage Factory address.
+     */
+    function setStorageFactoryAddress(address newStorageFactoryAddress) public onlyOwner {
         storageFactoryAddress = newStorageFactoryAddress;
     }
 
-    function setProxyFactory(address newProxyFactoryAddress) public onlyOwner {
+    /**
+     * @dev Update Proxy Factory address.
+     */
+    function setProxyFactoryAddress(address newProxyFactoryAddress) public onlyOwner {
         proxyFactoryAddress = newProxyFactoryAddress;
     }
 
@@ -114,7 +132,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param version Version of Instrument.
      * @param instrumentParameters Custom parameters for this instrument.
      */
-    function activateInstrument(address instrumentAddress, bytes32 version, bytes memory instrumentParameters)
+    function activateInstrument(address instrumentAddress, string memory version, bytes memory instrumentParameters)
         public returns (InstrumentManagerInterface) {
         require(_instrumentManagers[instrumentAddress] == address(0x0), "InstrumentRegistry: Instrument already activated.");
         require(instrumentAddress != address(0x0), "InstrumentRegistry: Instrument address must be provided.");

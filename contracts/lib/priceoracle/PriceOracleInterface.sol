@@ -8,6 +8,6 @@ interface PriceOracleInterface {
      * @param quoteTokenAddress The address of quote ERC20 token. ETH has a special address defined in Constants.getEthAddress()
      * @return The rate expressed as numerator/denominator.
      */
-    function getRate(address baseTokenAddress, address quoteTokenAddress) external
+    function getRate(address baseTokenAddress, address quoteTokenAddress) external view
         returns (uint256 numerator, uint256 denominator);
 }

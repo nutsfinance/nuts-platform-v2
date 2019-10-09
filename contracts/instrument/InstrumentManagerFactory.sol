@@ -9,12 +9,12 @@ import "./InstrumentManagerFactoryInterface.sol";
 contract InstrumentManagerFactory is InstrumentManagerFactoryInterface, Ownable {
 
     // Mapping: version => Instrument manager implementation address.
-    mapping(bytes32 => address) private _instrumentManagerImplementations;
+    mapping(string => address) private _instrumentManagerImplementations;
 
     /**
      * @dev Updates the implementation for instrument manager.
      */
-    function setInstrumentManagerImplementation(bytes32 version, address instrumentManagerImplementation) public onlyOwner {
+    function setInstrumentManagerImplementation(string memory version, address instrumentManagerImplementation) public onlyOwner {
         _instrumentManagerImplementations[version] = instrumentManagerImplementation;
     }
 
@@ -26,7 +26,7 @@ contract InstrumentManagerFactory is InstrumentManagerFactoryInterface, Ownable 
      * @param instrumentConfigAddress The address of the instrument config.
      * @param instrumentParameters The custom parameters to this instrument manager.
      */
-    function createInstrumentManagerInstance(bytes32 version, address fspAddress, address instrumentAddress,
+    function createInstrumentManagerInstance(string memory version, address fspAddress, address instrumentAddress,
         address instrumentConfigAddress, bytes memory instrumentParameters) public returns (InstrumentManagerInterface) {
         require(_instrumentManagerImplementations[version] != address(0x0), "InstrumentManagerFactory: Version not implemented.");
         require(fspAddress != address(0x0), "InstrumentManagerFactory: FSP address not set.");

@@ -177,8 +177,8 @@ contract LendingV1 is InstrumentV3 {
     /**
      * @dev A custom event is triggered.
      */
-    function processCustomEvent(bytes memory /* issuanceParametersData */, string memory /* eventName  */, bytes memory /* eventPayload */)
-        public pure returns (IssuanceStates, bytes memory) {
+    function processCustomEvent(bytes memory /* issuanceParametersData */, bytes32 /* eventName  */, bytes memory /* eventPayload */)
+        public returns (IssuanceStates, bytes memory) {
 
         revert("LoanV1: Unsupported operation.");
     }

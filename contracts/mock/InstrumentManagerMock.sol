@@ -5,7 +5,7 @@ import "../instrument/InstrumentManagerBase.sol";
 /**
  * @title Instrument Manager Mock.
  */
-contract InstrumentV1Manager is InstrumentManagerBase {
+contract InstrumentManagerMock is InstrumentManagerBase {
 
     /**
      * @dev Instrument type-specific issuance creation processing.
@@ -58,7 +58,7 @@ contract InstrumentV1Manager is InstrumentManagerBase {
      * @param eventName The name of the custom event.
      * @param eventPayload The custom parameters to the custom event
      */
-    function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName, bytes memory eventPayload)
+    function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
     }
 
@@ -69,7 +69,7 @@ contract InstrumentV1Manager is InstrumentManagerBase {
      * @param eventName The name of the custom event.
      * @param eventPayload The custom parameters to the custom event
      */
-    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, string memory eventName, bytes memory eventPayload)
+    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
         internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
    }
 }
