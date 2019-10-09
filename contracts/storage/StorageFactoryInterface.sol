@@ -7,5 +7,8 @@ import "./StorageInterface.sol";
  */
 interface StorageFactoryInterface {
 
+    /**
+     * @dev Create new storage instance.
+     */
     function createStorageInstance() external returns (StorageInterface);
 }

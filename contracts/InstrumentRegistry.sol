@@ -8,7 +8,6 @@ import "./instrument/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
 import "./lib/token/SafeERC20.sol";
 import "./lib/access/Ownable.sol";
-import "./lib/proxy/AdminUpgradeabilityProxy.sol";
 import "./InstrumentConfig.sol";
 
 /**
@@ -18,10 +17,9 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
 
     using SafeERC20 for IERC20;
 
-    // Mapping: Instrument version => Instrument Manager Factory
-    mapping(bytes32 => InstrumentManagerFactoryInterface) private _instrumentManagerFactories;
     // Mapping: Instrument Address => Instrument Manager Address
-    mapping(address => address) _instrumentManagers;
+    mapping(address => address) private _instrumentManagers;
+    InstrumentManagerFactoryInterface private _instrumentManagerFactory;
 
     /**
      * @dev Initialization method for Instrument Registry.
@@ -34,13 +32,14 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param priceOracleAddress Address of Price Oracle
      */
     function initialize(address owner, uint256 instrumentDeposit, uint256 issuanceDeposit, address depositTokenAddress,
-        address proxyAdminAddress, address timerOracleAddress, address priceOracleAddress) public {
+        address proxyAdminAddress, address timerOracleAddress, address priceOracleAddress, address instrumentManagerFactoryAddress) public {
         require(address(depositTokenAddress) == address(0x0), "InstrumentRegistry: Already initialized.");
         require(owner != address(0x0), "InstrumentRegistry: Owner must be provided.");
         require(depositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
         require(proxyAdminAddress != address(0x0), "InstrumentRegistry: Proxy admin address must be provided.");
         require(timerOracleAddress != address(0x0), "InstrumentRegistry: Timer Oracle address must be provided.");
         require(priceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
+        require(instrumentManagerFactoryAddress != address(0x0), "InstrumentRegistry: Instrument Manager Factory address must be provided.");
 
         // Set owner
         _transferOwnership(owner);
@@ -54,6 +53,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         // Create new Deposit Escrow
         DepositEscrowInterface depositEscrow = escrowFactory.createDepositEscrow(proxyAdminAddress, address(this));
 
+        _instrumentManagerFactory = InstrumentManagerFactoryInterface(instrumentManagerFactoryAddress);
         InstrumentConfig.initialize(instrumentDeposit, issuanceDeposit, address(depositEscrow), depositTokenAddress,
             proxyAdminAddress, timerOracleAddress, priceOracleAddress);
     }
@@ -61,8 +61,8 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev Update Instrument Manager Factory
      */
-    function setInstrumentManagerFactory(bytes32 version, InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
-        _instrumentManagerFactories[version] = instrumentManagerFactory;
+    function setInstrumentManagerFactory(InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
+        _instrumentManagerFactory = instrumentManagerFactory;
     }
 
     /**
@@ -111,30 +111,21 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         public returns (InstrumentManagerInterface) {
         require(_instrumentManagers[instrumentAddress] == address(0x0), "InstrumentRegistry: Instrument already activated.");
         require(instrumentAddress != address(0x0), "InstrumentRegistry: Instrument address must be provided.");
-        require(address(_instrumentManagerFactories[version]) != address(0x0), "InstrumentRegistry: Version not supported.");
 
         // Create Instrument Manager
-        InstrumentManagerInterface instrumentManager = _instrumentManagerFactories[version].createInstrumentManagerInstance();
+        InstrumentManagerInterface instrumentManager = _instrumentManagerFactory.createInstrumentManagerInstance(version,
+            msg.sender, instrumentAddress, address(this), instrumentParameters);
 
-        // Create Instrument Manager Proxy
-        AdminUpgradeabilityProxy instrumentManagerProxy = new AdminUpgradeabilityProxy(address(instrumentManager),
-            proxyAdminAddress, new bytes(0));
-
-        // Initialize Instrument Manager
-        InstrumentManagerInterface proxiedInstrumentManager = InstrumentManagerInterface(address(instrumentManagerProxy));
-        proxiedInstrumentManager.initialize(msg.sender, instrumentAddress, address(this),
-            instrumentParameters);
-
-        _instrumentManagers[instrumentAddress] = address(proxiedInstrumentManager);
+        _instrumentManagers[instrumentAddress] = address(instrumentManager);
 
         // Transfer NUTS token to deposit from FSP
         IERC20(depositTokenAddress).safeTransferFrom(msg.sender, address(this), instrumentDeposit);
         // Deposit the NUTS token to Deposit Escrow, under the account of the newly created Instrument Manager.
         IERC20(depositTokenAddress).safeApprove(depositEscrowAddress, instrumentDeposit);
-        DepositEscrowInterface(depositEscrowAddress).depositTokenByAdmin(address(proxiedInstrumentManager),
+        DepositEscrowInterface(depositEscrowAddress).depositTokenByAdmin(address(instrumentManager),
             depositTokenAddress, instrumentDeposit);
 
-        return proxiedInstrumentManager;
+        return instrumentManager;
     }
 
     /**
