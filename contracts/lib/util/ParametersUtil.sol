@@ -1,6 +1,7 @@
 pragma solidity ^0.5.0;
 
 import "../protobuf/InstrumentData.sol";
+import "../protobuf/LendingData.sol";
 
 /**
  * @dev A util contract to generate custom parameters.
@@ -18,4 +19,14 @@ contract ParametersUtil {
         return InstrumentParameters.encode(instrumentParameters);
     }
 
+    /**
+     * @dev Get serialized lending maker parameters defined in protocol buf.
+     */
+    function getLendingMakerParameters(address collateralTokenAddress, address lendingTokenAddress, uint256 lendingAmount,
+        uint32 collateralRatio, uint32 engagementDueDays, uint32 tenorDays, uint32 interestRate) public pure returns (bytes memory) {
+
+        LendingMakerParameters.Data memory lendingMakerParamaters = LendingMakerParameters.Data(collateralTokenAddress,
+            lendingTokenAddress, lendingAmount, collateralRatio, engagementDueDays, tenorDays, interestRate);
+        return LendingMakerParameters.encode(lendingMakerParamaters);
+    }
 }

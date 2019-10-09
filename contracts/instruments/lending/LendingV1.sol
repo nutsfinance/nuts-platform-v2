@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/math/SafeMath.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
-import "../../lib/protobuf/LoanData.sol";
+import "../../lib/protobuf/LendingData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../../lib/token/IERC20.sol";
@@ -52,7 +52,7 @@ contract LendingV1 is InstrumentV3 {
         returns (IssuanceStates updatedState) {
 
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
-        MakerParameters.Data memory makerParameters = MakerParameters.decode(makerParametersData);
+        LendingMakerParameters.Data memory makerParameters = LendingMakerParameters.decode(makerParametersData);
 
         // Validate parameters
         require(makerParameters.collateralTokenAddress != address(0x0), "LendingV1: Collateral token address must be set.");
@@ -60,7 +60,7 @@ contract LendingV1 is InstrumentV3 {
         require(makerParameters.lendingAmount > 0, "LoanV1: Lending amount must be set.");
         require(makerParameters.collateralRatio > 0, "LoanV1: Collateral ratio must be set.");
         require(makerParameters.engagementDueDays > 0, "LoanV1: Engagement due days must be set");
-        require(makerParameters.tenorDays > COLLATERAL_DUE_DAYS, "LoanV1: Tenor days must be greater than 1.");
+        require(makerParameters.tenorDays * 1 days > COLLATERAL_DUE_DAYS, "LoanV1: Tenor days must be greater than 2.");
 
         // Update lending parameters
         _lendingTokenAddress = makerParameters.lendingTokenAddress;

@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 import "./ProtoBufRuntime.sol";
 
-library MakerParameters {
+library LendingMakerParameters {
 
 
   //struct definition
@@ -393,4 +393,4 @@ library MakerParameters {
     }
   }
 }
-//library MakerParameters
+//library LendingMakerParameters

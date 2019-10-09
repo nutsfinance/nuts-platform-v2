@@ -143,12 +143,14 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
 
         _instrumentManagers[instrumentAddress] = address(instrumentManager);
 
-        // Transfer NUTS token to deposit from FSP
-        IERC20(depositTokenAddress).safeTransferFrom(msg.sender, address(this), instrumentDeposit);
-        // Deposit the NUTS token to Deposit Escrow, under the account of the newly created Instrument Manager.
-        IERC20(depositTokenAddress).safeApprove(depositEscrowAddress, instrumentDeposit);
-        DepositEscrowInterface(depositEscrowAddress).depositTokenByAdmin(address(instrumentManager),
-            depositTokenAddress, instrumentDeposit);
+        if (instrumentDeposit > 0) {
+            // Transfer NUTS token to deposit from FSP
+            IERC20(depositTokenAddress).safeTransferFrom(msg.sender, address(this), instrumentDeposit);
+            // Deposit the NUTS token to Deposit Escrow, under the account of the newly created Instrument Manager.
+            IERC20(depositTokenAddress).safeApprove(depositEscrowAddress, instrumentDeposit);
+            DepositEscrowInterface(depositEscrowAddress).depositTokenByAdmin(address(instrumentManager),
+                depositTokenAddress, instrumentDeposit);
+        }
 
         return instrumentManager;
     }

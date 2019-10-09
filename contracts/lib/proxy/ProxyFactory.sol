@@ -13,7 +13,7 @@ contract ProxyFactory is ProxyFactoryInterface {
      * @param proxyAdminAddress The address of the proxy admin.
      * @param implementationAddress The address of the implementation.
      */
-    function createAdminUpgradeabilityProxy(address proxyAdminAddress, address implementationAddress)
+    function createAdminUpgradeabilityProxy(address implementationAddress, address proxyAdminAddress)
         public returns (address) {
         return address(new AdminUpgradeabilityProxy(implementationAddress, proxyAdminAddress, new bytes(0)));
     }
@@ -23,7 +23,7 @@ contract ProxyFactory is ProxyFactoryInterface {
      * @param proxyAdminAddress The address of the proxy admin.
      * @param implementationAddress The address of the implementation.
      */
-    function createAdminOnlyUpgradeabilityProxy(address proxyAdminAddress, address implementationAddress)
+    function createAdminOnlyUpgradeabilityProxy(address implementationAddress, address proxyAdminAddress)
         public returns (address) {
         
         return address(new AdminOnlyUpgradeabilityProxy(implementationAddress, proxyAdminAddress, new bytes(0)));
