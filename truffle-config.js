@@ -18,11 +18,13 @@
  *
  */
 
-// const HDWalletProvider = require('truffle-hdwallet-provider');
+const HDWalletProvider = require('truffle-hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
+
+require('dotenv').config();
 
 module.exports = {
   /**
@@ -44,7 +46,7 @@ module.exports = {
     //
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 7545,            // Standard Ethereum port (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
       gas: 6721975,
       gasPrice: 0
@@ -52,10 +54,18 @@ module.exports = {
 
     // Another network with more advanced options...
     kovan: {
-      port: 8545,             // Custom port
+      provider: () => new HDWalletProvider(process.env.MNENOMIC, "https://kovan.infura.io/v3/" + process.env.INFURA_API_KEY, 0, 6),
       network_id: 42,       // Custom network
-      gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
+      gas: 6700000,           // Gas sent with each transaction (default: ~6700000)
       gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+    },
+
+    rinkeby: {
+      provider: () => new HDWalletProvider(process.env.MNENOMIC, "https://rinkeby.infura.io/v3/" + process.env.INFURA_API_KEY, 0, 6),
+      network_id: 4,       // Custom network
+      gas: 6700000,           // Gas sent with each transaction (default: ~6700000)
+      gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      skipDryRun: true,
     },
 
     // Useful for deploying to a public network.

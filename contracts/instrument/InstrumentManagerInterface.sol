@@ -18,7 +18,7 @@ interface InstrumentManagerInterface {
     /**
      * @dev Get the address of Instrument Escrow.
      */
-    function getInstrumentEscrow() external view returns (InstrumentEscrowInterface);
+    function getInstrumentEscrowAddress() external view returns (address);
 
     /**
      * @dev Deactivates the instrument.

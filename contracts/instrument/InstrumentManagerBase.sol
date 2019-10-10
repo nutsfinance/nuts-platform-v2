@@ -18,7 +18,10 @@ import "../lib/util/Constants.sol";
  * Base instrument manager for instrument v1, v2 and v3.
  */
 contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
+
     using SafeERC20 for IERC20;
+
+    event InstrumentManagerInitialized(address indexed instrumentAddress, address indexed instrumentEscrowAddress);
 
     /**
      * @dev Common property of issuance.
@@ -106,13 +109,15 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
         // Create Instrument Escrow
         _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
             .createInstrumentEscrow(_instrumentConfig.proxyAdminAddress(), address(this));
+
+        emit InstrumentManagerInitialized(_instrumentAddress, address(_instrumentEscrow));
     }
 
     /**
      * @dev Get the Instrument Escrow.
      */
-    function getInstrumentEscrow() public view returns (InstrumentEscrowInterface) {
-        return _instrumentEscrow;
+    function getInstrumentEscrowAddress() public view returns (address) {
+        return address(_instrumentEscrow);
     }
 
     /**
