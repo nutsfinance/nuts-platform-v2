@@ -1,0 +1,2076 @@
+{
+  "contractName": "ParametersUtil",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "expiration",
+          "type": "uint256"
+        },
+        {
+          "name": "brokerAddress",
+          "type": "address"
+        },
+        {
+          "name": "supportMakerWhitelist",
+          "type": "bool"
+        },
+        {
+          "name": "supportTakerWhitelist",
+          "type": "bool"
+        }
+      ],
+      "name": "getInstrumentParameters",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "collateralTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "lendingTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "lendingAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "collateralRatio",
+          "type": "uint32"
+        },
+        {
+          "name": "engagementDueDays",
+          "type": "uint32"
+        },
+        {
+          "name": "tenorDays",
+          "type": "uint32"
+        },
+        {
+          "name": "interestRate",
+          "type": "uint32"
+        }
+      ],
+      "name": "getLendingMakerParameters",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"collateralTokenAddress\",\"type\":\"address\"},{\"name\":\"lendingTokenAddress\",\"type\":\"address\"},{\"name\":\"lendingAmount\",\"type\":\"uint256\"},{\"name\":\"collateralRatio\",\"type\":\"uint32\"},{\"name\":\"engagementDueDays\",\"type\":\"uint32\"},{\"name\":\"tenorDays\",\"type\":\"uint32\"},{\"name\":\"interestRate\",\"type\":\"uint32\"}],\"name\":\"getLendingMakerParameters\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"expiration\",\"type\":\"uint256\"},{\"name\":\"brokerAddress\",\"type\":\"address\"},{\"name\":\"supportMakerWhitelist\",\"type\":\"bool\"},{\"name\":\"supportTakerWhitelist\",\"type\":\"bool\"}],\"name\":\"getInstrumentParameters\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"A util contract to generate custom parameters.\",\"methods\":{\"getInstrumentParameters(uint256,address,bool,bool)\":{\"details\":\"Get serialized instrument parameters defined in protocol buf.\"},\"getLendingMakerParameters(address,address,uint256,uint32,uint32,uint32,uint32)\":{\"details\":\"Get serialized lending maker parameters defined in protocol buf.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/util/ParametersUtil.sol\":\"ParametersUtil\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/InstrumentData.sol\":{\"keccak256\":\"0xec5a8e7444fd7388daac0923bc7cdd6417db5fd2b87d4f2a64e9499a4001aeba\",\"urls\":[\"bzzr://48c58f2ff146096a299f02744d5f6f2a71a7cbc4fe86a58651830a937aec316e\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/LendingData.sol\":{\"keccak256\":\"0x93e60f47640ef62a46d83a0beab7b3a10165e4c5806d27249b08a92f4e24b46d\",\"urls\":[\"bzzr://317d7323f0041f6b3b1c2852c4aa053d7b5856c604dcf7ca5bcdc74a4a6c38ec\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/ProtoBufRuntime.sol\":{\"keccak256\":\"0x98dc1c23772c46ded89b42c7994447311835cea905f14d1b2a816fb74466288b\",\"urls\":[\"bzzr://bcec42b0b75e09afb1d41b5f68471a5f127ed15b5440effce113be5c6b6770f4\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/util/ParametersUtil.sol\":{\"keccak256\":\"0xb2c79d010760f1d17ca05e69ad631631069a73066ce34a064fa064cc1e60efe6\",\"urls\":[\"bzzr://a994e321a2c701100f5c923777d9ad895fa43140d82829e9979e3346b083798b\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061065e806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063a0ba637c1461003b578063c3de4a521461010a575b600080fd5b610095600480360360e081101561005157600080fd5b506001600160a01b03813581169160208101359091169060408101359063ffffffff6060820135811691608081013582169160a082013581169160c0013516610146565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100cf5781810151838201526020016100b7565b50505050905090810190601f1680156100fc5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100956004803603608081101561012057600080fd5b508035906001600160a01b036020820135169060408101351515906060013515156101af565b60606101506105cf565b506040805160e0810182526001600160a01b03808b1682528916602082015290810187905263ffffffff8087166060830152858116608083015284811660a0830152831660c08201526101a2816101fc565b9998505050505050505050565b60606101b961060b565b6040518060800160405280878152602001866001600160a01b03168152602001851515815260200184151581525090506101f28161024c565b9695505050505050565b60608061020883610293565b6040519080825280601f01601f191660200182016040528015610232576020820181803883390190505b509050600061024384602084610299565b82525092915050565b60608061025883610392565b6040519080825280601f01601f191660200182016040528015610282576020820181803883390190505b509050600061024384602084610398565b50607490565b600082806102ab60016002838761041f565b86519101906102bb908286610435565b016102c9600280838761041f565b810190506102dc86602001518286610435565b016102eb60036002838761041f565b810190506102fe86604001518286610455565b0161030d60046002838761041f565b8101905061032086606001518286610464565b0161032f60056002838761041f565b8101905061034286608001518286610464565b0161035160066002838761041f565b810190506103648660a001518286610464565b0161037360076002838761041f565b810190506103868660c001518286610464565b010390505b9392505050565b50604090565b600082806103aa60016002838761041f565b86519101906103ba908286610455565b016103c8600280838761041f565b810190506103db86602001518286610435565b016103ea60036000838761041f565b810190506103fd86604001518286610479565b0161040c60046000838761041f565b8101905061038686606001518286610479565b60006008850260078516176101f281858561049c565b600061044d846001600160a01b0316601485856104df565b949350505050565b600061044d84602085856104df565b600061044d8463ffffffff16600485856104df565b600083156104945761048d6001848461049c565b905061038b565b61048d600084845b600080828401607f86165b600787901c156104cf578060801782535060079590951c9460019182019101607f86166104a7565b8082535050600101949350505050565b6003820191600090816104f487868689610512565b948501949050610505818386610550565b5050909203949350505050565b60008061051f8684610591565b9050848401815b80156105445787816020031a82536001919091019060001901610526565b50909695505050505050565b60008261056160028601828561049c565b8401935061057360016002868661041f565b8401935061058285858561049c565b90930192830390509392505050565b600060ff825b600719600882020182901b85161580156105b15750600081115b156105bf5760001901610597565b8061044d57506001949350505050565b6040805160e081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c081019190915290565b6040805160808101825260008082526020820181905291810182905260608101919091529056fea165627a7a723058205d5408d85bb40c869d36aa4790634812c768713eae3ec7aaac4eedf5940e563b0029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c8063a0ba637c1461003b578063c3de4a521461010a575b600080fd5b610095600480360360e081101561005157600080fd5b506001600160a01b03813581169160208101359091169060408101359063ffffffff6060820135811691608081013582169160a082013581169160c0013516610146565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100cf5781810151838201526020016100b7565b50505050905090810190601f1680156100fc5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100956004803603608081101561012057600080fd5b508035906001600160a01b036020820135169060408101351515906060013515156101af565b60606101506105cf565b506040805160e0810182526001600160a01b03808b1682528916602082015290810187905263ffffffff8087166060830152858116608083015284811660a0830152831660c08201526101a2816101fc565b9998505050505050505050565b60606101b961060b565b6040518060800160405280878152602001866001600160a01b03168152602001851515815260200184151581525090506101f28161024c565b9695505050505050565b60608061020883610293565b6040519080825280601f01601f191660200182016040528015610232576020820181803883390190505b509050600061024384602084610299565b82525092915050565b60608061025883610392565b6040519080825280601f01601f191660200182016040528015610282576020820181803883390190505b509050600061024384602084610398565b50607490565b600082806102ab60016002838761041f565b86519101906102bb908286610435565b016102c9600280838761041f565b810190506102dc86602001518286610435565b016102eb60036002838761041f565b810190506102fe86604001518286610455565b0161030d60046002838761041f565b8101905061032086606001518286610464565b0161032f60056002838761041f565b8101905061034286608001518286610464565b0161035160066002838761041f565b810190506103648660a001518286610464565b0161037360076002838761041f565b810190506103868660c001518286610464565b010390505b9392505050565b50604090565b600082806103aa60016002838761041f565b86519101906103ba908286610455565b016103c8600280838761041f565b810190506103db86602001518286610435565b016103ea60036000838761041f565b810190506103fd86604001518286610479565b0161040c60046000838761041f565b8101905061038686606001518286610479565b60006008850260078516176101f281858561049c565b600061044d846001600160a01b0316601485856104df565b949350505050565b600061044d84602085856104df565b600061044d8463ffffffff16600485856104df565b600083156104945761048d6001848461049c565b905061038b565b61048d600084845b600080828401607f86165b600787901c156104cf578060801782535060079590951c9460019182019101607f86166104a7565b8082535050600101949350505050565b6003820191600090816104f487868689610512565b948501949050610505818386610550565b5050909203949350505050565b60008061051f8684610591565b9050848401815b80156105445787816020031a82536001919091019060001901610526565b50909695505050505050565b60008261056160028601828561049c565b8401935061057360016002868661041f565b8401935061058285858561049c565b90930192830390509392505050565b600060ff825b600719600882020182901b85161580156105b15750600081115b156105bf5760001901610597565b8061044d57506001949350505050565b6040805160e081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c081019190915290565b6040805160808101825260008082526020820181905291810182905260608101919091529056fea165627a7a723058205d5408d85bb40c869d36aa4790634812c768713eae3ec7aaac4eedf5940e563b0029",
+  "sourceMap": "168:1206:51:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;168:1206:51;;;;;;;",
+  "deployedSourceMap": "168:1206:51:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;168:1206:51;;;;;;;;;;;;;;;;;;;;;;;;813:559;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;-1:-1;;;;;;813:559:51;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;813:559:51;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;289:425;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;-1:-1;289:425:51;;;-1:-1:-1;;;;;289:425:51;;;;;;;;;;;;;;;;;;;:::i;813:559::-;1050:12;1075:57;;:::i;:::-;-1:-1:-1;1135:160:51;;;;;;;;-1:-1:-1;;;;;1135:160:51;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1312:53;1135:160;1312:29;:53::i;:::-;1305:60;813:559;-1:-1:-1;;;;;;;;;813:559:51:o;289:425::-;450:12;475:53;;:::i;:::-;531:110;;;;;;;;557:10;531:110;;;;569:13;-1:-1:-1;;;;;531:110:51;;;;;596:21;531:110;;;;;;619:21;531:110;;;;;475:166;;658:49;686:20;658:27;:49::i;:::-;651:56;289:425;-1:-1:-1;;;;;;289:425:51:o;8347:211:33:-;8401:12;8421:15;8449:12;8459:1;8449:9;:12::i;:::-;8439:23;;;;;;;;;;;;;;;;;;;;;;;;;21:6:-1;;104:10;8439:23:33;87:34:-1;135:17;;-1:-1;8439:23:33;;8421:41;;8468:7;8478:18;8486:1;8489:2;8493;8478:7;:18::i;:::-;8519:14;;-1:-1:-1;8519:14:33;8347:211;-1:-1:-1;;8347:211:33:o;5778::32:-;5832:12;5852:15;5880:12;5890:1;5880:9;:12::i;:::-;5870:23;;;;;;;;;;;;;;;;;;;;;;;;;21:6:-1;;104:10;5870:23:32;87:34:-1;135:17;;-1:-1;5870:23:32;;5852:41;;5899:7;5909:18;5917:1;5920:2;5924;5909:7;:18::i;11339:215:33:-;-1:-1:-1;11525:10:33;;11339:215::o;8815:1446::-;8901:4;8927:1;;8972:81;9000:1;9003:36;8927:1;9050:2;8972:27;:81::i;:::-;9106:24;;8961:92;;;9070:74;;8961:92;9141:2;9070:35;:74::i;:::-;9059:85;9161:81;9189:1;;9059:85;9239:2;9161:27;:81::i;:::-;9150:92;;;;9259:71;9295:1;:21;;;9318:7;9327:2;9259:35;:71::i;:::-;9248:82;9347:81;9375:1;9378:36;9248:82;9425:2;9347:27;:81::i;:::-;9336:92;;;;9445:65;9481:1;:15;;;9498:7;9507:2;9445:35;:65::i;:::-;9434:76;9527:81;9555:1;9558:36;9434:76;9605:2;9527:27;:81::i;:::-;9516:92;;;;9625:66;9660:1;:17;;;9679:7;9688:2;9625:34;:66::i;:::-;9614:77;9708:81;9736:1;9739:36;9614:77;9786:2;9708:27;:81::i;:::-;9697:92;;;;9806:68;9841:1;:19;;;9862:7;9871:2;9806:34;:68::i;:::-;9795:79;9891:81;9919:1;9922:36;9795:79;9969:2;9891:27;:81::i;:::-;9880:92;;;;9989:60;10024:1;:11;;;10037:7;10046:2;9989:34;:60::i;:::-;9978:71;10066:81;10094:1;10097:36;9978:71;10144:2;10066:27;:81::i;:::-;10055:92;;;;10164:63;10199:1;:14;;;10215:7;10224:2;10164:34;:63::i;:::-;10153:74;10240:16;;-1:-1:-1;8815:1446:33;;;;;;:::o;8207:166:32:-;-1:-1:-1;8344:10:32;;8207:166::o;6246:883::-;6332:4;6358:1;;6403:81;6431:1;6434:36;6358:1;6481:2;6403:27;:81::i;:::-;6537:12;;6392:92;;;6501:62;;6392:92;6560:2;6501:35;:62::i;:::-;6490:73;6580:81;6608:1;;6490:73;6658:2;6580:27;:81::i;:::-;6569:92;;;;6678:65;6714:1;:15;;;6731:7;6740:2;6678:35;:65::i;:::-;6667:76;6760;6788:1;6791:31;6667:76;6833:2;6760:27;:76::i;:::-;6749:87;;;;6853:66;6882:1;:23;;;6907:7;6916:2;6853:28;:66::i;:::-;6842:77;6936:76;6964:1;6967:31;6842:77;7009:2;6936:27;:76::i;:::-;6925:87;;;;7029:66;7058:1;:23;;;7083:7;7092:2;7029:28;:66::i;14178:208:34:-;14268:4;14336:1;14317:9;;14328:10;;;14314:25;14357:24;14314:25;14375:1;14378:2;14357:14;:24::i;42780:143::-;42868:4;42887:31;42904:1;-1:-1:-1;;;;;42899:7:34;42908:2;42912:1;42915:2;42887:11;:31::i;:::-;42880:38;42780:143;-1:-1:-1;;;;42780:143:34:o;47588:::-;47676:4;47695:31;47712:1;47716:2;47720:1;47723:2;47695:11;:31::i;43496:140::-;43582:4;43601:30;43618:1;43613:7;;43622:1;43625;43628:2;43601:11;:30::i;17696:189::-;17774:4;17790:1;17786:94;;;17808:24;17823:1;17826;17829:2;17808:14;:24::i;:::-;17801:31;;;;17786:94;17856:24;17871:1;17874;17877:2;14611:534;14691:4;;14843:10;;;14878:4;14871:12;;14890:181;14904:1;14900:9;;;14897:16;14890:181;;14951:3;14945:4;14942:13;14935:5;14927:29;-1:-1:-1;15030:1:34;15026:9;;;;;14985:1;15002:10;;;;14974:13;15058:4;15051:12;;14890:181;;;15093:3;15086:5;15078:19;-1:-1:-1;;15118:1:34;15110:10;;14611:534;-1:-1:-1;;;;14611:534:34:o;58242:273::-;58381:1;58376:6;;;58328:4;;;58395:35;58417:1;58376:6;58423:2;58427;58395:21;:35::i;:::-;58436:9;;;;58388:42;-1:-1:-1;58451:36:34;58388:42;58476:6;58484:2;58451:18;:36::i;:::-;-1:-1:-1;;58500:10:34;;;;58242:273;-1:-1:-1;;;;58242:273:34:o;63354:399::-;63450:4;63462:13;63478:21;63493:1;63496:2;63478:14;:21::i;:::-;63462:37;;63543:1;63539:2;63535:10;63565:8;63580:142;63587:12;;63580:142;;63649:1;63641:5;63637:2;63633:14;63628:23;63621:5;63613:39;63681:1;63670:13;;;;;-1:-1:-1;;63701:13:34;63580:142;;;-1:-1:-1;63740:8:34;;63354:399;-1:-1:-1;;;;;;63354:399:34:o;57677:270::-;57762:4;57788:1;57800:29;57820:1;57815:6;;57788:1;57826:2;57800:14;:29::i;:::-;57795:34;;;;57840:43;57852:1;57855:20;57877:1;57880:2;57840:11;:43::i;:::-;57835:48;;;;57894:25;57909:2;57913:1;57916:2;57894:14;:25::i;:::-;57889:30;;;;57932:10;;;-1:-1:-1;57677:270:34;;;;;:::o;59932:304::-;59996:4;60020;60046:2;60054:106;-1:-1:-1;;448:1:34;60075:20;;:32;60066:42;;;60061:48;;:53;:69;;;;;60129:1;60118:8;:12;60061:69;60054:106;;;-1:-1:-1;;60140:13:34;60054:106;;;60169:13;60165:46;;-1:-1:-1;60203:1:34;60223:8;59932:304;-1:-1:-1;;;;59932:304:34:o;168:1206:51:-;;;;;;;;;-1:-1:-1;168:1206:51;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;-1:-1:-1;168:1206:51;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"../protobuf/InstrumentData.sol\";\nimport \"../protobuf/LendingData.sol\";\n\n/**\n * @dev A util contract to generate custom parameters.\n */\ncontract ParametersUtil {\n\n    /**\n     * @dev Get serialized instrument parameters defined in protocol buf.\n     */\n    function getInstrumentParameters(uint256 expiration, address brokerAddress, bool supportMakerWhitelist,\n        bool supportTakerWhitelist) public pure returns (bytes memory) {\n\n        InstrumentParameters.Data memory instrumentParameters = InstrumentParameters.Data(expiration, brokerAddress,\n            supportMakerWhitelist, supportTakerWhitelist);\n        return InstrumentParameters.encode(instrumentParameters);\n    }\n\n    /**\n     * @dev Get serialized lending maker parameters defined in protocol buf.\n     */\n    function getLendingMakerParameters(address collateralTokenAddress, address lendingTokenAddress, uint256 lendingAmount,\n        uint32 collateralRatio, uint32 engagementDueDays, uint32 tenorDays, uint32 interestRate) public pure returns (bytes memory) {\n\n        LendingMakerParameters.Data memory lendingMakerParamaters = LendingMakerParameters.Data(collateralTokenAddress,\n            lendingTokenAddress, lendingAmount, collateralRatio, engagementDueDays, tenorDays, interestRate);\n        return LendingMakerParameters.encode(lendingMakerParamaters);\n    }\n}",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/util/ParametersUtil.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/util/ParametersUtil.sol",
+    "exportedSymbols": {
+      "ParametersUtil": [
+        19722
+      ]
+    },
+    "id": 19723,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 19648,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:51"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/InstrumentData.sol",
+        "file": "../protobuf/InstrumentData.sol",
+        "id": 19649,
+        "nodeType": "ImportDirective",
+        "scope": 19723,
+        "sourceUnit": 8528,
+        "src": "25:40:51",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/LendingData.sol",
+        "file": "../protobuf/LendingData.sol",
+        "id": 19650,
+        "nodeType": "ImportDirective",
+        "scope": 19723,
+        "sourceUnit": 9670,
+        "src": "66:37:51",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@dev A util contract to generate custom parameters.",
+        "fullyImplemented": true,
+        "id": 19722,
+        "linearizedBaseContracts": [
+          19722
+        ],
+        "name": "ParametersUtil",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 19680,
+              "nodeType": "Block",
+              "src": "464:250:51",
+              "statements": [
+                {
+                  "assignments": [
+                    19666
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 19666,
+                      "name": "instrumentParameters",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 19680,
+                      "src": "475:53:51",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Data_$6149_memory_ptr",
+                        "typeString": "struct InstrumentParameters.Data"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 19665,
+                        "name": "InstrumentParameters.Data",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 6149,
+                        "src": "475:25:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$6149_storage_ptr",
+                          "typeString": "struct InstrumentParameters.Data"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 19674,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19669,
+                        "name": "expiration",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19652,
+                        "src": "557:10:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19670,
+                        "name": "brokerAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19654,
+                        "src": "569:13:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19671,
+                        "name": "supportMakerWhitelist",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19656,
+                        "src": "596:21:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19672,
+                        "name": "supportTakerWhitelist",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19658,
+                        "src": "619:21:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19667,
+                        "name": "InstrumentParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6952,
+                        "src": "531:20:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_InstrumentParameters_$6952_$",
+                          "typeString": "type(library InstrumentParameters)"
+                        }
+                      },
+                      "id": 19668,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "Data",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6149,
+                      "src": "531:25:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Data_$6149_storage_ptr_$",
+                        "typeString": "type(struct InstrumentParameters.Data storage pointer)"
+                      }
+                    },
+                    "id": 19673,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "531:110:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Data_$6149_memory",
+                      "typeString": "struct InstrumentParameters.Data memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "475:166:51"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19677,
+                        "name": "instrumentParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19666,
+                        "src": "686:20:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$6149_memory_ptr",
+                          "typeString": "struct InstrumentParameters.Data memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Data_$6149_memory_ptr",
+                          "typeString": "struct InstrumentParameters.Data memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19675,
+                        "name": "InstrumentParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6952,
+                        "src": "658:20:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_InstrumentParameters_$6952_$",
+                          "typeString": "type(library InstrumentParameters)"
+                        }
+                      },
+                      "id": 19676,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encode",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6667,
+                      "src": "658:27:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_Data_$6149_memory_ptr_$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function (struct InstrumentParameters.Data memory) pure returns (bytes memory)"
+                      }
+                    },
+                    "id": 19678,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "658:49:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  },
+                  "functionReturnParameters": 19662,
+                  "id": 19679,
+                  "nodeType": "Return",
+                  "src": "651:56:51"
+                }
+              ]
+            },
+            "documentation": "@dev Get serialized instrument parameters defined in protocol buf.",
+            "id": 19681,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getInstrumentParameters",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 19659,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19652,
+                  "name": "expiration",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "322:18:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 19651,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "322:7:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19654,
+                  "name": "brokerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "342:21:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 19653,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "342:7:51",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19656,
+                  "name": "supportMakerWhitelist",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "365:26:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 19655,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "365:4:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19658,
+                  "name": "supportTakerWhitelist",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "401:26:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 19657,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "401:4:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "321:107:51"
+            },
+            "returnParameters": {
+              "id": 19662,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19661,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "450:12:51",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 19660,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "450:5:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "449:14:51"
+            },
+            "scope": 19722,
+            "src": "289:425:51",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 19720,
+              "nodeType": "Block",
+              "src": "1064:308:51",
+              "statements": [
+                {
+                  "assignments": [
+                    19703
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 19703,
+                      "name": "lendingMakerParamaters",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 19720,
+                      "src": "1075:57:51",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Data_$8545_memory_ptr",
+                        "typeString": "struct LendingMakerParameters.Data"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 19702,
+                        "name": "LendingMakerParameters.Data",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 8545,
+                        "src": "1075:27:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$8545_storage_ptr",
+                          "typeString": "struct LendingMakerParameters.Data"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 19714,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19706,
+                        "name": "collateralTokenAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19683,
+                        "src": "1163:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19707,
+                        "name": "lendingTokenAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19685,
+                        "src": "1199:19:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19708,
+                        "name": "lendingAmount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19687,
+                        "src": "1220:13:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19709,
+                        "name": "collateralRatio",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19689,
+                        "src": "1235:15:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19710,
+                        "name": "engagementDueDays",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19691,
+                        "src": "1252:17:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19711,
+                        "name": "tenorDays",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19693,
+                        "src": "1271:9:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19712,
+                        "name": "interestRate",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19695,
+                        "src": "1282:12:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19704,
+                        "name": "LendingMakerParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9669,
+                        "src": "1135:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_LendingMakerParameters_$9669_$",
+                          "typeString": "type(library LendingMakerParameters)"
+                        }
+                      },
+                      "id": 19705,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "Data",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 8545,
+                      "src": "1135:27:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Data_$8545_storage_ptr_$",
+                        "typeString": "type(struct LendingMakerParameters.Data storage pointer)"
+                      }
+                    },
+                    "id": 19713,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1135:160:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Data_$8545_memory",
+                      "typeString": "struct LendingMakerParameters.Data memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1075:220:51"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19717,
+                        "name": "lendingMakerParamaters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19703,
+                        "src": "1342:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$8545_memory_ptr",
+                          "typeString": "struct LendingMakerParameters.Data memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Data_$8545_memory_ptr",
+                          "typeString": "struct LendingMakerParameters.Data memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19715,
+                        "name": "LendingMakerParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9669,
+                        "src": "1312:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_LendingMakerParameters_$9669_$",
+                          "typeString": "type(library LendingMakerParameters)"
+                        }
+                      },
+                      "id": 19716,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encode",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 9279,
+                      "src": "1312:29:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_Data_$8545_memory_ptr_$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function (struct LendingMakerParameters.Data memory) pure returns (bytes memory)"
+                      }
+                    },
+                    "id": 19718,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1312:53:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  },
+                  "functionReturnParameters": 19699,
+                  "id": 19719,
+                  "nodeType": "Return",
+                  "src": "1305:60:51"
+                }
+              ]
+            },
+            "documentation": "@dev Get serialized lending maker parameters defined in protocol buf.",
+            "id": 19721,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getLendingMakerParameters",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 19696,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19683,
+                  "name": "collateralTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "848:30:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 19682,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "848:7:51",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19685,
+                  "name": "lendingTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "880:27:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 19684,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "880:7:51",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19687,
+                  "name": "lendingAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "909:21:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 19686,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "909:7:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19689,
+                  "name": "collateralRatio",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "940:22:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19688,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "940:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19691,
+                  "name": "engagementDueDays",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "964:24:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19690,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "964:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19693,
+                  "name": "tenorDays",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "990:16:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19692,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "990:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19695,
+                  "name": "interestRate",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "1008:19:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19694,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1008:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "847:181:51"
+            },
+            "returnParameters": {
+              "id": 19699,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19698,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "1050:12:51",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 19697,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1050:5:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1049:14:51"
+            },
+            "scope": 19722,
+            "src": "813:559:51",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 19723,
+        "src": "168:1206:51"
+      }
+    ],
+    "src": "0:1374:51"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/util/ParametersUtil.sol",
+    "exportedSymbols": {
+      "ParametersUtil": [
+        19722
+      ]
+    },
+    "id": 19723,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 19648,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:51"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/InstrumentData.sol",
+        "file": "../protobuf/InstrumentData.sol",
+        "id": 19649,
+        "nodeType": "ImportDirective",
+        "scope": 19723,
+        "sourceUnit": 8528,
+        "src": "25:40:51",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/protobuf/LendingData.sol",
+        "file": "../protobuf/LendingData.sol",
+        "id": 19650,
+        "nodeType": "ImportDirective",
+        "scope": 19723,
+        "sourceUnit": 9670,
+        "src": "66:37:51",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@dev A util contract to generate custom parameters.",
+        "fullyImplemented": true,
+        "id": 19722,
+        "linearizedBaseContracts": [
+          19722
+        ],
+        "name": "ParametersUtil",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 19680,
+              "nodeType": "Block",
+              "src": "464:250:51",
+              "statements": [
+                {
+                  "assignments": [
+                    19666
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 19666,
+                      "name": "instrumentParameters",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 19680,
+                      "src": "475:53:51",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Data_$6149_memory_ptr",
+                        "typeString": "struct InstrumentParameters.Data"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 19665,
+                        "name": "InstrumentParameters.Data",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 6149,
+                        "src": "475:25:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$6149_storage_ptr",
+                          "typeString": "struct InstrumentParameters.Data"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 19674,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19669,
+                        "name": "expiration",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19652,
+                        "src": "557:10:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19670,
+                        "name": "brokerAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19654,
+                        "src": "569:13:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19671,
+                        "name": "supportMakerWhitelist",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19656,
+                        "src": "596:21:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19672,
+                        "name": "supportTakerWhitelist",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19658,
+                        "src": "619:21:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19667,
+                        "name": "InstrumentParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6952,
+                        "src": "531:20:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_InstrumentParameters_$6952_$",
+                          "typeString": "type(library InstrumentParameters)"
+                        }
+                      },
+                      "id": 19668,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "Data",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6149,
+                      "src": "531:25:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Data_$6149_storage_ptr_$",
+                        "typeString": "type(struct InstrumentParameters.Data storage pointer)"
+                      }
+                    },
+                    "id": 19673,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "531:110:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Data_$6149_memory",
+                      "typeString": "struct InstrumentParameters.Data memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "475:166:51"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19677,
+                        "name": "instrumentParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19666,
+                        "src": "686:20:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$6149_memory_ptr",
+                          "typeString": "struct InstrumentParameters.Data memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Data_$6149_memory_ptr",
+                          "typeString": "struct InstrumentParameters.Data memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19675,
+                        "name": "InstrumentParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6952,
+                        "src": "658:20:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_InstrumentParameters_$6952_$",
+                          "typeString": "type(library InstrumentParameters)"
+                        }
+                      },
+                      "id": 19676,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encode",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6667,
+                      "src": "658:27:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_Data_$6149_memory_ptr_$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function (struct InstrumentParameters.Data memory) pure returns (bytes memory)"
+                      }
+                    },
+                    "id": 19678,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "658:49:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  },
+                  "functionReturnParameters": 19662,
+                  "id": 19679,
+                  "nodeType": "Return",
+                  "src": "651:56:51"
+                }
+              ]
+            },
+            "documentation": "@dev Get serialized instrument parameters defined in protocol buf.",
+            "id": 19681,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getInstrumentParameters",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 19659,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19652,
+                  "name": "expiration",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "322:18:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 19651,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "322:7:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19654,
+                  "name": "brokerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "342:21:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 19653,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "342:7:51",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19656,
+                  "name": "supportMakerWhitelist",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "365:26:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 19655,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "365:4:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19658,
+                  "name": "supportTakerWhitelist",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "401:26:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 19657,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "401:4:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "321:107:51"
+            },
+            "returnParameters": {
+              "id": 19662,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19661,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19681,
+                  "src": "450:12:51",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 19660,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "450:5:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "449:14:51"
+            },
+            "scope": 19722,
+            "src": "289:425:51",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 19720,
+              "nodeType": "Block",
+              "src": "1064:308:51",
+              "statements": [
+                {
+                  "assignments": [
+                    19703
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 19703,
+                      "name": "lendingMakerParamaters",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 19720,
+                      "src": "1075:57:51",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Data_$8545_memory_ptr",
+                        "typeString": "struct LendingMakerParameters.Data"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 19702,
+                        "name": "LendingMakerParameters.Data",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 8545,
+                        "src": "1075:27:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$8545_storage_ptr",
+                          "typeString": "struct LendingMakerParameters.Data"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 19714,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19706,
+                        "name": "collateralTokenAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19683,
+                        "src": "1163:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19707,
+                        "name": "lendingTokenAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19685,
+                        "src": "1199:19:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19708,
+                        "name": "lendingAmount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19687,
+                        "src": "1220:13:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19709,
+                        "name": "collateralRatio",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19689,
+                        "src": "1235:15:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19710,
+                        "name": "engagementDueDays",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19691,
+                        "src": "1252:17:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19711,
+                        "name": "tenorDays",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19693,
+                        "src": "1271:9:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 19712,
+                        "name": "interestRate",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19695,
+                        "src": "1282:12:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19704,
+                        "name": "LendingMakerParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9669,
+                        "src": "1135:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_LendingMakerParameters_$9669_$",
+                          "typeString": "type(library LendingMakerParameters)"
+                        }
+                      },
+                      "id": 19705,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "Data",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 8545,
+                      "src": "1135:27:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Data_$8545_storage_ptr_$",
+                        "typeString": "type(struct LendingMakerParameters.Data storage pointer)"
+                      }
+                    },
+                    "id": 19713,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1135:160:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Data_$8545_memory",
+                      "typeString": "struct LendingMakerParameters.Data memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1075:220:51"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 19717,
+                        "name": "lendingMakerParamaters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 19703,
+                        "src": "1342:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Data_$8545_memory_ptr",
+                          "typeString": "struct LendingMakerParameters.Data memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Data_$8545_memory_ptr",
+                          "typeString": "struct LendingMakerParameters.Data memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 19715,
+                        "name": "LendingMakerParameters",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9669,
+                        "src": "1312:22:51",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_LendingMakerParameters_$9669_$",
+                          "typeString": "type(library LendingMakerParameters)"
+                        }
+                      },
+                      "id": 19716,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encode",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 9279,
+                      "src": "1312:29:51",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_Data_$8545_memory_ptr_$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function (struct LendingMakerParameters.Data memory) pure returns (bytes memory)"
+                      }
+                    },
+                    "id": 19718,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1312:53:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  },
+                  "functionReturnParameters": 19699,
+                  "id": 19719,
+                  "nodeType": "Return",
+                  "src": "1305:60:51"
+                }
+              ]
+            },
+            "documentation": "@dev Get serialized lending maker parameters defined in protocol buf.",
+            "id": 19721,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getLendingMakerParameters",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 19696,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19683,
+                  "name": "collateralTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "848:30:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 19682,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "848:7:51",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19685,
+                  "name": "lendingTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "880:27:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 19684,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "880:7:51",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19687,
+                  "name": "lendingAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "909:21:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 19686,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "909:7:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19689,
+                  "name": "collateralRatio",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "940:22:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19688,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "940:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19691,
+                  "name": "engagementDueDays",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "964:24:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19690,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "964:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19693,
+                  "name": "tenorDays",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "990:16:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19692,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "990:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 19695,
+                  "name": "interestRate",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "1008:19:51",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 19694,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1008:6:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "847:181:51"
+            },
+            "returnParameters": {
+              "id": 19699,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 19698,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 19721,
+                  "src": "1050:12:51",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 19697,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1050:5:51",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1049:14:51"
+            },
+            "scope": 19722,
+            "src": "813:559:51",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 19723,
+        "src": "168:1206:51"
+      }
+    ],
+    "src": "0:1374:51"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xBfE13cB6e2731e4740424804e86E5D8251E4CaE5",
+      "transactionHash": "0x94aef68d67c4d6a84e70e9e99864f420db54b229c8c16420c246ceddb87e9cb8"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x15FFD00F51Be255C9a74dCB1123c09EA12993936",
+      "transactionHash": "0x56e053286705334cf15ca01719784908e527f2626dac082c86af1765366b6121"
+    },
+    "1570661872937": {
+      "events": {},
+      "links": {},
+      "address": "0x47f01A7477cCDAC906335Bc714E5Eec84fe26f13",
+      "transactionHash": "0x0d2073153e1a5bb6921f79b97735441aa666f1f33bef82d47f7bd65c28b821cc"
+    }
+  },
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-10T00:51:28.128Z",
+  "devdoc": {
+    "details": "A util contract to generate custom parameters.",
+    "methods": {
+      "getInstrumentParameters(uint256,address,bool,bool)": {
+        "details": "Get serialized instrument parameters defined in protocol buf."
+      },
+      "getLendingMakerParameters(address,address,uint256,uint32,uint32,uint32,uint32)": {
+        "details": "Get serialized lending maker parameters defined in protocol buf."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

@@ -1,0 +1,784 @@
+{
+  "contractName": "InstrumentConfig",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "instrumentDeposit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "depositTokenAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "priceOracleAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "timerOracleAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "storageFactoryAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "proxyAdminAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "issuanceDeposit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "proxyFactoryAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "escrowFactoryAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "depositEscrowAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"instrumentDeposit\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"depositTokenAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"priceOracleAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"timerOracleAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"storageFactoryAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"proxyAdminAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"issuanceDeposit\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"proxyFactoryAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"escrowFactoryAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"depositEscrowAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{},\"title\":\"Base contract to hold instrument-related config.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/InstrumentConfig.sol\":\"InstrumentConfig\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/InstrumentConfig.sol\":{\"keccak256\":\"0xf8957e45a39f5008673f9175beef880917e2cac538d4ad965558164285cea0b2\",\"urls\":[\"bzzr://63f233c1162fb641e1f9601abbabeedbe9f236c41499908286be21458162b127\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506101f1806100206000396000f3fe608060405234801561001057600080fd5b50600436106100be5760003560e01c80635979e75511610076578063be5405d21161005b578063be5405d214610129578063d9e86f1d14610131578063e755926014610139576100be565b80635979e755146101195780635a36366714610121576100be565b80632bc51c6d116100a75780632bc51c6d14610101578063406b95c1146101095780634b3667e314610111576100be565b80631e081f09146100c357806323dc9e37146100dd575b600080fd5b6100cb610141565b60408051918252519081900360200190f35b6100e5610147565b604080516001600160a01b039092168252519081900360200190f35b6100e5610156565b6100e5610165565b6100e5610174565b6100e5610183565b6100cb610192565b6100e5610198565b6100e56101a7565b6100e56101b6565b60005481565b6003546001600160a01b031681565b6006546001600160a01b031681565b6005546001600160a01b031681565b6008546001600160a01b031681565b6004546001600160a01b031681565b60015481565b6009546001600160a01b031681565b6007546001600160a01b031681565b6002546001600160a01b03168156fea165627a7a72305820f6cbce5c86f3ba2684dc1a3a08edc44149e926da8e684f17d2792e48821bc7a90029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100be5760003560e01c80635979e75511610076578063be5405d21161005b578063be5405d214610129578063d9e86f1d14610131578063e755926014610139576100be565b80635979e755146101195780635a36366714610121576100be565b80632bc51c6d116100a75780632bc51c6d14610101578063406b95c1146101095780634b3667e314610111576100be565b80631e081f09146100c357806323dc9e37146100dd575b600080fd5b6100cb610141565b60408051918252519081900360200190f35b6100e5610147565b604080516001600160a01b039092168252519081900360200190f35b6100e5610156565b6100e5610165565b6100e5610174565b6100e5610183565b6100cb610192565b6100e5610198565b6100e56101a7565b6100e56101b6565b60005481565b6003546001600160a01b031681565b6006546001600160a01b031681565b6005546001600160a01b031681565b6008546001600160a01b031681565b6004546001600160a01b031681565b60015481565b6009546001600160a01b031681565b6007546001600160a01b031681565b6002546001600160a01b03168156fea165627a7a72305820f6cbce5c86f3ba2684dc1a3a08edc44149e926da8e684f17d2792e48821bc7a90029",
+  "sourceMap": "92:1296:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;92:1296:0;;;;;;;",
+  "deployedSourceMap": "92:1296:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;92:1296:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;245:32;;;:::i;:::-;;;;;;;;;;;;;;;;646:34;;;:::i;:::-;;;;-1:-1:-1;;;;;646:34:0;;;;;;;;;;;;;;995:33;;;:::i;876:::-;;;:::i;1231:36::-;;;:::i;762:32::-;;;:::i;390:30::-;;;:::i;1350:34::-;;;:::i;1112:35::-;;;:::i;509:::-;;;:::i;245:32::-;;;;:::o;646:34::-;;;-1:-1:-1;;;;;646:34:0;;:::o;995:33::-;;;-1:-1:-1;;;;;995:33:0;;:::o;876:::-;;;-1:-1:-1;;;;;876:33:0;;:::o;1231:36::-;;;-1:-1:-1;;;;;1231:36:0;;:::o;762:32::-;;;-1:-1:-1;;;;;762:32:0;;:::o;390:30::-;;;;:::o;1350:34::-;;;-1:-1:-1;;;;;1350:34:0;;:::o;1112:35::-;;;-1:-1:-1;;;;;1112:35:0;;:::o;509:::-;;;-1:-1:-1;;;;;509:35:0;;:::o",
+  "source": "pragma solidity ^0.5.0;\n\n/**\n * @title Base contract to hold instrument-related config.\n */\ncontract InstrumentConfig {\n    // Amount of NUTS token deposited to activate new financial instrument\n    // Note: Updateable after initialization.\n    uint256 public instrumentDeposit;\n    // Amount of NUTS token deposited to create new issuance\n    // Note: Updateable after initialization.\n    uint256 public issuanceDeposit;\n    // Address of Deposit Escrow\n    // Note: Non-updateable after initialization.\n    address public depositEscrowAddress;\n    // Address of deposited token(NUTS token)\n    // Note: Non-updateable after initialization.\n    address public depositTokenAddress;\n    // Address of proxy admin\n    // Note: Updateable after initialization.\n    address public proxyAdminAddress;\n    // Address of Timer Oracle\n    // Note: updatable after initialization.\n    address public timerOracleAddress;\n    // Address of Price Oracle\n    // Note: Non-updatable after initialization.\n    address public priceOracleAddress;\n    // Address of Escrow Factory\n    // Note: Updatable after initialization.\n    address public escrowFactoryAddress;\n    // Address of Storage Factory\n    // Note: Updatable after initialization\n    address public storageFactoryAddress;\n    // Address of Proxy Factory\n    // Note: Updatable after initialization.\n    address public proxyFactoryAddress;\n\n}",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/InstrumentConfig.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/InstrumentConfig.sol",
+    "exportedSymbols": {
+      "InstrumentConfig": [
+        22
+      ]
+    },
+    "id": 23,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Base contract to hold instrument-related config.",
+        "fullyImplemented": true,
+        "id": 22,
+        "linearizedBaseContracts": [
+          22
+        ],
+        "name": "InstrumentConfig",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 3,
+            "name": "instrumentDeposit",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "245:32:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "245:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 5,
+            "name": "issuanceDeposit",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "390:30:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 4,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "390:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 7,
+            "name": "depositEscrowAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "509:35:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 6,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "509:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 9,
+            "name": "depositTokenAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "646:34:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 8,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "646:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 11,
+            "name": "proxyAdminAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "762:32:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 10,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "762:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 13,
+            "name": "timerOracleAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "876:33:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 12,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "876:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 15,
+            "name": "priceOracleAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "995:33:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 14,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "995:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 17,
+            "name": "escrowFactoryAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "1112:35:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 16,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1112:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 19,
+            "name": "storageFactoryAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "1231:36:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 18,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1231:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 21,
+            "name": "proxyFactoryAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "1350:34:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 20,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1350:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 23,
+        "src": "92:1296:0"
+      }
+    ],
+    "src": "0:1388:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/InstrumentConfig.sol",
+    "exportedSymbols": {
+      "InstrumentConfig": [
+        22
+      ]
+    },
+    "id": 23,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Base contract to hold instrument-related config.",
+        "fullyImplemented": true,
+        "id": 22,
+        "linearizedBaseContracts": [
+          22
+        ],
+        "name": "InstrumentConfig",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 3,
+            "name": "instrumentDeposit",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "245:32:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 2,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "245:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 5,
+            "name": "issuanceDeposit",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "390:30:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 4,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "390:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 7,
+            "name": "depositEscrowAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "509:35:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 6,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "509:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 9,
+            "name": "depositTokenAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "646:34:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 8,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "646:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 11,
+            "name": "proxyAdminAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "762:32:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 10,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "762:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 13,
+            "name": "timerOracleAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "876:33:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 12,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "876:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 15,
+            "name": "priceOracleAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "995:33:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 14,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "995:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 17,
+            "name": "escrowFactoryAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "1112:35:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 16,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1112:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 19,
+            "name": "storageFactoryAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "1231:36:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 18,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1231:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 21,
+            "name": "proxyFactoryAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 22,
+            "src": "1350:34:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 20,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1350:7:0",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 23,
+        "src": "92:1296:0"
+      }
+    ],
+    "src": "0:1388:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-09T21:10:22.337Z",
+  "devdoc": {
+    "methods": {},
+    "title": "Base contract to hold instrument-related config."
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

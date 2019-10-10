@@ -1,0 +1,2257 @@
+{
+  "contractName": "InstrumentV3",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "issuanceId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "eventName",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "eventPayload",
+          "type": "bytes"
+        }
+      ],
+      "name": "EventTimeScheduled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "issuanceId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "blockNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "eventName",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "eventPayload",
+          "type": "bytes"
+        }
+      ],
+      "name": "EventBlockScheduled",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "issuanceParametersData",
+          "type": "bytes"
+        },
+        {
+          "name": "makerParametersData",
+          "type": "bytes"
+        }
+      ],
+      "name": "createIssuance",
+      "outputs": [
+        {
+          "name": "updatedState",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "issuanceParametersData",
+          "type": "bytes"
+        },
+        {
+          "name": "takerParameters",
+          "type": "bytes"
+        }
+      ],
+      "name": "engageIssuance",
+      "outputs": [
+        {
+          "name": "updatedState",
+          "type": "uint8"
+        },
+        {
+          "name": "transfersData",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "issuanceParametersData",
+          "type": "bytes"
+        },
+        {
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "processTokenDeposit",
+      "outputs": [
+        {
+          "name": "updatedState",
+          "type": "uint8"
+        },
+        {
+          "name": "transfersData",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "issuanceParametersData",
+          "type": "bytes"
+        },
+        {
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "processTokenWithdraw",
+      "outputs": [
+        {
+          "name": "updatedState",
+          "type": "uint8"
+        },
+        {
+          "name": "transfersData",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "issuanceParametersData",
+          "type": "bytes"
+        },
+        {
+          "name": "eventName",
+          "type": "bytes32"
+        },
+        {
+          "name": "eventPayload",
+          "type": "bytes"
+        }
+      ],
+      "name": "processCustomEvent",
+      "outputs": [
+        {
+          "name": "updatedState",
+          "type": "uint8"
+        },
+        {
+          "name": "transfersData",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "issuanceParametersData",
+          "type": "bytes"
+        },
+        {
+          "name": "eventName",
+          "type": "bytes32"
+        },
+        {
+          "name": "eventPayload",
+          "type": "bytes"
+        }
+      ],
+      "name": "processScheduledEvent",
+      "outputs": [
+        {
+          "name": "updatedState",
+          "type": "uint8"
+        },
+        {
+          "name": "transfersData",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"processTokenWithdraw\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"eventName\",\"type\":\"bytes32\"},{\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"processCustomEvent\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"processTokenDeposit\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"takerParameters\",\"type\":\"bytes\"}],\"name\":\"engageIssuance\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"makerParametersData\",\"type\":\"bytes\"}],\"name\":\"createIssuance\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"eventName\",\"type\":\"bytes32\"},{\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"processScheduledEvent\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"issuanceId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"eventName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"EventTimeScheduled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"issuanceId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"eventName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"EventBlockScheduled\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{\"createIssuance(bytes,bytes)\":{\"details\":\"Create a new issuance of the financial instrument\",\"params\":{\"issuanceParametersData\":\"Issuance Parameters.\",\"makerParametersData\":\"The custom parameters to the newly created issuance\"},\"return\":\"updatedState The new state of the issuance.\"},\"engageIssuance(bytes,bytes)\":{\"details\":\"A taker engages to the issuance\",\"params\":{\"issuanceParametersData\":\"Issuance Parameters.\",\"takerParameters\":\"The custom parameters to the new engagement\"},\"return\":\"updatedState The new state of the issuance.transfersData The transfers to perform after the invocation\"},\"processCustomEvent(bytes,bytes32,bytes)\":{\"details\":\"A custom event is triggered.\",\"params\":{\"eventName\":\"The name of the custom event.\",\"eventPayload\":\"The custom parameters to the custom event\",\"issuanceParametersData\":\"Issuance Parameters.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processScheduledEvent(bytes,bytes32,bytes)\":{\"details\":\"A scheduled event is triggered.\",\"params\":{\"eventName\":\"The name of the custom event.\",\"eventPayload\":\"The custom parameters to the custom event\",\"issuanceParametersData\":\"Issuance Parameters.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processTokenDeposit(bytes,address,uint256)\":{\"details\":\"An account has made an ERC20 token deposit to the issuance\",\"params\":{\"amount\":\"The amount of ERC20 token to deposit.\",\"issuanceParametersData\":\"Issuance Parameters.\",\"tokenAddress\":\"The address of the ERC20 token to deposit.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processTokenWithdraw(bytes,address,uint256)\":{\"details\":\"An account has made an ERC20 token withdraw from the issuance\",\"params\":{\"amount\":\"The amount of ERC20 token to withdraw.\",\"issuanceParametersData\":\"Issuance Parameters.\",\"tokenAddress\":\"The address of the ERC20 token to withdraw.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"}}},\"userdoc\":{\"methods\":{},\"notice\":\"Instrument v3 base contract. A storage proxy is created for each issuance.\"}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v3/InstrumentV3.sol\":\"InstrumentV3\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0xf94e80cc27169201e401647054dad579321f44a38230d106a521c1b7ba24bd94\",\"urls\":[\"bzzr://447d442a4f30377651be46e6558d63961fd1953da78cc5e9a9989d501922c50d\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentBase.sol\":{\"keccak256\":\"0x6a52d8167a621dd597ea99393ca138f17ca7900cbe4573c046c97dcc08776c81\",\"urls\":[\"bzzr://46ad414e9dd8a1775cf25bb6835e9bcb2ae27f4badc2b480d11a80d24a69f857\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v3/InstrumentV3.sol\":{\"keccak256\":\"0xf3c248c6d0e4139bc4b59d2d515c614b65058bffa3e2d3d1c4df8275dc7c2e3b\",\"urls\":[\"bzzr://c0b0e0f5ce1bba67bed325bf7420db0c1e9c261a647bc805086b11025d484b65\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"../InstrumentBase.sol\";\nimport \"../../escrow/EscrowBaseInterface.sol\";\n\n/**\n * Instrument v3 base contract.\n * A storage proxy is created for each issuance.\n */\ncontract InstrumentV3 is InstrumentBase {\n\n    /**\n     * @dev Create a new issuance of the financial instrument\n     * @param issuanceParametersData Issuance Parameters.\n     * @param makerParametersData The custom parameters to the newly created issuance\n     * @return updatedState The new state of the issuance.\n     */\n    function createIssuance(bytes memory issuanceParametersData, bytes memory makerParametersData) public\n        returns (IssuanceStates updatedState);\n\n    /**\n     * @dev A taker engages to the issuance\n     * @param issuanceParametersData Issuance Parameters.\n     * @param takerParameters The custom parameters to the new engagement\n     * @return updatedState The new state of the issuance.\n     * @return transfersData The transfers to perform after the invocation\n     */\n    function engageIssuance(bytes memory issuanceParametersData, bytes memory takerParameters) public\n        returns (IssuanceStates updatedState, bytes memory transfersData);\n\n    /**\n     * @dev An account has made an ERC20 token deposit to the issuance\n     * @param issuanceParametersData Issuance Parameters.\n     * @param tokenAddress The address of the ERC20 token to deposit.\n     * @param amount The amount of ERC20 token to deposit.\n     * @return updatedState The new state of the issuance.\n     * @return updatedData The updated data of the issuance.\n     * @return transfersData The transfers to perform after the invocation\n     */\n    function processTokenDeposit(bytes memory issuanceParametersData, address tokenAddress, uint256 amount) public\n        returns (IssuanceStates updatedState, bytes memory transfersData);\n\n\n    /**\n     * @dev An account has made an ERC20 token withdraw from the issuance\n     * @param issuanceParametersData Issuance Parameters.\n     * @param tokenAddress The address of the ERC20 token to withdraw.\n     * @param amount The amount of ERC20 token to withdraw.\n     * @return updatedState The new state of the issuance.\n     * @return updatedData The updated data of the issuance.\n     * @return transfersData The transfers to perform after the invocation\n     */\n    function processTokenWithdraw(bytes memory issuanceParametersData, address tokenAddress, uint256 amount)\n        public returns (IssuanceStates updatedState, bytes memory transfersData);\n\n    /**\n     * @dev A custom event is triggered.\n     * @param issuanceParametersData Issuance Parameters.\n     * @param eventName The name of the custom event.\n     * @param eventPayload The custom parameters to the custom event\n     * @return updatedState The new state of the issuance.\n     * @return updatedData The updated data of the issuance.\n     * @return transfersData The transfers to perform after the invocation\n     */\n    function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)\n        public returns (IssuanceStates updatedState, bytes memory transfersData);\n\n    /**\n     * @dev A scheduled event is triggered.\n     * @param issuanceParametersData Issuance Parameters.\n     * @param eventName The name of the custom event.\n     * @param eventPayload The custom parameters to the custom event\n     * @return updatedState The new state of the issuance.\n     * @return updatedData The updated data of the issuance.\n     * @return transfersData The transfers to perform after the invocation\n     */\n    function processScheduledEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)\n        public returns (IssuanceStates updatedState, bytes memory transfersData);\n}",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v3/InstrumentV3.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v3/InstrumentV3.sol",
+    "exportedSymbols": {
+      "InstrumentV3": [
+        4513
+      ]
+    },
+    "id": 4514,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4436,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:23"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentBase.sol",
+        "file": "../InstrumentBase.sol",
+        "id": 4437,
+        "nodeType": "ImportDirective",
+        "scope": 4514,
+        "sourceUnit": 1887,
+        "src": "25:31:23",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
+        "file": "../../escrow/EscrowBaseInterface.sol",
+        "id": 4438,
+        "nodeType": "ImportDirective",
+        "scope": 4514,
+        "sourceUnit": 1323,
+        "src": "57:46:23",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4439,
+              "name": "InstrumentBase",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1886,
+              "src": "219:14:23",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_InstrumentBase_$1886",
+                "typeString": "contract InstrumentBase"
+              }
+            },
+            "id": 4440,
+            "nodeType": "InheritanceSpecifier",
+            "src": "219:14:23"
+          }
+        ],
+        "contractDependencies": [
+          1886
+        ],
+        "contractKind": "contract",
+        "documentation": "Instrument v3 base contract.\nA storage proxy is created for each issuance.",
+        "fullyImplemented": false,
+        "id": 4513,
+        "linearizedBaseContracts": [
+          4513,
+          1886
+        ],
+        "name": "InstrumentV3",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Create a new issuance of the financial instrument\n@param issuanceParametersData Issuance Parameters.\n@param makerParametersData The custom parameters to the newly created issuance\n@return updatedState The new state of the issuance.",
+            "id": 4449,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createIssuance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4445,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4442,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4449,
+                  "src": "546:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4441,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4444,
+                  "name": "makerParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4449,
+                  "src": "583:32:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4443,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "583:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "545:71:23"
+            },
+            "returnParameters": {
+              "id": 4448,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4447,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4449,
+                  "src": "641:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4446,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "641:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "640:29:23"
+            },
+            "scope": 4513,
+            "src": "522:148:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev A taker engages to the issuance\n@param issuanceParametersData Issuance Parameters.\n@param takerParameters The custom parameters to the new engagement\n@return updatedState The new state of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4460,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "engageIssuance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4454,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4451,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1026:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4450,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1026:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4453,
+                  "name": "takerParameters",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1063:28:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4452,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1063:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1025:67:23"
+            },
+            "returnParameters": {
+              "id": 4459,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4456,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1117:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4455,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "1117:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4458,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1146:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4457,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1146:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1116:57:23"
+            },
+            "scope": 4513,
+            "src": "1002:172:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev An account has made an ERC20 token deposit to the issuance\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to deposit.\n@param amount The amount of ERC20 token to deposit.\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4473,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processTokenDeposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4467,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4462,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1678:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4461,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1678:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4464,
+                  "name": "tokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1715:20:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4463,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1715:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4466,
+                  "name": "amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1737:14:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4465,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1737:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1677:75:23"
+            },
+            "returnParameters": {
+              "id": 4472,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4469,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1777:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4468,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "1777:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4471,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1806:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4470,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1806:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1776:57:23"
+            },
+            "scope": 4513,
+            "src": "1649:185:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev An account has made an ERC20 token withdraw from the issuance\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to withdraw.\n@param amount The amount of ERC20 token to withdraw.\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4486,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processTokenWithdraw",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4480,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4475,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2345:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4474,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2345:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4477,
+                  "name": "tokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2382:20:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4476,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2382:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4479,
+                  "name": "amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2404:14:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4478,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2404:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2344:75:23"
+            },
+            "returnParameters": {
+              "id": 4485,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4482,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2444:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4481,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "2444:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4484,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2473:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4483,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2473:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2443:57:23"
+            },
+            "scope": 4513,
+            "src": "2315:186:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev A custom event is triggered.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4499,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processCustomEvent",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4493,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4488,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "2968:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4487,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2968:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4490,
+                  "name": "eventName",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3005:17:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4489,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3005:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4492,
+                  "name": "eventPayload",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3024:25:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4491,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3024:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2967:83:23"
+            },
+            "returnParameters": {
+              "id": 4498,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4495,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3075:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4494,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "3075:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4497,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3104:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4496,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3104:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3074:57:23"
+            },
+            "scope": 4513,
+            "src": "2940:192:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev A scheduled event is triggered.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4512,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processScheduledEvent",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4506,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4501,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3605:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4500,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3605:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4503,
+                  "name": "eventName",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3642:17:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4502,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3642:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4505,
+                  "name": "eventPayload",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3661:25:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4504,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3661:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3604:83:23"
+            },
+            "returnParameters": {
+              "id": 4511,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4508,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3712:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4507,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "3712:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4510,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3741:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4509,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3741:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3711:57:23"
+            },
+            "scope": 4513,
+            "src": "3574:195:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4514,
+        "src": "194:3577:23"
+      }
+    ],
+    "src": "0:3771:23"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v3/InstrumentV3.sol",
+    "exportedSymbols": {
+      "InstrumentV3": [
+        4513
+      ]
+    },
+    "id": 4514,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4436,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:23"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentBase.sol",
+        "file": "../InstrumentBase.sol",
+        "id": 4437,
+        "nodeType": "ImportDirective",
+        "scope": 4514,
+        "sourceUnit": 1887,
+        "src": "25:31:23",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
+        "file": "../../escrow/EscrowBaseInterface.sol",
+        "id": 4438,
+        "nodeType": "ImportDirective",
+        "scope": 4514,
+        "sourceUnit": 1323,
+        "src": "57:46:23",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4439,
+              "name": "InstrumentBase",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1886,
+              "src": "219:14:23",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_InstrumentBase_$1886",
+                "typeString": "contract InstrumentBase"
+              }
+            },
+            "id": 4440,
+            "nodeType": "InheritanceSpecifier",
+            "src": "219:14:23"
+          }
+        ],
+        "contractDependencies": [
+          1886
+        ],
+        "contractKind": "contract",
+        "documentation": "Instrument v3 base contract.\nA storage proxy is created for each issuance.",
+        "fullyImplemented": false,
+        "id": 4513,
+        "linearizedBaseContracts": [
+          4513,
+          1886
+        ],
+        "name": "InstrumentV3",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Create a new issuance of the financial instrument\n@param issuanceParametersData Issuance Parameters.\n@param makerParametersData The custom parameters to the newly created issuance\n@return updatedState The new state of the issuance.",
+            "id": 4449,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createIssuance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4445,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4442,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4449,
+                  "src": "546:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4441,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4444,
+                  "name": "makerParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4449,
+                  "src": "583:32:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4443,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "583:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "545:71:23"
+            },
+            "returnParameters": {
+              "id": 4448,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4447,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4449,
+                  "src": "641:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4446,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "641:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "640:29:23"
+            },
+            "scope": 4513,
+            "src": "522:148:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev A taker engages to the issuance\n@param issuanceParametersData Issuance Parameters.\n@param takerParameters The custom parameters to the new engagement\n@return updatedState The new state of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4460,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "engageIssuance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4454,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4451,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1026:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4450,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1026:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4453,
+                  "name": "takerParameters",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1063:28:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4452,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1063:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1025:67:23"
+            },
+            "returnParameters": {
+              "id": 4459,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4456,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1117:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4455,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "1117:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4458,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4460,
+                  "src": "1146:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4457,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1146:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1116:57:23"
+            },
+            "scope": 4513,
+            "src": "1002:172:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev An account has made an ERC20 token deposit to the issuance\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to deposit.\n@param amount The amount of ERC20 token to deposit.\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4473,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processTokenDeposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4467,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4462,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1678:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4461,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1678:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4464,
+                  "name": "tokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1715:20:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4463,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1715:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4466,
+                  "name": "amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1737:14:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4465,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1737:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1677:75:23"
+            },
+            "returnParameters": {
+              "id": 4472,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4469,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1777:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4468,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "1777:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4471,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4473,
+                  "src": "1806:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4470,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1806:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1776:57:23"
+            },
+            "scope": 4513,
+            "src": "1649:185:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev An account has made an ERC20 token withdraw from the issuance\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to withdraw.\n@param amount The amount of ERC20 token to withdraw.\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4486,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processTokenWithdraw",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4480,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4475,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2345:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4474,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2345:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4477,
+                  "name": "tokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2382:20:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4476,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2382:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4479,
+                  "name": "amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2404:14:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4478,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2404:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2344:75:23"
+            },
+            "returnParameters": {
+              "id": 4485,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4482,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2444:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4481,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "2444:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4484,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4486,
+                  "src": "2473:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4483,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2473:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2443:57:23"
+            },
+            "scope": 4513,
+            "src": "2315:186:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev A custom event is triggered.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4499,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processCustomEvent",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4493,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4488,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "2968:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4487,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2968:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4490,
+                  "name": "eventName",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3005:17:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4489,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3005:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4492,
+                  "name": "eventPayload",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3024:25:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4491,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3024:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2967:83:23"
+            },
+            "returnParameters": {
+              "id": 4498,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4495,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3075:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4494,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "3075:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4497,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4499,
+                  "src": "3104:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4496,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3104:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3074:57:23"
+            },
+            "scope": 4513,
+            "src": "2940:192:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev A scheduled event is triggered.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event\n@return updatedState The new state of the issuance.\n@return updatedData The updated data of the issuance.\n@return transfersData The transfers to perform after the invocation",
+            "id": 4512,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processScheduledEvent",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4506,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4501,
+                  "name": "issuanceParametersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3605:35:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4500,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3605:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4503,
+                  "name": "eventName",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3642:17:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4502,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3642:7:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4505,
+                  "name": "eventPayload",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3661:25:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4504,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3661:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3604:83:23"
+            },
+            "returnParameters": {
+              "id": 4511,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4508,
+                  "name": "updatedState",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3712:27:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                    "typeString": "enum InstrumentBase.IssuanceStates"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4507,
+                    "name": "IssuanceStates",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1865,
+                    "src": "3712:14:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_IssuanceStates_$1865",
+                      "typeString": "enum InstrumentBase.IssuanceStates"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4510,
+                  "name": "transfersData",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4512,
+                  "src": "3741:26:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4509,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3741:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3711:57:23"
+            },
+            "scope": 4513,
+            "src": "3574:195:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4514,
+        "src": "194:3577:23"
+      }
+    ],
+    "src": "0:3771:23"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-09T17:01:33.229Z",
+  "devdoc": {
+    "methods": {
+      "createIssuance(bytes,bytes)": {
+        "details": "Create a new issuance of the financial instrument",
+        "params": {
+          "issuanceParametersData": "Issuance Parameters.",
+          "makerParametersData": "The custom parameters to the newly created issuance"
+        },
+        "return": "updatedState The new state of the issuance."
+      },
+      "engageIssuance(bytes,bytes)": {
+        "details": "A taker engages to the issuance",
+        "params": {
+          "issuanceParametersData": "Issuance Parameters.",
+          "takerParameters": "The custom parameters to the new engagement"
+        },
+        "return": "updatedState The new state of the issuance.transfersData The transfers to perform after the invocation"
+      },
+      "processCustomEvent(bytes,bytes32,bytes)": {
+        "details": "A custom event is triggered.",
+        "params": {
+          "eventName": "The name of the custom event.",
+          "eventPayload": "The custom parameters to the custom event",
+          "issuanceParametersData": "Issuance Parameters."
+        },
+        "return": "updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation"
+      },
+      "processScheduledEvent(bytes,bytes32,bytes)": {
+        "details": "A scheduled event is triggered.",
+        "params": {
+          "eventName": "The name of the custom event.",
+          "eventPayload": "The custom parameters to the custom event",
+          "issuanceParametersData": "Issuance Parameters."
+        },
+        "return": "updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation"
+      },
+      "processTokenDeposit(bytes,address,uint256)": {
+        "details": "An account has made an ERC20 token deposit to the issuance",
+        "params": {
+          "amount": "The amount of ERC20 token to deposit.",
+          "issuanceParametersData": "Issuance Parameters.",
+          "tokenAddress": "The address of the ERC20 token to deposit."
+        },
+        "return": "updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation"
+      },
+      "processTokenWithdraw(bytes,address,uint256)": {
+        "details": "An account has made an ERC20 token withdraw from the issuance",
+        "params": {
+          "amount": "The amount of ERC20 token to withdraw.",
+          "issuanceParametersData": "Issuance Parameters.",
+          "tokenAddress": "The address of the ERC20 token to withdraw."
+        },
+        "return": "updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation"
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {},
+    "notice": "Instrument v3 base contract. A storage proxy is created for each issuance."
+  }
+}

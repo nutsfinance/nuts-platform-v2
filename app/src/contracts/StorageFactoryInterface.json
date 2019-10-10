@@ -1,0 +1,260 @@
+{
+  "contractName": "StorageFactoryInterface",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "createStorageInstance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"createStorageInstance\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface of storage factory.\",\"methods\":{\"createStorageInstance()\":{\"details\":\"Create new storage instance.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol\":\"StorageFactoryInterface\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol\":{\"keccak256\":\"0xe66967fd1afdc6b58a85eabba39281e522a77daf39f994dd8387dccc4d715f34\",\"urls\":[\"bzzr://e2beb9867586101596d7e6b0bdb01799547c8362cec708e8d44605245ce29f15\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageInterface.sol\":{\"keccak256\":\"0xa8188e1a373fddb2d0471e695ec8176aacaaea5b60f79e8336f17893ee070e44\",\"urls\":[\"bzzr://10906751b67858967fecb6bb3f445b66af00a3e9da33c95a69e3ade2d1ac912e\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"./StorageInterface.sol\";\n\n/**\n * @dev Interface of storage factory.\n */\ninterface StorageFactoryInterface {\n\n    /**\n     * @dev Create new storage instance.\n     */\n    function createStorageInstance() external returns (StorageInterface);\n}",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol",
+    "exportedSymbols": {
+      "StorageFactoryInterface": [
+        20546
+      ]
+    },
+    "id": 20547,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 20539,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:58"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageInterface.sol",
+        "file": "./StorageInterface.sol",
+        "id": 20540,
+        "nodeType": "ImportDirective",
+        "scope": 20547,
+        "sourceUnit": 20644,
+        "src": "25:32:58",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@dev Interface of storage factory.",
+        "fullyImplemented": false,
+        "id": 20546,
+        "linearizedBaseContracts": [
+          20546
+        ],
+        "name": "StorageFactoryInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Create new storage instance.",
+            "id": 20545,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createStorageInstance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20541,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "233:2:58"
+            },
+            "returnParameters": {
+              "id": 20544,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20543,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20545,
+                  "src": "254:16:58",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_StorageInterface_$20643",
+                    "typeString": "contract StorageInterface"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 20542,
+                    "name": "StorageInterface",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 20643,
+                    "src": "254:16:58",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_StorageInterface_$20643",
+                      "typeString": "contract StorageInterface"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "253:18:58"
+            },
+            "scope": 20546,
+            "src": "203:69:58",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 20547,
+        "src": "105:169:58"
+      }
+    ],
+    "src": "0:274:58"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol",
+    "exportedSymbols": {
+      "StorageFactoryInterface": [
+        20546
+      ]
+    },
+    "id": 20547,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 20539,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:58"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageInterface.sol",
+        "file": "./StorageInterface.sol",
+        "id": 20540,
+        "nodeType": "ImportDirective",
+        "scope": 20547,
+        "sourceUnit": 20644,
+        "src": "25:32:58",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@dev Interface of storage factory.",
+        "fullyImplemented": false,
+        "id": 20546,
+        "linearizedBaseContracts": [
+          20546
+        ],
+        "name": "StorageFactoryInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Create new storage instance.",
+            "id": 20545,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createStorageInstance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20541,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "233:2:58"
+            },
+            "returnParameters": {
+              "id": 20544,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20543,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20545,
+                  "src": "254:16:58",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_StorageInterface_$20643",
+                    "typeString": "contract StorageInterface"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 20542,
+                    "name": "StorageInterface",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 20643,
+                    "src": "254:16:58",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_StorageInterface_$20643",
+                      "typeString": "contract StorageInterface"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "253:18:58"
+            },
+            "scope": 20546,
+            "src": "203:69:58",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 20547,
+        "src": "105:169:58"
+      }
+    ],
+    "src": "0:274:58"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-09T17:01:33.462Z",
+  "devdoc": {
+    "details": "Interface of storage factory.",
+    "methods": {
+      "createStorageInstance()": {
+        "details": "Create new storage instance."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

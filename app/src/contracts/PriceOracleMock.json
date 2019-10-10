@@ -1,0 +1,2121 @@
+{
+  "contractName": "PriceOracleMock",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "baseTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "quoteTokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getRate",
+      "outputs": [
+        {
+          "name": "numerator",
+          "type": "uint256"
+        },
+        {
+          "name": "denominator",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "baseTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "quoteTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "numerator",
+          "type": "uint256"
+        },
+        {
+          "name": "denominator",
+          "type": "uint256"
+        }
+      ],
+      "name": "setRate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"baseTokenAddress\",\"type\":\"address\"},{\"name\":\"quoteTokenAddress\",\"type\":\"address\"}],\"name\":\"getRate\",\"outputs\":[{\"name\":\"numerator\",\"type\":\"uint256\"},{\"name\":\"denominator\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"baseTokenAddress\",\"type\":\"address\"},{\"name\":\"quoteTokenAddress\",\"type\":\"address\"},{\"name\":\"numerator\",\"type\":\"uint256\"},{\"name\":\"denominator\",\"type\":\"uint256\"}],\"name\":\"setRate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/mock/PriceOracleMock.sol\":\"PriceOracleMock\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/priceoracle/PriceOracleInterface.sol\":{\"keccak256\":\"0x5d49d367eabaaa8ef29e29c3fe45a1a69196de43a4c094796bbe2a6235b5d180\",\"urls\":[\"bzzr://604c6ba525470bc1b7670008e866aa9d537a23996b8728e439757a8861f49b92\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/mock/PriceOracleMock.sol\":{\"keccak256\":\"0x9c29a8c68b46ca084ccc52eded2970a771a01c7108b69fa40c6e2df5c2bf42a1\",\"urls\":[\"bzzr://745ca3e530b2d0036cdaf42f92974e6e93b379814aa151561952ee56ecf8a1fa\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061017a806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063379b87ea1461003b578063a36b7d7f14610082575b600080fd5b6100696004803603604081101561005157600080fd5b506001600160a01b03813581169160200135166100c0565b6040805192835260208301919091528051918290030190f35b6100be6004803603608081101561009857600080fd5b506001600160a01b0381358116916020810135909116906040810135906060013561011d565b005b600080826001600160a01b0316846001600160a01b031614156100e857506001905080610116565b50506001600160a01b0380831660009081526020818152604080832093851683529290522080546001909101545b9250929050565b6001600160a01b0393841660009081526020818152604080832095909616825293909352929091209081556001015556fea165627a7a72305820dac13b9d9f4a4446d5477f3ad1e3912904bb641da72bd2e3335673797bd300d00029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c8063379b87ea1461003b578063a36b7d7f14610082575b600080fd5b6100696004803603604081101561005157600080fd5b506001600160a01b03813581169160200135166100c0565b6040805192835260208301919091528051918290030190f35b6100be6004803603608081101561009857600080fd5b506001600160a01b0381358116916020810135909116906040810135906060013561011d565b005b600080826001600160a01b0316846001600160a01b031614156100e857506001905080610116565b50506001600160a01b0380831660009081526020818152604080832093851683529290522080546001909101545b9250929050565b6001600160a01b0393841660009081526020818152604080832095909616825293909352929091209081556001015556fea165627a7a72305820dac13b9d9f4a4446d5477f3ad1e3912904bb641da72bd2e3335673797bd300d00029",
+  "sourceMap": "80:828:55:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;80:828:55;;;;;;;",
+  "deployedSourceMap": "80:828:55:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;80:828:55;;;;;;;;;;;;;;;;;;;;;;;;284:338;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;;;;;;284:338:55;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;628:278;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;-1:-1;;;;;;628:278:55;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;284:338;383:17;402:19;458:17;-1:-1:-1;;;;;438:37:55;:16;-1:-1:-1;;;;;438:37:55;;434:57;;;-1:-1:-1;486:1:55;;-1:-1:-1;486:1:55;478:13;;434:57;-1:-1:-1;;;;;;;521:24:55;;;501:17;521:24;;;;;;;;;;;:43;;;;;;;;;582:14;;598:16;;;;;284:338;;;;;;:::o;628:278::-;-1:-1:-1;;;;;755:24:55;;;:6;:24;;;;;;;;;;;:43;;;;;;;;;;;;;;:65;;;830:55;;:69;628:278::o",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"../lib/priceoracle/PriceOracleInterface.sol\";\n\ncontract PriceOracleMock is PriceOracleInterface {\n\n    struct Rate {\n        uint256 numerator;\n        uint256 denominator;\n    }\n\n    mapping(address => mapping(address => Rate)) private _rates;\n\n\n    function getRate(address baseTokenAddress, address quoteTokenAddress) public view\n        returns (uint256 numerator, uint256 denominator) {\n\n        if (baseTokenAddress == quoteTokenAddress)  return (1, 1);\n        Rate storage rate = _rates[baseTokenAddress][quoteTokenAddress];\n        return (rate.numerator, rate.denominator);\n    }\n\n    function setRate(address baseTokenAddress, address quoteTokenAddress, uint256 numerator, uint256 denominator) public {\n        _rates[baseTokenAddress][quoteTokenAddress].numerator = numerator;\n        _rates[baseTokenAddress][quoteTokenAddress].denominator = denominator;\n    }\n}",
+  "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/PriceOracleMock.sol",
+  "ast": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/PriceOracleMock.sol",
+    "exportedSymbols": {
+      "PriceOracleMock": [
+        20520
+      ]
+    },
+    "id": 20521,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 20441,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:55"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/priceoracle/PriceOracleInterface.sol",
+        "file": "../lib/priceoracle/PriceOracleInterface.sol",
+        "id": 20442,
+        "nodeType": "ImportDirective",
+        "scope": 20521,
+        "sourceUnit": 6153,
+        "src": "25:53:55",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 20443,
+              "name": "PriceOracleInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6152,
+              "src": "108:20:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PriceOracleInterface_$6152",
+                "typeString": "contract PriceOracleInterface"
+              }
+            },
+            "id": 20444,
+            "nodeType": "InheritanceSpecifier",
+            "src": "108:20:55"
+          }
+        ],
+        "contractDependencies": [
+          6152
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 20520,
+        "linearizedBaseContracts": [
+          20520,
+          6152
+        ],
+        "name": "PriceOracleMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "PriceOracleMock.Rate",
+            "id": 20449,
+            "members": [
+              {
+                "constant": false,
+                "id": 20446,
+                "name": "numerator",
+                "nodeType": "VariableDeclaration",
+                "scope": 20449,
+                "src": "158:17:55",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 20445,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "158:7:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 20448,
+                "name": "denominator",
+                "nodeType": "VariableDeclaration",
+                "scope": 20449,
+                "src": "185:19:55",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 20447,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "185:7:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Rate",
+            "nodeType": "StructDefinition",
+            "scope": 20520,
+            "src": "136:75:55",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 20455,
+            "name": "_rates",
+            "nodeType": "VariableDeclaration",
+            "scope": 20520,
+            "src": "217:59:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+              "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate))"
+            },
+            "typeName": {
+              "id": 20454,
+              "keyType": {
+                "id": 20450,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "225:7:55",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "217:44:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate))"
+              },
+              "valueType": {
+                "id": 20453,
+                "keyType": {
+                  "id": 20451,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "244:7:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "236:24:55",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                  "typeString": "mapping(address => struct PriceOracleMock.Rate)"
+                },
+                "valueType": {
+                  "contractScope": null,
+                  "id": 20452,
+                  "name": "Rate",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 20449,
+                  "src": "255:4:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                    "typeString": "struct PriceOracleMock.Rate"
+                  }
+                }
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 20488,
+              "nodeType": "Block",
+              "src": "423:199:55",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 20468,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 20466,
+                      "name": "baseTokenAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20457,
+                      "src": "438:16:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 20467,
+                      "name": "quoteTokenAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20459,
+                      "src": "458:17:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "438:37:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 20473,
+                  "nodeType": "IfStatement",
+                  "src": "434:57:55",
+                  "trueBody": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "components": [
+                        {
+                          "argumentTypes": null,
+                          "hexValue": "31",
+                          "id": 20469,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "486:1:55",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        },
+                        {
+                          "argumentTypes": null,
+                          "hexValue": "31",
+                          "id": 20470,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "489:1:55",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        }
+                      ],
+                      "id": 20471,
+                      "isConstant": false,
+                      "isInlineArray": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "TupleExpression",
+                      "src": "485:6:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_rational_1_by_1_$_t_rational_1_by_1_$",
+                        "typeString": "tuple(int_const 1,int_const 1)"
+                      }
+                    },
+                    "functionReturnParameters": 20465,
+                    "id": 20472,
+                    "nodeType": "Return",
+                    "src": "478:13:55"
+                  }
+                },
+                {
+                  "assignments": [
+                    20475
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 20475,
+                      "name": "rate",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 20488,
+                      "src": "501:17:55",
+                      "stateVariable": false,
+                      "storageLocation": "storage",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                        "typeString": "struct PriceOracleMock.Rate"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 20474,
+                        "name": "Rate",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 20449,
+                        "src": "501:4:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                          "typeString": "struct PriceOracleMock.Rate"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 20481,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 20476,
+                        "name": "_rates",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 20455,
+                        "src": "521:6:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                          "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate storage ref))"
+                        }
+                      },
+                      "id": 20478,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 20477,
+                        "name": "baseTokenAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 20457,
+                        "src": "528:16:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "521:24:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                        "typeString": "mapping(address => struct PriceOracleMock.Rate storage ref)"
+                      }
+                    },
+                    "id": 20480,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "id": 20479,
+                      "name": "quoteTokenAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20459,
+                      "src": "546:17:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "521:43:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Rate_$20449_storage",
+                      "typeString": "struct PriceOracleMock.Rate storage ref"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "501:63:55"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 20482,
+                          "name": "rate",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20475,
+                          "src": "582:4:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                            "typeString": "struct PriceOracleMock.Rate storage pointer"
+                          }
+                        },
+                        "id": 20483,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "numerator",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 20446,
+                        "src": "582:14:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 20484,
+                          "name": "rate",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20475,
+                          "src": "598:4:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                            "typeString": "struct PriceOracleMock.Rate storage pointer"
+                          }
+                        },
+                        "id": 20485,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "denominator",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 20448,
+                        "src": "598:16:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 20486,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "581:34:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                      "typeString": "tuple(uint256,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 20465,
+                  "id": 20487,
+                  "nodeType": "Return",
+                  "src": "574:41:55"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 20489,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20460,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20457,
+                  "name": "baseTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "301:24:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20456,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "301:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20459,
+                  "name": "quoteTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "327:25:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20458,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "327:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "300:53:55"
+            },
+            "returnParameters": {
+              "id": 20465,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20462,
+                  "name": "numerator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "383:17:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20461,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "383:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20464,
+                  "name": "denominator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "402:19:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20463,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "402:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "382:40:55"
+            },
+            "scope": 20520,
+            "src": "284:338:55",
+            "stateMutability": "view",
+            "superFunction": 6151,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 20518,
+              "nodeType": "Block",
+              "src": "745:161:55",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 20507,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 20500,
+                            "name": "_rates",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20455,
+                            "src": "755:6:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                              "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate storage ref))"
+                            }
+                          },
+                          "id": 20503,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 20501,
+                            "name": "baseTokenAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20491,
+                            "src": "762:16:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "755:24:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                            "typeString": "mapping(address => struct PriceOracleMock.Rate storage ref)"
+                          }
+                        },
+                        "id": 20504,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 20502,
+                          "name": "quoteTokenAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20493,
+                          "src": "780:17:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "755:43:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Rate_$20449_storage",
+                          "typeString": "struct PriceOracleMock.Rate storage ref"
+                        }
+                      },
+                      "id": 20505,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "numerator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 20446,
+                      "src": "755:53:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 20506,
+                      "name": "numerator",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20495,
+                      "src": "811:9:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "755:65:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 20508,
+                  "nodeType": "ExpressionStatement",
+                  "src": "755:65:55"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 20516,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 20509,
+                            "name": "_rates",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20455,
+                            "src": "830:6:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                              "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate storage ref))"
+                            }
+                          },
+                          "id": 20512,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 20510,
+                            "name": "baseTokenAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20491,
+                            "src": "837:16:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "830:24:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                            "typeString": "mapping(address => struct PriceOracleMock.Rate storage ref)"
+                          }
+                        },
+                        "id": 20513,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 20511,
+                          "name": "quoteTokenAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20493,
+                          "src": "855:17:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "830:43:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Rate_$20449_storage",
+                          "typeString": "struct PriceOracleMock.Rate storage ref"
+                        }
+                      },
+                      "id": 20514,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "denominator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 20448,
+                      "src": "830:55:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 20515,
+                      "name": "denominator",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20497,
+                      "src": "888:11:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "830:69:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 20517,
+                  "nodeType": "ExpressionStatement",
+                  "src": "830:69:55"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 20519,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20498,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20491,
+                  "name": "baseTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "645:24:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20490,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "645:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20493,
+                  "name": "quoteTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "671:25:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20492,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "671:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20495,
+                  "name": "numerator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "698:17:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20494,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "698:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20497,
+                  "name": "denominator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "717:19:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20496,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "717:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "644:93:55"
+            },
+            "returnParameters": {
+              "id": 20499,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "745:0:55"
+            },
+            "scope": 20520,
+            "src": "628:278:55",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 20521,
+        "src": "80:828:55"
+      }
+    ],
+    "src": "0:908:55"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/PriceOracleMock.sol",
+    "exportedSymbols": {
+      "PriceOracleMock": [
+        20520
+      ]
+    },
+    "id": 20521,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 20441,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:55"
+      },
+      {
+        "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/priceoracle/PriceOracleInterface.sol",
+        "file": "../lib/priceoracle/PriceOracleInterface.sol",
+        "id": 20442,
+        "nodeType": "ImportDirective",
+        "scope": 20521,
+        "sourceUnit": 6153,
+        "src": "25:53:55",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 20443,
+              "name": "PriceOracleInterface",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6152,
+              "src": "108:20:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PriceOracleInterface_$6152",
+                "typeString": "contract PriceOracleInterface"
+              }
+            },
+            "id": 20444,
+            "nodeType": "InheritanceSpecifier",
+            "src": "108:20:55"
+          }
+        ],
+        "contractDependencies": [
+          6152
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 20520,
+        "linearizedBaseContracts": [
+          20520,
+          6152
+        ],
+        "name": "PriceOracleMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "PriceOracleMock.Rate",
+            "id": 20449,
+            "members": [
+              {
+                "constant": false,
+                "id": 20446,
+                "name": "numerator",
+                "nodeType": "VariableDeclaration",
+                "scope": 20449,
+                "src": "158:17:55",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 20445,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "158:7:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 20448,
+                "name": "denominator",
+                "nodeType": "VariableDeclaration",
+                "scope": 20449,
+                "src": "185:19:55",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 20447,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "185:7:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Rate",
+            "nodeType": "StructDefinition",
+            "scope": 20520,
+            "src": "136:75:55",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 20455,
+            "name": "_rates",
+            "nodeType": "VariableDeclaration",
+            "scope": 20520,
+            "src": "217:59:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+              "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate))"
+            },
+            "typeName": {
+              "id": 20454,
+              "keyType": {
+                "id": 20450,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "225:7:55",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "217:44:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate))"
+              },
+              "valueType": {
+                "id": 20453,
+                "keyType": {
+                  "id": 20451,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "244:7:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "236:24:55",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                  "typeString": "mapping(address => struct PriceOracleMock.Rate)"
+                },
+                "valueType": {
+                  "contractScope": null,
+                  "id": 20452,
+                  "name": "Rate",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 20449,
+                  "src": "255:4:55",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                    "typeString": "struct PriceOracleMock.Rate"
+                  }
+                }
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 20488,
+              "nodeType": "Block",
+              "src": "423:199:55",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 20468,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 20466,
+                      "name": "baseTokenAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20457,
+                      "src": "438:16:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 20467,
+                      "name": "quoteTokenAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20459,
+                      "src": "458:17:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "438:37:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 20473,
+                  "nodeType": "IfStatement",
+                  "src": "434:57:55",
+                  "trueBody": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "components": [
+                        {
+                          "argumentTypes": null,
+                          "hexValue": "31",
+                          "id": 20469,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "486:1:55",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        },
+                        {
+                          "argumentTypes": null,
+                          "hexValue": "31",
+                          "id": 20470,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "489:1:55",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        }
+                      ],
+                      "id": 20471,
+                      "isConstant": false,
+                      "isInlineArray": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "TupleExpression",
+                      "src": "485:6:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_rational_1_by_1_$_t_rational_1_by_1_$",
+                        "typeString": "tuple(int_const 1,int_const 1)"
+                      }
+                    },
+                    "functionReturnParameters": 20465,
+                    "id": 20472,
+                    "nodeType": "Return",
+                    "src": "478:13:55"
+                  }
+                },
+                {
+                  "assignments": [
+                    20475
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 20475,
+                      "name": "rate",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 20488,
+                      "src": "501:17:55",
+                      "stateVariable": false,
+                      "storageLocation": "storage",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                        "typeString": "struct PriceOracleMock.Rate"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 20474,
+                        "name": "Rate",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 20449,
+                        "src": "501:4:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                          "typeString": "struct PriceOracleMock.Rate"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 20481,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 20476,
+                        "name": "_rates",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 20455,
+                        "src": "521:6:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                          "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate storage ref))"
+                        }
+                      },
+                      "id": 20478,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 20477,
+                        "name": "baseTokenAddress",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 20457,
+                        "src": "528:16:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "521:24:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                        "typeString": "mapping(address => struct PriceOracleMock.Rate storage ref)"
+                      }
+                    },
+                    "id": 20480,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "id": 20479,
+                      "name": "quoteTokenAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20459,
+                      "src": "546:17:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "521:43:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Rate_$20449_storage",
+                      "typeString": "struct PriceOracleMock.Rate storage ref"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "501:63:55"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 20482,
+                          "name": "rate",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20475,
+                          "src": "582:4:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                            "typeString": "struct PriceOracleMock.Rate storage pointer"
+                          }
+                        },
+                        "id": 20483,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "numerator",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 20446,
+                        "src": "582:14:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 20484,
+                          "name": "rate",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20475,
+                          "src": "598:4:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Rate_$20449_storage_ptr",
+                            "typeString": "struct PriceOracleMock.Rate storage pointer"
+                          }
+                        },
+                        "id": 20485,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "denominator",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 20448,
+                        "src": "598:16:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "id": 20486,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "581:34:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                      "typeString": "tuple(uint256,uint256)"
+                    }
+                  },
+                  "functionReturnParameters": 20465,
+                  "id": 20487,
+                  "nodeType": "Return",
+                  "src": "574:41:55"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 20489,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20460,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20457,
+                  "name": "baseTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "301:24:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20456,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "301:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20459,
+                  "name": "quoteTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "327:25:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20458,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "327:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "300:53:55"
+            },
+            "returnParameters": {
+              "id": 20465,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20462,
+                  "name": "numerator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "383:17:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20461,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "383:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20464,
+                  "name": "denominator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20489,
+                  "src": "402:19:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20463,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "402:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "382:40:55"
+            },
+            "scope": 20520,
+            "src": "284:338:55",
+            "stateMutability": "view",
+            "superFunction": 6151,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 20518,
+              "nodeType": "Block",
+              "src": "745:161:55",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 20507,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 20500,
+                            "name": "_rates",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20455,
+                            "src": "755:6:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                              "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate storage ref))"
+                            }
+                          },
+                          "id": 20503,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 20501,
+                            "name": "baseTokenAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20491,
+                            "src": "762:16:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "755:24:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                            "typeString": "mapping(address => struct PriceOracleMock.Rate storage ref)"
+                          }
+                        },
+                        "id": 20504,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 20502,
+                          "name": "quoteTokenAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20493,
+                          "src": "780:17:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "755:43:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Rate_$20449_storage",
+                          "typeString": "struct PriceOracleMock.Rate storage ref"
+                        }
+                      },
+                      "id": 20505,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "numerator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 20446,
+                      "src": "755:53:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 20506,
+                      "name": "numerator",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20495,
+                      "src": "811:9:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "755:65:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 20508,
+                  "nodeType": "ExpressionStatement",
+                  "src": "755:65:55"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 20516,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 20509,
+                            "name": "_rates",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20455,
+                            "src": "830:6:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$_$",
+                              "typeString": "mapping(address => mapping(address => struct PriceOracleMock.Rate storage ref))"
+                            }
+                          },
+                          "id": 20512,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 20510,
+                            "name": "baseTokenAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 20491,
+                            "src": "837:16:55",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "830:24:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Rate_$20449_storage_$",
+                            "typeString": "mapping(address => struct PriceOracleMock.Rate storage ref)"
+                          }
+                        },
+                        "id": 20513,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 20511,
+                          "name": "quoteTokenAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 20493,
+                          "src": "855:17:55",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "830:43:55",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Rate_$20449_storage",
+                          "typeString": "struct PriceOracleMock.Rate storage ref"
+                        }
+                      },
+                      "id": 20514,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "denominator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 20448,
+                      "src": "830:55:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 20515,
+                      "name": "denominator",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 20497,
+                      "src": "888:11:55",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "830:69:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 20517,
+                  "nodeType": "ExpressionStatement",
+                  "src": "830:69:55"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 20519,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setRate",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20498,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20491,
+                  "name": "baseTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "645:24:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20490,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "645:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20493,
+                  "name": "quoteTokenAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "671:25:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20492,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "671:7:55",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20495,
+                  "name": "numerator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "698:17:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20494,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "698:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20497,
+                  "name": "denominator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20519,
+                  "src": "717:19:55",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20496,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "717:7:55",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "644:93:55"
+            },
+            "returnParameters": {
+              "id": 20499,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "745:0:55"
+            },
+            "scope": 20520,
+            "src": "628:278:55",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 20521,
+        "src": "80:828:55"
+      }
+    ],
+    "src": "0:908:55"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xBcFBD51aB3cEB6047100265a20486F694BCD3604",
+      "transactionHash": "0x3b600af46b8a8dce7596d0c998384c1382a2daee2c1d1bdc2b938136d92669b1"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x351a909E831DFe240173547FDbd1699596EBe52B",
+      "transactionHash": "0x3bd81ee0952b033f98a4638ec9145c5079e452f225e2d6d54a3ca6baa78f0861"
+    },
+    "1570661872937": {
+      "events": {},
+      "links": {},
+      "address": "0x2E1aDa07E8CA25e5091d8c4C7fbeB2a0Bc8F8eA9",
+      "transactionHash": "0x50f97cac24bd8e803b1c8350a150a9fa69d93c7dc9da4f92a35da0673d5ef105"
+    }
+  },
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-10T00:51:28.101Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
