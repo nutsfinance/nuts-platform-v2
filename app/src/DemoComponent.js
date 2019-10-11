@@ -183,6 +183,9 @@ export default class DemoComponent extends Component {
                     <Card className="LongCard">
                         <CardContent>
                             <h3>Create New Lending Issuance</h3>
+                            <span>Sample Token Address: </span>
+                            <span style={{ color: "red" }}>{drizzle.contracts.TokenMock.address}</span>
+                            <br/>
                             <form>
                                 <input key='collateralTokenAddress'
                                     type='text'
@@ -229,11 +232,29 @@ export default class DemoComponent extends Component {
                                 />
                             </form>
                             <span>Lending Issuance Parameters: </span>
-                            <ContractData drizzle={drizzle} drizzleState={drizzleState}
-                                contract="ParametersUtil" method="getLendingMakerParameters" 
-                                methodArgs={[this.state.collateralTokenAddress, this.state.lendinglTokenAddress,
-                                    this.state.lendinglAmount, this.state.collateralRatio, this.state.engagementDueDays,
-                                    this.state.tenorDays, this.state.interestRate]}/>
+                            <span id="instrument-parameters">
+                                <ContractData drizzle={drizzle} drizzleState={drizzleState}
+                                    contract="ParametersUtil" method="getLendingMakerParameters" 
+                                    methodArgs={[this.state.collateralTokenAddress, this.state.lendinglTokenAddress,
+                                        this.state.lendinglAmount, this.state.collateralRatio, this.state.engagementDueDays,
+                                        this.state.tenorDays, this.state.interestRate]}/>
+                            </span>
+                            <ContractForm drizzle={drizzle} drizzleState={drizzleState}
+                                contract="InstrumentManagerInterface"
+                                method="createIssuance"
+                                render={({ inputs, inputTypes, state, handleInputChange, handleSubmit }) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <button
+                                            key="submit"
+                                            type="button"
+                                            onClick={e => {state['sellerParameters'] = document.getElementById('instrument-parameters').children[0].innerHTML; handleSubmit(e)}}
+                                        >
+                                            Create Issuance
+                                        </button>
+                                    </form>
+                    
+                                  )}
+                                />
                         </CardContent>
                     </Card>
                 </Grid>
