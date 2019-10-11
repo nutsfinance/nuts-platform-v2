@@ -285,14 +285,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol",
     "exportedSymbols": {
       "InstrumentV1Mock": [
-        20422
+        20439
       ]
     },
-    "id": 20423,
+    "id": 20440,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20417,
+        "id": 20434,
         "literals": [
           "solidity",
           "~",
@@ -305,9 +305,9 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "../escrow/EscrowBaseInterface.sol",
-        "id": 20418,
+        "id": 20435,
         "nodeType": "ImportDirective",
-        "scope": 20423,
+        "scope": 20440,
         "sourceUnit": 1323,
         "src": "25:43:54",
         "symbolAliases": [],
@@ -316,10 +316,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v1/InstrumentV1.sol",
         "file": "../instrument/v1/InstrumentV1.sol",
-        "id": 20419,
+        "id": 20436,
         "nodeType": "ImportDirective",
-        "scope": 20423,
-        "sourceUnit": 3812,
+        "scope": 20440,
+        "sourceUnit": 3827,
         "src": "69:43:54",
         "symbolAliases": [],
         "unitAlias": ""
@@ -330,38 +330,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20420,
+              "id": 20437,
               "name": "InstrumentV1",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3811,
+              "referencedDeclaration": 3826,
               "src": "251:12:54",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_InstrumentV1_$3811",
+                "typeIdentifier": "t_contract$_InstrumentV1_$3826",
                 "typeString": "contract InstrumentV1"
               }
             },
-            "id": 20421,
+            "id": 20438,
             "nodeType": "InheritanceSpecifier",
             "src": "251:12:54"
           }
         ],
         "contractDependencies": [
           1886,
-          3811
+          3826
         ],
         "contractKind": "contract",
         "documentation": "@title Instrument v1 base contract.\nAll issuance data are passed in and returned as a string.",
         "fullyImplemented": false,
-        "id": 20422,
+        "id": 20439,
         "linearizedBaseContracts": [
-          20422,
-          3811,
+          20439,
+          3826,
           1886
         ],
         "name": "InstrumentV1Mock",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 20423,
+        "scope": 20440,
         "src": "222:50:54"
       }
     ],
@@ -371,14 +371,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol",
     "exportedSymbols": {
       "InstrumentV1Mock": [
-        20422
+        20439
       ]
     },
-    "id": 20423,
+    "id": 20440,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20417,
+        "id": 20434,
         "literals": [
           "solidity",
           "~",
@@ -391,9 +391,9 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "../escrow/EscrowBaseInterface.sol",
-        "id": 20418,
+        "id": 20435,
         "nodeType": "ImportDirective",
-        "scope": 20423,
+        "scope": 20440,
         "sourceUnit": 1323,
         "src": "25:43:54",
         "symbolAliases": [],
@@ -402,10 +402,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v1/InstrumentV1.sol",
         "file": "../instrument/v1/InstrumentV1.sol",
-        "id": 20419,
+        "id": 20436,
         "nodeType": "ImportDirective",
-        "scope": 20423,
-        "sourceUnit": 3812,
+        "scope": 20440,
+        "sourceUnit": 3827,
         "src": "69:43:54",
         "symbolAliases": [],
         "unitAlias": ""
@@ -416,38 +416,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20420,
+              "id": 20437,
               "name": "InstrumentV1",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3811,
+              "referencedDeclaration": 3826,
               "src": "251:12:54",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_InstrumentV1_$3811",
+                "typeIdentifier": "t_contract$_InstrumentV1_$3826",
                 "typeString": "contract InstrumentV1"
               }
             },
-            "id": 20421,
+            "id": 20438,
             "nodeType": "InheritanceSpecifier",
             "src": "251:12:54"
           }
         ],
         "contractDependencies": [
           1886,
-          3811
+          3826
         ],
         "contractKind": "contract",
         "documentation": "@title Instrument v1 base contract.\nAll issuance data are passed in and returned as a string.",
         "fullyImplemented": false,
-        "id": 20422,
+        "id": 20439,
         "linearizedBaseContracts": [
-          20422,
-          3811,
+          20439,
+          3826,
           1886
         ],
         "name": "InstrumentV1Mock",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 20423,
+        "scope": 20440,
         "src": "222:50:54"
       }
     ],
@@ -459,7 +459,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-09T17:01:33.459Z",
+  "updatedAt": "2019-10-10T07:31:28.005Z",
   "devdoc": {
     "methods": {
       "createIssuance(bytes,bytes)": {

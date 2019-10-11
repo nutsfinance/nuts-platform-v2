@@ -64,19 +64,19 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
     await priceOracle.setRate(lendingToken.address, collateralToken.address, 1, 100);
     await priceOracle.setRate(collateralToken.address, lendingToken.address, 100, 1);
 
-    // Create lending issuance.
-    const lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, 
-        lendingToken.address, 10000, 150, 7, 20, 10000);
-    console.log('Lending maker parameters: ' + lendingMakerParameters);
-    await instrumentManager.createIssuance(lendingMakerParameters, {from: maker});
+    // // Create lending issuance.
+    // const lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, 
+    //     lendingToken.address, 10000, 150, 7, 20, 10000);
+    // console.log('Lending maker parameters: ' + lendingMakerParameters);
+    // await instrumentManager.createIssuance(lendingMakerParameters, {from: maker});
 
-    // Deposit principal tokens
-    const instrumentEscrow = await InstrumentEscrowInterface.at(instrumentEscrowAddress);
-    await lendingToken.transfer(maker, 200);
-    await lendingToken.approve(instrumentEscrowAddress, 200, {from: maker});
-    await instrumentEscrow.depositToken(lendingToken.address, 150, {from: maker});
-    const lendingBalance = await instrumentEscrow.getTokenBalance(maker, lendingToken.address);
-    console.log(lendingBalance.toNumber());
+    // // Deposit principal tokens
+    // const instrumentEscrow = await InstrumentEscrowInterface.at(instrumentEscrowAddress);
+    // await lendingToken.transfer(maker, 200);
+    // await lendingToken.approve(instrumentEscrowAddress, 200, {from: maker});
+    // await instrumentEscrow.depositToken(lendingToken.address, 150, {from: maker});
+    // const lendingBalance = await instrumentEscrow.getTokenBalance(maker, lendingToken.address);
+    // console.log(lendingBalance.toNumber());
 };
 
 module.exports = function(deployer, network, accounts) {

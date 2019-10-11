@@ -20,3 +20,17 @@
 .App-link {
   color: #09d3ac;
 }
+
+.Card {
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.LongCard {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+input {
+  margin: 10px;
+}

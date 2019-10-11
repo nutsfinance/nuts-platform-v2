@@ -534,7 +534,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-09T18:16:37.498Z",
+  "updatedAt": "2019-10-10T07:59:58.518Z",
   "devdoc": {
     "methods": {
       "createInstrumentManagerInstance(string,address,address,address,bytes)": {

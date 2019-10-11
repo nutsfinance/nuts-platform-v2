@@ -848,7 +848,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-09T17:01:33.193Z",
+  "updatedAt": "2019-10-10T07:31:27.763Z",
   "devdoc": {
     "details": "Interface for Issuance Escrow. Defines additional methods used by Instrument Manager.",
     "methods": {

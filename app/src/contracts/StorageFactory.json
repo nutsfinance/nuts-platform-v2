@@ -447,24 +447,18 @@
     "4": {
       "events": {},
       "links": {},
-      "address": "0xD190F3811c4Bb9759fb09dC50B7BbfBf7936d5bd",
-      "transactionHash": "0x8bb1a5f33e111ae871c59368f1e0c9ac49e888f6588fd590785eabf054fee748"
-    },
-    "5777": {
-      "events": {},
-      "links": {},
-      "address": "0xe7b6f129C873476850C82B17C3A0139772d0a094",
-      "transactionHash": "0xb43463ad1167d3d468bc804bc226ca119895a821bc911d91c4570992cd69b4f8"
+      "address": "0xD1a63c35Ced5C41F2432E3467C03a4bB5a9AA6A3",
+      "transactionHash": "0x50564f0986e8712159222f434a71192194b254ed87853ba0fc59f668719d3150"
     },
     "1570661872937": {
       "events": {},
       "links": {},
-      "address": "0x0E2F0f4B9EB5fAE1b716C861De90d17D211F46d5",
-      "transactionHash": "0x4a70d87026817024a9e082173a8442ef9934a447c418cc2ec95c4546a1b9fad2"
+      "address": "0x340814C19BbBe6A15D699eD4B921bc878b47B6Cd",
+      "transactionHash": "0x30fb28910ad7dc6a544f46aa1abe1797b99860aae9332a1f2d7d3729f9da4dbd"
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T00:51:28.105Z",
+  "updatedAt": "2019-10-10T08:06:15.249Z",
   "devdoc": {
     "methods": {
       "createStorageInstance()": {

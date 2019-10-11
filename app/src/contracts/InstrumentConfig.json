@@ -773,7 +773,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-09T21:10:22.337Z",
+  "updatedAt": "2019-10-10T07:31:27.730Z",
   "devdoc": {
     "methods": {},
     "title": "Base contract to hold instrument-related config."

@@ -745,7 +745,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-09T17:01:33.194Z",
+  "updatedAt": "2019-10-10T07:31:27.764Z",
   "devdoc": {
     "methods": {},
     "title": "Base contract for v1, v2, v3 instruments."
