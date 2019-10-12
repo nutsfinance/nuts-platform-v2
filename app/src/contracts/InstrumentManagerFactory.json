@@ -168,7 +168,7 @@
         "id": 3482,
         "nodeType": "ImportDirective",
         "scope": 3606,
-        "sourceUnit": 5767,
+        "sourceUnit": 5811,
         "src": "59:35:16",
         "symbolAliases": [],
         "unitAlias": ""
@@ -179,7 +179,7 @@
         "id": 3483,
         "nodeType": "ImportDirective",
         "scope": 3606,
-        "sourceUnit": 18500,
+        "sourceUnit": 18544,
         "src": "95:51:16",
         "symbolAliases": [],
         "unitAlias": ""
@@ -233,10 +233,10 @@
               "id": 3488,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5766,
+              "referencedDeclaration": 5810,
               "src": "313:7:16",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$5766",
+                "typeIdentifier": "t_contract$_Ownable_$5810",
                 "typeString": "contract Ownable"
               }
             },
@@ -247,8 +247,8 @@
         ],
         "contractDependencies": [
           3624,
-          5766,
-          18499
+          5810,
+          18543
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -256,7 +256,7 @@
         "id": 3605,
         "linearizedBaseContracts": [
           3605,
-          5766,
+          5810,
           3624
         ],
         "name": "InstrumentManagerFactory",
@@ -403,7 +403,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 5699,
+                  "referencedDeclaration": 5743,
                   "src": "667:9:16",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -647,10 +647,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1434:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -801,10 +801,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1565:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -955,10 +955,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1660:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1109,10 +1109,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1769:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1239,7 +1239,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                        "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                         "typeString": "contract AdminUpgradeabilityProxy"
                       },
                       "typeName": {
@@ -1247,10 +1247,10 @@
                         "id": 3568,
                         "name": "AdminUpgradeabilityProxy",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 18499,
+                        "referencedDeclaration": 18543,
                         "src": "2022:24:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                           "typeString": "contract AdminUpgradeabilityProxy"
                         }
                       },
@@ -1437,7 +1437,7 @@
                       "nodeType": "NewExpression",
                       "src": "2072:28:16",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_payable$_t_address_$_t_address_$_t_bytes_memory_ptr_$returns$_t_contract$_AdminUpgradeabilityProxy_$18499_$",
+                        "typeIdentifier": "t_function_creation_payable$_t_address_$_t_address_$_t_bytes_memory_ptr_$returns$_t_contract$_AdminUpgradeabilityProxy_$18543_$",
                         "typeString": "function (address,address,bytes memory) payable returns (contract AdminUpgradeabilityProxy)"
                       },
                       "typeName": {
@@ -1445,10 +1445,10 @@
                         "id": 3570,
                         "name": "AdminUpgradeabilityProxy",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 18499,
+                        "referencedDeclaration": 18543,
                         "src": "2076:24:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                           "typeString": "contract AdminUpgradeabilityProxy"
                         }
                       }
@@ -1463,7 +1463,7 @@
                     "nodeType": "FunctionCall",
                     "src": "2072:136:16",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                      "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                       "typeString": "contract AdminUpgradeabilityProxy"
                     }
                   },
@@ -1520,7 +1520,7 @@
                             "referencedDeclaration": 3569,
                             "src": "2349:22:16",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                               "typeString": "contract AdminUpgradeabilityProxy"
                             }
                           }
@@ -1528,7 +1528,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                               "typeString": "contract AdminUpgradeabilityProxy"
                             }
                           ],
@@ -1970,7 +1970,7 @@
         "id": 3482,
         "nodeType": "ImportDirective",
         "scope": 3606,
-        "sourceUnit": 5767,
+        "sourceUnit": 5811,
         "src": "59:35:16",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1981,7 +1981,7 @@
         "id": 3483,
         "nodeType": "ImportDirective",
         "scope": 3606,
-        "sourceUnit": 18500,
+        "sourceUnit": 18544,
         "src": "95:51:16",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2035,10 +2035,10 @@
               "id": 3488,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5766,
+              "referencedDeclaration": 5810,
               "src": "313:7:16",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$5766",
+                "typeIdentifier": "t_contract$_Ownable_$5810",
                 "typeString": "contract Ownable"
               }
             },
@@ -2049,8 +2049,8 @@
         ],
         "contractDependencies": [
           3624,
-          5766,
-          18499
+          5810,
+          18543
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -2058,7 +2058,7 @@
         "id": 3605,
         "linearizedBaseContracts": [
           3605,
-          5766,
+          5810,
           3624
         ],
         "name": "InstrumentManagerFactory",
@@ -2205,7 +2205,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 5699,
+                  "referencedDeclaration": 5743,
                   "src": "667:9:16",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -2449,10 +2449,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1434:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2603,10 +2603,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1565:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2757,10 +2757,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1660:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2911,10 +2911,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        21113,
+                        21114
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 21114,
                       "src": "1769:7:16",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -3041,7 +3041,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                        "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                         "typeString": "contract AdminUpgradeabilityProxy"
                       },
                       "typeName": {
@@ -3049,10 +3049,10 @@
                         "id": 3568,
                         "name": "AdminUpgradeabilityProxy",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 18499,
+                        "referencedDeclaration": 18543,
                         "src": "2022:24:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                           "typeString": "contract AdminUpgradeabilityProxy"
                         }
                       },
@@ -3239,7 +3239,7 @@
                       "nodeType": "NewExpression",
                       "src": "2072:28:16",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_payable$_t_address_$_t_address_$_t_bytes_memory_ptr_$returns$_t_contract$_AdminUpgradeabilityProxy_$18499_$",
+                        "typeIdentifier": "t_function_creation_payable$_t_address_$_t_address_$_t_bytes_memory_ptr_$returns$_t_contract$_AdminUpgradeabilityProxy_$18543_$",
                         "typeString": "function (address,address,bytes memory) payable returns (contract AdminUpgradeabilityProxy)"
                       },
                       "typeName": {
@@ -3247,10 +3247,10 @@
                         "id": 3570,
                         "name": "AdminUpgradeabilityProxy",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 18499,
+                        "referencedDeclaration": 18543,
                         "src": "2076:24:16",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                          "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                           "typeString": "contract AdminUpgradeabilityProxy"
                         }
                       }
@@ -3265,7 +3265,7 @@
                     "nodeType": "FunctionCall",
                     "src": "2072:136:16",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                      "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                       "typeString": "contract AdminUpgradeabilityProxy"
                     }
                   },
@@ -3322,7 +3322,7 @@
                             "referencedDeclaration": 3569,
                             "src": "2349:22:16",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                               "typeString": "contract AdminUpgradeabilityProxy"
                             }
                           }
@@ -3330,7 +3330,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18499",
+                              "typeIdentifier": "t_contract$_AdminUpgradeabilityProxy_$18543",
                               "typeString": "contract AdminUpgradeabilityProxy"
                             }
                           ],
@@ -3761,8 +3761,8 @@
         }
       },
       "links": {},
-      "address": "0xcB6EAD646878f84dC603E76605f970b83b9272b1",
-      "transactionHash": "0x53b48c01f9361dc38dcc6851e103828d3887280808769f0a6585059a595724f1"
+      "address": "0xe83891d3D6a0f8245305632B9F37a711FBE4cB5a",
+      "transactionHash": "0xc0d3c6be40ade8460d1ed5caf86954e0865ac4d55122679478208cfff5169cce"
     },
     "1570661872937": {
       "events": {
@@ -3791,7 +3791,7 @@
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T08:06:15.236Z",
+  "updatedAt": "2019-10-12T05:12:00.989Z",
   "devdoc": {
     "methods": {
       "createInstrumentManagerInstance(string,address,address,address,bytes)": {

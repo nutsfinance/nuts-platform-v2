@@ -342,14 +342,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentManagerMock.sol",
     "exportedSymbols": {
       "InstrumentManagerMock": [
-        20432
+        20476
       ]
     },
-    "id": 20433,
+    "id": 20477,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20338,
+        "id": 20382,
         "literals": [
           "solidity",
           "^",
@@ -362,9 +362,9 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerBase.sol",
         "file": "../instrument/InstrumentManagerBase.sol",
-        "id": 20339,
+        "id": 20383,
         "nodeType": "ImportDirective",
-        "scope": 20433,
+        "scope": 20477,
         "sourceUnit": 3479,
         "src": "25:49:53",
         "symbolAliases": [],
@@ -376,7 +376,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20340,
+              "id": 20384,
               "name": "InstrumentManagerBase",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 3478,
@@ -386,7 +386,7 @@
                 "typeString": "contract InstrumentManagerBase"
               }
             },
-            "id": 20341,
+            "id": 20385,
             "nodeType": "InheritanceSpecifier",
             "src": "153:21:53"
           }
@@ -399,9 +399,9 @@
         "contractKind": "contract",
         "documentation": "@title Instrument Manager Mock.",
         "fullyImplemented": true,
-        "id": 20432,
+        "id": 20476,
         "linearizedBaseContracts": [
-          20432,
+          20476,
           3478,
           3725,
           591
@@ -411,28 +411,28 @@
         "nodes": [
           {
             "body": {
-              "id": 20352,
+              "id": 20396,
               "nodeType": "Block",
               "src": "647:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance creation processing.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param makerParametersData The custom parameters to the newly created issuance",
-            "id": 20353,
+            "id": 20397,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processCreateIssuance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20348,
+              "id": 20392,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20343,
+                  "id": 20387,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "486:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -441,7 +441,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20342,
+                    "id": 20386,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "486:7:53",
@@ -455,10 +455,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20345,
+                  "id": 20389,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "506:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -467,7 +467,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20344,
+                    "id": 20388,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "506:5:53",
@@ -481,10 +481,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20347,
+                  "id": 20391,
                   "name": "makerParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "543:32:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -493,7 +493,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20346,
+                    "id": 20390,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "543:5:53",
@@ -509,15 +509,15 @@
               "src": "485:91:53"
             },
             "returnParameters": {
-              "id": 20351,
+              "id": 20395,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20350,
+                  "id": 20394,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "603:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -527,7 +527,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20349,
+                    "id": 20393,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -543,7 +543,7 @@
               ],
               "src": "602:44:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "454:200:53",
             "stateMutability": "nonpayable",
             "superFunction": 3404,
@@ -551,28 +551,28 @@
           },
           {
             "body": {
-              "id": 20366,
+              "id": 20410,
               "nodeType": "Block",
               "src": "1135:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance engage processing.\n@param issuanceId ID of the issuance.\n@param takerParameters The custom parameters to the new engagement\n@param issuanceParametersData Issuance Parameters.",
-            "id": 20367,
+            "id": 20411,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processEngageIssuance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20360,
+              "id": 20404,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20355,
+                  "id": 20399,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "950:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -581,7 +581,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20354,
+                    "id": 20398,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "950:7:53",
@@ -595,10 +595,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20357,
+                  "id": 20401,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "970:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -607,7 +607,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20356,
+                    "id": 20400,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "970:5:53",
@@ -621,10 +621,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20359,
+                  "id": 20403,
                   "name": "takerParameters",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "1007:28:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -633,7 +633,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20358,
+                    "id": 20402,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1007:5:53",
@@ -649,15 +649,15 @@
               "src": "949:87:53"
             },
             "returnParameters": {
-              "id": 20365,
+              "id": 20409,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20362,
+                  "id": 20406,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "1063:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -667,7 +667,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20361,
+                    "id": 20405,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -682,10 +682,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20364,
+                  "id": 20408,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "1107:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -694,7 +694,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20363,
+                    "id": 20407,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1107:5:53",
@@ -709,7 +709,7 @@
               ],
               "src": "1062:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "918:224:53",
             "stateMutability": "nonpayable",
             "superFunction": 3417,
@@ -717,28 +717,28 @@
           },
           {
             "body": {
-              "id": 20382,
+              "id": 20426,
               "nodeType": "Block",
               "src": "1814:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance ERC20 token deposit processing.\nNote: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to deposit.\n@param amount The amount of ERC20 token to deposit.",
-            "id": 20383,
+            "id": 20427,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processTokenDeposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20376,
+              "id": 20420,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20369,
+                  "id": 20413,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1621:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -747,7 +747,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20368,
+                    "id": 20412,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1621:7:53",
@@ -761,10 +761,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20371,
+                  "id": 20415,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1641:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -773,7 +773,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20370,
+                    "id": 20414,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1641:5:53",
@@ -787,10 +787,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20373,
+                  "id": 20417,
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1678:20:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -799,7 +799,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 20372,
+                    "id": 20416,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1678:7:53",
@@ -814,10 +814,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20375,
+                  "id": 20419,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1700:14:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -826,7 +826,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20374,
+                    "id": 20418,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1700:7:53",
@@ -842,15 +842,15 @@
               "src": "1620:95:53"
             },
             "returnParameters": {
-              "id": 20381,
+              "id": 20425,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20378,
+                  "id": 20422,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1742:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -860,7 +860,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20377,
+                    "id": 20421,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -875,10 +875,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20380,
+                  "id": 20424,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1786:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -887,7 +887,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20379,
+                    "id": 20423,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1786:5:53",
@@ -902,7 +902,7 @@
               ],
               "src": "1741:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "1591:230:53",
             "stateMutability": "nonpayable",
             "superFunction": 3432,
@@ -910,28 +910,28 @@
           },
           {
             "body": {
-              "id": 20398,
+              "id": 20442,
               "nodeType": "Block",
               "src": "2493:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance ERC20 withdraw processing.\nNote: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to withdraw.\n@param amount The amount of ERC20 token to withdraw.",
-            "id": 20399,
+            "id": 20443,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processTokenWithdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20392,
+              "id": 20436,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20385,
+                  "id": 20429,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2300:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -940,7 +940,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20384,
+                    "id": 20428,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2300:7:53",
@@ -954,10 +954,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20387,
+                  "id": 20431,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2320:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -966,7 +966,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20386,
+                    "id": 20430,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2320:5:53",
@@ -980,10 +980,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20389,
+                  "id": 20433,
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2357:20:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -992,7 +992,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 20388,
+                    "id": 20432,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2357:7:53",
@@ -1007,10 +1007,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20391,
+                  "id": 20435,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2379:14:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1019,7 +1019,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20390,
+                    "id": 20434,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2379:7:53",
@@ -1035,15 +1035,15 @@
               "src": "2299:95:53"
             },
             "returnParameters": {
-              "id": 20397,
+              "id": 20441,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20394,
+                  "id": 20438,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2421:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1053,7 +1053,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20393,
+                    "id": 20437,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -1068,10 +1068,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20396,
+                  "id": 20440,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2465:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1080,7 +1080,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20395,
+                    "id": 20439,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2465:5:53",
@@ -1095,7 +1095,7 @@
               ],
               "src": "2420:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "2269:231:53",
             "stateMutability": "nonpayable",
             "superFunction": 3447,
@@ -1103,28 +1103,28 @@
           },
           {
             "body": {
-              "id": 20414,
+              "id": 20458,
               "nodeType": "Block",
               "src": "3040:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific custom event processing.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event",
-            "id": 20415,
+            "id": 20459,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processCustomEvent",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20408,
+              "id": 20452,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20401,
+                  "id": 20445,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2839:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1133,7 +1133,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20400,
+                    "id": 20444,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2839:7:53",
@@ -1147,10 +1147,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20403,
+                  "id": 20447,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2859:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1159,7 +1159,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20402,
+                    "id": 20446,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2859:5:53",
@@ -1173,10 +1173,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20405,
+                  "id": 20449,
                   "name": "eventName",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2896:17:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1185,7 +1185,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 20404,
+                    "id": 20448,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2896:7:53",
@@ -1199,10 +1199,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20407,
+                  "id": 20451,
                   "name": "eventPayload",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2915:25:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1211,7 +1211,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20406,
+                    "id": 20450,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2915:5:53",
@@ -1227,15 +1227,15 @@
               "src": "2838:103:53"
             },
             "returnParameters": {
-              "id": 20413,
+              "id": 20457,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20410,
+                  "id": 20454,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2968:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1245,7 +1245,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20409,
+                    "id": 20453,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -1260,10 +1260,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20412,
+                  "id": 20456,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "3012:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1272,7 +1272,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20411,
+                    "id": 20455,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3012:5:53",
@@ -1287,7 +1287,7 @@
               ],
               "src": "2967:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "2810:237:53",
             "stateMutability": "nonpayable",
             "superFunction": 3462,
@@ -1295,28 +1295,28 @@
           },
           {
             "body": {
-              "id": 20430,
+              "id": 20474,
               "nodeType": "Block",
               "src": "3593:6:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific scheduled event processing.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event",
-            "id": 20431,
+            "id": 20475,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processScheduledEvent",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20424,
+              "id": 20468,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20417,
+                  "id": 20461,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3392:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1325,7 +1325,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20416,
+                    "id": 20460,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "3392:7:53",
@@ -1339,10 +1339,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20419,
+                  "id": 20463,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3412:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1351,7 +1351,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20418,
+                    "id": 20462,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3412:5:53",
@@ -1365,10 +1365,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20421,
+                  "id": 20465,
                   "name": "eventName",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3449:17:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1377,7 +1377,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 20420,
+                    "id": 20464,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "3449:7:53",
@@ -1391,10 +1391,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20423,
+                  "id": 20467,
                   "name": "eventPayload",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3468:25:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1403,7 +1403,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20422,
+                    "id": 20466,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3468:5:53",
@@ -1419,15 +1419,15 @@
               "src": "3391:103:53"
             },
             "returnParameters": {
-              "id": 20429,
+              "id": 20473,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20426,
+                  "id": 20470,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3521:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1437,7 +1437,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20425,
+                    "id": 20469,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -1452,10 +1452,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20428,
+                  "id": 20472,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3565:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1464,7 +1464,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20427,
+                    "id": 20471,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3565:5:53",
@@ -1479,14 +1479,14 @@
               ],
               "src": "3520:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "3360:239:53",
             "stateMutability": "nonpayable",
             "superFunction": 3477,
             "visibility": "internal"
           }
         ],
-        "scope": 20433,
+        "scope": 20477,
         "src": "119:3482:53"
       }
     ],
@@ -1496,14 +1496,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentManagerMock.sol",
     "exportedSymbols": {
       "InstrumentManagerMock": [
-        20432
+        20476
       ]
     },
-    "id": 20433,
+    "id": 20477,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20338,
+        "id": 20382,
         "literals": [
           "solidity",
           "^",
@@ -1516,9 +1516,9 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerBase.sol",
         "file": "../instrument/InstrumentManagerBase.sol",
-        "id": 20339,
+        "id": 20383,
         "nodeType": "ImportDirective",
-        "scope": 20433,
+        "scope": 20477,
         "sourceUnit": 3479,
         "src": "25:49:53",
         "symbolAliases": [],
@@ -1530,7 +1530,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20340,
+              "id": 20384,
               "name": "InstrumentManagerBase",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 3478,
@@ -1540,7 +1540,7 @@
                 "typeString": "contract InstrumentManagerBase"
               }
             },
-            "id": 20341,
+            "id": 20385,
             "nodeType": "InheritanceSpecifier",
             "src": "153:21:53"
           }
@@ -1553,9 +1553,9 @@
         "contractKind": "contract",
         "documentation": "@title Instrument Manager Mock.",
         "fullyImplemented": true,
-        "id": 20432,
+        "id": 20476,
         "linearizedBaseContracts": [
-          20432,
+          20476,
           3478,
           3725,
           591
@@ -1565,28 +1565,28 @@
         "nodes": [
           {
             "body": {
-              "id": 20352,
+              "id": 20396,
               "nodeType": "Block",
               "src": "647:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance creation processing.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param makerParametersData The custom parameters to the newly created issuance",
-            "id": 20353,
+            "id": 20397,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processCreateIssuance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20348,
+              "id": 20392,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20343,
+                  "id": 20387,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "486:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1595,7 +1595,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20342,
+                    "id": 20386,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "486:7:53",
@@ -1609,10 +1609,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20345,
+                  "id": 20389,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "506:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1621,7 +1621,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20344,
+                    "id": 20388,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "506:5:53",
@@ -1635,10 +1635,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20347,
+                  "id": 20391,
                   "name": "makerParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "543:32:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1647,7 +1647,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20346,
+                    "id": 20390,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "543:5:53",
@@ -1663,15 +1663,15 @@
               "src": "485:91:53"
             },
             "returnParameters": {
-              "id": 20351,
+              "id": 20395,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20350,
+                  "id": 20394,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20353,
+                  "scope": 20397,
                   "src": "603:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1681,7 +1681,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20349,
+                    "id": 20393,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -1697,7 +1697,7 @@
               ],
               "src": "602:44:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "454:200:53",
             "stateMutability": "nonpayable",
             "superFunction": 3404,
@@ -1705,28 +1705,28 @@
           },
           {
             "body": {
-              "id": 20366,
+              "id": 20410,
               "nodeType": "Block",
               "src": "1135:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance engage processing.\n@param issuanceId ID of the issuance.\n@param takerParameters The custom parameters to the new engagement\n@param issuanceParametersData Issuance Parameters.",
-            "id": 20367,
+            "id": 20411,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processEngageIssuance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20360,
+              "id": 20404,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20355,
+                  "id": 20399,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "950:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1735,7 +1735,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20354,
+                    "id": 20398,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "950:7:53",
@@ -1749,10 +1749,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20357,
+                  "id": 20401,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "970:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1761,7 +1761,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20356,
+                    "id": 20400,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "970:5:53",
@@ -1775,10 +1775,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20359,
+                  "id": 20403,
                   "name": "takerParameters",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "1007:28:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1787,7 +1787,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20358,
+                    "id": 20402,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1007:5:53",
@@ -1803,15 +1803,15 @@
               "src": "949:87:53"
             },
             "returnParameters": {
-              "id": 20365,
+              "id": 20409,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20362,
+                  "id": 20406,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "1063:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1821,7 +1821,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20361,
+                    "id": 20405,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -1836,10 +1836,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20364,
+                  "id": 20408,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20367,
+                  "scope": 20411,
                   "src": "1107:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1848,7 +1848,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20363,
+                    "id": 20407,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1107:5:53",
@@ -1863,7 +1863,7 @@
               ],
               "src": "1062:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "918:224:53",
             "stateMutability": "nonpayable",
             "superFunction": 3417,
@@ -1871,28 +1871,28 @@
           },
           {
             "body": {
-              "id": 20382,
+              "id": 20426,
               "nodeType": "Block",
               "src": "1814:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance ERC20 token deposit processing.\nNote: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to deposit.\n@param amount The amount of ERC20 token to deposit.",
-            "id": 20383,
+            "id": 20427,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processTokenDeposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20376,
+              "id": 20420,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20369,
+                  "id": 20413,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1621:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1901,7 +1901,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20368,
+                    "id": 20412,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1621:7:53",
@@ -1915,10 +1915,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20371,
+                  "id": 20415,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1641:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1927,7 +1927,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20370,
+                    "id": 20414,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1641:5:53",
@@ -1941,10 +1941,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20373,
+                  "id": 20417,
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1678:20:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1953,7 +1953,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 20372,
+                    "id": 20416,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1678:7:53",
@@ -1968,10 +1968,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20375,
+                  "id": 20419,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1700:14:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1980,7 +1980,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20374,
+                    "id": 20418,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1700:7:53",
@@ -1996,15 +1996,15 @@
               "src": "1620:95:53"
             },
             "returnParameters": {
-              "id": 20381,
+              "id": 20425,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20378,
+                  "id": 20422,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1742:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2014,7 +2014,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20377,
+                    "id": 20421,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -2029,10 +2029,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20380,
+                  "id": 20424,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20383,
+                  "scope": 20427,
                   "src": "1786:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2041,7 +2041,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20379,
+                    "id": 20423,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "1786:5:53",
@@ -2056,7 +2056,7 @@
               ],
               "src": "1741:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "1591:230:53",
             "stateMutability": "nonpayable",
             "superFunction": 3432,
@@ -2064,28 +2064,28 @@
           },
           {
             "body": {
-              "id": 20398,
+              "id": 20442,
               "nodeType": "Block",
               "src": "2493:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific issuance ERC20 withdraw processing.\nNote: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param tokenAddress The address of the ERC20 token to withdraw.\n@param amount The amount of ERC20 token to withdraw.",
-            "id": 20399,
+            "id": 20443,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processTokenWithdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20392,
+              "id": 20436,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20385,
+                  "id": 20429,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2300:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2094,7 +2094,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20384,
+                    "id": 20428,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2300:7:53",
@@ -2108,10 +2108,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20387,
+                  "id": 20431,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2320:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2120,7 +2120,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20386,
+                    "id": 20430,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2320:5:53",
@@ -2134,10 +2134,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20389,
+                  "id": 20433,
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2357:20:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2146,7 +2146,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 20388,
+                    "id": 20432,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2357:7:53",
@@ -2161,10 +2161,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20391,
+                  "id": 20435,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2379:14:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2173,7 +2173,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20390,
+                    "id": 20434,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2379:7:53",
@@ -2189,15 +2189,15 @@
               "src": "2299:95:53"
             },
             "returnParameters": {
-              "id": 20397,
+              "id": 20441,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20394,
+                  "id": 20438,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2421:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2207,7 +2207,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20393,
+                    "id": 20437,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -2222,10 +2222,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20396,
+                  "id": 20440,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20399,
+                  "scope": 20443,
                   "src": "2465:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2234,7 +2234,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20395,
+                    "id": 20439,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2465:5:53",
@@ -2249,7 +2249,7 @@
               ],
               "src": "2420:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "2269:231:53",
             "stateMutability": "nonpayable",
             "superFunction": 3447,
@@ -2257,28 +2257,28 @@
           },
           {
             "body": {
-              "id": 20414,
+              "id": 20458,
               "nodeType": "Block",
               "src": "3040:7:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific custom event processing.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event",
-            "id": 20415,
+            "id": 20459,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processCustomEvent",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20408,
+              "id": 20452,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20401,
+                  "id": 20445,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2839:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2287,7 +2287,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20400,
+                    "id": 20444,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2839:7:53",
@@ -2301,10 +2301,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20403,
+                  "id": 20447,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2859:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2313,7 +2313,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20402,
+                    "id": 20446,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2859:5:53",
@@ -2327,10 +2327,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20405,
+                  "id": 20449,
                   "name": "eventName",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2896:17:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2339,7 +2339,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 20404,
+                    "id": 20448,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "2896:7:53",
@@ -2353,10 +2353,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20407,
+                  "id": 20451,
                   "name": "eventPayload",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2915:25:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2365,7 +2365,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20406,
+                    "id": 20450,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2915:5:53",
@@ -2381,15 +2381,15 @@
               "src": "2838:103:53"
             },
             "returnParameters": {
-              "id": 20413,
+              "id": 20457,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20410,
+                  "id": 20454,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "2968:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2399,7 +2399,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20409,
+                    "id": 20453,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -2414,10 +2414,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20412,
+                  "id": 20456,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20415,
+                  "scope": 20459,
                   "src": "3012:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2426,7 +2426,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20411,
+                    "id": 20455,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3012:5:53",
@@ -2441,7 +2441,7 @@
               ],
               "src": "2967:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "2810:237:53",
             "stateMutability": "nonpayable",
             "superFunction": 3462,
@@ -2449,28 +2449,28 @@
           },
           {
             "body": {
-              "id": 20430,
+              "id": 20474,
               "nodeType": "Block",
               "src": "3593:6:53",
               "statements": []
             },
             "documentation": "@dev Instrument type-specific scheduled event processing.\n@param issuanceId ID of the issuance.\n@param issuanceParametersData Issuance Parameters.\n@param eventName The name of the custom event.\n@param eventPayload The custom parameters to the custom event",
-            "id": 20431,
+            "id": 20475,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_processScheduledEvent",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20424,
+              "id": 20468,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20417,
+                  "id": 20461,
                   "name": "issuanceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3392:18:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2479,7 +2479,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 20416,
+                    "id": 20460,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "3392:7:53",
@@ -2493,10 +2493,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20419,
+                  "id": 20463,
                   "name": "issuanceParametersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3412:35:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2505,7 +2505,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20418,
+                    "id": 20462,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3412:5:53",
@@ -2519,10 +2519,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20421,
+                  "id": 20465,
                   "name": "eventName",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3449:17:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2531,7 +2531,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 20420,
+                    "id": 20464,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "3449:7:53",
@@ -2545,10 +2545,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20423,
+                  "id": 20467,
                   "name": "eventPayload",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3468:25:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2557,7 +2557,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20422,
+                    "id": 20466,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3468:5:53",
@@ -2573,15 +2573,15 @@
               "src": "3391:103:53"
             },
             "returnParameters": {
-              "id": 20429,
+              "id": 20473,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20426,
+                  "id": 20470,
                   "name": "updatedState",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3521:42:53",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2591,7 +2591,7 @@
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20425,
+                    "id": 20469,
                     "name": "InstrumentBase.IssuanceStates",
                     "nodeType": "UserDefinedTypeName",
                     "referencedDeclaration": 1865,
@@ -2606,10 +2606,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 20428,
+                  "id": 20472,
                   "name": "transfersData",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20431,
+                  "scope": 20475,
                   "src": "3565:26:53",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2618,7 +2618,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 20427,
+                    "id": 20471,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "3565:5:53",
@@ -2633,14 +2633,14 @@
               ],
               "src": "3520:72:53"
             },
-            "scope": 20432,
+            "scope": 20476,
             "src": "3360:239:53",
             "stateMutability": "nonpayable",
             "superFunction": 3477,
             "visibility": "internal"
           }
         ],
-        "scope": 20433,
+        "scope": 20477,
         "src": "119:3482:53"
       }
     ],
@@ -2652,7 +2652,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T07:59:58.544Z",
+  "updatedAt": "2019-10-12T05:06:03.851Z",
   "devdoc": {
     "methods": {
       "createIssuance(bytes)": {

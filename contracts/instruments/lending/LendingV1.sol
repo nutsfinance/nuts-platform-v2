@@ -15,6 +15,12 @@ contract LendingV1 is InstrumentV3 {
     using SafeMath for uint256;
     using StringUtil for string;
 
+    event LendingCreated(uint256 indexed issuanceId, address escrowAddress, address makerAddress, uint256 creationTimestamp,
+        address collateralTokenAddress, address lendingTokenAddress, uint256 lendingAmount, uint256 principalDueTimestamp);
+
+    event LendingEngaged(uint256 indexed issuanceId, address takerAddress, uint256 engagementTimestamp,
+        uint256 collateralDueTimstamp, uint256 collateralTokenAmount);
+
     // Constants
     uint256 constant PRINCIPAL_DUE_DAYS = 2 days;               // Time available for maker to deposit principal
     uint256 constant COLLATERAL_DUE_DAYS = 2 days;              // Time availabel for tabker to deposit collateral
@@ -74,6 +80,9 @@ contract LendingV1 is InstrumentV3 {
 
         // Scheduled Principal Due event
         emit EventTimeScheduled(issuanceParameters.issuanceId, _principalDueTimestamp, PRINCIPAL_DUE_EVENT, "");
+
+        emit LendingCreated(issuanceParameters.issuanceId, issuanceParameters.escrowAddress, issuanceParameters.makerAddress, now,
+            _collateralTokenAddress, _lendingTokenAddress, _lendingAmount, _principalDueTimestamp);
 
         return IssuanceStates.Initiated;
     }

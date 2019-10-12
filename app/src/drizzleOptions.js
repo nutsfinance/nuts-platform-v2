@@ -2,19 +2,20 @@ import InstrumentManager from './contracts/InstrumentManagerInterface.json';
 import InstrumentEscrow from './contracts/InstrumentEscrowInterface.json';
 import SampleToken from './contracts/TokenMock.json';
 import ParametersUtil from './contracts/ParametersUtil.json';
+import LendingV1 from './contracts/LendingV1.json';
 
 // Note: InstrumentManager and InstrumentEscrow are created in smart contract.
 // So we need to hard code their address in corresponding networks here.
 
 // Network 4 is Rinkeby
 InstrumentManager["networks"]["4"] = {
-    "address": "0x91d84aD3D0FFFae8f68205Baa7a216bcbFDd4E54",
-    "transactionHash": "0x8f5b1809b5c87c10affa0aa770e1d7ca915088763d8c9f8d518b28d6199e0f39"
+    "address": "0x06Af420D2467697d59d34c2486BDa5F280F21936",
+    "transactionHash": "0xe9976deb8fc320b5b00eef5f3c46252e103f5e68354c910b2e7996efc8b9d526"
 };
 
 InstrumentEscrow["networks"]["4"] = {
-    "address": "0xBbb3E3d228e5E59D9A9076e6526FF1ed9cd92aA2",
-    "transactionHash": "0x8f5b1809b5c87c10affa0aa770e1d7ca915088763d8c9f8d518b28d6199e0f39"
+    "address": "0xa026C2b4D730F615A0f9664B96b7A62af05879d9",
+    "transactionHash": "0xe9976deb8fc320b5b00eef5f3c46252e103f5e68354c910b2e7996efc8b9d526"
 };
 
 const options = {
@@ -25,7 +26,7 @@ const options = {
         url: "ws://127.0.0.1:8545",
       },
     },
-    contracts: [InstrumentManager, InstrumentEscrow, SampleToken, ParametersUtil],
+    contracts: [InstrumentManager, InstrumentEscrow, SampleToken, ParametersUtil, LendingV1],
     polls: {
       accounts: 1500,
     },

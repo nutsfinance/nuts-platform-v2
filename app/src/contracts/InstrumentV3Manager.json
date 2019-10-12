@@ -365,7 +365,7 @@
         "id": 4531,
         "nodeType": "ImportDirective",
         "scope": 4738,
-        "sourceUnit": 18807,
+        "sourceUnit": 18851,
         "src": "25:51:24",
         "symbolAliases": [],
         "unitAlias": ""
@@ -509,7 +509,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                        "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                         "typeString": "contract ProxyFactoryInterface"
                       },
                       "typeName": {
@@ -517,10 +517,10 @@
                         "id": 4551,
                         "name": "ProxyFactoryInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 18806,
+                        "referencedDeclaration": 18850,
                         "src": "1161:21:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                          "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                           "typeString": "contract ProxyFactoryInterface"
                         }
                       },
@@ -590,10 +590,10 @@
                       "name": "ProxyFactoryInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 18806,
+                      "referencedDeclaration": 18850,
                       "src": "1198:21:24",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_ProxyFactoryInterface_$18806_$",
+                        "typeIdentifier": "t_type$_t_contract$_ProxyFactoryInterface_$18850_$",
                         "typeString": "type(contract ProxyFactoryInterface)"
                       }
                     },
@@ -607,7 +607,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1198:62:24",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                      "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                       "typeString": "contract ProxyFactoryInterface"
                     }
                   },
@@ -689,7 +689,7 @@
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 21168,
+                              "referencedDeclaration": 21212,
                               "src": "1377:4:24",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_InstrumentV3Manager_$4737",
@@ -752,7 +752,7 @@
                           "referencedDeclaration": 4552,
                           "src": "1301:12:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                            "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                             "typeString": "contract ProxyFactoryInterface"
                           }
                         },
@@ -763,7 +763,7 @@
                         "lValueRequested": false,
                         "memberName": "createAdminOnlyUpgradeabilityProxy",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 18805,
+                        "referencedDeclaration": 18849,
                         "src": "1301:47:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$returns$_t_address_$",
@@ -3190,7 +3190,7 @@
         "id": 4531,
         "nodeType": "ImportDirective",
         "scope": 4738,
-        "sourceUnit": 18807,
+        "sourceUnit": 18851,
         "src": "25:51:24",
         "symbolAliases": [],
         "unitAlias": ""
@@ -3334,7 +3334,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                        "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                         "typeString": "contract ProxyFactoryInterface"
                       },
                       "typeName": {
@@ -3342,10 +3342,10 @@
                         "id": 4551,
                         "name": "ProxyFactoryInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 18806,
+                        "referencedDeclaration": 18850,
                         "src": "1161:21:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                          "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                           "typeString": "contract ProxyFactoryInterface"
                         }
                       },
@@ -3415,10 +3415,10 @@
                       "name": "ProxyFactoryInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 18806,
+                      "referencedDeclaration": 18850,
                       "src": "1198:21:24",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_ProxyFactoryInterface_$18806_$",
+                        "typeIdentifier": "t_type$_t_contract$_ProxyFactoryInterface_$18850_$",
                         "typeString": "type(contract ProxyFactoryInterface)"
                       }
                     },
@@ -3432,7 +3432,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1198:62:24",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                      "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                       "typeString": "contract ProxyFactoryInterface"
                     }
                   },
@@ -3514,7 +3514,7 @@
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 21168,
+                              "referencedDeclaration": 21212,
                               "src": "1377:4:24",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_InstrumentV3Manager_$4737",
@@ -3577,7 +3577,7 @@
                           "referencedDeclaration": 4552,
                           "src": "1301:12:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18806",
+                            "typeIdentifier": "t_contract$_ProxyFactoryInterface_$18850",
                             "typeString": "contract ProxyFactoryInterface"
                           }
                         },
@@ -3588,7 +3588,7 @@
                         "lValueRequested": false,
                         "memberName": "createAdminOnlyUpgradeabilityProxy",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 18805,
+                        "referencedDeclaration": 18849,
                         "src": "1301:47:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$returns$_t_address_$",
@@ -6041,8 +6041,8 @@
         }
       },
       "links": {},
-      "address": "0x697A2A87517795DD6C01aab3dd0f716Bb0eabdA4",
-      "transactionHash": "0x6a42c5ea21d3068870f009f1a666fad3819b5d4bcc02d7ffaa104146b8e4d2af"
+      "address": "0x3E06BBb54034fb4bc5bFf22b3335A579f315822d",
+      "transactionHash": "0xd419c913617627f45ea6909ca8e7a5f22f4f5cda8020352a34668c5ae8b578c2"
     },
     "1570661872937": {
       "events": {
@@ -6097,7 +6097,7 @@
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T08:06:15.231Z",
+  "updatedAt": "2019-10-12T05:12:00.984Z",
   "devdoc": {
     "methods": {
       "createIssuance(bytes)": {

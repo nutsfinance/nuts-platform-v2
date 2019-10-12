@@ -5,6 +5,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
+import IssuanceListComponent from './IssuanceListComponent';
+
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
 export default class DemoComponent extends Component {
@@ -255,6 +257,13 @@ export default class DemoComponent extends Component {
                     
                                   )}
                                 />
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12}>
+                    <Card className="LongCard">
+                        <CardContent>
+                            <IssuanceListComponent drizzle={drizzle}></IssuanceListComponent>
                         </CardContent>
                     </Card>
                 </Grid>

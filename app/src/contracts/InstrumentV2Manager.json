@@ -387,7 +387,7 @@
         "id": 4133,
         "nodeType": "ImportDirective",
         "scope": 4450,
-        "sourceUnit": 20661,
+        "sourceUnit": 20705,
         "src": "110:44:22",
         "symbolAliases": [],
         "unitAlias": ""
@@ -398,7 +398,7 @@
         "id": 4134,
         "nodeType": "ImportDirective",
         "scope": 4450,
-        "sourceUnit": 20564,
+        "sourceUnit": 20608,
         "src": "155:51:22",
         "symbolAliases": [],
         "unitAlias": ""
@@ -553,7 +553,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                        "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                         "typeString": "contract StorageFactoryInterface"
                       },
                       "typeName": {
@@ -561,10 +561,10 @@
                         "id": 4155,
                         "name": "StorageFactoryInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20563,
+                        "referencedDeclaration": 20607,
                         "src": "1150:23:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                           "typeString": "contract StorageFactoryInterface"
                         }
                       },
@@ -634,10 +634,10 @@
                       "name": "StorageFactoryInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20563,
+                      "referencedDeclaration": 20607,
                       "src": "1191:23:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageFactoryInterface_$20563_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageFactoryInterface_$20607_$",
                         "typeString": "type(contract StorageFactoryInterface)"
                       }
                     },
@@ -651,7 +651,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1191:66:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                      "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                       "typeString": "contract StorageFactoryInterface"
                     }
                   },
@@ -673,7 +673,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -681,10 +681,10 @@
                         "id": 4163,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "1267:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -707,7 +707,7 @@
                         "referencedDeclaration": 4156,
                         "src": "1302:14:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                           "typeString": "contract StorageFactoryInterface"
                         }
                       },
@@ -718,10 +718,10 @@
                       "lValueRequested": false,
                       "memberName": "createStorageInstance",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20562,
+                      "referencedDeclaration": 20606,
                       "src": "1302:36:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_nonpayable$__$returns$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_function_external_nonpayable$__$returns$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "function () external returns (contract StorageInterface)"
                       }
                     },
@@ -735,7 +735,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1302:38:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -804,7 +804,7 @@
                           "referencedDeclaration": 4164,
                           "src": "1390:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -812,7 +812,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -887,7 +887,7 @@
                         "referencedDeclaration": 4164,
                         "src": "1456:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -898,7 +898,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "1456:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -984,7 +984,7 @@
                           "referencedDeclaration": 4164,
                           "src": "1620:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -1000,7 +1000,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -1063,7 +1063,7 @@
                         "referencedDeclaration": 4054,
                         "src": "1527:47:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$",
                           "typeString": "function (bytes memory,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates)"
                         }
                       },
@@ -1125,7 +1125,7 @@
                         "referencedDeclaration": 4164,
                         "src": "1677:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -1136,7 +1136,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "1677:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1317,7 +1317,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -1325,10 +1325,10 @@
                         "id": 4214,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "2263:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -1392,10 +1392,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "2298:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -1409,7 +1409,7 @@
                     "nodeType": "FunctionCall",
                     "src": "2298:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -1450,7 +1450,7 @@
                         "referencedDeclaration": 4215,
                         "src": "2355:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -1461,7 +1461,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "2355:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1577,7 +1577,7 @@
                           "referencedDeclaration": 4215,
                           "src": "2544:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -1593,7 +1593,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -1656,7 +1656,7 @@
                         "referencedDeclaration": 4067,
                         "src": "2443:47:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -1718,7 +1718,7 @@
                         "referencedDeclaration": 4215,
                         "src": "2601:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -1729,7 +1729,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "2601:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1936,7 +1936,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -1944,10 +1944,10 @@
                         "id": 4263,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "3378:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -2011,10 +2011,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "3413:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -2028,7 +2028,7 @@
                     "nodeType": "FunctionCall",
                     "src": "3413:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -2069,7 +2069,7 @@
                         "referencedDeclaration": 4264,
                         "src": "3470:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -2080,7 +2080,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "3470:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -2209,7 +2209,7 @@
                           "referencedDeclaration": 4264,
                           "src": "3669:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -2229,7 +2229,7 @@
                             "typeString": "uint256"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -2292,7 +2292,7 @@
                         "referencedDeclaration": 4082,
                         "src": "3558:52:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,address,uint256,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -2354,7 +2354,7 @@
                         "referencedDeclaration": 4264,
                         "src": "3726:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -2365,7 +2365,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "3726:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -2599,7 +2599,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -2607,10 +2607,10 @@
                         "id": 4313,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "4503:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -2674,10 +2674,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "4538:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -2691,7 +2691,7 @@
                     "nodeType": "FunctionCall",
                     "src": "4538:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -2732,7 +2732,7 @@
                         "referencedDeclaration": 4314,
                         "src": "4595:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -2743,7 +2743,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "4595:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -2872,7 +2872,7 @@
                           "referencedDeclaration": 4314,
                           "src": "4795:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -2892,7 +2892,7 @@
                             "typeString": "uint256"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -2955,7 +2955,7 @@
                         "referencedDeclaration": 4097,
                         "src": "4683:53:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,address,uint256,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -3017,7 +3017,7 @@
                         "referencedDeclaration": 4314,
                         "src": "4852:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -3028,7 +3028,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "4852:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -3262,7 +3262,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -3270,10 +3270,10 @@
                         "id": 4363,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "5497:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -3337,10 +3337,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "5532:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -3354,7 +3354,7 @@
                     "nodeType": "FunctionCall",
                     "src": "5532:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -3395,7 +3395,7 @@
                         "referencedDeclaration": 4364,
                         "src": "5589:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -3406,7 +3406,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "5589:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -3535,7 +3535,7 @@
                           "referencedDeclaration": 4364,
                           "src": "5791:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -3555,7 +3555,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -3618,7 +3618,7 @@
                         "referencedDeclaration": 4112,
                         "src": "5677:51:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,bytes32,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -3680,7 +3680,7 @@
                         "referencedDeclaration": 4364,
                         "src": "5848:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -3691,7 +3691,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "5848:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -3924,7 +3924,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -3932,10 +3932,10 @@
                         "id": 4413,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "6499:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -3999,10 +3999,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "6534:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -4016,7 +4016,7 @@
                     "nodeType": "FunctionCall",
                     "src": "6534:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -4057,7 +4057,7 @@
                         "referencedDeclaration": 4414,
                         "src": "6591:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -4068,7 +4068,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "6591:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -4197,7 +4197,7 @@
                           "referencedDeclaration": 4414,
                           "src": "6796:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -4217,7 +4217,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -4280,7 +4280,7 @@
                         "referencedDeclaration": 4127,
                         "src": "6679:54:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,bytes32,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -4342,7 +4342,7 @@
                         "referencedDeclaration": 4414,
                         "src": "6853:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -4353,7 +4353,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "6853:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -4621,7 +4621,7 @@
         "id": 4133,
         "nodeType": "ImportDirective",
         "scope": 4450,
-        "sourceUnit": 20661,
+        "sourceUnit": 20705,
         "src": "110:44:22",
         "symbolAliases": [],
         "unitAlias": ""
@@ -4632,7 +4632,7 @@
         "id": 4134,
         "nodeType": "ImportDirective",
         "scope": 4450,
-        "sourceUnit": 20564,
+        "sourceUnit": 20608,
         "src": "155:51:22",
         "symbolAliases": [],
         "unitAlias": ""
@@ -4787,7 +4787,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                        "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                         "typeString": "contract StorageFactoryInterface"
                       },
                       "typeName": {
@@ -4795,10 +4795,10 @@
                         "id": 4155,
                         "name": "StorageFactoryInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20563,
+                        "referencedDeclaration": 20607,
                         "src": "1150:23:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                           "typeString": "contract StorageFactoryInterface"
                         }
                       },
@@ -4868,10 +4868,10 @@
                       "name": "StorageFactoryInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20563,
+                      "referencedDeclaration": 20607,
                       "src": "1191:23:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageFactoryInterface_$20563_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageFactoryInterface_$20607_$",
                         "typeString": "type(contract StorageFactoryInterface)"
                       }
                     },
@@ -4885,7 +4885,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1191:66:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                      "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                       "typeString": "contract StorageFactoryInterface"
                     }
                   },
@@ -4907,7 +4907,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -4915,10 +4915,10 @@
                         "id": 4163,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "1267:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -4941,7 +4941,7 @@
                         "referencedDeclaration": 4156,
                         "src": "1302:14:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20563",
+                          "typeIdentifier": "t_contract$_StorageFactoryInterface_$20607",
                           "typeString": "contract StorageFactoryInterface"
                         }
                       },
@@ -4952,10 +4952,10 @@
                       "lValueRequested": false,
                       "memberName": "createStorageInstance",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20562,
+                      "referencedDeclaration": 20606,
                       "src": "1302:36:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_nonpayable$__$returns$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_function_external_nonpayable$__$returns$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "function () external returns (contract StorageInterface)"
                       }
                     },
@@ -4969,7 +4969,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1302:38:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -5038,7 +5038,7 @@
                           "referencedDeclaration": 4164,
                           "src": "1390:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -5046,7 +5046,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -5121,7 +5121,7 @@
                         "referencedDeclaration": 4164,
                         "src": "1456:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -5132,7 +5132,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "1456:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -5218,7 +5218,7 @@
                           "referencedDeclaration": 4164,
                           "src": "1620:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -5234,7 +5234,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -5297,7 +5297,7 @@
                         "referencedDeclaration": 4054,
                         "src": "1527:47:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$",
                           "typeString": "function (bytes memory,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates)"
                         }
                       },
@@ -5359,7 +5359,7 @@
                         "referencedDeclaration": 4164,
                         "src": "1677:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -5370,7 +5370,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "1677:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -5551,7 +5551,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -5559,10 +5559,10 @@
                         "id": 4214,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "2263:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -5626,10 +5626,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "2298:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -5643,7 +5643,7 @@
                     "nodeType": "FunctionCall",
                     "src": "2298:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -5684,7 +5684,7 @@
                         "referencedDeclaration": 4215,
                         "src": "2355:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -5695,7 +5695,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "2355:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -5811,7 +5811,7 @@
                           "referencedDeclaration": 4215,
                           "src": "2544:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -5827,7 +5827,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -5890,7 +5890,7 @@
                         "referencedDeclaration": 4067,
                         "src": "2443:47:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -5952,7 +5952,7 @@
                         "referencedDeclaration": 4215,
                         "src": "2601:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -5963,7 +5963,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "2601:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -6170,7 +6170,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -6178,10 +6178,10 @@
                         "id": 4263,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "3378:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -6245,10 +6245,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "3413:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -6262,7 +6262,7 @@
                     "nodeType": "FunctionCall",
                     "src": "3413:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -6303,7 +6303,7 @@
                         "referencedDeclaration": 4264,
                         "src": "3470:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -6314,7 +6314,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "3470:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -6443,7 +6443,7 @@
                           "referencedDeclaration": 4264,
                           "src": "3669:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -6463,7 +6463,7 @@
                             "typeString": "uint256"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -6526,7 +6526,7 @@
                         "referencedDeclaration": 4082,
                         "src": "3558:52:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,address,uint256,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -6588,7 +6588,7 @@
                         "referencedDeclaration": 4264,
                         "src": "3726:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -6599,7 +6599,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "3726:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -6833,7 +6833,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -6841,10 +6841,10 @@
                         "id": 4313,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "4503:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -6908,10 +6908,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "4538:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -6925,7 +6925,7 @@
                     "nodeType": "FunctionCall",
                     "src": "4538:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -6966,7 +6966,7 @@
                         "referencedDeclaration": 4314,
                         "src": "4595:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -6977,7 +6977,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "4595:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -7106,7 +7106,7 @@
                           "referencedDeclaration": 4314,
                           "src": "4795:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -7126,7 +7126,7 @@
                             "typeString": "uint256"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -7189,7 +7189,7 @@
                         "referencedDeclaration": 4097,
                         "src": "4683:53:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_address_$_t_uint256_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,address,uint256,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -7251,7 +7251,7 @@
                         "referencedDeclaration": 4314,
                         "src": "4852:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -7262,7 +7262,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "4852:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -7496,7 +7496,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -7504,10 +7504,10 @@
                         "id": 4363,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "5497:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -7571,10 +7571,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "5532:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -7588,7 +7588,7 @@
                     "nodeType": "FunctionCall",
                     "src": "5532:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -7629,7 +7629,7 @@
                         "referencedDeclaration": 4364,
                         "src": "5589:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -7640,7 +7640,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "5589:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -7769,7 +7769,7 @@
                           "referencedDeclaration": 4364,
                           "src": "5791:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -7789,7 +7789,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -7852,7 +7852,7 @@
                         "referencedDeclaration": 4112,
                         "src": "5677:51:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,bytes32,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -7914,7 +7914,7 @@
                         "referencedDeclaration": 4364,
                         "src": "5848:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -7925,7 +7925,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "5848:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -8158,7 +8158,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                        "typeIdentifier": "t_contract$_StorageInterface_$20704",
                         "typeString": "contract StorageInterface"
                       },
                       "typeName": {
@@ -8166,10 +8166,10 @@
                         "id": 4413,
                         "name": "StorageInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 20660,
+                        "referencedDeclaration": 20704,
                         "src": "6499:16:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -8233,10 +8233,10 @@
                       "name": "StorageInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20660,
+                      "referencedDeclaration": 20704,
                       "src": "6534:16:22",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20660_$",
+                        "typeIdentifier": "t_type$_t_contract$_StorageInterface_$20704_$",
                         "typeString": "type(contract StorageInterface)"
                       }
                     },
@@ -8250,7 +8250,7 @@
                     "nodeType": "FunctionCall",
                     "src": "6534:47:22",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20704",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -8291,7 +8291,7 @@
                         "referencedDeclaration": 4414,
                         "src": "6591:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -8302,7 +8302,7 @@
                       "lValueRequested": false,
                       "memberName": "addWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20570,
+                      "referencedDeclaration": 20614,
                       "src": "6591:25:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -8431,7 +8431,7 @@
                           "referencedDeclaration": 4414,
                           "src": "6796:15:22",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         }
@@ -8451,7 +8451,7 @@
                             "typeString": "bytes memory"
                           },
                           {
-                            "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                            "typeIdentifier": "t_contract$_StorageInterface_$20704",
                             "typeString": "contract StorageInterface"
                           }
                         ],
@@ -8514,7 +8514,7 @@
                         "referencedDeclaration": 4127,
                         "src": "6679:54:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20660_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
+                          "typeIdentifier": "t_function_external_nonpayable$_t_bytes_memory_ptr_$_t_bytes32_$_t_bytes_memory_ptr_$_t_contract$_StorageInterface_$20704_$returns$_t_enum$_IssuanceStates_$1865_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory,bytes32,bytes memory,contract StorageInterface) external returns (enum InstrumentBase.IssuanceStates,bytes memory)"
                         }
                       },
@@ -8576,7 +8576,7 @@
                         "referencedDeclaration": 4414,
                         "src": "6853:15:22",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                          "typeIdentifier": "t_contract$_StorageInterface_$20704",
                           "typeString": "contract StorageInterface"
                         }
                       },
@@ -8587,7 +8587,7 @@
                       "lValueRequested": false,
                       "memberName": "removeWriter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 20575,
+                      "referencedDeclaration": 20619,
                       "src": "6853:28:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -8859,8 +8859,8 @@
         }
       },
       "links": {},
-      "address": "0x8481d3f1B26D95F29dDFb1848641dc04be612EBc",
-      "transactionHash": "0x6fc8fcd141abb4c979d5b5df7f6affab1d975eeb7c3c2055abbf7d6c11e5c3e4"
+      "address": "0x216fe0b8f5d047511f39f01b258b3ccDC1987B3c",
+      "transactionHash": "0xa8e6b44f43cc7968e10188e0c3ee57b4eb3bad3c9fc0e3c0b13dc7193c96af54"
     },
     "1570661872937": {
       "events": {
@@ -8915,7 +8915,7 @@
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T08:06:15.225Z",
+  "updatedAt": "2019-10-12T05:12:00.974Z",
   "devdoc": {
     "methods": {
       "createIssuance(bytes)": {
