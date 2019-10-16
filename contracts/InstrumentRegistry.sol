@@ -30,17 +30,15 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param newDepositTokenAddress Address of NUTS token.
      * @param newPriceOracleAddress Address of Price Oracle
      * @param newEscrowFactoryAddress Address of Escrow Factory.
-     * @param newStorageFactoryAddress Address of Storage Factory.
      * @param newProxyFactoryAddress Address of Proxy Factory.
      */
     constructor(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
         address newPriceOracleAddress, address newEscrowFactoryAddress,
-        address newStorageFactoryAddress, address newProxyFactoryAddress) public {
+        address newProxyFactoryAddress) public {
         require(address(depositTokenAddress) == address(0x0), "InstrumentRegistry: Already initialized.");
         require(newDepositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
         require(newPriceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
         require(newEscrowFactoryAddress != address(0x0), "InstrumentRegistry: Escrow Factory address must be provided.");
-        require(newStorageFactoryAddress != address(0x0), "InstrumentRegistry: Storage Factory address must be provided.");
         require(newProxyFactoryAddress != address(0x0), "InstrumentRegistry: Proxy Factory address must be provided.");
 
         instrumentDeposit = newInstrumentDeposit;
@@ -48,7 +46,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         depositTokenAddress = newDepositTokenAddress;
         priceOracleAddress = newPriceOracleAddress;
         escrowFactoryAddress = newEscrowFactoryAddress;
-        storageFactoryAddress = newStorageFactoryAddress;
         proxyFactoryAddress = newProxyFactoryAddress;
 
         // Create new Deposit Escrow
@@ -82,13 +79,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      */
     function setEscrowFactoryAddress(address newEscrowFactoryAddress) public onlyOwner {
         escrowFactoryAddress = newEscrowFactoryAddress;
-    }
-
-    /**
-     * @dev Update Storage Factory address.
-     */
-    function setStorageFactoryAddress(address newStorageFactoryAddress) public onlyOwner {
-        storageFactoryAddress = newStorageFactoryAddress;
     }
 
     /**

@@ -22,9 +22,6 @@ contract InstrumentConfig {
     // Address of Escrow Factory
     // Note: Updatable after initialization.
     address public escrowFactoryAddress;
-    // Address of Storage Factory
-    // Note: Updatable after initialization
-    address public storageFactoryAddress;
     // Address of Proxy Factory
     // Note: Updatable after initialization.
     address public proxyFactoryAddress;

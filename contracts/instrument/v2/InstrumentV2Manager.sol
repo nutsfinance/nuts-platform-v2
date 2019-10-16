@@ -17,15 +17,20 @@ contract InstrumentV2Manager is InstrumentManagerBase {
 
     // Mapping: Issuance Id => Issuance storage contract address
     mapping(uint256 => address) private _issuanceStorages;
+    StorageFactoryInterface private _storageFactory;
 
     /**
      * @param fspAddress Address of FSP that activates this financial instrument.
      * @param instrumentAddress Address of the financial instrument contract.
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
+     * @param storageFactoryAddress Address of the storage factory.
      */
-    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress, bytes memory instrumentParameters)
-        InstrumentManagerBase(fspAddress, instrumentAddress, instrumentConfigAddress, instrumentParameters) public {}
+    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
+        bytes memory instrumentParameters, address storageFactoryAddress)
+        InstrumentManagerBase(fspAddress, instrumentAddress, instrumentConfigAddress, instrumentParameters) public {
+        _storageFactory = StorageFactoryInterface(storageFactoryAddress);
+    }
 
     /**
      * @dev Instrument type-specific issuance creation processing.
@@ -37,8 +42,7 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         returns (InstrumentBase.IssuanceStates updatedState) {
 
         // Create storage contract
-        StorageFactoryInterface storageFactory = StorageFactoryInterface(_instrumentConfig.storageFactoryAddress());
-        StorageInterface issuanceStorage = storageFactory.createStorageInstance();
+        StorageInterface issuanceStorage = _storageFactory.createStorageInstance();
         _issuanceStorages[issuanceId] = address(issuanceStorage);
 
         // Temporary grant writer role

@@ -13,6 +13,8 @@ contract StorageFactory is StorageFactoryInterface {
      * @dev Create new storage instance.
      */
     function createStorageInstance() public returns (StorageInterface) {
-        return new UnifiedStorage();
+        UnifiedStorage unifiedStorage = new UnifiedStorage();
+        unifiedStorage.transferOwnership(msg.sender);
+        return unifiedStorage;
     }
 }
