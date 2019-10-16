@@ -541,7 +541,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:39:23.794Z",
+  "updatedAt": "2019-10-16T02:07:15.573Z",
   "devdoc": {
     "methods": {
       "createDepositEscrow()": {

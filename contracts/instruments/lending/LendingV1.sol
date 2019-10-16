@@ -185,22 +185,13 @@ contract LendingV1 is InstrumentV3 {
 
     /**
      * @dev A custom event is triggered.
-     */
-    function processCustomEvent(bytes memory /* issuanceParametersData */, bytes32 /* eventName  */, bytes memory /* eventPayload */)
-        public returns (IssuanceStates, bytes memory) {
-
-        revert("LoanV1: Unsupported operation.");
-    }
-
-    /**
-     * @dev A scheduled event is triggered.
      * @param issuanceParametersData Issuance Parameters.
      * @param eventName The name of the custom event.
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processScheduledEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory /* eventPayload */)
+    function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory /* eventPayload */)
         public returns (IssuanceStates updatedState, bytes memory transfersData) {
 
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);

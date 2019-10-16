@@ -65,15 +65,4 @@ contract InstrumentV3 is InstrumentBase {
     function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
         public returns (IssuanceStates updatedState, bytes memory transfersData);
 
-    /**
-     * @dev A scheduled event is triggered.
-     * @param issuanceParametersData Issuance Parameters.
-     * @param eventName The name of the custom event.
-     * @param eventPayload The custom parameters to the custom event
-     * @return updatedState The new state of the issuance.
-     * @return updatedData The updated data of the issuance.
-     * @return transfersData The transfers to perform after the invocation
-     */
-    function processScheduledEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
-        public returns (IssuanceStates updatedState, bytes memory transfersData);
 }

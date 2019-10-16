@@ -78,18 +78,10 @@ interface InstrumentManagerInterface {
     function withdrawTokenFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
 
     /**
-     * @dev Notify custom events to issuance. This could be invoked by any caller.
+     * @dev Notify events to issuance. This could be either custom event or scheduled event. Anyone can call this method.
      * @param issuanceId The id of the issuance
      * @param eventName Name of the custom event
      * @param eventPayload Payload of the custom event
      */
     function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes calldata eventPayload) external;
-
-    /**
-     * @dev Notify scheduled events to issuance. This could be invoked by Timer Oracle only.
-     * @param issuanceId The id of the issuance
-     * @param eventName Name of the scheduled event, eventName of EventScheduled event
-     * @param eventPayload Payload of the scheduled event, eventPayload of EventScheduled event
-     */
-    function notifyScheduledEvent(uint256 issuanceId, bytes32 eventName, bytes calldata eventPayload) external;
 }

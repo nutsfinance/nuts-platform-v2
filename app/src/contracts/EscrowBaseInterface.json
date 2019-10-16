@@ -173,7 +173,7 @@
         "id": 1184,
         "nodeType": "ImportDirective",
         "scope": 1240,
-        "sourceUnit": 19255,
+        "sourceUnit": 18987,
         "src": "25:33:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -323,7 +323,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$19254",
+                    "typeIdentifier": "t_contract$_IERC20_$18986",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
@@ -331,10 +331,10 @@
                     "id": 1194,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 19254,
+                    "referencedDeclaration": 18986,
                     "src": "817:6:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$19254",
+                      "typeIdentifier": "t_contract$_IERC20_$18986",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -862,7 +862,7 @@
         "id": 1184,
         "nodeType": "ImportDirective",
         "scope": 1240,
-        "sourceUnit": 19255,
+        "sourceUnit": 18987,
         "src": "25:33:7",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1012,7 +1012,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$19254",
+                    "typeIdentifier": "t_contract$_IERC20_$18986",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
@@ -1020,10 +1020,10 @@
                     "id": 1194,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 19254,
+                    "referencedDeclaration": 18986,
                     "src": "817:6:7",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$19254",
+                      "typeIdentifier": "t_contract$_IERC20_$18986",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -1530,7 +1530,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:39:23.790Z",
+  "updatedAt": "2019-10-16T02:07:15.570Z",
   "devdoc": {
     "methods": {
       "depositByAdmin(address)": {

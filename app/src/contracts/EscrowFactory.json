@@ -274,7 +274,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20935,
+                          "referencedDeclaration": 20667,
                           "src": "783:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -323,7 +323,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5610,
+                      "referencedDeclaration": 5342,
                       "src": "751:31:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -522,7 +522,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20935,
+                          "referencedDeclaration": 20667,
                           "src": "1095:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -571,7 +571,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5610,
+                      "referencedDeclaration": 5342,
                       "src": "1060:34:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -770,7 +770,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20935,
+                          "referencedDeclaration": 20667,
                           "src": "1396:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -819,7 +819,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5610,
+                      "referencedDeclaration": 5342,
                       "src": "1363:32:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1149,7 +1149,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20935,
+                          "referencedDeclaration": 20667,
                           "src": "783:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1198,7 +1198,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5610,
+                      "referencedDeclaration": 5342,
                       "src": "751:31:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1397,7 +1397,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20935,
+                          "referencedDeclaration": 20667,
                           "src": "1095:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1446,7 +1446,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5610,
+                      "referencedDeclaration": 5342,
                       "src": "1060:34:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1645,7 +1645,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20935,
+                          "referencedDeclaration": 20667,
                           "src": "1396:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1694,7 +1694,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5610,
+                      "referencedDeclaration": 5342,
                       "src": "1363:32:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1820,7 +1820,7 @@
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:39:23.792Z",
+  "updatedAt": "2019-10-16T02:07:15.572Z",
   "devdoc": {
     "methods": {
       "createDepositEscrow()": {

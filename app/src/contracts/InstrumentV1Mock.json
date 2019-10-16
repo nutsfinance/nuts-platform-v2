@@ -9,45 +9,6 @@
           "type": "bytes"
         },
         {
-          "name": "eventName",
-          "type": "bytes32"
-        },
-        {
-          "name": "eventPayload",
-          "type": "bytes"
-        },
-        {
-          "name": "data",
-          "type": "bytes"
-        }
-      ],
-      "name": "processScheduledEvent",
-      "outputs": [
-        {
-          "name": "updatedState",
-          "type": "uint8"
-        },
-        {
-          "name": "updatedData",
-          "type": "bytes"
-        },
-        {
-          "name": "transfersData",
-          "type": "bytes"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "issuanceParametersData",
-          "type": "bytes"
-        },
-        {
           "name": "takerParameters",
           "type": "bytes"
         },
@@ -274,7 +235,7 @@
       "type": "event"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"eventName\",\"type\":\"bytes32\"},{\"name\":\"eventPayload\",\"type\":\"bytes\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processScheduledEvent\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"takerParameters\",\"type\":\"bytes\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"engageIssuance\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"eventName\",\"type\":\"bytes32\"},{\"name\":\"eventPayload\",\"type\":\"bytes\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processCustomEvent\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processTokenDeposit\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"makerParametersData\",\"type\":\"bytes\"}],\"name\":\"createIssuance\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processTokenWithdraw\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"issuanceId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"eventName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"EventTimeScheduled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"issuanceId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"eventName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"EventBlockScheduled\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{\"createIssuance(bytes,bytes)\":{\"details\":\"Create a new issuance of the financial instrument\",\"params\":{\"issuanceParametersData\":\"Issuance Parameters.\",\"makerParametersData\":\"The custom parameters to the newly created issuance\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.\"},\"engageIssuance(bytes,bytes,bytes)\":{\"details\":\"A taker engages to the issuance\",\"params\":{\"data\":\"The custom data for this issuance\",\"issuanceParametersData\":\"Issuance Parameters.\",\"takerParameters\":\"The custom parameters to the new engagement\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processCustomEvent(bytes,bytes32,bytes,bytes)\":{\"details\":\"A custom event is triggered.\",\"params\":{\"data\":\"The data for this issuance\",\"eventName\":\"The name of the custom event.\",\"eventPayload\":\"The custom parameters to the custom event\",\"issuanceParametersData\":\"Issuance Parameters.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processScheduledEvent(bytes,bytes32,bytes,bytes)\":{\"details\":\"A scheduled event is triggered.\",\"params\":{\"data\":\"The data for this issuance\",\"eventName\":\"The name of the custom event.\",\"eventPayload\":\"The custom parameters to the custom event\",\"issuanceParametersData\":\"Issuance Parameters.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processTokenDeposit(bytes,address,uint256,bytes)\":{\"details\":\"An account has made an ERC20 token deposit to the issuance\",\"params\":{\"amount\":\"The amount of ERC20 token to deposit.\",\"data\":\"The data for this issuance\",\"issuanceParametersData\":\"Issuance Parameters.\",\"tokenAddress\":\"The address of the ERC20 token to deposit.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processTokenWithdraw(bytes,address,uint256,bytes)\":{\"details\":\"An account has made an ERC20 token withdraw from the issuance\",\"params\":{\"amount\":\"The amount of ERC20 token to withdraw.\",\"data\":\"The data for this issuance\",\"issuanceParametersData\":\"Issuance Parameters.\",\"tokenAddress\":\"The address of the ERC20 token to withdraw.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"}},\"title\":\"Instrument v1 base contract. All issuance data are passed in and returned as a string.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol\":\"InstrumentV1Mock\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0x5d7c29a8a0ef311e739198d8b1208b7dd339c9761779d6e0f353a81c403ca2c3\",\"urls\":[\"bzzr://1689500b1b704f924c4c2f30b1f9fe5a879d72629c17b3cea186dfca7e207c54\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentBase.sol\":{\"keccak256\":\"0x6a52d8167a621dd597ea99393ca138f17ca7900cbe4573c046c97dcc08776c81\",\"urls\":[\"bzzr://46ad414e9dd8a1775cf25bb6835e9bcb2ae27f4badc2b480d11a80d24a69f857\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v1/InstrumentV1.sol\":{\"keccak256\":\"0xfa8da7b4b59d24788aba926fed988c9557e93d179f44ddd22596bfea7d9dd902\",\"urls\":[\"bzzr://18ca5146fc990ea3c08280d0371c8d550fa3a81718295622555db5055934bb22\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol\":{\"keccak256\":\"0xeb3000e71878b1f4c71645069e988c0ebb3d09ff33b9dbc18275a4a57a3c8588\",\"urls\":[\"bzzr://1dd2557609e5da9a7e49f381f82acab2d46818c7ae0989a5843da575142e3dfd\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"takerParameters\",\"type\":\"bytes\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"engageIssuance\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"eventName\",\"type\":\"bytes32\"},{\"name\":\"eventPayload\",\"type\":\"bytes\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processCustomEvent\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processTokenDeposit\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"makerParametersData\",\"type\":\"bytes\"}],\"name\":\"createIssuance\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuanceParametersData\",\"type\":\"bytes\"},{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"},{\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processTokenWithdraw\",\"outputs\":[{\"name\":\"updatedState\",\"type\":\"uint8\"},{\"name\":\"updatedData\",\"type\":\"bytes\"},{\"name\":\"transfersData\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"issuanceId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"eventName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"EventTimeScheduled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"issuanceId\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"blockNumber\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"eventName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"eventPayload\",\"type\":\"bytes\"}],\"name\":\"EventBlockScheduled\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{\"createIssuance(bytes,bytes)\":{\"details\":\"Create a new issuance of the financial instrument\",\"params\":{\"issuanceParametersData\":\"Issuance Parameters.\",\"makerParametersData\":\"The custom parameters to the newly created issuance\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.\"},\"engageIssuance(bytes,bytes,bytes)\":{\"details\":\"A taker engages to the issuance\",\"params\":{\"data\":\"The custom data for this issuance\",\"issuanceParametersData\":\"Issuance Parameters.\",\"takerParameters\":\"The custom parameters to the new engagement\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processCustomEvent(bytes,bytes32,bytes,bytes)\":{\"details\":\"A custom event is triggered.\",\"params\":{\"data\":\"The data for this issuance\",\"eventName\":\"The name of the custom event.\",\"eventPayload\":\"The custom parameters to the custom event\",\"issuanceParametersData\":\"Issuance Parameters.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processTokenDeposit(bytes,address,uint256,bytes)\":{\"details\":\"An account has made an ERC20 token deposit to the issuance\",\"params\":{\"amount\":\"The amount of ERC20 token to deposit.\",\"data\":\"The data for this issuance\",\"issuanceParametersData\":\"Issuance Parameters.\",\"tokenAddress\":\"The address of the ERC20 token to deposit.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"},\"processTokenWithdraw(bytes,address,uint256,bytes)\":{\"details\":\"An account has made an ERC20 token withdraw from the issuance\",\"params\":{\"amount\":\"The amount of ERC20 token to withdraw.\",\"data\":\"The data for this issuance\",\"issuanceParametersData\":\"Issuance Parameters.\",\"tokenAddress\":\"The address of the ERC20 token to withdraw.\"},\"return\":\"updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation\"}},\"title\":\"Instrument v1 base contract. All issuance data are passed in and returned as a string.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol\":\"InstrumentV1Mock\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0x5d7c29a8a0ef311e739198d8b1208b7dd339c9761779d6e0f353a81c403ca2c3\",\"urls\":[\"bzzr://1689500b1b704f924c4c2f30b1f9fe5a879d72629c17b3cea186dfca7e207c54\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentBase.sol\":{\"keccak256\":\"0x6a52d8167a621dd597ea99393ca138f17ca7900cbe4573c046c97dcc08776c81\",\"urls\":[\"bzzr://46ad414e9dd8a1775cf25bb6835e9bcb2ae27f4badc2b480d11a80d24a69f857\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v1/InstrumentV1.sol\":{\"keccak256\":\"0x95d601cc2f4108b3d060ec157a15d302f21f2e33af76d8ade30e216e825f0d8e\",\"urls\":[\"bzzr://15664cef9ff02153ada4080e78cfc7e367a897c5f0bdde543c8ecd5a7df38fd1\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol\":{\"keccak256\":\"0xeb3000e71878b1f4c71645069e988c0ebb3d09ff33b9dbc18275a4a57a3c8588\",\"urls\":[\"bzzr://1dd2557609e5da9a7e49f381f82acab2d46818c7ae0989a5843da575142e3dfd\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
@@ -285,14 +246,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol",
     "exportedSymbols": {
       "InstrumentV1Mock": [
-        20308
+        20040
       ]
     },
-    "id": 20309,
+    "id": 20041,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20303,
+        "id": 20035,
         "literals": [
           "solidity",
           "~",
@@ -305,9 +266,9 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "../escrow/EscrowBaseInterface.sol",
-        "id": 20304,
+        "id": 20036,
         "nodeType": "ImportDirective",
-        "scope": 20309,
+        "scope": 20041,
         "sourceUnit": 1240,
         "src": "25:43:56",
         "symbolAliases": [],
@@ -316,10 +277,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v1/InstrumentV1.sol",
         "file": "../instrument/v1/InstrumentV1.sol",
-        "id": 20305,
+        "id": 20037,
         "nodeType": "ImportDirective",
-        "scope": 20309,
-        "sourceUnit": 3496,
+        "scope": 20041,
+        "sourceUnit": 3390,
         "src": "69:43:56",
         "symbolAliases": [],
         "unitAlias": ""
@@ -330,38 +291,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20306,
+              "id": 20038,
               "name": "InstrumentV1",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3495,
+              "referencedDeclaration": 3389,
               "src": "251:12:56",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_InstrumentV1_$3495",
+                "typeIdentifier": "t_contract$_InstrumentV1_$3389",
                 "typeString": "contract InstrumentV1"
               }
             },
-            "id": 20307,
+            "id": 20039,
             "nodeType": "InheritanceSpecifier",
             "src": "251:12:56"
           }
         ],
         "contractDependencies": [
           1713,
-          3495
+          3389
         ],
         "contractKind": "contract",
         "documentation": "@title Instrument v1 base contract.\nAll issuance data are passed in and returned as a string.",
         "fullyImplemented": false,
-        "id": 20308,
+        "id": 20040,
         "linearizedBaseContracts": [
-          20308,
-          3495,
+          20040,
+          3389,
           1713
         ],
         "name": "InstrumentV1Mock",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 20309,
+        "scope": 20041,
         "src": "222:50:56"
       }
     ],
@@ -371,14 +332,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/mock/InstrumentV1Mock.sol",
     "exportedSymbols": {
       "InstrumentV1Mock": [
-        20308
+        20040
       ]
     },
-    "id": 20309,
+    "id": 20041,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20303,
+        "id": 20035,
         "literals": [
           "solidity",
           "~",
@@ -391,9 +352,9 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "../escrow/EscrowBaseInterface.sol",
-        "id": 20304,
+        "id": 20036,
         "nodeType": "ImportDirective",
-        "scope": 20309,
+        "scope": 20041,
         "sourceUnit": 1240,
         "src": "25:43:56",
         "symbolAliases": [],
@@ -402,10 +363,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/v1/InstrumentV1.sol",
         "file": "../instrument/v1/InstrumentV1.sol",
-        "id": 20305,
+        "id": 20037,
         "nodeType": "ImportDirective",
-        "scope": 20309,
-        "sourceUnit": 3496,
+        "scope": 20041,
+        "sourceUnit": 3390,
         "src": "69:43:56",
         "symbolAliases": [],
         "unitAlias": ""
@@ -416,38 +377,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20306,
+              "id": 20038,
               "name": "InstrumentV1",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3495,
+              "referencedDeclaration": 3389,
               "src": "251:12:56",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_InstrumentV1_$3495",
+                "typeIdentifier": "t_contract$_InstrumentV1_$3389",
                 "typeString": "contract InstrumentV1"
               }
             },
-            "id": 20307,
+            "id": 20039,
             "nodeType": "InheritanceSpecifier",
             "src": "251:12:56"
           }
         ],
         "contractDependencies": [
           1713,
-          3495
+          3389
         ],
         "contractKind": "contract",
         "documentation": "@title Instrument v1 base contract.\nAll issuance data are passed in and returned as a string.",
         "fullyImplemented": false,
-        "id": 20308,
+        "id": 20040,
         "linearizedBaseContracts": [
-          20308,
-          3495,
+          20040,
+          3389,
           1713
         ],
         "name": "InstrumentV1Mock",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 20309,
+        "scope": 20041,
         "src": "222:50:56"
       }
     ],
@@ -459,7 +420,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:39:24.212Z",
+  "updatedAt": "2019-10-16T02:07:16.064Z",
   "devdoc": {
     "methods": {
       "createIssuance(bytes,bytes)": {
@@ -481,16 +442,6 @@
       },
       "processCustomEvent(bytes,bytes32,bytes,bytes)": {
         "details": "A custom event is triggered.",
-        "params": {
-          "data": "The data for this issuance",
-          "eventName": "The name of the custom event.",
-          "eventPayload": "The custom parameters to the custom event",
-          "issuanceParametersData": "Issuance Parameters."
-        },
-        "return": "updatedState The new state of the issuance.updatedData The updated data of the issuance.transfersData The transfers to perform after the invocation"
-      },
-      "processScheduledEvent(bytes,bytes32,bytes,bytes)": {
-        "details": "A scheduled event is triggered.",
         "params": {
           "data": "The data for this issuance",
           "eventName": "The name of the custom event.",

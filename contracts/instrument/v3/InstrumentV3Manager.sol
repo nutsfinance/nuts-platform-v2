@@ -97,18 +97,4 @@ contract InstrumentV3Manager is InstrumentManagerBase {
         (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).processCustomEvent(
             issuanceParametersData, eventName, eventPayload);
     }
-
-    /**
-     * @dev Instrument type-specific scheduled event processing.
-     * @param issuanceId ID of the issuance.
-     * @param issuanceParametersData Issuance Parameters.
-     * @param eventName The name of the custom event.
-     * @param eventPayload The custom parameters to the custom event
-     */
-    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
-        internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
-
-        (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).processScheduledEvent(
-            issuanceParametersData, eventName, eventPayload);
-    }
 }

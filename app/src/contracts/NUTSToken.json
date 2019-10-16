@@ -495,14 +495,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/token/NUTSToken.sol",
     "exportedSymbols": {
       "NUTSToken": [
-        20920
+        20652
       ]
     },
-    "id": 20921,
+    "id": 20653,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20888,
+        "id": 20620,
         "literals": [
           "solidity",
           "^",
@@ -515,10 +515,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/ERC20Burnable.sol",
         "file": "../lib/token/ERC20Burnable.sol",
-        "id": 20889,
+        "id": 20621,
         "nodeType": "ImportDirective",
-        "scope": 20921,
-        "sourceUnit": 19158,
+        "scope": 20653,
+        "sourceUnit": 18890,
         "src": "25:40:64",
         "symbolAliases": [],
         "unitAlias": ""
@@ -526,10 +526,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/token/ERC20CappedMintable.sol",
         "file": "./ERC20CappedMintable.sol",
-        "id": 20890,
+        "id": 20622,
         "nodeType": "ImportDirective",
-        "scope": 20921,
-        "sourceUnit": 20887,
+        "scope": 20653,
+        "sourceUnit": 20619,
         "src": "66:35:64",
         "symbolAliases": [],
         "unitAlias": ""
@@ -540,17 +540,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20891,
+              "id": 20623,
               "name": "ERC20CappedMintable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 20886,
+              "referencedDeclaration": 20618,
               "src": "155:19:64",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20CappedMintable_$20886",
+                "typeIdentifier": "t_contract$_ERC20CappedMintable_$20618",
                 "typeString": "contract ERC20CappedMintable"
               }
             },
-            "id": 20892,
+            "id": 20624,
             "nodeType": "InheritanceSpecifier",
             "src": "155:19:64"
           },
@@ -558,49 +558,49 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20893,
+              "id": 20625,
               "name": "ERC20Burnable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 19157,
+              "referencedDeclaration": 18889,
               "src": "176:13:64",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Burnable_$19157",
+                "typeIdentifier": "t_contract$_ERC20Burnable_$18889",
                 "typeString": "contract ERC20Burnable"
               }
             },
-            "id": 20894,
+            "id": 20626,
             "nodeType": "InheritanceSpecifier",
             "src": "176:13:64"
           }
         ],
         "contractDependencies": [
-          5635,
-          19126,
-          19157,
-          19254,
-          20886
+          5367,
+          18858,
+          18889,
+          18986,
+          20618
         ],
         "contractKind": "contract",
         "documentation": "@title NUTS Token.",
         "fullyImplemented": true,
-        "id": 20920,
+        "id": 20652,
         "linearizedBaseContracts": [
-          20920,
-          19157,
-          20886,
-          5635,
-          19126,
-          19254
+          20652,
+          18889,
+          20618,
+          5367,
+          18858,
+          18986
         ],
         "name": "NUTSToken",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 20897,
+            "id": 20629,
             "name": "name",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "196:42:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -609,7 +609,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 20895,
+              "id": 20627,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "196:6:64",
@@ -621,7 +621,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "4e55545320546f6b656e",
-              "id": 20896,
+              "id": 20628,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -640,10 +640,10 @@
           },
           {
             "constant": true,
-            "id": 20900,
+            "id": 20632,
             "name": "symbol",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "244:38:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -652,7 +652,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 20898,
+              "id": 20630,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "244:6:64",
@@ -664,7 +664,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "4e555453",
-              "id": 20899,
+              "id": 20631,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -683,10 +683,10 @@
           },
           {
             "constant": true,
-            "id": 20903,
+            "id": 20635,
             "name": "decimals",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "288:35:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -695,7 +695,7 @@
               "typeString": "uint8"
             },
             "typeName": {
-              "id": 20901,
+              "id": 20633,
               "name": "uint8",
               "nodeType": "ElementaryTypeName",
               "src": "288:5:64",
@@ -707,7 +707,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3138",
-              "id": 20902,
+              "id": 20634,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -726,10 +726,10 @@
           },
           {
             "constant": true,
-            "id": 20912,
+            "id": 20644,
             "name": "cap",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "329:65:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -738,7 +738,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 20904,
+              "id": 20636,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "329:7:64",
@@ -753,7 +753,7 @@
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
               },
-              "id": 20911,
+              "id": 20643,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -761,7 +761,7 @@
               "leftExpression": {
                 "argumentTypes": null,
                 "hexValue": "323030303030303030",
-                "id": 20905,
+                "id": 20637,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -784,7 +784,7 @@
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 },
-                "id": 20910,
+                "id": 20642,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -792,7 +792,7 @@
                 "leftExpression": {
                   "argumentTypes": null,
                   "hexValue": "3130",
-                  "id": 20906,
+                  "id": 20638,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -814,11 +814,11 @@
                   "arguments": [
                     {
                       "argumentTypes": null,
-                      "id": 20908,
+                      "id": 20640,
                       "name": "decimals",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20903,
+                      "referencedDeclaration": 20635,
                       "src": "385:8:64",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint8",
@@ -833,7 +833,7 @@
                         "typeString": "uint8"
                       }
                     ],
-                    "id": 20907,
+                    "id": 20639,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -846,7 +846,7 @@
                     },
                     "typeName": "uint256"
                   },
-                  "id": 20909,
+                  "id": 20641,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -876,13 +876,13 @@
           },
           {
             "body": {
-              "id": 20918,
+              "id": 20650,
               "nodeType": "Block",
               "src": "447:7:64",
               "statements": []
             },
             "documentation": null,
-            "id": 20919,
+            "id": 20651,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -890,11 +890,11 @@
                 "arguments": [
                   {
                     "argumentTypes": null,
-                    "id": 20915,
+                    "id": 20647,
                     "name": "cap",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 20912,
+                    "referencedDeclaration": 20644,
                     "src": "435:3:64",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -902,17 +902,17 @@
                     }
                   }
                 ],
-                "id": 20916,
+                "id": 20648,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 20914,
+                  "id": 20646,
                   "name": "ERC20CappedMintable",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 20886,
+                  "referencedDeclaration": 20618,
                   "src": "415:19:64",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20CappedMintable_$20886_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20CappedMintable_$20618_$",
                     "typeString": "type(contract ERC20CappedMintable)"
                   }
                 },
@@ -923,25 +923,25 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20913,
+              "id": 20645,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "412:2:64"
             },
             "returnParameters": {
-              "id": 20917,
+              "id": 20649,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "447:0:64"
             },
-            "scope": 20920,
+            "scope": 20652,
             "src": "401:53:64",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 20921,
+        "scope": 20653,
         "src": "133:324:64"
       }
     ],
@@ -951,14 +951,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/token/NUTSToken.sol",
     "exportedSymbols": {
       "NUTSToken": [
-        20920
+        20652
       ]
     },
-    "id": 20921,
+    "id": 20653,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20888,
+        "id": 20620,
         "literals": [
           "solidity",
           "^",
@@ -971,10 +971,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/ERC20Burnable.sol",
         "file": "../lib/token/ERC20Burnable.sol",
-        "id": 20889,
+        "id": 20621,
         "nodeType": "ImportDirective",
-        "scope": 20921,
-        "sourceUnit": 19158,
+        "scope": 20653,
+        "sourceUnit": 18890,
         "src": "25:40:64",
         "symbolAliases": [],
         "unitAlias": ""
@@ -982,10 +982,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/token/ERC20CappedMintable.sol",
         "file": "./ERC20CappedMintable.sol",
-        "id": 20890,
+        "id": 20622,
         "nodeType": "ImportDirective",
-        "scope": 20921,
-        "sourceUnit": 20887,
+        "scope": 20653,
+        "sourceUnit": 20619,
         "src": "66:35:64",
         "symbolAliases": [],
         "unitAlias": ""
@@ -996,17 +996,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20891,
+              "id": 20623,
               "name": "ERC20CappedMintable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 20886,
+              "referencedDeclaration": 20618,
               "src": "155:19:64",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20CappedMintable_$20886",
+                "typeIdentifier": "t_contract$_ERC20CappedMintable_$20618",
                 "typeString": "contract ERC20CappedMintable"
               }
             },
-            "id": 20892,
+            "id": 20624,
             "nodeType": "InheritanceSpecifier",
             "src": "155:19:64"
           },
@@ -1014,49 +1014,49 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 20893,
+              "id": 20625,
               "name": "ERC20Burnable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 19157,
+              "referencedDeclaration": 18889,
               "src": "176:13:64",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Burnable_$19157",
+                "typeIdentifier": "t_contract$_ERC20Burnable_$18889",
                 "typeString": "contract ERC20Burnable"
               }
             },
-            "id": 20894,
+            "id": 20626,
             "nodeType": "InheritanceSpecifier",
             "src": "176:13:64"
           }
         ],
         "contractDependencies": [
-          5635,
-          19126,
-          19157,
-          19254,
-          20886
+          5367,
+          18858,
+          18889,
+          18986,
+          20618
         ],
         "contractKind": "contract",
         "documentation": "@title NUTS Token.",
         "fullyImplemented": true,
-        "id": 20920,
+        "id": 20652,
         "linearizedBaseContracts": [
-          20920,
-          19157,
-          20886,
-          5635,
-          19126,
-          19254
+          20652,
+          18889,
+          20618,
+          5367,
+          18858,
+          18986
         ],
         "name": "NUTSToken",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 20897,
+            "id": 20629,
             "name": "name",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "196:42:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1065,7 +1065,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 20895,
+              "id": 20627,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "196:6:64",
@@ -1077,7 +1077,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "4e55545320546f6b656e",
-              "id": 20896,
+              "id": 20628,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -1096,10 +1096,10 @@
           },
           {
             "constant": true,
-            "id": 20900,
+            "id": 20632,
             "name": "symbol",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "244:38:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1108,7 +1108,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 20898,
+              "id": 20630,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "244:6:64",
@@ -1120,7 +1120,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "4e555453",
-              "id": 20899,
+              "id": 20631,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -1139,10 +1139,10 @@
           },
           {
             "constant": true,
-            "id": 20903,
+            "id": 20635,
             "name": "decimals",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "288:35:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1151,7 +1151,7 @@
               "typeString": "uint8"
             },
             "typeName": {
-              "id": 20901,
+              "id": 20633,
               "name": "uint8",
               "nodeType": "ElementaryTypeName",
               "src": "288:5:64",
@@ -1163,7 +1163,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "3138",
-              "id": 20902,
+              "id": 20634,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -1182,10 +1182,10 @@
           },
           {
             "constant": true,
-            "id": 20912,
+            "id": 20644,
             "name": "cap",
             "nodeType": "VariableDeclaration",
-            "scope": 20920,
+            "scope": 20652,
             "src": "329:65:64",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1194,7 +1194,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 20904,
+              "id": 20636,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "329:7:64",
@@ -1209,7 +1209,7 @@
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
               },
-              "id": 20911,
+              "id": 20643,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -1217,7 +1217,7 @@
               "leftExpression": {
                 "argumentTypes": null,
                 "hexValue": "323030303030303030",
-                "id": 20905,
+                "id": 20637,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -1240,7 +1240,7 @@
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
                 },
-                "id": 20910,
+                "id": 20642,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -1248,7 +1248,7 @@
                 "leftExpression": {
                   "argumentTypes": null,
                   "hexValue": "3130",
-                  "id": 20906,
+                  "id": 20638,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -1270,11 +1270,11 @@
                   "arguments": [
                     {
                       "argumentTypes": null,
-                      "id": 20908,
+                      "id": 20640,
                       "name": "decimals",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 20903,
+                      "referencedDeclaration": 20635,
                       "src": "385:8:64",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint8",
@@ -1289,7 +1289,7 @@
                         "typeString": "uint8"
                       }
                     ],
-                    "id": 20907,
+                    "id": 20639,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -1302,7 +1302,7 @@
                     },
                     "typeName": "uint256"
                   },
-                  "id": 20909,
+                  "id": 20641,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -1332,13 +1332,13 @@
           },
           {
             "body": {
-              "id": 20918,
+              "id": 20650,
               "nodeType": "Block",
               "src": "447:7:64",
               "statements": []
             },
             "documentation": null,
-            "id": 20919,
+            "id": 20651,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -1346,11 +1346,11 @@
                 "arguments": [
                   {
                     "argumentTypes": null,
-                    "id": 20915,
+                    "id": 20647,
                     "name": "cap",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 20912,
+                    "referencedDeclaration": 20644,
                     "src": "435:3:64",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -1358,17 +1358,17 @@
                     }
                   }
                 ],
-                "id": 20916,
+                "id": 20648,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 20914,
+                  "id": 20646,
                   "name": "ERC20CappedMintable",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 20886,
+                  "referencedDeclaration": 20618,
                   "src": "415:19:64",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20CappedMintable_$20886_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20CappedMintable_$20618_$",
                     "typeString": "type(contract ERC20CappedMintable)"
                   }
                 },
@@ -1379,25 +1379,25 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20913,
+              "id": 20645,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "412:2:64"
             },
             "returnParameters": {
-              "id": 20917,
+              "id": 20649,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "447:0:64"
             },
-            "scope": 20920,
+            "scope": 20652,
             "src": "401:53:64",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 20921,
+        "scope": 20653,
         "src": "133:324:64"
       }
     ],
@@ -1588,7 +1588,7 @@
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:39:24.237Z",
+  "updatedAt": "2019-10-16T02:07:16.081Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

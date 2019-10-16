@@ -134,25 +134,4 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);
     }
-
-    /**
-     * @dev Instrument type-specific scheduled event processing.
-     * @param issuanceId ID of the issuance.
-     * @param issuanceParametersData Issuance Parameters.
-     * @param eventName The name of the custom event.
-     * @param eventPayload The custom parameters to the custom event
-     */
-    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
-        internal returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
-
-        // Temporary grant writer role
-        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
-        issuanceStorage.addWriter(_instrumentAddress);
-
-        (updatedState, transfersData) = InstrumentV2(_instrumentAddress).processScheduledEvent(
-            issuanceParametersData, eventName, eventPayload, issuanceStorage);
-
-        // Revoke writer role
-        issuanceStorage.removeWriter(_instrumentAddress);
-    }
 }

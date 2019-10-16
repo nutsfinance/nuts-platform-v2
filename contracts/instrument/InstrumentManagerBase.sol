@@ -3,7 +3,6 @@ pragma solidity ^0.5.0;
 import "./InstrumentManagerInterface.sol";
 import "./InstrumentBase.sol";
 import "../InstrumentConfig.sol";
-import "../access/TimerOracleRole.sol";
 import "../escrow/InstrumentEscrowInterface.sol";
 import "../escrow/IssuanceEscrowInterface.sol";
 import "../escrow/DepositEscrowInterface.sol";
@@ -17,7 +16,7 @@ import "../lib/util/Constants.sol";
 /**
  * Base instrument manager for instrument v1, v2 and v3.
  */
-contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
+contract InstrumentManagerBase is InstrumentManagerInterface {
 
     using SafeERC20 for IERC20;
 
@@ -357,26 +356,6 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
     }
 
     /**
-     * @dev Notify scheduled events to issuance. This could be invoked by Timer Oracle only.
-     * Only the address with Timer Oracle Role can invoke notify scheduled event.
-     * @param issuanceId The id of the issuance
-     * @param eventName Name of the scheduled event, eventName of EventScheduled event
-     * @param eventPayload Payload of the scheduled event, eventPayload of EventScheduled event
-     */
-    function notifyScheduledEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public onlyTimerOracle {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-
-        // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processScheduledEvent(issuanceId,
-            issuanceParametersData, eventName, eventPayload);
-
-        _postProcessing(issuanceId, state, transfersData);
-    }
-
-    /**
      * @dev Validate whether the instrumment is active.
      */
     function _isActive() internal view returns (bool) {
@@ -541,9 +520,4 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
     function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName,
         bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 
-    /**
-     * @dev Instrument type-specific scheduled event processing.
-     */
-    function _processScheduledEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName,
-        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 }
