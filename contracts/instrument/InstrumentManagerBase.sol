@@ -108,7 +108,7 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
 
         // Create Instrument Escrow
         _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
-            .createInstrumentEscrow(_instrumentConfig.proxyAdminAddress(), address(this));
+            .createInstrumentEscrow();
 
         emit InstrumentManagerInitialized(_instrumentAddress, address(_instrumentEscrow));
     }
@@ -190,7 +190,7 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
 
         // Create Issuance Escrow.
         IssuanceEscrowInterface issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
-            .createIssuanceEscrow(_instrumentConfig.proxyAdminAddress(), address(this));
+            .createIssuanceEscrow();
 
         // Create Issuance Property
         _issuanceProperties[issuanceId] = IssuanceProperty({

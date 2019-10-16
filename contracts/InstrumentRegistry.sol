@@ -65,7 +65,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
 
         // Create new Deposit Escrow
         EscrowFactoryInterface escrowFactory = EscrowFactoryInterface(newEscrowFactoryAddress);
-        depositEscrowAddress = address(escrowFactory.createDepositEscrow(proxyAdminAddress, address(this)));
+        depositEscrowAddress = address(escrowFactory.createDepositEscrow());
 
         _instrumentManagerFactory = InstrumentManagerFactoryInterface(newInstrumentManagerFactoryAddress);
     }

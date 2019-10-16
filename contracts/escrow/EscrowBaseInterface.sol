@@ -9,13 +9,6 @@ import "../lib/token/IERC20.sol";
 contract EscrowBaseInterface {
 
     /**
-     * @dev IMPORTANT: Initialization method for all escrows to update the owner.
-     * This function must be invoked immediately after creating the proxy and updating implementation.
-     * If it's invoked in a separate transaction, it's possible that it's already invoked by someone else.
-     */
-    function initialize(address newOwner) public;
-
-    /**
      * @dev Get the current ETH balance of an account in the escrow.
      * @param account The account to check ETH balance.
      * @return Current ETH balance of the account.

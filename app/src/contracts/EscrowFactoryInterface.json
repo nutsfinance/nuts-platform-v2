@@ -3,16 +3,7 @@
   "abi": [
     {
       "constant": false,
-      "inputs": [
-        {
-          "name": "proxyAdmin",
-          "type": "address"
-        },
-        {
-          "name": "owner",
-          "type": "address"
-        }
-      ],
+      "inputs": [],
       "name": "createDepositEscrow",
       "outputs": [
         {
@@ -26,16 +17,7 @@
     },
     {
       "constant": false,
-      "inputs": [
-        {
-          "name": "proxyAdmin",
-          "type": "address"
-        },
-        {
-          "name": "owner",
-          "type": "address"
-        }
-      ],
+      "inputs": [],
       "name": "createInstrumentEscrow",
       "outputs": [
         {
@@ -49,16 +31,7 @@
     },
     {
       "constant": false,
-      "inputs": [
-        {
-          "name": "proxyAdmin",
-          "type": "address"
-        },
-        {
-          "name": "owner",
-          "type": "address"
-        }
-      ],
+      "inputs": [],
       "name": "createIssuanceEscrow",
       "outputs": [
         {
@@ -71,25 +44,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"proxyAdmin\",\"type\":\"address\"},{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"createIssuanceEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"proxyAdmin\",\"type\":\"address\"},{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"createDepositEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"proxyAdmin\",\"type\":\"address\"},{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"createInstrumentEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"createDepositEscrow(address,address)\":{\"details\":\"Create new Deposit Escrow instance.\",\"params\":{\"owner\":\"Owner of the Deposit Escrow.\",\"proxyAdmin\":\"Admin of the proxy contract. Only proxy admin can change implementation.\"}},\"createInstrumentEscrow(address,address)\":{\"details\":\"Create new Instrument Escrow instance.\",\"params\":{\"owner\":\"Owner of the Instrument Escrow.\",\"proxyAdmin\":\"Admin of the proxy contract. Only proxy admin can change implementation.\"}},\"createIssuanceEscrow(address,address)\":{\"details\":\"Creates new Issuance Escrow intance.\",\"params\":{\"owner\":\"Owner of the Issuance Escrow.\",\"proxyAdmin\":\"Admin of the proxy contract. Only proxy admin can change implementation.\"}}},\"title\":\"Interface for Escrow Factory. This is used to hide the implementation of Issuance Escrow and Instrument Escrow.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol\":\"EscrowFactoryInterface\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol\":{\"keccak256\":\"0x9ced26f33380e169bf5b2241e034130d7276114af415545a2363da4fc812e405\",\"urls\":[\"bzzr://aea6be07f82ca7635036bb831d10d7dd3cb169bd8c6ed725aed79161c4cbd54c\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0xf94e80cc27169201e401647054dad579321f44a38230d106a521c1b7ba24bd94\",\"urls\":[\"bzzr://447d442a4f30377651be46e6558d63961fd1953da78cc5e9a9989d501922c50d\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol\":{\"keccak256\":\"0x218c8323d3112209ff21c3ec7e5e0edeee2d93999bc28872da80e94d2c7846ec\",\"urls\":[\"bzzr://4fcc930b40e1088e86803159b8197b9517f9d16475d45d928918b50d7679924f\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol\":{\"keccak256\":\"0xfe148343b60d86b11c4197548501947ba45bc5315d1c1d3427e8048d0ef889f7\",\"urls\":[\"bzzr://e6d47ca90c47341e4440458126baab4efb03b3b417064590905bdb454ea59813\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol\":{\"keccak256\":\"0x7372c16bd7c8b820f8706580021799034c92410c472bb78455a6e6473706e09a\",\"urls\":[\"bzzr://e9472bc8642faeb7a06a3bc7aa9543d98c791ad604186c52f67e236e388d0a2b\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[],\"name\":\"createIssuanceEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"createInstrumentEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"createDepositEscrow\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"createDepositEscrow()\":{\"details\":\"Create new Deposit Escrow instance.\"},\"createInstrumentEscrow()\":{\"details\":\"Create new Instrument Escrow instance.\"},\"createIssuanceEscrow()\":{\"details\":\"Creates new Issuance Escrow intance.\"}},\"title\":\"Interface for Escrow Factory. This is used to hide the implementation of Issuance Escrow and Instrument Escrow.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol\":\"EscrowFactoryInterface\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol\":{\"keccak256\":\"0x9ced26f33380e169bf5b2241e034130d7276114af415545a2363da4fc812e405\",\"urls\":[\"bzzr://aea6be07f82ca7635036bb831d10d7dd3cb169bd8c6ed725aed79161c4cbd54c\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0x5d7c29a8a0ef311e739198d8b1208b7dd339c9761779d6e0f353a81c403ca2c3\",\"urls\":[\"bzzr://1689500b1b704f924c4c2f30b1f9fe5a879d72629c17b3cea186dfca7e207c54\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol\":{\"keccak256\":\"0x07771305681139767998b100af44faeca9c36c70974a26bcd08347451caf3f93\",\"urls\":[\"bzzr://62cca75bfc322ca92062416140735f201a4407107fbc96c6443ec4468c3dfe96\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol\":{\"keccak256\":\"0xfe148343b60d86b11c4197548501947ba45bc5315d1c1d3427e8048d0ef889f7\",\"urls\":[\"bzzr://e6d47ca90c47341e4440458126baab4efb03b3b417064590905bdb454ea59813\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol\":{\"keccak256\":\"0x7372c16bd7c8b820f8706580021799034c92410c472bb78455a6e6473706e09a\",\"urls\":[\"bzzr://e9472bc8642faeb7a06a3bc7aa9543d98c791ad604186c52f67e236e388d0a2b\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.5.0;\n\nimport \"./DepositEscrowInterface.sol\";\nimport \"./InstrumentEscrowInterface.sol\";\nimport \"./IssuanceEscrowInterface.sol\";\n\n/**\n * @title Interface for Escrow Factory.\n * This is used to hide the implementation of Issuance Escrow and Instrument Escrow.\n */\ninterface EscrowFactoryInterface {\n\n    /**\n     * @dev Create new Deposit Escrow instance.\n     * @param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n     * @param owner Owner of the Deposit Escrow.\n     */\n    function createDepositEscrow(address proxyAdmin, address owner) external returns (DepositEscrowInterface);\n\n    /**\n     * @dev Create new Instrument Escrow instance.\n     * @param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n     * @param owner Owner of the Instrument Escrow.\n     */\n    function createInstrumentEscrow(address proxyAdmin, address owner) external returns (InstrumentEscrowInterface);\n\n    /**\n     * @dev Creates new Issuance Escrow intance.\n     * @param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n     * @param owner Owner of the Issuance Escrow.\n     */\n    function createIssuanceEscrow(address proxyAdmin, address owner) external returns (IssuanceEscrowInterface);\n}",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"./DepositEscrowInterface.sol\";\nimport \"./InstrumentEscrowInterface.sol\";\nimport \"./IssuanceEscrowInterface.sol\";\n\n/**\n * @title Interface for Escrow Factory.\n * This is used to hide the implementation of Issuance Escrow and Instrument Escrow.\n */\ninterface EscrowFactoryInterface {\n\n    /**\n     * @dev Create new Deposit Escrow instance.\n     */\n    function createDepositEscrow() external returns (DepositEscrowInterface);\n\n    /**\n     * @dev Create new Instrument Escrow instance.\n     */\n    function createInstrumentEscrow() external returns (InstrumentEscrowInterface);\n\n    /**\n     * @dev Creates new Issuance Escrow intance.\n     */\n    function createIssuanceEscrow() external returns (IssuanceEscrowInterface);\n}",
   "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
   "ast": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
     "exportedSymbols": {
       "EscrowFactoryInterface": [
-        1507
+        1388
       ]
     },
-    "id": 1508,
+    "id": 1389,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1476,
+        "id": 1369,
         "literals": [
           "solidity",
           "^",
@@ -102,10 +75,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
         "file": "./DepositEscrowInterface.sol",
-        "id": 1477,
+        "id": 1370,
         "nodeType": "ImportDirective",
-        "scope": 1508,
-        "sourceUnit": 708,
+        "scope": 1389,
+        "sourceUnit": 704,
         "src": "25:38:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -113,10 +86,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 1478,
+        "id": 1371,
         "nodeType": "ImportDirective",
-        "scope": 1508,
-        "sourceUnit": 1731,
+        "scope": 1389,
+        "sourceUnit": 1612,
         "src": "64:41:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -124,10 +97,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
         "file": "./IssuanceEscrowInterface.sol",
-        "id": 1479,
+        "id": 1372,
         "nodeType": "ImportDirective",
-        "scope": 1508,
-        "sourceUnit": 1856,
+        "scope": 1389,
+        "sourceUnit": 1737,
         "src": "106:39:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -138,109 +111,54 @@
         "contractKind": "interface",
         "documentation": "@title Interface for Escrow Factory.\nThis is used to hide the implementation of Issuance Escrow and Instrument Escrow.",
         "fullyImplemented": false,
-        "id": 1507,
+        "id": 1388,
         "linearizedBaseContracts": [
-          1507
+          1388
         ],
         "name": "EscrowFactoryInterface",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
-            "documentation": "@dev Create new Deposit Escrow instance.\n@param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n@param owner Owner of the Deposit Escrow.",
-            "id": 1488,
+            "documentation": "@dev Create new Deposit Escrow instance.",
+            "id": 1377,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createDepositEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1484,
+              "id": 1373,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1481,
-                  "name": "proxyAdmin",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1488,
-                  "src": "560:18:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1480,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "560:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1483,
-                  "name": "owner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1488,
-                  "src": "580:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1482,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "580:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "559:35:9"
+              "parameters": [],
+              "src": "412:2:9"
             },
             "returnParameters": {
-              "id": 1487,
+              "id": 1376,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1486,
+                  "id": 1375,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1488,
-                  "src": "613:22:9",
+                  "scope": 1377,
+                  "src": "433:22:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$707",
+                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
                     "typeString": "contract DepositEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1485,
+                    "id": 1374,
                     "name": "DepositEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 707,
-                    "src": "613:22:9",
+                    "referencedDeclaration": 703,
+                    "src": "433:22:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$707",
+                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
                       "typeString": "contract DepositEscrowInterface"
                     }
                   },
@@ -248,110 +166,55 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "612:24:9"
+              "src": "432:24:9"
             },
-            "scope": 1507,
-            "src": "531:106:9",
+            "scope": 1388,
+            "src": "384:73:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": null,
-            "documentation": "@dev Create new Instrument Escrow instance.\n@param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n@param owner Owner of the Instrument Escrow.",
-            "id": 1497,
+            "documentation": "@dev Create new Instrument Escrow instance.",
+            "id": 1382,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1493,
+              "id": 1378,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1490,
-                  "name": "proxyAdmin",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1497,
-                  "src": "892:18:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1489,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "892:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1492,
-                  "name": "owner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1497,
-                  "src": "912:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1491,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "912:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "891:35:9"
+              "parameters": [],
+              "src": "561:2:9"
             },
             "returnParameters": {
-              "id": 1496,
+              "id": 1381,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1495,
+                  "id": 1380,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1497,
-                  "src": "945:25:9",
+                  "scope": 1382,
+                  "src": "582:25:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1730",
+                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
                     "typeString": "contract InstrumentEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1494,
+                    "id": 1379,
                     "name": "InstrumentEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1730,
-                    "src": "945:25:9",
+                    "referencedDeclaration": 1611,
+                    "src": "582:25:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1730",
+                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
                       "typeString": "contract InstrumentEscrowInterface"
                     }
                   },
@@ -359,110 +222,55 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "944:27:9"
+              "src": "581:27:9"
             },
-            "scope": 1507,
-            "src": "860:112:9",
+            "scope": 1388,
+            "src": "530:79:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": null,
-            "documentation": "@dev Creates new Issuance Escrow intance.\n@param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n@param owner Owner of the Issuance Escrow.",
-            "id": 1506,
+            "documentation": "@dev Creates new Issuance Escrow intance.",
+            "id": 1387,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createIssuanceEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1502,
+              "id": 1383,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1499,
-                  "name": "proxyAdmin",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1506,
-                  "src": "1221:18:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1498,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1221:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1501,
-                  "name": "owner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1506,
-                  "src": "1241:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1500,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1241:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "1220:35:9"
+              "parameters": [],
+              "src": "709:2:9"
             },
             "returnParameters": {
-              "id": 1505,
+              "id": 1386,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1504,
+                  "id": 1385,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1506,
-                  "src": "1274:23:9",
+                  "scope": 1387,
+                  "src": "730:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1855",
+                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
                     "typeString": "contract IssuanceEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1503,
+                    "id": 1384,
                     "name": "IssuanceEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1855,
-                    "src": "1274:23:9",
+                    "referencedDeclaration": 1736,
+                    "src": "730:23:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1855",
+                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
                       "typeString": "contract IssuanceEscrowInterface"
                     }
                   },
@@ -470,33 +278,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1273:25:9"
+              "src": "729:25:9"
             },
-            "scope": 1507,
-            "src": "1191:108:9",
+            "scope": 1388,
+            "src": "680:75:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1508,
-        "src": "280:1021:9"
+        "scope": 1389,
+        "src": "280:477:9"
       }
     ],
-    "src": "0:1301:9"
+    "src": "0:757:9"
   },
   "legacyAST": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
     "exportedSymbols": {
       "EscrowFactoryInterface": [
-        1507
+        1388
       ]
     },
-    "id": 1508,
+    "id": 1389,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1476,
+        "id": 1369,
         "literals": [
           "solidity",
           "^",
@@ -509,10 +317,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
         "file": "./DepositEscrowInterface.sol",
-        "id": 1477,
+        "id": 1370,
         "nodeType": "ImportDirective",
-        "scope": 1508,
-        "sourceUnit": 708,
+        "scope": 1389,
+        "sourceUnit": 704,
         "src": "25:38:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -520,10 +328,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 1478,
+        "id": 1371,
         "nodeType": "ImportDirective",
-        "scope": 1508,
-        "sourceUnit": 1731,
+        "scope": 1389,
+        "sourceUnit": 1612,
         "src": "64:41:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -531,10 +339,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
         "file": "./IssuanceEscrowInterface.sol",
-        "id": 1479,
+        "id": 1372,
         "nodeType": "ImportDirective",
-        "scope": 1508,
-        "sourceUnit": 1856,
+        "scope": 1389,
+        "sourceUnit": 1737,
         "src": "106:39:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -545,109 +353,54 @@
         "contractKind": "interface",
         "documentation": "@title Interface for Escrow Factory.\nThis is used to hide the implementation of Issuance Escrow and Instrument Escrow.",
         "fullyImplemented": false,
-        "id": 1507,
+        "id": 1388,
         "linearizedBaseContracts": [
-          1507
+          1388
         ],
         "name": "EscrowFactoryInterface",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
-            "documentation": "@dev Create new Deposit Escrow instance.\n@param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n@param owner Owner of the Deposit Escrow.",
-            "id": 1488,
+            "documentation": "@dev Create new Deposit Escrow instance.",
+            "id": 1377,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createDepositEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1484,
+              "id": 1373,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1481,
-                  "name": "proxyAdmin",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1488,
-                  "src": "560:18:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1480,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "560:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1483,
-                  "name": "owner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1488,
-                  "src": "580:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1482,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "580:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "559:35:9"
+              "parameters": [],
+              "src": "412:2:9"
             },
             "returnParameters": {
-              "id": 1487,
+              "id": 1376,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1486,
+                  "id": 1375,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1488,
-                  "src": "613:22:9",
+                  "scope": 1377,
+                  "src": "433:22:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$707",
+                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
                     "typeString": "contract DepositEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1485,
+                    "id": 1374,
                     "name": "DepositEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 707,
-                    "src": "613:22:9",
+                    "referencedDeclaration": 703,
+                    "src": "433:22:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$707",
+                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
                       "typeString": "contract DepositEscrowInterface"
                     }
                   },
@@ -655,110 +408,55 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "612:24:9"
+              "src": "432:24:9"
             },
-            "scope": 1507,
-            "src": "531:106:9",
+            "scope": 1388,
+            "src": "384:73:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": null,
-            "documentation": "@dev Create new Instrument Escrow instance.\n@param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n@param owner Owner of the Instrument Escrow.",
-            "id": 1497,
+            "documentation": "@dev Create new Instrument Escrow instance.",
+            "id": 1382,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1493,
+              "id": 1378,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1490,
-                  "name": "proxyAdmin",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1497,
-                  "src": "892:18:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1489,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "892:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1492,
-                  "name": "owner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1497,
-                  "src": "912:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1491,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "912:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "891:35:9"
+              "parameters": [],
+              "src": "561:2:9"
             },
             "returnParameters": {
-              "id": 1496,
+              "id": 1381,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1495,
+                  "id": 1380,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1497,
-                  "src": "945:25:9",
+                  "scope": 1382,
+                  "src": "582:25:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1730",
+                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
                     "typeString": "contract InstrumentEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1494,
+                    "id": 1379,
                     "name": "InstrumentEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1730,
-                    "src": "945:25:9",
+                    "referencedDeclaration": 1611,
+                    "src": "582:25:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1730",
+                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
                       "typeString": "contract InstrumentEscrowInterface"
                     }
                   },
@@ -766,110 +464,55 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "944:27:9"
+              "src": "581:27:9"
             },
-            "scope": 1507,
-            "src": "860:112:9",
+            "scope": 1388,
+            "src": "530:79:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": null,
-            "documentation": "@dev Creates new Issuance Escrow intance.\n@param proxyAdmin Admin of the proxy contract. Only proxy admin can change implementation.\n@param owner Owner of the Issuance Escrow.",
-            "id": 1506,
+            "documentation": "@dev Creates new Issuance Escrow intance.",
+            "id": 1387,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createIssuanceEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1502,
+              "id": 1383,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 1499,
-                  "name": "proxyAdmin",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1506,
-                  "src": "1221:18:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1498,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1221:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1501,
-                  "name": "owner",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1506,
-                  "src": "1241:13:9",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 1500,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1241:7:9",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "1220:35:9"
+              "parameters": [],
+              "src": "709:2:9"
             },
             "returnParameters": {
-              "id": 1505,
+              "id": 1386,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1504,
+                  "id": 1385,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1506,
-                  "src": "1274:23:9",
+                  "scope": 1387,
+                  "src": "730:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1855",
+                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
                     "typeString": "contract IssuanceEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1503,
+                    "id": 1384,
                     "name": "IssuanceEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1855,
-                    "src": "1274:23:9",
+                    "referencedDeclaration": 1736,
+                    "src": "730:23:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1855",
+                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
                       "typeString": "contract IssuanceEscrowInterface"
                     }
                   },
@@ -877,20 +520,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1273:25:9"
+              "src": "729:25:9"
             },
-            "scope": 1507,
-            "src": "1191:108:9",
+            "scope": 1388,
+            "src": "680:75:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1508,
-        "src": "280:1021:9"
+        "scope": 1389,
+        "src": "280:477:9"
       }
     ],
-    "src": "0:1301:9"
+    "src": "0:757:9"
   },
   "compiler": {
     "name": "solc",
@@ -898,29 +541,17 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T07:31:27.757Z",
+  "updatedAt": "2019-10-16T00:06:50.364Z",
   "devdoc": {
     "methods": {
-      "createDepositEscrow(address,address)": {
-        "details": "Create new Deposit Escrow instance.",
-        "params": {
-          "owner": "Owner of the Deposit Escrow.",
-          "proxyAdmin": "Admin of the proxy contract. Only proxy admin can change implementation."
-        }
+      "createDepositEscrow()": {
+        "details": "Create new Deposit Escrow instance."
       },
-      "createInstrumentEscrow(address,address)": {
-        "details": "Create new Instrument Escrow instance.",
-        "params": {
-          "owner": "Owner of the Instrument Escrow.",
-          "proxyAdmin": "Admin of the proxy contract. Only proxy admin can change implementation."
-        }
+      "createInstrumentEscrow()": {
+        "details": "Create new Instrument Escrow instance."
       },
-      "createIssuanceEscrow(address,address)": {
-        "details": "Creates new Issuance Escrow intance.",
-        "params": {
-          "owner": "Owner of the Issuance Escrow.",
-          "proxyAdmin": "Admin of the proxy contract. Only proxy admin can change implementation."
-        }
+      "createIssuanceEscrow()": {
+        "details": "Creates new Issuance Escrow intance."
       }
     },
     "title": "Interface for Escrow Factory. This is used to hide the implementation of Issuance Escrow and Instrument Escrow."
