@@ -48,34 +48,20 @@ interface InstrumentManagerInterface {
     function engageIssuance(uint256 issuanceId, bytes calldata buyerParameters) external;
 
     /**
-     * @dev The caller deposits ETH, which is currently deposited in Instrument Escrow, into issuance.
+     * @dev The caller deposits token from Instrument Escrow into Issuance Escrow.
      * @param issuanceId The id of the issuance
+     * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function depositToIssuance(uint256 issuanceId, uint256 amount) external;
+    function depositToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
 
     /**
-     * @dev The caller deposits ERC20 token, which is currently deposited in Instrument Escrow, into issuance.
+     * @dev The caller withdraws tokens from Issuance Escrow to Instrument Escrow.
      * @param issuanceId The id of the issuance
-     * @param tokenAddress The address of the ERC20 token
+     * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function depositTokenToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
-
-    /**
-     * @dev The caller withdraws ETH from issuance to Instrument Escrow.
-     * @param issuanceId The id of the issuance
-     * @param amount The amount of ERC20 token transfered
-     */
-    function withdrawFromIssuance(uint256 issuanceId, uint256 amount) external;
-
-    /**
-     * @dev The caller withdraws ERC20 token from issuance to Instrument Escrow.
-     * @param issuanceId The id of the issuance
-     * @param tokenAddress The address of the ERC20 token
-     * @param amount The amount of ERC20 token transfered
-     */
-    function withdrawTokenFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
+    function withdrawFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
 
     /**
      * @dev Notify events to issuance. This could be either custom event or scheduled event. Anyone can call this method.

@@ -164,8 +164,15 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @return The id of the newly created issuance.
      */
     function createIssuance(bytes memory makerParameters) public returns (uint256) {
-        require(_isActive(), "InstrumentManagerBase: Instrument is deactivated.");
-        require(_isMakerAllowed(msg.sender), "InstrumentManagerBase: Not an eligible maker.");
+        // The instrument is active if:
+        // 1. It's not deactivated by FSP;
+        // 2. It does not expiration, or expiration is not reached.
+        require(_active && (_expiration == 0 || _expiration + _startTimestamp > now),
+            "InstrumentManagerBase: Instrument is deactivated.");
+        // Maker is allowed if:
+        // 1. Maker whitelist is not enabled;
+        // 2. Or maker whitelist is enabled, and this maker is allowed.
+        require(!_makerWhitelistEnabled || _makerWhitelist[msg.sender], "InstrumentManagerBase: Not an eligible maker.");
 
         // Deposit NUTS token
         if (_instrumentConfig.issuanceDeposit() > 0) {
@@ -208,7 +215,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param takerParameters The custom parameters to the new engagement
      */
     function engageIssuance(uint256 issuanceId, bytes memory takerParameters) public {
-        require(_isTakerAllowed(msg.sender), "InstrumentManagerBase: Not an eligible taker.");
+        // Taker is allowed if:
+        // 1. Taker whitelist is not enabled;
+        // 2. Or taker whitelist is enabled, and this taker is allowed.
+        require(!_takerWhitelistEnabled || _takerWhitelist[msg.sender], "InstrumentManagerBase: Not an eligible taker.");
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         require(property.state == InstrumentBase.IssuanceStates.Engageable, "InstrumentManagerBase: Issuance not engageable.");
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
@@ -225,22 +235,27 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     }
 
     /**
-     * @dev The caller deposits ETH, which is currently deposited in Instrument Escrow, into issuance.
+     * @dev The caller deposits token from Instrument Escrow into issuance.
      * @param issuanceId The id of the issuance
+     * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function depositToIssuance(uint256 issuanceId, uint256 amount) public {
+    function depositToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        require(tokenAddress != address(0), "InstrumentManagerBase: Token address must be set.");
+        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
-        // The deposit can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Deposit is not allowed.");
 
-        // Withdraw ETH from Instrument Escrow
-        _instrumentEscrow.withdrawByAdmin(msg.sender, amount);
-        // Deposit ETH to Issuance Escrow
-        IssuanceEscrowInterface(property.escrowAddress).depositByAdmin.value(amount)(msg.sender);
+        Transfer.Data memory transfer = Transfer.Data({
+            outbound: false,
+            inbound: true,
+            fromAddress: msg.sender,
+            toAddress: msg.sender,
+            tokenAddress: tokenAddress,
+            amount: amount
+        });
+        _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
@@ -251,87 +266,32 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     }
 
     /**
-     * @dev The caller deposits ERC20 token, which is currently deposited in Instrument Escrow, into issuance.
+     * @dev The caller withdraws tokens from Issuance Escrow to Instrument Escrow.
      * @param issuanceId The id of the issuance
-     * @param tokenAddress The address of the ERC20 token to deposit.
-     * @param amount The amount of ERC20 token deposited.
-     */
-    function depositTokenToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-        require(tokenAddress != address(0x0), "InstrumentManagerBase: Token address must be set.");
-        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
-        // The deposit can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Deposit is not allowed.");
-
-        // Withdraw ERC20 token from Instrument Escrow
-        _instrumentEscrow.withdrawTokenByAdmin(msg.sender, tokenAddress, amount);
-        // IMPORTANT: Set allowance before deposit
-        IERC20(tokenAddress).safeApprove(property.escrowAddress, amount);
-        // Deposit ERC20 token to Issuance Escrow
-        IssuanceEscrowInterface(property.escrowAddress).depositTokenByAdmin(msg.sender, tokenAddress, amount);
-
-        // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenDeposit(issuanceId,
-            issuanceParametersData, tokenAddress, amount);
-
-        _postProcessing(issuanceId, state, transfersData);
-    }
-
-    /**
-     * @dev The caller withdraws ETH from issuance to Instrument Escrow.
-     * @param issuanceId The id of the issuance
+     * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function withdrawFromIssuance(uint256 issuanceId, uint256 amount) public {
+    function withdrawFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        require(tokenAddress != address(0), "InstrumentManagerBase: Token address must be set.");
+        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
         require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
         require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
-        // The withdraw can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Withdrawal is not allowed.");
 
-        // Withdraw ETH from Issuance Escrow
-        IssuanceEscrowInterface(property.escrowAddress).withdrawByAdmin(msg.sender, amount);
-        // Deposit ETH to Instrument Escrow
-        _instrumentEscrow.depositByAdmin.value(amount)(msg.sender);
+        Transfer.Data memory transfer = Transfer.Data({
+            outbound: true,
+            inbound: false,
+            fromAddress: msg.sender,
+            toAddress: msg.sender,
+            tokenAddress: tokenAddress,
+            amount: amount
+        });
+        _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
             issuanceParametersData, Constants.getEthAddress(), amount);
-
-        _postProcessing(issuanceId, state, transfersData);
-    }
-
-    /**
-     * @dev The caller withdraws ERC20 token from issuance to Instrument Escrow.
-     * @param issuanceId The id of the issuance
-     * @param tokenAddress The address of the ERC20 token
-     * @param amount The amount of ERC20 token transfered
-     */
-    function withdrawTokenFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
-        require(tokenAddress != address(0x0), "InstrumentManagerBase: Token address must be set.");
-        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
-        // The withdraw can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, msg.sender), "InstrumentManagerBase: Withdrawal is not allowed.");
-
-        // Withdraw ERC20 token from Issuance Escrow
-        IssuanceEscrowInterface(property.escrowAddress).withdrawTokenByAdmin(msg.sender, tokenAddress, amount);
-        // IMPORTANT: Set allowance before deposit
-        IERC20(tokenAddress).safeApprove(address(_instrumentEscrow), amount);
-        // Deposit ERC20 token to Instrument Escrow
-        _instrumentEscrow.depositTokenByAdmin(msg.sender, tokenAddress, amount);
-
-        // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
-            issuanceParametersData, tokenAddress, amount);
 
         _postProcessing(issuanceId, state, transfersData);
     }
@@ -356,36 +316,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     }
 
     /**
-     * @dev Validate whether the instrumment is active.
-     */
-    function _isActive() internal view returns (bool) {
-        // The instrument is active if:
-        // 1. It's not deactivated by FSP;
-        // 2. It does not expiration, or expiration is not reached.
-        return _active && (_expiration == 0 || _expiration + _startTimestamp > now);
-    }
-
-    /**
-     * @dev Validate whether the maker can create new issuance.
-     */
-    function _isMakerAllowed(address makerAddress) internal view returns (bool) {
-        // Maker is allowed if:
-        // 1. Maker whitelist is not enabled;
-        // 2. Or maker whitelist is enabled, and this maker is allowed.
-        return !_makerWhitelistEnabled || _makerWhitelist[makerAddress];
-    }
-
-    /**
-     * @dev Validate whether the taker can engage existing issuance.
-     */
-    function _isTakerAllowed(address takerAddress) internal view returns (bool) {
-        // Taker is allowed if:
-        // 1. Taker whitelist is not enabled;
-        // 2. Or taker whitelist is enabled, and this taker is allowed.
-        return !_takerWhitelistEnabled || _takerWhitelist[takerAddress];
-    }
-
-    /**
      * @dev Determines whether the issuance is in termination states.
      */
     function _isIssuanceTerminated(InstrumentBase.IssuanceStates state) internal pure returns (bool) {
@@ -400,10 +330,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * For one issuance, only the issuance maker, issuance taker and instrument broker can
      * deposit to or withdraw from the issuance.
      */
-    function _isTransferAllowed(uint256 issuanceId, address targetAddress) internal view returns (bool) {
+    function _isTransferAllowed(uint256 issuanceId, address fromAddress, address toAddress) internal view returns (bool) {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        return property.makerAddress == targetAddress || property.takerAddress == targetAddress
-            || _brokerAddress == targetAddress;
+        return (property.makerAddress == fromAddress || property.takerAddress == fromAddress || _brokerAddress == fromAddress)
+            && (property.makerAddress == toAddress || property.takerAddress == toAddress || _brokerAddress == toAddress);
     }
 
     /**
@@ -433,6 +363,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      */
     function _postProcessing(uint256 issuanceId, InstrumentBase.IssuanceStates state, bytes memory transfersData) internal {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        // Processes state update.
         property.state = state;
         if (_isIssuanceTerminated(state) && property.deposit > 0) {
             // Withdraws NUTS token
@@ -442,44 +373,59 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
             // Transfer NUTS token to maker
             IERC20(_instrumentConfig.depositTokenAddress()).safeTransfer(property.makerAddress, property.deposit);
         }
-        _processTransfers(issuanceId, transfersData);
+
+        // Processes transfers.
+        Transfers.Data memory transfers = Transfers.decode(transfersData);
+        for (uint256 i = 0; i < transfers.actions.length; i++) {
+            _processTransfer(issuanceId, transfers.actions[i]);
+        }
     }
 
     /**
-     * @dev Process the transfers triggered by Instrumetns.
+     * @dev Process a single token transfer action.
      */
-    function _processTransfers(uint256 issuanceId, bytes memory transfersData) internal {
-        Transfers.Data memory transfers = Transfers.decode(transfersData);
+    function _processTransfer(uint256 issuanceId, Transfer.Data memory transfer) private {
+        require(!(transfer.outbound && transfer.inbound), "InstrumentManagerBase: Transfer cannot be both inbound and outbound.");
+        // The transfer can only come from issuance maker, issuance taker and instrument broker.
+        require(_isTransferAllowed(issuanceId, transfer.fromAddress, transfer.toAddress), "InstrumentManagerBase: Transfer is not allowed.");
+
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
-        for (uint256 i = 0; i < transfers.actions.length; i++) {
-            Transfer.Data memory transfer = transfers.actions[i];
-            // The transfer can only come from issuance maker, issuance taker and instrument broker.
-            require(_isTransferAllowed(issuanceId, transfer.fromAddress), "InstrumentManagerBase: Transfer source is not allowed.");
-            // The transfer can only send to issuance maker, issuance taker and instrument broker.
-            require(_isTransferAllowed(issuanceId, transfer.toAddress), "InstrumentManagerBase: Transfer target is not allowed.");
-            // Check wether it's an outbound transfer
-            if (transfer.outbound) {
-                if (transfer.tokenAddress == Constants.getEthAddress()) {
-                    // First withdraw ETH from Issuance Escrow to owner
-                    issuanceEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
-                    // Then deposit the ETH from owner to Instrument Escrow
-                    _instrumentEscrow.depositByAdmin.value(transfer.amount)(transfer.toAddress);
-                } else {
-                    // First withdraw ERC20 token from Issuance Escrow to owner
-                    issuanceEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
-                    // (Important!!!)Then set allowance for Instrument Escrow
-                    IERC20(transfer.tokenAddress).safeApprove(address(_instrumentEscrow), transfer.amount);
-                    // Then deposit the ERC20 token from owner to Instrument Escrow
-                    _instrumentEscrow.depositTokenByAdmin(transfer.toAddress, transfer.tokenAddress, transfer.amount);
-                }
+        // Check whether it's outbound, inbound, or transfer within the escrow.
+        if (transfer.outbound) {
+            if (transfer.tokenAddress == Constants.getEthAddress()) {
+                // First withdraw ETH from Issuance Escrow to owner
+                issuanceEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
+                // Then deposit the ETH from owner to Instrument Escrow
+                _instrumentEscrow.depositByAdmin.value(transfer.amount)(transfer.toAddress);
             } else {
-                // It's a transfer inside the issuance escrow
-                if (transfer.tokenAddress == Constants.getEthAddress()) {
-                    issuanceEscrow.transfer(transfer.fromAddress, transfer.toAddress, transfer.amount);
-                } else {
-                    issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
-                }
+                // First withdraw ERC20 token from Issuance Escrow to owner
+                issuanceEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
+                // (Important!!!)Then set allowance for Instrument Escrow
+                IERC20(transfer.tokenAddress).safeApprove(address(_instrumentEscrow), transfer.amount);
+                // Then deposit the ERC20 token from owner to Instrument Escrow
+                _instrumentEscrow.depositTokenByAdmin(transfer.toAddress, transfer.tokenAddress, transfer.amount);
+            }
+        } else if (transfer.inbound) {
+            if (transfer.tokenAddress == Constants.getEthAddress()) {
+                // First withdraw ETH from Instrument Escrow
+                _instrumentEscrow.withdrawByAdmin(msg.sender, transfer.amount);
+                // Then deposit ETH to Issuance Escrow
+                IssuanceEscrowInterface(property.escrowAddress).depositByAdmin.value(transfer.amount)(msg.sender);
+            } else {
+                // Withdraw ERC20 token from Instrument Escrow
+                _instrumentEscrow.withdrawTokenByAdmin(msg.sender, transfer.tokenAddress, transfer.amount);
+                // IMPORTANT: Set allowance before deposit
+                IERC20(transfer.tokenAddress).safeApprove(property.escrowAddress, transfer.amount);
+                // Deposit ERC20 token to Issuance Escrow
+                IssuanceEscrowInterface(property.escrowAddress).depositTokenByAdmin(msg.sender, transfer.tokenAddress, transfer.amount);
+            }
+        } else {
+            // It's a transfer inside the issuance escrow
+            if (transfer.tokenAddress == Constants.getEthAddress()) {
+                issuanceEscrow.transfer(transfer.fromAddress, transfer.toAddress, transfer.amount);
+            } else {
+                issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
             }
         }
     }

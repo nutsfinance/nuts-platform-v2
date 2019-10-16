@@ -230,6 +230,7 @@ contract LendingV1 is InstrumentV3 {
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
         transfers.actions[0] = Transfer.Data({
             outbound: true,
+            inbound: false,
             fromAddress: issuanceParameters.makerAddress,
             toAddress: issuanceParameters.makerAddress,
             tokenAddress: _lendingTokenAddress,
@@ -244,6 +245,7 @@ contract LendingV1 is InstrumentV3 {
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
         transfers.actions[0] = Transfer.Data({
             outbound: true,
+            inbound: false,
             fromAddress: issuanceParameters.makerAddress,
             toAddress: issuanceParameters.takerAddress,
             tokenAddress: _lendingTokenAddress,
@@ -258,6 +260,7 @@ contract LendingV1 is InstrumentV3 {
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
         transfers.actions[0] = Transfer.Data({
             outbound: true,
+            inbound: false,
             fromAddress: issuanceParameters.takerAddress,
             toAddress: issuanceParameters.makerAddress,
             tokenAddress: _collateralTokenAddress,
@@ -272,6 +275,7 @@ contract LendingV1 is InstrumentV3 {
         // Transfer lending amount + interest to maker.
         transfers.actions[0] = Transfer.Data({
             outbound: true,
+            inbound: false,
             fromAddress: issuanceParameters.takerAddress,
             toAddress: issuanceParameters.makerAddress,
             tokenAddress: _lendingTokenAddress,
@@ -280,6 +284,7 @@ contract LendingV1 is InstrumentV3 {
         // Transfer collateral to taker
         transfers.actions[1] = Transfer.Data({
             outbound: true,
+            inbound: false,
             fromAddress: issuanceParameters.takerAddress,
             toAddress: issuanceParameters.takerAddress,
             tokenAddress: _collateralTokenAddress,

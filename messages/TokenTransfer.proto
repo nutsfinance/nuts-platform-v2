@@ -10,14 +10,16 @@ import "SolidityTypes.proto";
 message Transfer {
     // Whether it's an outbound transfer.
     // If true, the transfer is from Issuance Escrow to Instrument Escrow.
-    // If false, the transfer is done inside the Issuance Escrow.
     bool outbound = 1;
+    // Whether it's an inbound transfer.
+    // If true, the transfer is from Instrument Escrow to Issuance Escrow.
+    bool inbound = 2;
     // Where the token is transferred from.
-    .solidity.address fromAddress = 2;
+    .solidity.address fromAddress = 3;
     // Where the token is transferred to.
-    .solidity.address toAddress = 3;
-    .solidity.address tokenAddress = 4;
-    .solidity.uint256 amount = 5;
+    .solidity.address toAddress = 4;
+    .solidity.address tokenAddress = 5;
+    .solidity.uint256 amount = 6;
 }
 
 /**
