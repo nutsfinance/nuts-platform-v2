@@ -61,7 +61,7 @@ contract BaseAdminUpgradeabilityProxy is BaseUpgradeabilityProxy {
    * @param newAdmin Address to transfer proxy administration to.
    */
   function changeAdmin(address newAdmin) external ifAdmin {
-    require(newAdmin != address(0), "Cannot change the admin of a proxy to the zero address");
+    require(newAdmin != address(0), "Admin must be set");
     emit AdminChanged(_admin(), newAdmin);
     _setAdmin(newAdmin);
   }
@@ -73,21 +73,6 @@ contract BaseAdminUpgradeabilityProxy is BaseUpgradeabilityProxy {
    */
   function upgradeTo(address newImplementation) external ifAdmin {
     _upgradeTo(newImplementation);
-  }
-
-  /**
-   * @dev Upgrade the backing implementation of the proxy and call a function
-   * on the new implementation.
-   * This is useful to initialize the proxied contract.
-   * @param newImplementation Address of the new implementation.
-   * @param data Data to send as msg.data in the low level call.
-   * It should include the signature and the parameters of the function to be called, as described in
-   * https://solidity.readthedocs.io/en/v0.4.24/abi-spec.html#function-selector-and-argument-encoding.
-   */
-  function upgradeToAndCall(address newImplementation, bytes calldata data) payable external ifAdmin {
-    _upgradeTo(newImplementation);
-    (bool success,) = newImplementation.delegatecall(data);
-    require(success);
   }
 
   /**

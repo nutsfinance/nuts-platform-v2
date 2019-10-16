@@ -8,7 +8,6 @@ import "./instrument/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
 import "./lib/token/SafeERC20.sol";
 import "./lib/access/Ownable.sol";
-import "./lib/proxy/ProxyFactoryInterface.sol";
 import "./InstrumentConfig.sol";
 
 /**
@@ -30,23 +29,19 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param newDepositTokenAddress Address of NUTS token.
      * @param newPriceOracleAddress Address of Price Oracle
      * @param newEscrowFactoryAddress Address of Escrow Factory.
-     * @param newProxyFactoryAddress Address of Proxy Factory.
      */
     constructor(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
-        address newPriceOracleAddress, address newEscrowFactoryAddress,
-        address newProxyFactoryAddress) public {
-        require(address(depositTokenAddress) == address(0x0), "InstrumentRegistry: Already initialized.");
-        require(newDepositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
-        require(newPriceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
-        require(newEscrowFactoryAddress != address(0x0), "InstrumentRegistry: Escrow Factory address must be provided.");
-        require(newProxyFactoryAddress != address(0x0), "InstrumentRegistry: Proxy Factory address must be provided.");
+        address newPriceOracleAddress, address newEscrowFactoryAddress) public {
+        require(address(depositTokenAddress) == address(0x0), "Registry already initialized");
+        require(newDepositTokenAddress != address(0x0), "Deposit token address not set");
+        require(newPriceOracleAddress != address(0x0), "Price Oracle address not set");
+        require(newEscrowFactoryAddress != address(0x0), "Escrow Factory address not set");
 
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositTokenAddress = newDepositTokenAddress;
         priceOracleAddress = newPriceOracleAddress;
         escrowFactoryAddress = newEscrowFactoryAddress;
-        proxyFactoryAddress = newProxyFactoryAddress;
 
         // Create new Deposit Escrow
         EscrowFactoryInterface escrowFactory = EscrowFactoryInterface(newEscrowFactoryAddress);
@@ -82,13 +77,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     }
 
     /**
-     * @dev Update Proxy Factory address.
-     */
-    function setProxyFactoryAddress(address newProxyFactoryAddress) public onlyOwner {
-        proxyFactoryAddress = newProxyFactoryAddress;
-    }
-
-    /**
      * @dev MOST IMPORTANT method: Activate new financial instrument.
      * @param instrumentAddress Address of Instrument to activate.
      * @param version Version of Instrument.
@@ -96,8 +84,8 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      */
     function activateInstrument(address instrumentAddress, string memory version, bytes memory instrumentParameters)
         public returns (InstrumentManagerInterface) {
-        require(_instrumentManagers[instrumentAddress] == address(0x0), "InstrumentRegistry: Instrument already activated.");
-        require(instrumentAddress != address(0x0), "InstrumentRegistry: Instrument address must be provided.");
+        require(_instrumentManagers[instrumentAddress] == address(0x0), "Instrument already activated");
+        require(instrumentAddress != address(0x0), "Instrument address not set");
 
         // Create Instrument Manager
         InstrumentManagerInterface instrumentManager = _instrumentManagerFactories[version].createInstrumentManagerInstance(

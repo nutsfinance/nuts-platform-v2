@@ -20,8 +20,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
 
     using SafeERC20 for IERC20;
 
-    event InstrumentManagerInitialized(address indexed instrumentAddress, address indexed instrumentEscrowAddress);
-
     /**
      * @dev Common property of issuance.
      */
@@ -76,13 +74,12 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
-        bytes memory instrumentParameters) public {
-        require(_instrumentAddress == address(0x0), "InstrumentManagerBase: Already initialized.");
-        require(fspAddress != address(0x0), "InstrumentManagerBase: FSP address must be provided.");
-        require(instrumentAddress != address(0x0), "InstrumentManagerBase: Instrument address must be provided.");
-        require(instrumentConfigAddress != address(0x0), "InstrumentManagerBase: Instrument Config address must be provided.");
-        require(instrumentParameters.length > 0, "InstrumentManagerBase: Instrument parameters must be provided.");
+    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress, bytes memory instrumentParameters) public {
+        require(_instrumentAddress == address(0x0), "Already initialized");
+        require(fspAddress != address(0x0), "FSP not set");
+        require(instrumentAddress != address(0x0), "Instrument not set");
+        require(instrumentConfigAddress != address(0x0), "Instrument config not set");
+        require(instrumentParameters.length > 0, "Instrument parameters not set");
 
         InstrumentParameters.Data memory parameters = InstrumentParameters.decode(instrumentParameters);
         _active = true;
@@ -103,8 +100,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         // Create Instrument Escrow
         _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
             .createInstrumentEscrow();
-
-        emit InstrumentManagerInitialized(_instrumentAddress, address(_instrumentEscrow));
     }
 
     /**
@@ -118,8 +113,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @dev Deactivates the instrument.
      */
     function deactivate() public {
-        require(_active, "InstrumentManagerBase: The instrument is already deactivated.");
-        require(msg.sender == _fspAddress, "InstrumentManagerBase: Only FSP can deactivate the instrument.");
+        require(_active, "Instrument deactivated");
+        require(msg.sender == _fspAddress, "Only FSP can deactivate");
 
         // Return the deposited NUTS token
         if (_depositAmount > 0) {
@@ -140,8 +135,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param allowed Whether this maker is allowed to create new issuance.
      */
     function setMakerWhitelist(address makerAddress, bool allowed) public {
-        require(_makerWhitelistEnabled, "InstrumentManagerBase: Maker whitelist is not enabled.");
-        require(msg.sender == _fspAddress, "InstrumentManagerBase: Only FSP can update maker whitelist.");
+        require(_makerWhitelistEnabled, "Maker whitelist disabled");
+        require(msg.sender == _fspAddress, "Only FSP can whitelist maker");
 
         _makerWhitelist[makerAddress] = allowed;
     }
@@ -152,8 +147,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param allowed Whether this taker is allowed to engage issuance.
      */
     function setTakerWhitelist(address takerAddress, bool allowed) public {
-        require(_takerWhitelistEnabled, "InstrumentManagerBase: Taker whitelist is not enabled.");
-        require(msg.sender == _fspAddress, "InstrumentManagerBase: Only FSP can update taker whitelist.");
+        require(_takerWhitelistEnabled, "Taker whitelist disabled");
+        require(msg.sender == _fspAddress, "Only FSP can whitelist taker");
 
         _takerWhitelist[takerAddress] = allowed;
     }
@@ -167,12 +162,11 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         // The instrument is active if:
         // 1. It's not deactivated by FSP;
         // 2. It does not expiration, or expiration is not reached.
-        require(_active && (_expiration == 0 || _expiration + _startTimestamp > now),
-            "InstrumentManagerBase: Instrument is deactivated.");
+        require(_active && (_expiration == 0 || _expiration + _startTimestamp > now), "Instrument deactivated");
         // Maker is allowed if:
         // 1. Maker whitelist is not enabled;
         // 2. Or maker whitelist is enabled, and this maker is allowed.
-        require(!_makerWhitelistEnabled || _makerWhitelist[msg.sender], "InstrumentManagerBase: Not an eligible maker.");
+        require(!_makerWhitelistEnabled || _makerWhitelist[msg.sender], "Maker not eligible");
 
         // Deposit NUTS token
         if (_instrumentConfig.issuanceDeposit() > 0) {
@@ -218,10 +212,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         // Taker is allowed if:
         // 1. Taker whitelist is not enabled;
         // 2. Or taker whitelist is enabled, and this taker is allowed.
-        require(!_takerWhitelistEnabled || _takerWhitelist[msg.sender], "InstrumentManagerBase: Not an eligible taker.");
+        require(!_takerWhitelistEnabled || _takerWhitelist[msg.sender], "Taker not eligible");
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.state == InstrumentBase.IssuanceStates.Engageable, "InstrumentManagerBase: Issuance not engageable.");
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
+        require(property.state == InstrumentBase.IssuanceStates.Engageable, "Issuance not engageable");
+        require(property.makerAddress != address(0x0), "Issuance not exist");
 
         property.takerAddress = msg.sender;
         property.engagementTimestamp = now;
@@ -242,10 +236,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      */
     function depositToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(tokenAddress != address(0), "InstrumentManagerBase: Token address must be set.");
-        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
+        require(amount > 0, "Amount not set");
+        require(property.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
             outbound: false,
@@ -273,10 +266,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      */
     function withdrawFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(tokenAddress != address(0), "InstrumentManagerBase: Token address must be set.");
-        require(amount > 0, "InstrumentManagerBase: Amount must be set.");
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
+        require(amount > 0, "Amount not set");
+        require(property.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
             outbound: true,
@@ -304,8 +296,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      */
     function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "InstrumentManagerBase: Issuance not exist.");
-        require(!_isIssuanceTerminated(property.state), "InstrumentManagerBase: Issuance terminated.");
+        require(property.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
@@ -385,9 +377,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @dev Process a single token transfer action.
      */
     function _processTransfer(uint256 issuanceId, Transfer.Data memory transfer) private {
-        require(!(transfer.outbound && transfer.inbound), "InstrumentManagerBase: Transfer cannot be both inbound and outbound.");
         // The transfer can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, transfer.fromAddress, transfer.toAddress), "InstrumentManagerBase: Transfer is not allowed.");
+        require(_isTransferAllowed(issuanceId, transfer.fromAddress, transfer.toAddress), "Transfer not allowed");
 
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
