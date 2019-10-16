@@ -17,7 +17,7 @@ contract EscrowFactory is EscrowFactoryInterface {
      * Deposit Escrow has the same implementation as Instrument Escrow, but uses a
      * different contract name to better distinguish their difference.
      */
-    function createDepositEscrow() external returns (DepositEscrowInterface) {
+    function createDepositEscrow() public returns (DepositEscrowInterface) {
         InstrumentEscrow depositEscrow = new InstrumentEscrow();
         depositEscrow.transferOwnership(msg.sender);
 

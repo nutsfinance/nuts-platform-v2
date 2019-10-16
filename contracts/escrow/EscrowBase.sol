@@ -71,25 +71,8 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param account The address to check the deposited token list.
      * @return The list of tokens deposited in the escrow.
      */
-    function getTokenList(address account) public view returns (address[] memory tokens) {
-        address[] storage tokenList = _accountBalances[account].tokenList;
-        address ethAddress = Constants.getEthAddress();
-        uint256 tokenCount = 0;
-
-        // We don't return ETH or token whose balance is 0!
-        for (uint256 i = 0; i < tokenList.length; i++) {
-            if (tokenList[i] != ethAddress && _accountBalances[account].tokenBalances[tokenList[i]] > 0) {
-                tokenCount++;
-            }
-        }
-        tokens = new address[](tokenCount);
-        uint256 j = 0;
-        for (uint i = 0; i < tokenList.length; i++) {
-            if (tokenList[i] != ethAddress && _accountBalances[account].tokenBalances[tokenList[i]] > 0) {
-                tokens[j] = tokenList[i];
-                j++;
-            }
-        }
+    function getTokenList(address account) public view returns (address[] memory) {
+        return _accountBalances[account].tokenList;
     }
 
     /****************************************************************
