@@ -28,18 +28,16 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param newInstrumentDeposit The NUTS token deposited for new Instrument,
      * @param newIssuanceDeposit The NUTS token deposited for new Issuance.
      * @param newDepositTokenAddress Address of NUTS token.
-     * @param newTimerOracleAddress Address of Timer Oracle
      * @param newPriceOracleAddress Address of Price Oracle
      * @param newEscrowFactoryAddress Address of Escrow Factory.
      * @param newStorageFactoryAddress Address of Storage Factory.
      * @param newProxyFactoryAddress Address of Proxy Factory.
      */
     constructor(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
-        address newTimerOracleAddress, address newPriceOracleAddress, address newEscrowFactoryAddress,
+        address newPriceOracleAddress, address newEscrowFactoryAddress,
         address newStorageFactoryAddress, address newProxyFactoryAddress) public {
         require(address(depositTokenAddress) == address(0x0), "InstrumentRegistry: Already initialized.");
         require(newDepositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
-        require(newTimerOracleAddress != address(0x0), "InstrumentRegistry: Timer Oracle address must be provided.");
         require(newPriceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
         require(newEscrowFactoryAddress != address(0x0), "InstrumentRegistry: Escrow Factory address must be provided.");
         require(newStorageFactoryAddress != address(0x0), "InstrumentRegistry: Storage Factory address must be provided.");
@@ -48,7 +46,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositTokenAddress = newDepositTokenAddress;
-        timerOracleAddress = newTimerOracleAddress;
         priceOracleAddress = newPriceOracleAddress;
         escrowFactoryAddress = newEscrowFactoryAddress;
         storageFactoryAddress = newStorageFactoryAddress;
@@ -78,13 +75,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      */
     function setIssuanceDeposit(uint256 newIssuanceDeposit) public onlyOwner {
         issuanceDeposit = newIssuanceDeposit;
-    }
-
-    /**
-     * @dev Update Timer Oracle address.
-     */
-    function setTimerOracleAddress(address newTimerOracleAddress) public onlyOwner {
-        timerOracleAddress = newTimerOracleAddress;
     }
 
     /**
