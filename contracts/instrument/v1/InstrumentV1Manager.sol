@@ -13,6 +13,15 @@ contract InstrumentV1Manager is InstrumentManagerBase {
     mapping(uint256 => bytes) private _issuanceData;
 
     /**
+     * @param fspAddress Address of FSP that activates this financial instrument.
+     * @param instrumentAddress Address of the financial instrument contract.
+     * @param instrumentConfigAddress Address of the Instrument Config contract.
+     * @param instrumentParameters Custom parameters for the Instrument Manager.
+     */
+    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress, bytes memory instrumentParameters)
+        InstrumentManagerBase(fspAddress, instrumentAddress, instrumentConfigAddress, instrumentParameters) public {}
+
+    /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
      * @param issuanceParametersData Issuance Parameters.

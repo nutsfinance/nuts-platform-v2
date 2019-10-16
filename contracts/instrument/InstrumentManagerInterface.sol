@@ -10,12 +10,6 @@ import "../escrow/InstrumentEscrowInterface.sol";
 interface InstrumentManagerInterface {
 
     /**
-     * @dev Initializes the Instrument Manager.
-     */
-    function initialize(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
-        bytes calldata instrumentParameters) external;
-
-    /**
      * @dev Get the address of Instrument Escrow.
      */
     function getInstrumentEscrowAddress() external view returns (address);

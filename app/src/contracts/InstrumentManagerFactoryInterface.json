@@ -5,10 +5,6 @@
       "constant": false,
       "inputs": [
         {
-          "name": "version",
-          "type": "string"
-        },
-        {
           "name": "fspAddress",
           "type": "address"
         },
@@ -37,25 +33,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"version\",\"type\":\"string\"},{\"name\":\"fspAddress\",\"type\":\"address\"},{\"name\":\"instrumentAddress\",\"type\":\"address\"},{\"name\":\"instrumentConfigAddress\",\"type\":\"address\"},{\"name\":\"instrumentParameters\",\"type\":\"bytes\"}],\"name\":\"createInstrumentManagerInstance\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"createInstrumentManagerInstance(string,address,address,address,bytes)\":{\"details\":\"Create a new instrument manager instance\",\"params\":{\"fspAddress\":\"The address of fsp who creates the instrument.\",\"instrumentAddress\":\"The address of the instrument\",\"instrumentConfigAddress\":\"The address of the instrument config.\",\"instrumentParameters\":\"The custom parameters to this instrument manager.\",\"version\":\"The instrument manager version\"}}},\"title\":\"The interface of instrument manager factory. Instrument registry uses this interface to create new instrument manager.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol\":\"InstrumentManagerFactoryInterface\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0x5d7c29a8a0ef311e739198d8b1208b7dd339c9761779d6e0f353a81c403ca2c3\",\"urls\":[\"bzzr://1689500b1b704f924c4c2f30b1f9fe5a879d72629c17b3cea186dfca7e207c54\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol\":{\"keccak256\":\"0xfe148343b60d86b11c4197548501947ba45bc5315d1c1d3427e8048d0ef889f7\",\"urls\":[\"bzzr://e6d47ca90c47341e4440458126baab4efb03b3b417064590905bdb454ea59813\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol\":{\"keccak256\":\"0xf2aaa0781ffb9e99f9cb3c841423a86e344e492f678e04a928b431309ea6d585\",\"urls\":[\"bzzr://7e03b7249f1af65dfef11a7218a0bd4afa6fbb7f97a7ec26c3d751b421717d92\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerInterface.sol\":{\"keccak256\":\"0xefd1ada5f2346fdd888258d5f76eeed6e031f6b1f2ad11ff1091ed1f468aa63e\",\"urls\":[\"bzzr://2912a89b4c31e63d54c67ce0f37611d96c15770a603f730313a10ff481e3bdad\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"fspAddress\",\"type\":\"address\"},{\"name\":\"instrumentAddress\",\"type\":\"address\"},{\"name\":\"instrumentConfigAddress\",\"type\":\"address\"},{\"name\":\"instrumentParameters\",\"type\":\"bytes\"}],\"name\":\"createInstrumentManagerInstance\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"createInstrumentManagerInstance(address,address,address,bytes)\":{\"details\":\"Create a new instrument manager instance\",\"params\":{\"fspAddress\":\"The address of fsp who creates the instrument.\",\"instrumentAddress\":\"The address of the instrument\",\"instrumentConfigAddress\":\"The address of the instrument config.\",\"instrumentParameters\":\"The custom parameters to this instrument manager.\"}}},\"title\":\"The interface of instrument manager factory. Instrument registry uses this interface to create new instrument manager.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol\":\"InstrumentManagerFactoryInterface\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":1000},\"remappings\":[]},\"sources\":{\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol\":{\"keccak256\":\"0x5d7c29a8a0ef311e739198d8b1208b7dd339c9761779d6e0f353a81c403ca2c3\",\"urls\":[\"bzzr://1689500b1b704f924c4c2f30b1f9fe5a879d72629c17b3cea186dfca7e207c54\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol\":{\"keccak256\":\"0xfe148343b60d86b11c4197548501947ba45bc5315d1c1d3427e8048d0ef889f7\",\"urls\":[\"bzzr://e6d47ca90c47341e4440458126baab4efb03b3b417064590905bdb454ea59813\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol\":{\"keccak256\":\"0xaf46b545dfe9a9563901928e54bf2864836ab70458af1b4c5346f969d43e66ef\",\"urls\":[\"bzzr://e06ec6ada2e316471011da96d61d37744ba571a4431092f6e1f05b773b12fec9\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerInterface.sol\":{\"keccak256\":\"0x8ffbe63f8fd54d30090b52e3f9ecc31d17381e4195cbf103cfcba6670600830f\",\"urls\":[\"bzzr://c33954a17c98414298ed0d958515a028c5c4f6ad619dea99f4d4e355b3eae98e\"]},\"/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol\":{\"keccak256\":\"0x91d42285b7d42693d94c54a4805a40ea0aad33eaf11b38f40e2dd0ce494e0fd5\",\"urls\":[\"bzzr://06bf79275ee23aef46bb12b288cc10f20a18515c16cad45e13799862d2548030\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.5.0;\n\nimport \"./InstrumentManagerInterface.sol\";\n\n/**\n * @title The interface of instrument manager factory.\n * Instrument registry uses this interface to create new instrument manager.\n */\ninterface InstrumentManagerFactoryInterface {\n\n    /**\n     * @dev Create a new instrument manager instance\n     * @param version The instrument manager version\n     * @param fspAddress The address of fsp who creates the instrument.\n     * @param instrumentAddress The address of the instrument\n     * @param instrumentConfigAddress The address of the instrument config.\n     * @param instrumentParameters The custom parameters to this instrument manager.\n     */\n    function createInstrumentManagerInstance(string calldata version, address fspAddress, address instrumentAddress,\n        address instrumentConfigAddress, bytes calldata instrumentParameters) external returns (InstrumentManagerInterface);\n}\n",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"./InstrumentManagerInterface.sol\";\n\n/**\n * @title The interface of instrument manager factory.\n * Instrument registry uses this interface to create new instrument manager.\n */\ninterface InstrumentManagerFactoryInterface {\n\n    /**\n     * @dev Create a new instrument manager instance\n     * @param fspAddress The address of fsp who creates the instrument.\n     * @param instrumentAddress The address of the instrument\n     * @param instrumentConfigAddress The address of the instrument config.\n     * @param instrumentParameters The custom parameters to this instrument manager.\n     */\n    function createInstrumentManagerInstance(address fspAddress, address instrumentAddress,\n        address instrumentConfigAddress, bytes calldata instrumentParameters) external returns (InstrumentManagerInterface);\n}\n",
   "sourcePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol",
   "ast": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol",
     "exportedSymbols": {
       "InstrumentManagerFactoryInterface": [
-        3493
+        3333
       ]
     },
-    "id": 3494,
+    "id": 3334,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3476,
+        "id": 3318,
         "literals": [
           "solidity",
           "^",
@@ -63,16 +59,16 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:17"
+        "src": "0:23:16"
       },
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerInterface.sol",
         "file": "./InstrumentManagerInterface.sol",
-        "id": 3477,
+        "id": 3319,
         "nodeType": "ImportDirective",
-        "scope": 3494,
-        "sourceUnit": 3595,
-        "src": "25:42:17",
+        "scope": 3334,
+        "sourceUnit": 3424,
+        "src": "25:42:16",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -82,59 +78,33 @@
         "contractKind": "interface",
         "documentation": "@title The interface of instrument manager factory.\nInstrument registry uses this interface to create new instrument manager.",
         "fullyImplemented": false,
-        "id": 3493,
+        "id": 3333,
         "linearizedBaseContracts": [
-          3493
+          3333
         ],
         "name": "InstrumentManagerFactoryInterface",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
-            "documentation": "@dev Create a new instrument manager instance\n@param version The instrument manager version\n@param fspAddress The address of fsp who creates the instrument.\n@param instrumentAddress The address of the instrument\n@param instrumentConfigAddress The address of the instrument config.\n@param instrumentParameters The custom parameters to this instrument manager.",
-            "id": 3492,
+            "documentation": "@dev Create a new instrument manager instance\n@param fspAddress The address of fsp who creates the instrument.\n@param instrumentAddress The address of the instrument\n@param instrumentConfigAddress The address of the instrument config.\n@param instrumentParameters The custom parameters to this instrument manager.",
+            "id": 3332,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentManagerInstance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3488,
+              "id": 3328,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3479,
-                  "name": "version",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "718:23:17",
-                  "stateVariable": false,
-                  "storageLocation": "calldata",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_calldata_ptr",
-                    "typeString": "string"
-                  },
-                  "typeName": {
-                    "id": 3478,
-                    "name": "string",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "718:6:17",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 3481,
+                  "id": 3321,
                   "name": "fspAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "743:18:17",
+                  "scope": 3332,
+                  "src": "665:18:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -142,10 +112,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3480,
+                    "id": 3320,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "743:7:17",
+                    "src": "665:7:16",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -157,11 +127,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3483,
+                  "id": 3323,
                   "name": "instrumentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "763:25:17",
+                  "scope": 3332,
+                  "src": "685:25:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -169,10 +139,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3482,
+                    "id": 3322,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "763:7:17",
+                    "src": "685:7:16",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -184,11 +154,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3485,
+                  "id": 3325,
                   "name": "instrumentConfigAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "798:31:17",
+                  "scope": 3332,
+                  "src": "720:31:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -196,10 +166,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3484,
+                    "id": 3324,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "798:7:17",
+                    "src": "720:7:16",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -211,11 +181,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3487,
+                  "id": 3327,
                   "name": "instrumentParameters",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "831:35:17",
+                  "scope": 3332,
+                  "src": "753:35:16",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -223,10 +193,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 3486,
+                    "id": 3326,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "831:5:17",
+                    "src": "753:5:16",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -236,34 +206,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "717:150:17"
+              "src": "664:125:16"
             },
             "returnParameters": {
-              "id": 3491,
+              "id": 3331,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3490,
+                  "id": 3330,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "886:26:17",
+                  "scope": 3332,
+                  "src": "808:26:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3594",
+                    "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3423",
                     "typeString": "contract InstrumentManagerInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 3489,
+                    "id": 3329,
                     "name": "InstrumentManagerInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 3594,
-                    "src": "886:26:17",
+                    "referencedDeclaration": 3423,
+                    "src": "808:26:16",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3594",
+                      "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3423",
                       "typeString": "contract InstrumentManagerInterface"
                     }
                   },
@@ -271,33 +241,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "885:28:17"
+              "src": "807:28:16"
             },
-            "scope": 3493,
-            "src": "677:237:17",
+            "scope": 3333,
+            "src": "624:212:16",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 3494,
-        "src": "209:707:17"
+        "scope": 3334,
+        "src": "209:629:16"
       }
     ],
-    "src": "0:917:17"
+    "src": "0:839:16"
   },
   "legacyAST": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerFactoryInterface.sol",
     "exportedSymbols": {
       "InstrumentManagerFactoryInterface": [
-        3493
+        3333
       ]
     },
-    "id": 3494,
+    "id": 3334,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3476,
+        "id": 3318,
         "literals": [
           "solidity",
           "^",
@@ -305,16 +275,16 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:17"
+        "src": "0:23:16"
       },
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/instrument/InstrumentManagerInterface.sol",
         "file": "./InstrumentManagerInterface.sol",
-        "id": 3477,
+        "id": 3319,
         "nodeType": "ImportDirective",
-        "scope": 3494,
-        "sourceUnit": 3595,
-        "src": "25:42:17",
+        "scope": 3334,
+        "sourceUnit": 3424,
+        "src": "25:42:16",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -324,59 +294,33 @@
         "contractKind": "interface",
         "documentation": "@title The interface of instrument manager factory.\nInstrument registry uses this interface to create new instrument manager.",
         "fullyImplemented": false,
-        "id": 3493,
+        "id": 3333,
         "linearizedBaseContracts": [
-          3493
+          3333
         ],
         "name": "InstrumentManagerFactoryInterface",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": null,
-            "documentation": "@dev Create a new instrument manager instance\n@param version The instrument manager version\n@param fspAddress The address of fsp who creates the instrument.\n@param instrumentAddress The address of the instrument\n@param instrumentConfigAddress The address of the instrument config.\n@param instrumentParameters The custom parameters to this instrument manager.",
-            "id": 3492,
+            "documentation": "@dev Create a new instrument manager instance\n@param fspAddress The address of fsp who creates the instrument.\n@param instrumentAddress The address of the instrument\n@param instrumentConfigAddress The address of the instrument config.\n@param instrumentParameters The custom parameters to this instrument manager.",
+            "id": 3332,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentManagerInstance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3488,
+              "id": 3328,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3479,
-                  "name": "version",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "718:23:17",
-                  "stateVariable": false,
-                  "storageLocation": "calldata",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_calldata_ptr",
-                    "typeString": "string"
-                  },
-                  "typeName": {
-                    "id": 3478,
-                    "name": "string",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "718:6:17",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 3481,
+                  "id": 3321,
                   "name": "fspAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "743:18:17",
+                  "scope": 3332,
+                  "src": "665:18:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -384,10 +328,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3480,
+                    "id": 3320,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "743:7:17",
+                    "src": "665:7:16",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -399,11 +343,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3483,
+                  "id": 3323,
                   "name": "instrumentAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "763:25:17",
+                  "scope": 3332,
+                  "src": "685:25:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -411,10 +355,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3482,
+                    "id": 3322,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "763:7:17",
+                    "src": "685:7:16",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -426,11 +370,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3485,
+                  "id": 3325,
                   "name": "instrumentConfigAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "798:31:17",
+                  "scope": 3332,
+                  "src": "720:31:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -438,10 +382,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3484,
+                    "id": 3324,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "798:7:17",
+                    "src": "720:7:16",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -453,11 +397,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3487,
+                  "id": 3327,
                   "name": "instrumentParameters",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "831:35:17",
+                  "scope": 3332,
+                  "src": "753:35:16",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -465,10 +409,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 3486,
+                    "id": 3326,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "831:5:17",
+                    "src": "753:5:16",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -478,34 +422,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "717:150:17"
+              "src": "664:125:16"
             },
             "returnParameters": {
-              "id": 3491,
+              "id": 3331,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3490,
+                  "id": 3330,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3492,
-                  "src": "886:26:17",
+                  "scope": 3332,
+                  "src": "808:26:16",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3594",
+                    "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3423",
                     "typeString": "contract InstrumentManagerInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 3489,
+                    "id": 3329,
                     "name": "InstrumentManagerInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 3594,
-                    "src": "886:26:17",
+                    "referencedDeclaration": 3423,
+                    "src": "808:26:16",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3594",
+                      "typeIdentifier": "t_contract$_InstrumentManagerInterface_$3423",
                       "typeString": "contract InstrumentManagerInterface"
                     }
                   },
@@ -513,20 +457,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "885:28:17"
+              "src": "807:28:16"
             },
-            "scope": 3493,
-            "src": "677:237:17",
+            "scope": 3333,
+            "src": "624:212:16",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 3494,
-        "src": "209:707:17"
+        "scope": 3334,
+        "src": "209:629:16"
       }
     ],
-    "src": "0:917:17"
+    "src": "0:839:16"
   },
   "compiler": {
     "name": "solc",
@@ -534,17 +478,16 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:06:50.398Z",
+  "updatedAt": "2019-10-16T00:36:18.411Z",
   "devdoc": {
     "methods": {
-      "createInstrumentManagerInstance(string,address,address,address,bytes)": {
+      "createInstrumentManagerInstance(address,address,address,bytes)": {
         "details": "Create a new instrument manager instance",
         "params": {
           "fspAddress": "The address of fsp who creates the instrument.",
           "instrumentAddress": "The address of the instrument",
           "instrumentConfigAddress": "The address of the instrument config.",
-          "instrumentParameters": "The custom parameters to this instrument manager.",
-          "version": "The instrument manager version"
+          "instrumentParameters": "The custom parameters to this instrument manager."
         }
       }
     },

@@ -72,15 +72,12 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
 
     /**
-     * @dev IMPORTANT: Initialization method for all instrument managers.
-     * This function must be invoked immediately after creating the proxy and updating implementation.
-     * If it's invoked in a separate transaction, it's possible that it's already invoked by someone else.
      * @param fspAddress Address of FSP that activates this financial instrument.
      * @param instrumentAddress Address of the financial instrument contract.
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    function initialize(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
+    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
         bytes memory instrumentParameters) public {
         require(_instrumentAddress == address(0x0), "InstrumentManagerBase: Already initialized.");
         require(fspAddress != address(0x0), "InstrumentManagerBase: FSP address must be provided.");
@@ -96,8 +93,6 @@ contract InstrumentManagerBase is TimerOracleRole, InstrumentManagerInterface {
         _takerWhitelistEnabled = parameters.supportTakerWhitelist;
         _instrumentConfig = InstrumentConfig(instrumentConfigAddress);
 
-        // Set Timer Oracle Role
-        _addTimerOracle(_instrumentConfig.timerOracleAddress());
         _fspAddress = fspAddress;
         // If broker address is not provided, default to fsp address.
         _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;

@@ -20,38 +20,32 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
 
     // Mapping: Instrument Address => Instrument Manager Address
     mapping(address => address) private _instrumentManagers;
-    InstrumentManagerFactoryInterface private _instrumentManagerFactory;
+    // Mapping: Version => Instrument Manager Factory
+    mapping(string => InstrumentManagerFactoryInterface) private _instrumentManagerFactories;
 
     /**
      * @dev Initialization method for Instrument Registry.
-     * @param owner Owner of Instrument Registry.
      * @param newInstrumentDeposit The NUTS token deposited for new Instrument,
      * @param newIssuanceDeposit The NUTS token deposited for new Issuance.
      * @param newDepositTokenAddress Address of NUTS token.
      * @param newProxyAdminAddress Address of proxy admin.
      * @param newTimerOracleAddress Address of Timer Oracle
      * @param newPriceOracleAddress Address of Price Oracle
-     * @param newInstrumentManagerFactoryAddress Address of Instrument Manager Factory.
      * @param newEscrowFactoryAddress Address of Escrow Factory.
      * @param newStorageFactoryAddress Address of Storage Factory.
      * @param newProxyFactoryAddress Address of Proxy Factory.
      */
-    function initialize(address owner, uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
-        address newProxyAdminAddress, address newTimerOracleAddress, address newPriceOracleAddress, address newInstrumentManagerFactoryAddress,
+    constructor(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
+        address newProxyAdminAddress, address newTimerOracleAddress, address newPriceOracleAddress,
         address newEscrowFactoryAddress, address newStorageFactoryAddress, address newProxyFactoryAddress) public {
         require(address(depositTokenAddress) == address(0x0), "InstrumentRegistry: Already initialized.");
-        require(owner != address(0x0), "InstrumentRegistry: Owner must be provided.");
         require(newDepositTokenAddress != address(0x0), "InstrumentRegistry: Deposit token address must be provided.");
         require(newProxyAdminAddress != address(0x0), "InstrumentRegistry: Proxy admin address must be provided.");
         require(newTimerOracleAddress != address(0x0), "InstrumentRegistry: Timer Oracle address must be provided.");
         require(newPriceOracleAddress != address(0x0), "InstrumentRegistry: Price Oracle address must be provided.");
-        require(newInstrumentManagerFactoryAddress != address(0x0), "InstrumentRegistry: Instrument Manager Factory address must be provided.");
         require(newEscrowFactoryAddress != address(0x0), "InstrumentRegistry: Escrow Factory address must be provided.");
         require(newStorageFactoryAddress != address(0x0), "InstrumentRegistry: Storage Factory address must be provided.");
         require(newProxyFactoryAddress != address(0x0), "InstrumentRegistry: Proxy Factory address must be provided.");
-
-        // Set owner
-        _transferOwnership(owner);
 
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
@@ -66,15 +60,13 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         // Create new Deposit Escrow
         EscrowFactoryInterface escrowFactory = EscrowFactoryInterface(newEscrowFactoryAddress);
         depositEscrowAddress = address(escrowFactory.createDepositEscrow());
-
-        _instrumentManagerFactory = InstrumentManagerFactoryInterface(newInstrumentManagerFactoryAddress);
     }
 
     /**
      * @dev Update Instrument Manager Factory
      */
-    function setInstrumentManagerFactory(InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
-        _instrumentManagerFactory = instrumentManagerFactory;
+    function setInstrumentManagerFactory(string memory version, InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
+        _instrumentManagerFactories[version] = instrumentManagerFactory;
     }
 
     /**
@@ -138,7 +130,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         require(instrumentAddress != address(0x0), "InstrumentRegistry: Instrument address must be provided.");
 
         // Create Instrument Manager
-        InstrumentManagerInterface instrumentManager = _instrumentManagerFactory.createInstrumentManagerInstance(version,
+        InstrumentManagerInterface instrumentManager = _instrumentManagerFactories[version].createInstrumentManagerInstance(
             msg.sender, instrumentAddress, address(this), instrumentParameters);
 
         _instrumentManagers[instrumentAddress] = address(instrumentManager);
