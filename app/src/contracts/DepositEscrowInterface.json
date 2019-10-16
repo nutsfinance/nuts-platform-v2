@@ -209,14 +209,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
     "exportedSymbols": {
       "DepositEscrowInterface": [
-        703
+        649
       ]
     },
-    "id": 704,
+    "id": 650,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 699,
+        "id": 645,
         "literals": [
           "solidity",
           "^",
@@ -229,10 +229,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 700,
+        "id": 646,
         "nodeType": "ImportDirective",
-        "scope": 704,
-        "sourceUnit": 1612,
+        "scope": 650,
+        "sourceUnit": 1558,
         "src": "25:41:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -243,38 +243,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 701,
+              "id": 647,
               "name": "InstrumentEscrowInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1611,
+              "referencedDeclaration": 1557,
               "src": "358:25:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                 "typeString": "contract InstrumentEscrowInterface"
               }
             },
-            "id": 702,
+            "id": 648,
             "nodeType": "InheritanceSpecifier",
             "src": "358:25:5"
           }
         ],
         "contractDependencies": [
-          1293,
-          1611
+          1239,
+          1557
         ],
         "contractKind": "contract",
         "documentation": "@title Escrow to hold the deposited NUTS token.\nDeposit Escrow is similar to Instrument Escrow except that:\n1. Deposit Escrow is owned by Instrument Registry instead of Instrument Manager;\n2. Deposit Escrow is used to hold NUTS token.",
         "fullyImplemented": false,
-        "id": 703,
+        "id": 649,
         "linearizedBaseContracts": [
-          703,
-          1611,
-          1293
+          649,
+          1557,
+          1239
         ],
         "name": "DepositEscrowInterface",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 704,
+        "scope": 650,
         "src": "323:64:5"
       }
     ],
@@ -284,14 +284,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
     "exportedSymbols": {
       "DepositEscrowInterface": [
-        703
+        649
       ]
     },
-    "id": 704,
+    "id": 650,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 699,
+        "id": 645,
         "literals": [
           "solidity",
           "^",
@@ -304,10 +304,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 700,
+        "id": 646,
         "nodeType": "ImportDirective",
-        "scope": 704,
-        "sourceUnit": 1612,
+        "scope": 650,
+        "sourceUnit": 1558,
         "src": "25:41:5",
         "symbolAliases": [],
         "unitAlias": ""
@@ -318,38 +318,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 701,
+              "id": 647,
               "name": "InstrumentEscrowInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1611,
+              "referencedDeclaration": 1557,
               "src": "358:25:5",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                 "typeString": "contract InstrumentEscrowInterface"
               }
             },
-            "id": 702,
+            "id": 648,
             "nodeType": "InheritanceSpecifier",
             "src": "358:25:5"
           }
         ],
         "contractDependencies": [
-          1293,
-          1611
+          1239,
+          1557
         ],
         "contractKind": "contract",
         "documentation": "@title Escrow to hold the deposited NUTS token.\nDeposit Escrow is similar to Instrument Escrow except that:\n1. Deposit Escrow is owned by Instrument Registry instead of Instrument Manager;\n2. Deposit Escrow is used to hold NUTS token.",
         "fullyImplemented": false,
-        "id": 703,
+        "id": 649,
         "linearizedBaseContracts": [
-          703,
-          1611,
-          1293
+          649,
+          1557,
+          1239
         ],
         "name": "DepositEscrowInterface",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 704,
+        "scope": 650,
         "src": "323:64:5"
       }
     ],
@@ -361,7 +361,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:06:50.353Z",
+  "updatedAt": "2019-10-16T00:39:23.777Z",
   "devdoc": {
     "methods": {
       "deposit()": {

@@ -16,9 +16,6 @@ contract InstrumentConfig {
     // Address of deposited token(NUTS token)
     // Note: Non-updateable after initialization.
     address public depositTokenAddress;
-    // Address of proxy admin
-    // Note: Updateable after initialization.
-    address public proxyAdminAddress;
     // Address of Timer Oracle
     // Note: updatable after initialization.
     address public timerOracleAddress;

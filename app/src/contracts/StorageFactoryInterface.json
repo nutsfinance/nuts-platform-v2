@@ -27,14 +27,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol",
     "exportedSymbols": {
       "StorageFactoryInterface": [
-        20563
+        20432
       ]
     },
-    "id": 20564,
+    "id": 20433,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20556,
+        "id": 20425,
         "literals": [
           "solidity",
           "^",
@@ -42,16 +42,16 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:58"
+        "src": "0:23:60"
       },
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageInterface.sol",
         "file": "./StorageInterface.sol",
-        "id": 20557,
+        "id": 20426,
         "nodeType": "ImportDirective",
-        "scope": 20564,
-        "sourceUnit": 20661,
-        "src": "25:32:58",
+        "scope": 20433,
+        "sourceUnit": 20530,
+        "src": "25:32:60",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -61,9 +61,9 @@
         "contractKind": "interface",
         "documentation": "@dev Interface of storage factory.",
         "fullyImplemented": false,
-        "id": 20563,
+        "id": 20432,
         "linearizedBaseContracts": [
-          20563
+          20432
         ],
         "name": "StorageFactoryInterface",
         "nodeType": "ContractDefinition",
@@ -71,44 +71,44 @@
           {
             "body": null,
             "documentation": "@dev Create new storage instance.",
-            "id": 20562,
+            "id": 20431,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createStorageInstance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20558,
+              "id": 20427,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "233:2:58"
+              "src": "233:2:60"
             },
             "returnParameters": {
-              "id": 20561,
+              "id": 20430,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20560,
+                  "id": 20429,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20562,
-                  "src": "254:16:58",
+                  "scope": 20431,
+                  "src": "254:16:60",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                    "typeIdentifier": "t_contract$_StorageInterface_$20529",
                     "typeString": "contract StorageInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20559,
+                    "id": 20428,
                     "name": "StorageInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 20660,
-                    "src": "254:16:58",
+                    "referencedDeclaration": 20529,
+                    "src": "254:16:60",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20529",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -116,33 +116,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "253:18:58"
+              "src": "253:18:60"
             },
-            "scope": 20563,
-            "src": "203:69:58",
+            "scope": 20432,
+            "src": "203:69:60",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 20564,
-        "src": "105:169:58"
+        "scope": 20433,
+        "src": "105:169:60"
       }
     ],
-    "src": "0:274:58"
+    "src": "0:274:60"
   },
   "legacyAST": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageFactoryInterface.sol",
     "exportedSymbols": {
       "StorageFactoryInterface": [
-        20563
+        20432
       ]
     },
-    "id": 20564,
+    "id": 20433,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 20556,
+        "id": 20425,
         "literals": [
           "solidity",
           "^",
@@ -150,16 +150,16 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:58"
+        "src": "0:23:60"
       },
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/storage/StorageInterface.sol",
         "file": "./StorageInterface.sol",
-        "id": 20557,
+        "id": 20426,
         "nodeType": "ImportDirective",
-        "scope": 20564,
-        "sourceUnit": 20661,
-        "src": "25:32:58",
+        "scope": 20433,
+        "sourceUnit": 20530,
+        "src": "25:32:60",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -169,9 +169,9 @@
         "contractKind": "interface",
         "documentation": "@dev Interface of storage factory.",
         "fullyImplemented": false,
-        "id": 20563,
+        "id": 20432,
         "linearizedBaseContracts": [
-          20563
+          20432
         ],
         "name": "StorageFactoryInterface",
         "nodeType": "ContractDefinition",
@@ -179,44 +179,44 @@
           {
             "body": null,
             "documentation": "@dev Create new storage instance.",
-            "id": 20562,
+            "id": 20431,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createStorageInstance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 20558,
+              "id": 20427,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "233:2:58"
+              "src": "233:2:60"
             },
             "returnParameters": {
-              "id": 20561,
+              "id": 20430,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20560,
+                  "id": 20429,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 20562,
-                  "src": "254:16:58",
+                  "scope": 20431,
+                  "src": "254:16:60",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                    "typeIdentifier": "t_contract$_StorageInterface_$20529",
                     "typeString": "contract StorageInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 20559,
+                    "id": 20428,
                     "name": "StorageInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 20660,
-                    "src": "254:16:58",
+                    "referencedDeclaration": 20529,
+                    "src": "254:16:60",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_StorageInterface_$20660",
+                      "typeIdentifier": "t_contract$_StorageInterface_$20529",
                       "typeString": "contract StorageInterface"
                     }
                   },
@@ -224,20 +224,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "253:18:58"
+              "src": "253:18:60"
             },
-            "scope": 20563,
-            "src": "203:69:58",
+            "scope": 20432,
+            "src": "203:69:60",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 20564,
-        "src": "105:169:58"
+        "scope": 20433,
+        "src": "105:169:60"
       }
     ],
-    "src": "0:274:58"
+    "src": "0:274:60"
   },
   "compiler": {
     "name": "solc",
@@ -245,7 +245,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T07:31:28.007Z",
+  "updatedAt": "2019-10-16T00:39:24.218Z",
   "devdoc": {
     "details": "Interface of storage factory.",
     "methods": {

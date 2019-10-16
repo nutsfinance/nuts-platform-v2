@@ -85,14 +85,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/access/TimerOracleRole.sol",
     "exportedSymbols": {
       "TimerOracleRole": [
-        591
+        533
       ]
     },
-    "id": 592,
+    "id": 534,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 489,
+        "id": 431,
         "literals": [
           "solidity",
           "^",
@@ -105,10 +105,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/access/Roles.sol",
         "file": "../lib/access/Roles.sol",
-        "id": 490,
+        "id": 432,
         "nodeType": "ImportDirective",
-        "scope": 592,
-        "sourceUnit": 5848,
+        "scope": 534,
+        "sourceUnit": 5717,
         "src": "25:33:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -119,24 +119,24 @@
         "contractKind": "contract",
         "documentation": "@title Roles consumed by Timer Oracle.",
         "fullyImplemented": true,
-        "id": 591,
+        "id": 533,
         "linearizedBaseContracts": [
-          591
+          533
         ],
         "name": "TimerOracleRole",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 493,
+            "id": 435,
             "libraryName": {
               "contractScope": null,
-              "id": 491,
+              "id": 433,
               "name": "Roles",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5847,
+              "referencedDeclaration": 5716,
               "src": "147:5:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Roles_$5847",
+                "typeIdentifier": "t_contract$_Roles_$5716",
                 "typeString": "library Roles"
               }
             },
@@ -144,13 +144,13 @@
             "src": "141:27:3",
             "typeName": {
               "contractScope": null,
-              "id": 492,
+              "id": 434,
               "name": "Roles.Role",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5773,
+              "referencedDeclaration": 5642,
               "src": "157:10:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Role_$5773_storage_ptr",
+                "typeIdentifier": "t_struct$_Role_$5642_storage_ptr",
                 "typeString": "struct Roles.Role"
               }
             }
@@ -158,20 +158,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 497,
+            "id": 439,
             "name": "TimerOracleAdded",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 496,
+              "id": 438,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 495,
+                  "id": 437,
                   "indexed": true,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 497,
+                  "scope": 439,
                   "src": "197:23:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -180,7 +180,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 494,
+                    "id": 436,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "197:7:3",
@@ -201,20 +201,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 501,
+            "id": 443,
             "name": "TimerOracleRemoved",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 500,
+              "id": 442,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 499,
+                  "id": 441,
                   "indexed": true,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 501,
+                  "scope": 443,
                   "src": "252:23:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -223,7 +223,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 498,
+                    "id": 440,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "252:7:3",
@@ -243,26 +243,26 @@
           },
           {
             "constant": false,
-            "id": 503,
+            "id": 445,
             "name": "_timerOracles",
             "nodeType": "VariableDeclaration",
-            "scope": 591,
+            "scope": 533,
             "src": "283:32:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_Role_$5773_storage",
+              "typeIdentifier": "t_struct$_Role_$5642_storage",
               "typeString": "struct Roles.Role"
             },
             "typeName": {
               "contractScope": null,
-              "id": 502,
+              "id": 444,
               "name": "Roles.Role",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5773,
+              "referencedDeclaration": 5642,
               "src": "283:10:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Role_$5773_storage_ptr",
+                "typeIdentifier": "t_struct$_Role_$5642_storage_ptr",
                 "typeString": "struct Roles.Role"
               }
             },
@@ -271,7 +271,7 @@
           },
           {
             "body": {
-              "id": 511,
+              "id": 453,
               "nodeType": "Block",
               "src": "346:44:3",
               "statements": [
@@ -283,18 +283,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 507,
+                          "id": 449,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 21066,
+                          "referencedDeclaration": 20935,
                           "src": "372:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 508,
+                        "id": 450,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -316,18 +316,18 @@
                           "typeString": "address payable"
                         }
                       ],
-                      "id": 506,
+                      "id": 448,
                       "name": "_addTimerOracle",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 574,
+                      "referencedDeclaration": 516,
                       "src": "356:15:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 509,
+                    "id": 451,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -341,32 +341,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 510,
+                  "id": 452,
                   "nodeType": "ExpressionStatement",
                   "src": "356:27:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 512,
+            "id": 454,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 504,
+              "id": 446,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "334:2:3"
             },
             "returnParameters": {
-              "id": 505,
+              "id": 447,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "346:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "322:68:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -374,7 +374,7 @@
           },
           {
             "body": {
-              "id": 523,
+              "id": 465,
               "nodeType": "Block",
               "src": "423:124:3",
               "statements": [
@@ -389,18 +389,18 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 516,
+                              "id": 458,
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 21066,
+                              "referencedDeclaration": 20935,
                               "src": "455:3:3",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
                                 "typeString": "msg"
                               }
                             },
-                            "id": 517,
+                            "id": 459,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -422,18 +422,18 @@
                               "typeString": "address payable"
                             }
                           ],
-                          "id": 515,
+                          "id": 457,
                           "name": "isTimerOracle",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 537,
+                          "referencedDeclaration": 479,
                           "src": "441:13:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
                             "typeString": "function (address) view returns (bool)"
                           }
                         },
-                        "id": 518,
+                        "id": 460,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -450,7 +450,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "54696d65724f7261636c65526f6c653a2063616c6c657220646f6573206e6f742068617665207468652054696d65724f7261636c6520726f6c65",
-                        "id": 519,
+                        "id": 461,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -477,21 +477,21 @@
                           "typeString": "literal_string \"TimerOracleRole: caller does not have the TimerOracle role\""
                         }
                       ],
-                      "id": 514,
+                      "id": 456,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        20938,
+                        20939
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 20939,
                       "src": "433:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 520,
+                    "id": 462,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -505,23 +505,23 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 521,
+                  "id": 463,
                   "nodeType": "ExpressionStatement",
                   "src": "433:96:3"
                 },
                 {
-                  "id": 522,
+                  "id": 464,
                   "nodeType": "PlaceholderStatement",
                   "src": "539:1:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 524,
+            "id": 466,
             "name": "onlyTimerOracle",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 513,
+              "id": 455,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "420:2:3"
@@ -531,7 +531,7 @@
           },
           {
             "body": {
-              "id": 536,
+              "id": 478,
               "nodeType": "Block",
               "src": "620:50:3",
               "statements": [
@@ -541,11 +541,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 533,
+                        "id": 475,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 526,
+                        "referencedDeclaration": 468,
                         "src": "655:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -562,32 +562,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 531,
+                        "id": 473,
                         "name": "_timerOracles",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 503,
+                        "referencedDeclaration": 445,
                         "src": "637:13:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Role_$5773_storage",
+                          "typeIdentifier": "t_struct$_Role_$5642_storage",
                           "typeString": "struct Roles.Role storage ref"
                         }
                       },
-                      "id": 532,
+                      "id": 474,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "has",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5846,
+                      "referencedDeclaration": 5715,
                       "src": "637:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_struct$_Role_$5773_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_Role_$5773_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_Role_$5642_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_Role_$5642_storage_ptr_$",
                         "typeString": "function (struct Roles.Role storage pointer,address) view returns (bool)"
                       }
                     },
-                    "id": 534,
+                    "id": 476,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -601,30 +601,30 @@
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 530,
-                  "id": 535,
+                  "functionReturnParameters": 472,
+                  "id": 477,
                   "nodeType": "Return",
                   "src": "630:33:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 537,
+            "id": 479,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "isTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 527,
+              "id": 469,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 526,
+                  "id": 468,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 537,
+                  "scope": 479,
                   "src": "576:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -633,7 +633,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 525,
+                    "id": 467,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "576:7:3",
@@ -650,15 +650,15 @@
               "src": "575:17:3"
             },
             "returnParameters": {
-              "id": 530,
+              "id": 472,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 529,
+                  "id": 471,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 537,
+                  "scope": 479,
                   "src": "614:4:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -667,7 +667,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 528,
+                    "id": 470,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "614:4:3",
@@ -682,7 +682,7 @@
               ],
               "src": "613:6:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "553:117:3",
             "stateMutability": "view",
             "superFunction": null,
@@ -690,7 +690,7 @@
           },
           {
             "body": {
-              "id": 548,
+              "id": 490,
               "nodeType": "Block",
               "src": "740:41:3",
               "statements": [
@@ -700,11 +700,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 545,
+                        "id": 487,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 539,
+                        "referencedDeclaration": 481,
                         "src": "766:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -719,18 +719,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 544,
+                      "id": 486,
                       "name": "_addTimerOracle",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 574,
+                      "referencedDeclaration": 516,
                       "src": "750:15:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 546,
+                    "id": 488,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -744,27 +744,27 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 547,
+                  "id": 489,
                   "nodeType": "ExpressionStatement",
                   "src": "750:24:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 549,
+            "id": 491,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
                 "arguments": null,
-                "id": 542,
+                "id": 484,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 541,
+                  "id": 483,
                   "name": "onlyTimerOracle",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 524,
+                  "referencedDeclaration": 466,
                   "src": "724:15:3",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -778,15 +778,15 @@
             "name": "addTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 540,
+              "id": 482,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 539,
+                  "id": 481,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 549,
+                  "scope": 491,
                   "src": "700:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -795,7 +795,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 538,
+                    "id": 480,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "700:7:3",
@@ -812,12 +812,12 @@
               "src": "699:17:3"
             },
             "returnParameters": {
-              "id": 543,
+              "id": 485,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "740:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "676:105:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -825,7 +825,7 @@
           },
           {
             "body": {
-              "id": 557,
+              "id": 499,
               "nodeType": "Block",
               "src": "825:47:3",
               "statements": [
@@ -837,18 +837,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 553,
+                          "id": 495,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 21066,
+                          "referencedDeclaration": 20935,
                           "src": "854:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 554,
+                        "id": 496,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -870,18 +870,18 @@
                           "typeString": "address payable"
                         }
                       ],
-                      "id": 552,
+                      "id": 494,
                       "name": "_removeTimerOracle",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 590,
+                      "referencedDeclaration": 532,
                       "src": "835:18:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 555,
+                    "id": 497,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -895,32 +895,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 556,
+                  "id": 498,
                   "nodeType": "ExpressionStatement",
                   "src": "835:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 558,
+            "id": 500,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "renounceTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 550,
+              "id": 492,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "815:2:3"
             },
             "returnParameters": {
-              "id": 551,
+              "id": 493,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "825:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "787:85:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -928,7 +928,7 @@
           },
           {
             "body": {
-              "id": 573,
+              "id": 515,
               "nodeType": "Block",
               "src": "929:83:3",
               "statements": [
@@ -938,11 +938,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 566,
+                        "id": 508,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 560,
+                        "referencedDeclaration": 502,
                         "src": "957:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -959,32 +959,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 563,
+                        "id": 505,
                         "name": "_timerOracles",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 503,
+                        "referencedDeclaration": 445,
                         "src": "939:13:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Role_$5773_storage",
+                          "typeIdentifier": "t_struct$_Role_$5642_storage",
                           "typeString": "struct Roles.Role storage ref"
                         }
                       },
-                      "id": 565,
+                      "id": 507,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5798,
+                      "referencedDeclaration": 5667,
                       "src": "939:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5773_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5773_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5642_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5642_storage_ptr_$",
                         "typeString": "function (struct Roles.Role storage pointer,address)"
                       }
                     },
-                    "id": 567,
+                    "id": 509,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -998,7 +998,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 568,
+                  "id": 510,
                   "nodeType": "ExpressionStatement",
                   "src": "939:26:3"
                 },
@@ -1008,11 +1008,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 570,
+                        "id": 512,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 560,
+                        "referencedDeclaration": 502,
                         "src": "997:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1027,18 +1027,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 569,
+                      "id": 511,
                       "name": "TimerOracleAdded",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 497,
+                      "referencedDeclaration": 439,
                       "src": "980:16:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 571,
+                    "id": 513,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1052,29 +1052,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 572,
+                  "id": 514,
                   "nodeType": "EmitStatement",
                   "src": "975:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 574,
+            "id": 516,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_addTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 561,
+              "id": 503,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 560,
+                  "id": 502,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 574,
+                  "scope": 516,
                   "src": "903:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1083,7 +1083,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 559,
+                    "id": 501,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "903:7:3",
@@ -1100,12 +1100,12 @@
               "src": "902:17:3"
             },
             "returnParameters": {
-              "id": 562,
+              "id": 504,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "929:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "878:134:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1113,7 +1113,7 @@
           },
           {
             "body": {
-              "id": 589,
+              "id": 531,
               "nodeType": "Block",
               "src": "1072:88:3",
               "statements": [
@@ -1123,11 +1123,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 582,
+                        "id": 524,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 576,
+                        "referencedDeclaration": 518,
                         "src": "1103:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1144,32 +1144,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 579,
+                        "id": 521,
                         "name": "_timerOracles",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 503,
+                        "referencedDeclaration": 445,
                         "src": "1082:13:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Role_$5773_storage",
+                          "typeIdentifier": "t_struct$_Role_$5642_storage",
                           "typeString": "struct Roles.Role storage ref"
                         }
                       },
-                      "id": 581,
+                      "id": 523,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "remove",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5822,
+                      "referencedDeclaration": 5691,
                       "src": "1082:20:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5773_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5773_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5642_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5642_storage_ptr_$",
                         "typeString": "function (struct Roles.Role storage pointer,address)"
                       }
                     },
-                    "id": 583,
+                    "id": 525,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1183,7 +1183,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 584,
+                  "id": 526,
                   "nodeType": "ExpressionStatement",
                   "src": "1082:29:3"
                 },
@@ -1193,11 +1193,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 586,
+                        "id": 528,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 576,
+                        "referencedDeclaration": 518,
                         "src": "1145:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1212,18 +1212,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 585,
+                      "id": 527,
                       "name": "TimerOracleRemoved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 501,
+                      "referencedDeclaration": 443,
                       "src": "1126:18:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 587,
+                    "id": 529,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1237,29 +1237,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 588,
+                  "id": 530,
                   "nodeType": "EmitStatement",
                   "src": "1121:32:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 590,
+            "id": 532,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_removeTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 577,
+              "id": 519,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 576,
+                  "id": 518,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 590,
+                  "scope": 532,
                   "src": "1046:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1268,7 +1268,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 575,
+                    "id": 517,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1046:7:3",
@@ -1285,19 +1285,19 @@
               "src": "1045:17:3"
             },
             "returnParameters": {
-              "id": 578,
+              "id": 520,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1072:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "1018:142:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 592,
+        "scope": 534,
         "src": "110:1052:3"
       }
     ],
@@ -1307,14 +1307,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/access/TimerOracleRole.sol",
     "exportedSymbols": {
       "TimerOracleRole": [
-        591
+        533
       ]
     },
-    "id": 592,
+    "id": 534,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 489,
+        "id": 431,
         "literals": [
           "solidity",
           "^",
@@ -1327,10 +1327,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/access/Roles.sol",
         "file": "../lib/access/Roles.sol",
-        "id": 490,
+        "id": 432,
         "nodeType": "ImportDirective",
-        "scope": 592,
-        "sourceUnit": 5848,
+        "scope": 534,
+        "sourceUnit": 5717,
         "src": "25:33:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1341,24 +1341,24 @@
         "contractKind": "contract",
         "documentation": "@title Roles consumed by Timer Oracle.",
         "fullyImplemented": true,
-        "id": 591,
+        "id": 533,
         "linearizedBaseContracts": [
-          591
+          533
         ],
         "name": "TimerOracleRole",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 493,
+            "id": 435,
             "libraryName": {
               "contractScope": null,
-              "id": 491,
+              "id": 433,
               "name": "Roles",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5847,
+              "referencedDeclaration": 5716,
               "src": "147:5:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Roles_$5847",
+                "typeIdentifier": "t_contract$_Roles_$5716",
                 "typeString": "library Roles"
               }
             },
@@ -1366,13 +1366,13 @@
             "src": "141:27:3",
             "typeName": {
               "contractScope": null,
-              "id": 492,
+              "id": 434,
               "name": "Roles.Role",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5773,
+              "referencedDeclaration": 5642,
               "src": "157:10:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Role_$5773_storage_ptr",
+                "typeIdentifier": "t_struct$_Role_$5642_storage_ptr",
                 "typeString": "struct Roles.Role"
               }
             }
@@ -1380,20 +1380,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 497,
+            "id": 439,
             "name": "TimerOracleAdded",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 496,
+              "id": 438,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 495,
+                  "id": 437,
                   "indexed": true,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 497,
+                  "scope": 439,
                   "src": "197:23:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1402,7 +1402,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 494,
+                    "id": 436,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "197:7:3",
@@ -1423,20 +1423,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 501,
+            "id": 443,
             "name": "TimerOracleRemoved",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 500,
+              "id": 442,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 499,
+                  "id": 441,
                   "indexed": true,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 501,
+                  "scope": 443,
                   "src": "252:23:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1445,7 +1445,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 498,
+                    "id": 440,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "252:7:3",
@@ -1465,26 +1465,26 @@
           },
           {
             "constant": false,
-            "id": 503,
+            "id": 445,
             "name": "_timerOracles",
             "nodeType": "VariableDeclaration",
-            "scope": 591,
+            "scope": 533,
             "src": "283:32:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_Role_$5773_storage",
+              "typeIdentifier": "t_struct$_Role_$5642_storage",
               "typeString": "struct Roles.Role"
             },
             "typeName": {
               "contractScope": null,
-              "id": 502,
+              "id": 444,
               "name": "Roles.Role",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5773,
+              "referencedDeclaration": 5642,
               "src": "283:10:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_Role_$5773_storage_ptr",
+                "typeIdentifier": "t_struct$_Role_$5642_storage_ptr",
                 "typeString": "struct Roles.Role"
               }
             },
@@ -1493,7 +1493,7 @@
           },
           {
             "body": {
-              "id": 511,
+              "id": 453,
               "nodeType": "Block",
               "src": "346:44:3",
               "statements": [
@@ -1505,18 +1505,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 507,
+                          "id": 449,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 21066,
+                          "referencedDeclaration": 20935,
                           "src": "372:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 508,
+                        "id": 450,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1538,18 +1538,18 @@
                           "typeString": "address payable"
                         }
                       ],
-                      "id": 506,
+                      "id": 448,
                       "name": "_addTimerOracle",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 574,
+                      "referencedDeclaration": 516,
                       "src": "356:15:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 509,
+                    "id": 451,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1563,32 +1563,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 510,
+                  "id": 452,
                   "nodeType": "ExpressionStatement",
                   "src": "356:27:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 512,
+            "id": 454,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 504,
+              "id": 446,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "334:2:3"
             },
             "returnParameters": {
-              "id": 505,
+              "id": 447,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "346:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "322:68:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1596,7 +1596,7 @@
           },
           {
             "body": {
-              "id": 523,
+              "id": 465,
               "nodeType": "Block",
               "src": "423:124:3",
               "statements": [
@@ -1611,18 +1611,18 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 516,
+                              "id": 458,
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 21066,
+                              "referencedDeclaration": 20935,
                               "src": "455:3:3",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
                                 "typeString": "msg"
                               }
                             },
-                            "id": 517,
+                            "id": 459,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -1644,18 +1644,18 @@
                               "typeString": "address payable"
                             }
                           ],
-                          "id": 515,
+                          "id": 457,
                           "name": "isTimerOracle",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 537,
+                          "referencedDeclaration": 479,
                           "src": "441:13:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
                             "typeString": "function (address) view returns (bool)"
                           }
                         },
-                        "id": 518,
+                        "id": 460,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1672,7 +1672,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "54696d65724f7261636c65526f6c653a2063616c6c657220646f6573206e6f742068617665207468652054696d65724f7261636c6520726f6c65",
-                        "id": 519,
+                        "id": 461,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1699,21 +1699,21 @@
                           "typeString": "literal_string \"TimerOracleRole: caller does not have the TimerOracle role\""
                         }
                       ],
-                      "id": 514,
+                      "id": 456,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        21069,
-                        21070
+                        20938,
+                        20939
                       ],
-                      "referencedDeclaration": 21070,
+                      "referencedDeclaration": 20939,
                       "src": "433:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 520,
+                    "id": 462,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1727,23 +1727,23 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 521,
+                  "id": 463,
                   "nodeType": "ExpressionStatement",
                   "src": "433:96:3"
                 },
                 {
-                  "id": 522,
+                  "id": 464,
                   "nodeType": "PlaceholderStatement",
                   "src": "539:1:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 524,
+            "id": 466,
             "name": "onlyTimerOracle",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 513,
+              "id": 455,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "420:2:3"
@@ -1753,7 +1753,7 @@
           },
           {
             "body": {
-              "id": 536,
+              "id": 478,
               "nodeType": "Block",
               "src": "620:50:3",
               "statements": [
@@ -1763,11 +1763,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 533,
+                        "id": 475,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 526,
+                        "referencedDeclaration": 468,
                         "src": "655:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1784,32 +1784,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 531,
+                        "id": 473,
                         "name": "_timerOracles",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 503,
+                        "referencedDeclaration": 445,
                         "src": "637:13:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Role_$5773_storage",
+                          "typeIdentifier": "t_struct$_Role_$5642_storage",
                           "typeString": "struct Roles.Role storage ref"
                         }
                       },
-                      "id": 532,
+                      "id": 474,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "has",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5846,
+                      "referencedDeclaration": 5715,
                       "src": "637:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_view$_t_struct$_Role_$5773_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_Role_$5773_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_Role_$5642_storage_ptr_$_t_address_$returns$_t_bool_$bound_to$_t_struct$_Role_$5642_storage_ptr_$",
                         "typeString": "function (struct Roles.Role storage pointer,address) view returns (bool)"
                       }
                     },
-                    "id": 534,
+                    "id": 476,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1823,30 +1823,30 @@
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 530,
-                  "id": 535,
+                  "functionReturnParameters": 472,
+                  "id": 477,
                   "nodeType": "Return",
                   "src": "630:33:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 537,
+            "id": 479,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "isTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 527,
+              "id": 469,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 526,
+                  "id": 468,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 537,
+                  "scope": 479,
                   "src": "576:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1855,7 +1855,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 525,
+                    "id": 467,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "576:7:3",
@@ -1872,15 +1872,15 @@
               "src": "575:17:3"
             },
             "returnParameters": {
-              "id": 530,
+              "id": 472,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 529,
+                  "id": 471,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 537,
+                  "scope": 479,
                   "src": "614:4:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1889,7 +1889,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 528,
+                    "id": 470,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "614:4:3",
@@ -1904,7 +1904,7 @@
               ],
               "src": "613:6:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "553:117:3",
             "stateMutability": "view",
             "superFunction": null,
@@ -1912,7 +1912,7 @@
           },
           {
             "body": {
-              "id": 548,
+              "id": 490,
               "nodeType": "Block",
               "src": "740:41:3",
               "statements": [
@@ -1922,11 +1922,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 545,
+                        "id": 487,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 539,
+                        "referencedDeclaration": 481,
                         "src": "766:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1941,18 +1941,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 544,
+                      "id": 486,
                       "name": "_addTimerOracle",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 574,
+                      "referencedDeclaration": 516,
                       "src": "750:15:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 546,
+                    "id": 488,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1966,27 +1966,27 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 547,
+                  "id": 489,
                   "nodeType": "ExpressionStatement",
                   "src": "750:24:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 549,
+            "id": 491,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
                 "arguments": null,
-                "id": 542,
+                "id": 484,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 541,
+                  "id": 483,
                   "name": "onlyTimerOracle",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 524,
+                  "referencedDeclaration": 466,
                   "src": "724:15:3",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -2000,15 +2000,15 @@
             "name": "addTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 540,
+              "id": 482,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 539,
+                  "id": 481,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 549,
+                  "scope": 491,
                   "src": "700:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2017,7 +2017,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 538,
+                    "id": 480,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "700:7:3",
@@ -2034,12 +2034,12 @@
               "src": "699:17:3"
             },
             "returnParameters": {
-              "id": 543,
+              "id": 485,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "740:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "676:105:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -2047,7 +2047,7 @@
           },
           {
             "body": {
-              "id": 557,
+              "id": 499,
               "nodeType": "Block",
               "src": "825:47:3",
               "statements": [
@@ -2059,18 +2059,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 553,
+                          "id": 495,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 21066,
+                          "referencedDeclaration": 20935,
                           "src": "854:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 554,
+                        "id": 496,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2092,18 +2092,18 @@
                           "typeString": "address payable"
                         }
                       ],
-                      "id": 552,
+                      "id": 494,
                       "name": "_removeTimerOracle",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 590,
+                      "referencedDeclaration": 532,
                       "src": "835:18:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 555,
+                    "id": 497,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2117,32 +2117,32 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 556,
+                  "id": 498,
                   "nodeType": "ExpressionStatement",
                   "src": "835:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 558,
+            "id": 500,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "renounceTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 550,
+              "id": 492,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "815:2:3"
             },
             "returnParameters": {
-              "id": 551,
+              "id": 493,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "825:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "787:85:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -2150,7 +2150,7 @@
           },
           {
             "body": {
-              "id": 573,
+              "id": 515,
               "nodeType": "Block",
               "src": "929:83:3",
               "statements": [
@@ -2160,11 +2160,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 566,
+                        "id": 508,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 560,
+                        "referencedDeclaration": 502,
                         "src": "957:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2181,32 +2181,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 563,
+                        "id": 505,
                         "name": "_timerOracles",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 503,
+                        "referencedDeclaration": 445,
                         "src": "939:13:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Role_$5773_storage",
+                          "typeIdentifier": "t_struct$_Role_$5642_storage",
                           "typeString": "struct Roles.Role storage ref"
                         }
                       },
-                      "id": 565,
+                      "id": 507,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "add",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5798,
+                      "referencedDeclaration": 5667,
                       "src": "939:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5773_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5773_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5642_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5642_storage_ptr_$",
                         "typeString": "function (struct Roles.Role storage pointer,address)"
                       }
                     },
-                    "id": 567,
+                    "id": 509,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2220,7 +2220,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 568,
+                  "id": 510,
                   "nodeType": "ExpressionStatement",
                   "src": "939:26:3"
                 },
@@ -2230,11 +2230,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 570,
+                        "id": 512,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 560,
+                        "referencedDeclaration": 502,
                         "src": "997:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2249,18 +2249,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 569,
+                      "id": 511,
                       "name": "TimerOracleAdded",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 497,
+                      "referencedDeclaration": 439,
                       "src": "980:16:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 571,
+                    "id": 513,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2274,29 +2274,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 572,
+                  "id": 514,
                   "nodeType": "EmitStatement",
                   "src": "975:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 574,
+            "id": 516,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_addTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 561,
+              "id": 503,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 560,
+                  "id": 502,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 574,
+                  "scope": 516,
                   "src": "903:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2305,7 +2305,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 559,
+                    "id": 501,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "903:7:3",
@@ -2322,12 +2322,12 @@
               "src": "902:17:3"
             },
             "returnParameters": {
-              "id": 562,
+              "id": 504,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "929:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "878:134:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -2335,7 +2335,7 @@
           },
           {
             "body": {
-              "id": 589,
+              "id": 531,
               "nodeType": "Block",
               "src": "1072:88:3",
               "statements": [
@@ -2345,11 +2345,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 582,
+                        "id": 524,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 576,
+                        "referencedDeclaration": 518,
                         "src": "1103:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2366,32 +2366,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 579,
+                        "id": 521,
                         "name": "_timerOracles",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 503,
+                        "referencedDeclaration": 445,
                         "src": "1082:13:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Role_$5773_storage",
+                          "typeIdentifier": "t_struct$_Role_$5642_storage",
                           "typeString": "struct Roles.Role storage ref"
                         }
                       },
-                      "id": 581,
+                      "id": 523,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "remove",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5822,
+                      "referencedDeclaration": 5691,
                       "src": "1082:20:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5773_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5773_storage_ptr_$",
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Role_$5642_storage_ptr_$_t_address_$returns$__$bound_to$_t_struct$_Role_$5642_storage_ptr_$",
                         "typeString": "function (struct Roles.Role storage pointer,address)"
                       }
                     },
-                    "id": 583,
+                    "id": 525,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2405,7 +2405,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 584,
+                  "id": 526,
                   "nodeType": "ExpressionStatement",
                   "src": "1082:29:3"
                 },
@@ -2415,11 +2415,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 586,
+                        "id": 528,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 576,
+                        "referencedDeclaration": 518,
                         "src": "1145:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2434,18 +2434,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 585,
+                      "id": 527,
                       "name": "TimerOracleRemoved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 501,
+                      "referencedDeclaration": 443,
                       "src": "1126:18:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 587,
+                    "id": 529,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2459,29 +2459,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 588,
+                  "id": 530,
                   "nodeType": "EmitStatement",
                   "src": "1121:32:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 590,
+            "id": 532,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "_removeTimerOracle",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 577,
+              "id": 519,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 576,
+                  "id": 518,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 590,
+                  "scope": 532,
                   "src": "1046:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2490,7 +2490,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 575,
+                    "id": 517,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1046:7:3",
@@ -2507,19 +2507,19 @@
               "src": "1045:17:3"
             },
             "returnParameters": {
-              "id": 578,
+              "id": 520,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1072:0:3"
             },
-            "scope": 591,
+            "scope": 533,
             "src": "1018:142:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 592,
+        "scope": 534,
         "src": "110:1052:3"
       }
     ],
@@ -2531,7 +2531,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T07:31:27.746Z",
+  "updatedAt": "2019-10-16T00:39:23.773Z",
   "devdoc": {
     "methods": {},
     "title": "Roles consumed by Timer Oracle."

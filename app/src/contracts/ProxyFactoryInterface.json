@@ -59,14 +59,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/ProxyFactoryInterface.sol",
     "exportedSymbols": {
       "ProxyFactoryInterface": [
-        18806
+        18675
       ]
     },
-    "id": 18807,
+    "id": 18676,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 18787,
+        "id": 18656,
         "literals": [
           "solidity",
           "^",
@@ -74,7 +74,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:42"
+        "src": "0:23:44"
       },
       {
         "baseContracts": [],
@@ -82,9 +82,9 @@
         "contractKind": "interface",
         "documentation": "@title Interface for proxy factory.",
         "fullyImplemented": false,
-        "id": 18806,
+        "id": 18675,
         "linearizedBaseContracts": [
-          18806
+          18675
         ],
         "name": "ProxyFactoryInterface",
         "nodeType": "ContractDefinition",
@@ -92,23 +92,23 @@
           {
             "body": null,
             "documentation": "@dev Create a new Admin Upgradeability Proxy.\n@param proxyAdminAddress The address of the proxy admin.\n@param implementationAddress The address of the implementation.",
-            "id": 18796,
+            "id": 18665,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createAdminUpgradeabilityProxy",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 18792,
+              "id": 18661,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18789,
+                  "id": 18658,
                   "name": "proxyAdminAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18796,
-                  "src": "355:25:42",
+                  "scope": 18665,
+                  "src": "355:25:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -116,10 +116,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18788,
+                    "id": 18657,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "355:7:42",
+                    "src": "355:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -131,11 +131,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 18791,
+                  "id": 18660,
                   "name": "implementationAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18796,
-                  "src": "382:29:42",
+                  "scope": 18665,
+                  "src": "382:29:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -143,10 +143,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18790,
+                    "id": 18659,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "382:7:42",
+                    "src": "382:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -157,19 +157,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "354:58:42"
+              "src": "354:58:44"
             },
             "returnParameters": {
-              "id": 18795,
+              "id": 18664,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18794,
+                  "id": 18663,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18796,
-                  "src": "439:7:42",
+                  "scope": 18665,
+                  "src": "439:7:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -177,10 +177,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18793,
+                    "id": 18662,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "439:7:42",
+                    "src": "439:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -191,10 +191,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "438:9:42"
+              "src": "438:9:44"
             },
-            "scope": 18806,
-            "src": "315:133:42",
+            "scope": 18675,
+            "src": "315:133:44",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -202,23 +202,23 @@
           {
             "body": null,
             "documentation": "@dev Create a new Admin Upgradeability Proxy.\n@param proxyAdminAddress The address of the proxy admin.\n@param implementationAddress The address of the implementation.",
-            "id": 18805,
+            "id": 18674,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createAdminOnlyUpgradeabilityProxy",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 18801,
+              "id": 18670,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18798,
+                  "id": 18667,
                   "name": "proxyAdminAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18805,
-                  "src": "702:25:42",
+                  "scope": 18674,
+                  "src": "702:25:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -226,10 +226,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18797,
+                    "id": 18666,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "702:7:42",
+                    "src": "702:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -241,11 +241,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 18800,
+                  "id": 18669,
                   "name": "implementationAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18805,
-                  "src": "729:29:42",
+                  "scope": 18674,
+                  "src": "729:29:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -253,10 +253,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18799,
+                    "id": 18668,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "729:7:42",
+                    "src": "729:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -267,19 +267,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "701:58:42"
+              "src": "701:58:44"
             },
             "returnParameters": {
-              "id": 18804,
+              "id": 18673,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18803,
+                  "id": 18672,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18805,
-                  "src": "786:7:42",
+                  "scope": 18674,
+                  "src": "786:7:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -287,10 +287,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18802,
+                    "id": 18671,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "786:7:42",
+                    "src": "786:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -301,33 +301,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "785:9:42"
+              "src": "785:9:44"
             },
-            "scope": 18806,
-            "src": "658:137:42",
+            "scope": 18675,
+            "src": "658:137:44",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 18807,
-        "src": "72:725:42"
+        "scope": 18676,
+        "src": "72:725:44"
       }
     ],
-    "src": "0:797:42"
+    "src": "0:797:44"
   },
   "legacyAST": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/proxy/ProxyFactoryInterface.sol",
     "exportedSymbols": {
       "ProxyFactoryInterface": [
-        18806
+        18675
       ]
     },
-    "id": 18807,
+    "id": 18676,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 18787,
+        "id": 18656,
         "literals": [
           "solidity",
           "^",
@@ -335,7 +335,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:42"
+        "src": "0:23:44"
       },
       {
         "baseContracts": [],
@@ -343,9 +343,9 @@
         "contractKind": "interface",
         "documentation": "@title Interface for proxy factory.",
         "fullyImplemented": false,
-        "id": 18806,
+        "id": 18675,
         "linearizedBaseContracts": [
-          18806
+          18675
         ],
         "name": "ProxyFactoryInterface",
         "nodeType": "ContractDefinition",
@@ -353,23 +353,23 @@
           {
             "body": null,
             "documentation": "@dev Create a new Admin Upgradeability Proxy.\n@param proxyAdminAddress The address of the proxy admin.\n@param implementationAddress The address of the implementation.",
-            "id": 18796,
+            "id": 18665,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createAdminUpgradeabilityProxy",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 18792,
+              "id": 18661,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18789,
+                  "id": 18658,
                   "name": "proxyAdminAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18796,
-                  "src": "355:25:42",
+                  "scope": 18665,
+                  "src": "355:25:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -377,10 +377,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18788,
+                    "id": 18657,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "355:7:42",
+                    "src": "355:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -392,11 +392,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 18791,
+                  "id": 18660,
                   "name": "implementationAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18796,
-                  "src": "382:29:42",
+                  "scope": 18665,
+                  "src": "382:29:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -404,10 +404,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18790,
+                    "id": 18659,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "382:7:42",
+                    "src": "382:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -418,19 +418,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "354:58:42"
+              "src": "354:58:44"
             },
             "returnParameters": {
-              "id": 18795,
+              "id": 18664,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18794,
+                  "id": 18663,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18796,
-                  "src": "439:7:42",
+                  "scope": 18665,
+                  "src": "439:7:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -438,10 +438,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18793,
+                    "id": 18662,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "439:7:42",
+                    "src": "439:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -452,10 +452,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "438:9:42"
+              "src": "438:9:44"
             },
-            "scope": 18806,
-            "src": "315:133:42",
+            "scope": 18675,
+            "src": "315:133:44",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -463,23 +463,23 @@
           {
             "body": null,
             "documentation": "@dev Create a new Admin Upgradeability Proxy.\n@param proxyAdminAddress The address of the proxy admin.\n@param implementationAddress The address of the implementation.",
-            "id": 18805,
+            "id": 18674,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createAdminOnlyUpgradeabilityProxy",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 18801,
+              "id": 18670,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18798,
+                  "id": 18667,
                   "name": "proxyAdminAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18805,
-                  "src": "702:25:42",
+                  "scope": 18674,
+                  "src": "702:25:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -487,10 +487,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18797,
+                    "id": 18666,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "702:7:42",
+                    "src": "702:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -502,11 +502,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 18800,
+                  "id": 18669,
                   "name": "implementationAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18805,
-                  "src": "729:29:42",
+                  "scope": 18674,
+                  "src": "729:29:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -514,10 +514,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18799,
+                    "id": 18668,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "729:7:42",
+                    "src": "729:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -528,19 +528,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "701:58:42"
+              "src": "701:58:44"
             },
             "returnParameters": {
-              "id": 18804,
+              "id": 18673,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 18803,
+                  "id": 18672,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18805,
-                  "src": "786:7:42",
+                  "scope": 18674,
+                  "src": "786:7:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -548,10 +548,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 18802,
+                    "id": 18671,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "786:7:42",
+                    "src": "786:7:44",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -562,20 +562,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "785:9:42"
+              "src": "785:9:44"
             },
-            "scope": 18806,
-            "src": "658:137:42",
+            "scope": 18675,
+            "src": "658:137:44",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 18807,
-        "src": "72:725:42"
+        "scope": 18676,
+        "src": "72:725:44"
       }
     ],
-    "src": "0:797:42"
+    "src": "0:797:44"
   },
   "compiler": {
     "name": "solc",
@@ -583,7 +583,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T07:31:27.980Z",
+  "updatedAt": "2019-10-16T00:39:24.173Z",
   "devdoc": {
     "methods": {
       "createAdminOnlyUpgradeabilityProxy(address,address)": {

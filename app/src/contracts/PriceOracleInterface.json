@@ -40,14 +40,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/priceoracle/PriceOracleInterface.sol",
     "exportedSymbols": {
       "PriceOracleInterface": [
-        6152
+        6021
       ]
     },
-    "id": 6153,
+    "id": 6022,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6140,
+        "id": 6009,
         "literals": [
           "solidity",
           "^",
@@ -55,7 +55,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:31"
+        "src": "0:23:33"
       },
       {
         "baseContracts": [],
@@ -63,9 +63,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 6152,
+        "id": 6021,
         "linearizedBaseContracts": [
-          6152
+          6021
         ],
         "name": "PriceOracleInterface",
         "nodeType": "ContractDefinition",
@@ -73,23 +73,23 @@
           {
             "body": null,
             "documentation": "@dev Get the exchange rate between two tokens.\n@param baseTokenAddress The address of base ERC20 token. ETH has a special address defined in Constants.getEthAddress()\n@param quoteTokenAddress The address of quote ERC20 token. ETH has a special address defined in Constants.getEthAddress()\n@return The rate expressed as numerator/denominator.",
-            "id": 6151,
+            "id": 6020,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getRate",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6145,
+              "id": 6014,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6142,
+                  "id": 6011,
                   "name": "baseTokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "466:24:31",
+                  "scope": 6020,
+                  "src": "466:24:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -97,10 +97,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6141,
+                    "id": 6010,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "466:7:31",
+                    "src": "466:7:33",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -112,11 +112,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 6144,
+                  "id": 6013,
                   "name": "quoteTokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "492:25:31",
+                  "scope": 6020,
+                  "src": "492:25:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -124,10 +124,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6143,
+                    "id": 6012,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "492:7:31",
+                    "src": "492:7:33",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -138,19 +138,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "465:53:31"
+              "src": "465:53:33"
             },
             "returnParameters": {
-              "id": 6150,
+              "id": 6019,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6147,
+                  "id": 6016,
                   "name": "numerator",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "550:17:31",
+                  "scope": 6020,
+                  "src": "550:17:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -158,10 +158,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6146,
+                    "id": 6015,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "550:7:31",
+                    "src": "550:7:33",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -172,11 +172,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 6149,
+                  "id": 6018,
                   "name": "denominator",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "569:19:31",
+                  "scope": 6020,
+                  "src": "569:19:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -184,10 +184,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6148,
+                    "id": 6017,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "569:7:31",
+                    "src": "569:7:33",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -197,33 +197,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "549:40:31"
+              "src": "549:40:33"
             },
-            "scope": 6152,
-            "src": "449:141:31",
+            "scope": 6021,
+            "src": "449:141:33",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 6153,
-        "src": "25:567:31"
+        "scope": 6022,
+        "src": "25:567:33"
       }
     ],
-    "src": "0:592:31"
+    "src": "0:592:33"
   },
   "legacyAST": {
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/priceoracle/PriceOracleInterface.sol",
     "exportedSymbols": {
       "PriceOracleInterface": [
-        6152
+        6021
       ]
     },
-    "id": 6153,
+    "id": 6022,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6140,
+        "id": 6009,
         "literals": [
           "solidity",
           "^",
@@ -231,7 +231,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:31"
+        "src": "0:23:33"
       },
       {
         "baseContracts": [],
@@ -239,9 +239,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 6152,
+        "id": 6021,
         "linearizedBaseContracts": [
-          6152
+          6021
         ],
         "name": "PriceOracleInterface",
         "nodeType": "ContractDefinition",
@@ -249,23 +249,23 @@
           {
             "body": null,
             "documentation": "@dev Get the exchange rate between two tokens.\n@param baseTokenAddress The address of base ERC20 token. ETH has a special address defined in Constants.getEthAddress()\n@param quoteTokenAddress The address of quote ERC20 token. ETH has a special address defined in Constants.getEthAddress()\n@return The rate expressed as numerator/denominator.",
-            "id": 6151,
+            "id": 6020,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getRate",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6145,
+              "id": 6014,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6142,
+                  "id": 6011,
                   "name": "baseTokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "466:24:31",
+                  "scope": 6020,
+                  "src": "466:24:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -273,10 +273,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6141,
+                    "id": 6010,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "466:7:31",
+                    "src": "466:7:33",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -288,11 +288,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 6144,
+                  "id": 6013,
                   "name": "quoteTokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "492:25:31",
+                  "scope": 6020,
+                  "src": "492:25:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -300,10 +300,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6143,
+                    "id": 6012,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "492:7:31",
+                    "src": "492:7:33",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -314,19 +314,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "465:53:31"
+              "src": "465:53:33"
             },
             "returnParameters": {
-              "id": 6150,
+              "id": 6019,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6147,
+                  "id": 6016,
                   "name": "numerator",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "550:17:31",
+                  "scope": 6020,
+                  "src": "550:17:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -334,10 +334,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6146,
+                    "id": 6015,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "550:7:31",
+                    "src": "550:7:33",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -348,11 +348,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 6149,
+                  "id": 6018,
                   "name": "denominator",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6151,
-                  "src": "569:19:31",
+                  "scope": 6020,
+                  "src": "569:19:33",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -360,10 +360,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6148,
+                    "id": 6017,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "569:7:31",
+                    "src": "569:7:33",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -373,20 +373,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "549:40:31"
+              "src": "549:40:33"
             },
-            "scope": 6152,
-            "src": "449:141:31",
+            "scope": 6021,
+            "src": "449:141:33",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 6153,
-        "src": "25:567:31"
+        "scope": 6022,
+        "src": "25:567:33"
       }
     ],
-    "src": "0:592:31"
+    "src": "0:592:33"
   },
   "compiler": {
     "name": "solc",
@@ -394,7 +394,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-10T07:31:27.818Z",
+  "updatedAt": "2019-10-16T00:39:23.928Z",
   "devdoc": {
     "methods": {
       "getRate(address,address)": {

@@ -209,14 +209,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
     "exportedSymbols": {
       "InstrumentEscrowInterface": [
-        1611
+        1557
       ]
     },
-    "id": 1612,
+    "id": 1558,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1584,
+        "id": 1530,
         "literals": [
           "solidity",
           "^",
@@ -229,10 +229,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol",
         "file": "../lib/token/IERC20.sol",
-        "id": 1585,
+        "id": 1531,
         "nodeType": "ImportDirective",
-        "scope": 1612,
-        "sourceUnit": 19299,
+        "scope": 1558,
+        "sourceUnit": 19255,
         "src": "25:33:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -240,10 +240,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "./EscrowBaseInterface.sol",
-        "id": 1586,
+        "id": 1532,
         "nodeType": "ImportDirective",
-        "scope": 1612,
-        "sourceUnit": 1294,
+        "scope": 1558,
+        "sourceUnit": 1240,
         "src": "59:35:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -254,31 +254,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1587,
+              "id": 1533,
               "name": "EscrowBaseInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1293,
+              "referencedDeclaration": 1239,
               "src": "362:19:11",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1293",
+                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1239",
                 "typeString": "contract EscrowBaseInterface"
               }
             },
-            "id": 1588,
+            "id": 1534,
             "nodeType": "InheritanceSpecifier",
             "src": "362:19:11"
           }
         ],
         "contractDependencies": [
-          1293
+          1239
         ],
         "contractKind": "contract",
         "documentation": "@title Interface for instrument escrow. This is the interface with\nwhich external users interact with Instrument Escrow.\nAbstract contract is used instead of interface as interface does not support inheritance.",
         "fullyImplemented": false,
-        "id": 1611,
+        "id": 1557,
         "linearizedBaseContracts": [
-          1611,
-          1293
+          1557,
+          1239
         ],
         "name": "InstrumentEscrowInterface",
         "nodeType": "ContractDefinition",
@@ -286,25 +286,25 @@
           {
             "body": null,
             "documentation": "@dev Deposits ETHs into the instrument escrow",
-            "id": 1591,
+            "id": 1537,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1589,
+              "id": 1535,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "623:2:11"
             },
             "returnParameters": {
-              "id": 1590,
+              "id": 1536,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "640:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "607:34:11",
             "stateMutability": "payable",
             "superFunction": null,
@@ -313,22 +313,22 @@
           {
             "body": null,
             "documentation": "@dev Withdraw Ethers from the instrument escrow\n@param amount The amount of Ethers to withdraw",
-            "id": 1596,
+            "id": 1542,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1594,
+              "id": 1540,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1593,
+                  "id": 1539,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1596,
+                  "scope": 1542,
                   "src": "790:14:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -337,7 +337,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1592,
+                    "id": 1538,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "790:7:11",
@@ -353,12 +353,12 @@
               "src": "789:16:11"
             },
             "returnParameters": {
-              "id": 1595,
+              "id": 1541,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "812:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "772:41:11",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -367,38 +367,38 @@
           {
             "body": null,
             "documentation": "@dev Deposit IERC20 token to the instrument escrow.\n@param token The IERC20 token to deposit.\n@param amount The amount to deposit.",
-            "id": 1603,
+            "id": 1549,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "depositToken",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1601,
+              "id": 1547,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1598,
+                  "id": 1544,
                   "name": "token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1603,
+                  "scope": 1549,
                   "src": "1166:12:11",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$19298",
+                    "typeIdentifier": "t_contract$_IERC20_$19254",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1597,
+                    "id": 1543,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 19298,
+                    "referencedDeclaration": 19254,
                     "src": "1166:6:11",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$19298",
+                      "typeIdentifier": "t_contract$_IERC20_$19254",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -407,10 +407,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1600,
+                  "id": 1546,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1603,
+                  "scope": 1549,
                   "src": "1180:14:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -419,7 +419,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1599,
+                    "id": 1545,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1180:7:11",
@@ -435,12 +435,12 @@
               "src": "1165:30:11"
             },
             "returnParameters": {
-              "id": 1602,
+              "id": 1548,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1202:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "1144:59:11",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -449,38 +449,38 @@
           {
             "body": null,
             "documentation": "@dev Withdraw IERC20 token from the instrument escrow.\n@param token The IERC20 token to withdraw.\n@param amount The amount to withdraw.",
-            "id": 1610,
+            "id": 1556,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdrawToken",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1608,
+              "id": 1554,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1605,
+                  "id": 1551,
                   "name": "token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1610,
+                  "scope": 1556,
                   "src": "1405:12:11",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$19298",
+                    "typeIdentifier": "t_contract$_IERC20_$19254",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1604,
+                    "id": 1550,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 19298,
+                    "referencedDeclaration": 19254,
                     "src": "1405:6:11",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$19298",
+                      "typeIdentifier": "t_contract$_IERC20_$19254",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -489,10 +489,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1607,
+                  "id": 1553,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1610,
+                  "scope": 1556,
                   "src": "1419:14:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -501,7 +501,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1606,
+                    "id": 1552,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1419:7:11",
@@ -517,19 +517,19 @@
               "src": "1404:30:11"
             },
             "returnParameters": {
-              "id": 1609,
+              "id": 1555,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1441:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "1382:60:11",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1612,
+        "scope": 1558,
         "src": "324:1121:11"
       }
     ],
@@ -539,14 +539,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
     "exportedSymbols": {
       "InstrumentEscrowInterface": [
-        1611
+        1557
       ]
     },
-    "id": 1612,
+    "id": 1558,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1584,
+        "id": 1530,
         "literals": [
           "solidity",
           "^",
@@ -559,10 +559,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/lib/token/IERC20.sol",
         "file": "../lib/token/IERC20.sol",
-        "id": 1585,
+        "id": 1531,
         "nodeType": "ImportDirective",
-        "scope": 1612,
-        "sourceUnit": 19299,
+        "scope": 1558,
+        "sourceUnit": 19255,
         "src": "25:33:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -570,10 +570,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "./EscrowBaseInterface.sol",
-        "id": 1586,
+        "id": 1532,
         "nodeType": "ImportDirective",
-        "scope": 1612,
-        "sourceUnit": 1294,
+        "scope": 1558,
+        "sourceUnit": 1240,
         "src": "59:35:11",
         "symbolAliases": [],
         "unitAlias": ""
@@ -584,31 +584,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1587,
+              "id": 1533,
               "name": "EscrowBaseInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1293,
+              "referencedDeclaration": 1239,
               "src": "362:19:11",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1293",
+                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1239",
                 "typeString": "contract EscrowBaseInterface"
               }
             },
-            "id": 1588,
+            "id": 1534,
             "nodeType": "InheritanceSpecifier",
             "src": "362:19:11"
           }
         ],
         "contractDependencies": [
-          1293
+          1239
         ],
         "contractKind": "contract",
         "documentation": "@title Interface for instrument escrow. This is the interface with\nwhich external users interact with Instrument Escrow.\nAbstract contract is used instead of interface as interface does not support inheritance.",
         "fullyImplemented": false,
-        "id": 1611,
+        "id": 1557,
         "linearizedBaseContracts": [
-          1611,
-          1293
+          1557,
+          1239
         ],
         "name": "InstrumentEscrowInterface",
         "nodeType": "ContractDefinition",
@@ -616,25 +616,25 @@
           {
             "body": null,
             "documentation": "@dev Deposits ETHs into the instrument escrow",
-            "id": 1591,
+            "id": 1537,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1589,
+              "id": 1535,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "623:2:11"
             },
             "returnParameters": {
-              "id": 1590,
+              "id": 1536,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "640:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "607:34:11",
             "stateMutability": "payable",
             "superFunction": null,
@@ -643,22 +643,22 @@
           {
             "body": null,
             "documentation": "@dev Withdraw Ethers from the instrument escrow\n@param amount The amount of Ethers to withdraw",
-            "id": 1596,
+            "id": 1542,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1594,
+              "id": 1540,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1593,
+                  "id": 1539,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1596,
+                  "scope": 1542,
                   "src": "790:14:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -667,7 +667,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1592,
+                    "id": 1538,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "790:7:11",
@@ -683,12 +683,12 @@
               "src": "789:16:11"
             },
             "returnParameters": {
-              "id": 1595,
+              "id": 1541,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "812:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "772:41:11",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -697,38 +697,38 @@
           {
             "body": null,
             "documentation": "@dev Deposit IERC20 token to the instrument escrow.\n@param token The IERC20 token to deposit.\n@param amount The amount to deposit.",
-            "id": 1603,
+            "id": 1549,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "depositToken",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1601,
+              "id": 1547,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1598,
+                  "id": 1544,
                   "name": "token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1603,
+                  "scope": 1549,
                   "src": "1166:12:11",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$19298",
+                    "typeIdentifier": "t_contract$_IERC20_$19254",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1597,
+                    "id": 1543,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 19298,
+                    "referencedDeclaration": 19254,
                     "src": "1166:6:11",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$19298",
+                      "typeIdentifier": "t_contract$_IERC20_$19254",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -737,10 +737,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1600,
+                  "id": 1546,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1603,
+                  "scope": 1549,
                   "src": "1180:14:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -749,7 +749,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1599,
+                    "id": 1545,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1180:7:11",
@@ -765,12 +765,12 @@
               "src": "1165:30:11"
             },
             "returnParameters": {
-              "id": 1602,
+              "id": 1548,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1202:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "1144:59:11",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -779,38 +779,38 @@
           {
             "body": null,
             "documentation": "@dev Withdraw IERC20 token from the instrument escrow.\n@param token The IERC20 token to withdraw.\n@param amount The amount to withdraw.",
-            "id": 1610,
+            "id": 1556,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdrawToken",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1608,
+              "id": 1554,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1605,
+                  "id": 1551,
                   "name": "token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1610,
+                  "scope": 1556,
                   "src": "1405:12:11",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC20_$19298",
+                    "typeIdentifier": "t_contract$_IERC20_$19254",
                     "typeString": "contract IERC20"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1604,
+                    "id": 1550,
                     "name": "IERC20",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 19298,
+                    "referencedDeclaration": 19254,
                     "src": "1405:6:11",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$19298",
+                      "typeIdentifier": "t_contract$_IERC20_$19254",
                       "typeString": "contract IERC20"
                     }
                   },
@@ -819,10 +819,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1607,
+                  "id": 1553,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1610,
+                  "scope": 1556,
                   "src": "1419:14:11",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -831,7 +831,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1606,
+                    "id": 1552,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1419:7:11",
@@ -847,19 +847,19 @@
               "src": "1404:30:11"
             },
             "returnParameters": {
-              "id": 1609,
+              "id": 1555,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1441:0:11"
             },
-            "scope": 1611,
+            "scope": 1557,
             "src": "1382:60:11",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1612,
+        "scope": 1558,
         "src": "324:1121:11"
       }
     ],
@@ -871,7 +871,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:06:50.368Z",
+  "updatedAt": "2019-10-16T00:39:23.799Z",
   "devdoc": {
     "methods": {
       "deposit()": {

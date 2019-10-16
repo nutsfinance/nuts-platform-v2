@@ -198,14 +198,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
     "exportedSymbols": {
       "IssuanceEscrowInterface": [
-        1736
+        1682
       ]
     },
-    "id": 1737,
+    "id": 1683,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1712,
+        "id": 1658,
         "literals": [
           "solidity",
           "^",
@@ -218,10 +218,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "./EscrowBaseInterface.sol",
-        "id": 1713,
+        "id": 1659,
         "nodeType": "ImportDirective",
-        "scope": 1737,
-        "sourceUnit": 1294,
+        "scope": 1683,
+        "sourceUnit": 1240,
         "src": "25:35:13",
         "symbolAliases": [],
         "unitAlias": ""
@@ -232,31 +232,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1714,
+              "id": 1660,
               "name": "EscrowBaseInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1293,
+              "referencedDeclaration": 1239,
               "src": "203:19:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1293",
+                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1239",
                 "typeString": "contract EscrowBaseInterface"
               }
             },
-            "id": 1715,
+            "id": 1661,
             "nodeType": "InheritanceSpecifier",
             "src": "203:19:13"
           }
         ],
         "contractDependencies": [
-          1293
+          1239
         ],
         "contractKind": "contract",
         "documentation": "@dev Interface for Issuance Escrow.\nDefines additional methods used by Instrument Manager.",
         "fullyImplemented": false,
-        "id": 1736,
+        "id": 1682,
         "linearizedBaseContracts": [
-          1736,
-          1293
+          1682,
+          1239
         ],
         "name": "IssuanceEscrowInterface",
         "nodeType": "ContractDefinition",
@@ -264,22 +264,22 @@
           {
             "body": null,
             "documentation": "@dev Transfers the ownership of ETH in this escrow.\n@param source The account where the tokens are from.\n@param dest The account where the tokens are transferred to.\n@param amount The amount to trasfer.",
-            "id": 1724,
+            "id": 1670,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "transfer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1722,
+              "id": 1668,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1717,
+                  "id": 1663,
                   "name": "source",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1724,
+                  "scope": 1670,
                   "src": "495:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -288,7 +288,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1716,
+                    "id": 1662,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "495:7:13",
@@ -303,10 +303,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1719,
+                  "id": 1665,
                   "name": "dest",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1724,
+                  "scope": 1670,
                   "src": "511:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -315,7 +315,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1718,
+                    "id": 1664,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "511:7:13",
@@ -330,10 +330,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1721,
+                  "id": 1667,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1724,
+                  "scope": 1670,
                   "src": "525:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -342,7 +342,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1720,
+                    "id": 1666,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "525:7:13",
@@ -358,12 +358,12 @@
               "src": "494:46:13"
             },
             "returnParameters": {
-              "id": 1723,
+              "id": 1669,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "547:0:13"
             },
-            "scope": 1736,
+            "scope": 1682,
             "src": "477:71:13",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -372,22 +372,22 @@
           {
             "body": null,
             "documentation": "@dev Transfers the ownership of ERC20 tokens in this escrow.\n@param source The account where the ERC20 tokens are from.\n@param dest The account where the ERC20 tokens are transferred to.\n@param token The ERC20 tokens to transfer.\n@param amount The amount to trasfer.",
-            "id": 1735,
+            "id": 1681,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "transferToken",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1733,
+              "id": 1679,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1726,
+                  "id": 1672,
                   "name": "source",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "895:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -396,7 +396,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1725,
+                    "id": 1671,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "895:7:13",
@@ -411,10 +411,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1728,
+                  "id": 1674,
                   "name": "dest",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "911:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -423,7 +423,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1727,
+                    "id": 1673,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "911:7:13",
@@ -438,10 +438,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1730,
+                  "id": 1676,
                   "name": "token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "925:13:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -450,7 +450,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1729,
+                    "id": 1675,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "925:7:13",
@@ -465,10 +465,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1732,
+                  "id": 1678,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "940:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -477,7 +477,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1731,
+                    "id": 1677,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "940:7:13",
@@ -493,19 +493,19 @@
               "src": "894:61:13"
             },
             "returnParameters": {
-              "id": 1734,
+              "id": 1680,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "962:0:13"
             },
-            "scope": 1736,
+            "scope": 1682,
             "src": "872:91:13",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1737,
+        "scope": 1683,
         "src": "167:798:13"
       }
     ],
@@ -515,14 +515,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
     "exportedSymbols": {
       "IssuanceEscrowInterface": [
-        1736
+        1682
       ]
     },
-    "id": 1737,
+    "id": 1683,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1712,
+        "id": 1658,
         "literals": [
           "solidity",
           "^",
@@ -535,10 +535,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowBaseInterface.sol",
         "file": "./EscrowBaseInterface.sol",
-        "id": 1713,
+        "id": 1659,
         "nodeType": "ImportDirective",
-        "scope": 1737,
-        "sourceUnit": 1294,
+        "scope": 1683,
+        "sourceUnit": 1240,
         "src": "25:35:13",
         "symbolAliases": [],
         "unitAlias": ""
@@ -549,31 +549,31 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1714,
+              "id": 1660,
               "name": "EscrowBaseInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1293,
+              "referencedDeclaration": 1239,
               "src": "203:19:13",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1293",
+                "typeIdentifier": "t_contract$_EscrowBaseInterface_$1239",
                 "typeString": "contract EscrowBaseInterface"
               }
             },
-            "id": 1715,
+            "id": 1661,
             "nodeType": "InheritanceSpecifier",
             "src": "203:19:13"
           }
         ],
         "contractDependencies": [
-          1293
+          1239
         ],
         "contractKind": "contract",
         "documentation": "@dev Interface for Issuance Escrow.\nDefines additional methods used by Instrument Manager.",
         "fullyImplemented": false,
-        "id": 1736,
+        "id": 1682,
         "linearizedBaseContracts": [
-          1736,
-          1293
+          1682,
+          1239
         ],
         "name": "IssuanceEscrowInterface",
         "nodeType": "ContractDefinition",
@@ -581,22 +581,22 @@
           {
             "body": null,
             "documentation": "@dev Transfers the ownership of ETH in this escrow.\n@param source The account where the tokens are from.\n@param dest The account where the tokens are transferred to.\n@param amount The amount to trasfer.",
-            "id": 1724,
+            "id": 1670,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "transfer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1722,
+              "id": 1668,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1717,
+                  "id": 1663,
                   "name": "source",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1724,
+                  "scope": 1670,
                   "src": "495:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -605,7 +605,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1716,
+                    "id": 1662,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "495:7:13",
@@ -620,10 +620,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1719,
+                  "id": 1665,
                   "name": "dest",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1724,
+                  "scope": 1670,
                   "src": "511:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -632,7 +632,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1718,
+                    "id": 1664,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "511:7:13",
@@ -647,10 +647,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1721,
+                  "id": 1667,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1724,
+                  "scope": 1670,
                   "src": "525:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -659,7 +659,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1720,
+                    "id": 1666,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "525:7:13",
@@ -675,12 +675,12 @@
               "src": "494:46:13"
             },
             "returnParameters": {
-              "id": 1723,
+              "id": 1669,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "547:0:13"
             },
-            "scope": 1736,
+            "scope": 1682,
             "src": "477:71:13",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -689,22 +689,22 @@
           {
             "body": null,
             "documentation": "@dev Transfers the ownership of ERC20 tokens in this escrow.\n@param source The account where the ERC20 tokens are from.\n@param dest The account where the ERC20 tokens are transferred to.\n@param token The ERC20 tokens to transfer.\n@param amount The amount to trasfer.",
-            "id": 1735,
+            "id": 1681,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "transferToken",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1733,
+              "id": 1679,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1726,
+                  "id": 1672,
                   "name": "source",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "895:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -713,7 +713,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1725,
+                    "id": 1671,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "895:7:13",
@@ -728,10 +728,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1728,
+                  "id": 1674,
                   "name": "dest",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "911:12:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -740,7 +740,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1727,
+                    "id": 1673,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "911:7:13",
@@ -755,10 +755,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1730,
+                  "id": 1676,
                   "name": "token",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "925:13:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -767,7 +767,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1729,
+                    "id": 1675,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "925:7:13",
@@ -782,10 +782,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1732,
+                  "id": 1678,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1735,
+                  "scope": 1681,
                   "src": "940:14:13",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -794,7 +794,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1731,
+                    "id": 1677,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "940:7:13",
@@ -810,19 +810,19 @@
               "src": "894:61:13"
             },
             "returnParameters": {
-              "id": 1734,
+              "id": 1680,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "962:0:13"
             },
-            "scope": 1736,
+            "scope": 1682,
             "src": "872:91:13",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1737,
+        "scope": 1683,
         "src": "167:798:13"
       }
     ],
@@ -834,7 +834,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:06:50.371Z",
+  "updatedAt": "2019-10-16T00:39:23.813Z",
   "devdoc": {
     "details": "Interface for Issuance Escrow. Defines additional methods used by Instrument Manager.",
     "methods": {

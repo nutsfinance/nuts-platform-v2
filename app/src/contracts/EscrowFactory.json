@@ -55,14 +55,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactory.sol",
     "exportedSymbols": {
       "EscrowFactory": [
-        1367
+        1313
       ]
     },
-    "id": 1368,
+    "id": 1314,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1295,
+        "id": 1241,
         "literals": [
           "solidity",
           "^",
@@ -75,10 +75,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
         "file": "./EscrowFactoryInterface.sol",
-        "id": 1296,
+        "id": 1242,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1389,
+        "scope": 1314,
+        "sourceUnit": 1335,
         "src": "25:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -86,10 +86,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrow.sol",
         "file": "./IssuanceEscrow.sol",
-        "id": 1297,
+        "id": 1243,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1711,
+        "scope": 1314,
+        "sourceUnit": 1657,
         "src": "64:30:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -97,10 +97,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
         "file": "./IssuanceEscrowInterface.sol",
-        "id": 1298,
+        "id": 1244,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1737,
+        "scope": 1314,
+        "sourceUnit": 1683,
         "src": "95:39:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -108,10 +108,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrow.sol",
         "file": "./InstrumentEscrow.sol",
-        "id": 1299,
+        "id": 1245,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1583,
+        "scope": 1314,
+        "sourceUnit": 1529,
         "src": "135:32:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -119,10 +119,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 1300,
+        "id": 1246,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1612,
+        "scope": 1314,
+        "sourceUnit": 1558,
         "src": "168:41:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -130,10 +130,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
         "file": "./DepositEscrowInterface.sol",
-        "id": 1301,
+        "id": 1247,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 704,
+        "scope": 1314,
+        "sourceUnit": 650,
         "src": "210:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -144,70 +144,70 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1302,
+              "id": 1248,
               "name": "EscrowFactoryInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1388,
+              "referencedDeclaration": 1334,
               "src": "355:22:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EscrowFactoryInterface_$1388",
+                "typeIdentifier": "t_contract$_EscrowFactoryInterface_$1334",
                 "typeString": "contract EscrowFactoryInterface"
               }
             },
-            "id": 1303,
+            "id": 1249,
             "nodeType": "InheritanceSpecifier",
             "src": "355:22:8"
           }
         ],
         "contractDependencies": [
-          1388,
-          1582,
-          1710
+          1334,
+          1528,
+          1656
         ],
         "contractKind": "contract",
         "documentation": "@title Escrow Factory. This should be a singleton in NUTS Platform.",
         "fullyImplemented": true,
-        "id": 1367,
+        "id": 1313,
         "linearizedBaseContracts": [
-          1367,
-          1388
+          1313,
+          1334
         ],
         "name": "EscrowFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 1323,
+              "id": 1269,
               "nodeType": "Block",
               "src": "676:156:8",
               "statements": [
                 {
                   "assignments": [
-                    1309
+                    1255
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1309,
+                      "id": 1255,
                       "name": "depositEscrow",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1323,
+                      "scope": 1269,
                       "src": "686:30:8",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                         "typeString": "contract InstrumentEscrow"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1308,
+                        "id": 1254,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "686:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
@@ -215,13 +215,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1313,
+                  "id": 1259,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1311,
+                      "id": 1257,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -229,23 +229,23 @@
                       "nodeType": "NewExpression",
                       "src": "719:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1582_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1528_$",
                         "typeString": "function () returns (contract InstrumentEscrow)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1310,
+                        "id": 1256,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "723:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       }
                     },
-                    "id": 1312,
+                    "id": 1258,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -255,7 +255,7 @@
                     "nodeType": "FunctionCall",
                     "src": "719:22:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
@@ -270,18 +270,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1317,
+                          "id": 1263,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20979,
+                          "referencedDeclaration": 20935,
                           "src": "783:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1318,
+                        "id": 1264,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -305,32 +305,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1314,
+                        "id": 1260,
                         "name": "depositEscrow",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1309,
+                        "referencedDeclaration": 1255,
                         "src": "751:13:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
-                      "id": 1316,
+                      "id": 1262,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5654,
+                      "referencedDeclaration": 5610,
                       "src": "751:31:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address) external"
                       }
                     },
-                    "id": 1319,
+                    "id": 1265,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -344,70 +344,70 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1320,
+                  "id": 1266,
                   "nodeType": "ExpressionStatement",
                   "src": "751:43:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1321,
+                    "id": 1267,
                     "name": "depositEscrow",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1309,
+                    "referencedDeclaration": 1255,
                     "src": "812:13:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
-                  "functionReturnParameters": 1307,
-                  "id": 1322,
+                  "functionReturnParameters": 1253,
+                  "id": 1268,
                   "nodeType": "Return",
                   "src": "805:20:8"
                 }
               ]
             },
             "documentation": "@dev Create new Deposit Escrow instance.\nDeposit Escrow has the same implementation as Instrument Escrow, but uses a\ndifferent contract name to better distinguish their difference.",
-            "id": 1324,
+            "id": 1270,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createDepositEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1304,
+              "id": 1250,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "631:2:8"
             },
             "returnParameters": {
-              "id": 1307,
+              "id": 1253,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1306,
+                  "id": 1252,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1324,
+                  "scope": 1270,
                   "src": "652:22:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                     "typeString": "contract DepositEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1305,
+                    "id": 1251,
                     "name": "DepositEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 703,
+                    "referencedDeclaration": 649,
                     "src": "652:22:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                       "typeString": "contract DepositEscrowInterface"
                     }
                   },
@@ -417,45 +417,45 @@
               ],
               "src": "651:24:8"
             },
-            "scope": 1367,
+            "scope": 1313,
             "src": "603:229:8",
             "stateMutability": "nonpayable",
-            "superFunction": 1377,
+            "superFunction": 1323,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 1344,
+              "id": 1290,
               "nodeType": "Block",
               "src": "982:165:8",
               "statements": [
                 {
                   "assignments": [
-                    1330
+                    1276
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1330,
+                      "id": 1276,
                       "name": "instrumentEscrow",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1344,
+                      "scope": 1290,
                       "src": "992:33:8",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                         "typeString": "contract InstrumentEscrow"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1329,
+                        "id": 1275,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "992:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
@@ -463,13 +463,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1334,
+                  "id": 1280,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1332,
+                      "id": 1278,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -477,23 +477,23 @@
                       "nodeType": "NewExpression",
                       "src": "1028:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1582_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1528_$",
                         "typeString": "function () returns (contract InstrumentEscrow)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1331,
+                        "id": 1277,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "1032:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       }
                     },
-                    "id": 1333,
+                    "id": 1279,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -503,7 +503,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1028:22:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
@@ -518,18 +518,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1338,
+                          "id": 1284,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20979,
+                          "referencedDeclaration": 20935,
                           "src": "1095:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1339,
+                        "id": 1285,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -553,32 +553,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1335,
+                        "id": 1281,
                         "name": "instrumentEscrow",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1330,
+                        "referencedDeclaration": 1276,
                         "src": "1060:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
-                      "id": 1337,
+                      "id": 1283,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5654,
+                      "referencedDeclaration": 5610,
                       "src": "1060:34:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address) external"
                       }
                     },
-                    "id": 1340,
+                    "id": 1286,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -592,70 +592,70 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1341,
+                  "id": 1287,
                   "nodeType": "ExpressionStatement",
                   "src": "1060:46:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1342,
+                    "id": 1288,
                     "name": "instrumentEscrow",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1330,
+                    "referencedDeclaration": 1276,
                     "src": "1124:16:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
-                  "functionReturnParameters": 1328,
-                  "id": 1343,
+                  "functionReturnParameters": 1274,
+                  "id": 1289,
                   "nodeType": "Return",
                   "src": "1117:23:8"
                 }
               ]
             },
             "documentation": "@dev Create new Instrument Escrow instance.",
-            "id": 1345,
+            "id": 1291,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1325,
+              "id": 1271,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "936:2:8"
             },
             "returnParameters": {
-              "id": 1328,
+              "id": 1274,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1327,
+                  "id": 1273,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1345,
+                  "scope": 1291,
                   "src": "955:25:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                     "typeString": "contract InstrumentEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1326,
+                    "id": 1272,
                     "name": "InstrumentEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1611,
+                    "referencedDeclaration": 1557,
                     "src": "955:25:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                       "typeString": "contract InstrumentEscrowInterface"
                     }
                   },
@@ -665,45 +665,45 @@
               ],
               "src": "954:27:8"
             },
-            "scope": 1367,
+            "scope": 1313,
             "src": "905:242:8",
             "stateMutability": "nonpayable",
-            "superFunction": 1382,
+            "superFunction": 1328,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1365,
+              "id": 1311,
               "nodeType": "Block",
               "src": "1291:155:8",
               "statements": [
                 {
                   "assignments": [
-                    1351
+                    1297
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1351,
+                      "id": 1297,
                       "name": "issuanceEscrow",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1365,
+                      "scope": 1311,
                       "src": "1301:29:8",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                        "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                         "typeString": "contract IssuanceEscrow"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1350,
+                        "id": 1296,
                         "name": "IssuanceEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1710,
+                        "referencedDeclaration": 1656,
                         "src": "1301:14:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                           "typeString": "contract IssuanceEscrow"
                         }
                       },
@@ -711,13 +711,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1355,
+                  "id": 1301,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1353,
+                      "id": 1299,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -725,23 +725,23 @@
                       "nodeType": "NewExpression",
                       "src": "1333:18:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_IssuanceEscrow_$1710_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_IssuanceEscrow_$1656_$",
                         "typeString": "function () returns (contract IssuanceEscrow)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1352,
+                        "id": 1298,
                         "name": "IssuanceEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1710,
+                        "referencedDeclaration": 1656,
                         "src": "1337:14:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                           "typeString": "contract IssuanceEscrow"
                         }
                       }
                     },
-                    "id": 1354,
+                    "id": 1300,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -751,7 +751,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1333:20:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                       "typeString": "contract IssuanceEscrow"
                     }
                   },
@@ -766,18 +766,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1359,
+                          "id": 1305,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20979,
+                          "referencedDeclaration": 20935,
                           "src": "1396:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1360,
+                        "id": 1306,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -801,32 +801,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1356,
+                        "id": 1302,
                         "name": "issuanceEscrow",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1351,
+                        "referencedDeclaration": 1297,
                         "src": "1363:14:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                           "typeString": "contract IssuanceEscrow"
                         }
                       },
-                      "id": 1358,
+                      "id": 1304,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5654,
+                      "referencedDeclaration": 5610,
                       "src": "1363:32:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address) external"
                       }
                     },
-                    "id": 1361,
+                    "id": 1307,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -840,70 +840,70 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1362,
+                  "id": 1308,
                   "nodeType": "ExpressionStatement",
                   "src": "1363:44:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1363,
+                    "id": 1309,
                     "name": "issuanceEscrow",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1351,
+                    "referencedDeclaration": 1297,
                     "src": "1425:14:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                       "typeString": "contract IssuanceEscrow"
                     }
                   },
-                  "functionReturnParameters": 1349,
-                  "id": 1364,
+                  "functionReturnParameters": 1295,
+                  "id": 1310,
                   "nodeType": "Return",
                   "src": "1418:21:8"
                 }
               ]
             },
             "documentation": "@dev Creates new Issuance Escrow intance.",
-            "id": 1366,
+            "id": 1312,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createIssuanceEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1346,
+              "id": 1292,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1247:2:8"
             },
             "returnParameters": {
-              "id": 1349,
+              "id": 1295,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1348,
+                  "id": 1294,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1366,
+                  "scope": 1312,
                   "src": "1266:23:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                     "typeString": "contract IssuanceEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1347,
+                    "id": 1293,
                     "name": "IssuanceEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1736,
+                    "referencedDeclaration": 1682,
                     "src": "1266:23:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                       "typeString": "contract IssuanceEscrowInterface"
                     }
                   },
@@ -913,14 +913,14 @@
               ],
               "src": "1265:25:8"
             },
-            "scope": 1367,
+            "scope": 1313,
             "src": "1218:228:8",
             "stateMutability": "nonpayable",
-            "superFunction": 1387,
+            "superFunction": 1333,
             "visibility": "public"
           }
         ],
-        "scope": 1368,
+        "scope": 1314,
         "src": "329:1119:8"
       }
     ],
@@ -930,14 +930,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactory.sol",
     "exportedSymbols": {
       "EscrowFactory": [
-        1367
+        1313
       ]
     },
-    "id": 1368,
+    "id": 1314,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1295,
+        "id": 1241,
         "literals": [
           "solidity",
           "^",
@@ -950,10 +950,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
         "file": "./EscrowFactoryInterface.sol",
-        "id": 1296,
+        "id": 1242,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1389,
+        "scope": 1314,
+        "sourceUnit": 1335,
         "src": "25:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -961,10 +961,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrow.sol",
         "file": "./IssuanceEscrow.sol",
-        "id": 1297,
+        "id": 1243,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1711,
+        "scope": 1314,
+        "sourceUnit": 1657,
         "src": "64:30:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -972,10 +972,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
         "file": "./IssuanceEscrowInterface.sol",
-        "id": 1298,
+        "id": 1244,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1737,
+        "scope": 1314,
+        "sourceUnit": 1683,
         "src": "95:39:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -983,10 +983,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrow.sol",
         "file": "./InstrumentEscrow.sol",
-        "id": 1299,
+        "id": 1245,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1583,
+        "scope": 1314,
+        "sourceUnit": 1529,
         "src": "135:32:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -994,10 +994,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 1300,
+        "id": 1246,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 1612,
+        "scope": 1314,
+        "sourceUnit": 1558,
         "src": "168:41:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1005,10 +1005,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
         "file": "./DepositEscrowInterface.sol",
-        "id": 1301,
+        "id": 1247,
         "nodeType": "ImportDirective",
-        "scope": 1368,
-        "sourceUnit": 704,
+        "scope": 1314,
+        "sourceUnit": 650,
         "src": "210:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1019,70 +1019,70 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 1302,
+              "id": 1248,
               "name": "EscrowFactoryInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1388,
+              "referencedDeclaration": 1334,
               "src": "355:22:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EscrowFactoryInterface_$1388",
+                "typeIdentifier": "t_contract$_EscrowFactoryInterface_$1334",
                 "typeString": "contract EscrowFactoryInterface"
               }
             },
-            "id": 1303,
+            "id": 1249,
             "nodeType": "InheritanceSpecifier",
             "src": "355:22:8"
           }
         ],
         "contractDependencies": [
-          1388,
-          1582,
-          1710
+          1334,
+          1528,
+          1656
         ],
         "contractKind": "contract",
         "documentation": "@title Escrow Factory. This should be a singleton in NUTS Platform.",
         "fullyImplemented": true,
-        "id": 1367,
+        "id": 1313,
         "linearizedBaseContracts": [
-          1367,
-          1388
+          1313,
+          1334
         ],
         "name": "EscrowFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 1323,
+              "id": 1269,
               "nodeType": "Block",
               "src": "676:156:8",
               "statements": [
                 {
                   "assignments": [
-                    1309
+                    1255
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1309,
+                      "id": 1255,
                       "name": "depositEscrow",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1323,
+                      "scope": 1269,
                       "src": "686:30:8",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                         "typeString": "contract InstrumentEscrow"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1308,
+                        "id": 1254,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "686:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
@@ -1090,13 +1090,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1313,
+                  "id": 1259,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1311,
+                      "id": 1257,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1104,23 +1104,23 @@
                       "nodeType": "NewExpression",
                       "src": "719:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1582_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1528_$",
                         "typeString": "function () returns (contract InstrumentEscrow)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1310,
+                        "id": 1256,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "723:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       }
                     },
-                    "id": 1312,
+                    "id": 1258,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1130,7 +1130,7 @@
                     "nodeType": "FunctionCall",
                     "src": "719:22:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
@@ -1145,18 +1145,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1317,
+                          "id": 1263,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20979,
+                          "referencedDeclaration": 20935,
                           "src": "783:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1318,
+                        "id": 1264,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1180,32 +1180,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1314,
+                        "id": 1260,
                         "name": "depositEscrow",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1309,
+                        "referencedDeclaration": 1255,
                         "src": "751:13:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
-                      "id": 1316,
+                      "id": 1262,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5654,
+                      "referencedDeclaration": 5610,
                       "src": "751:31:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address) external"
                       }
                     },
-                    "id": 1319,
+                    "id": 1265,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1219,70 +1219,70 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1320,
+                  "id": 1266,
                   "nodeType": "ExpressionStatement",
                   "src": "751:43:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1321,
+                    "id": 1267,
                     "name": "depositEscrow",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1309,
+                    "referencedDeclaration": 1255,
                     "src": "812:13:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
-                  "functionReturnParameters": 1307,
-                  "id": 1322,
+                  "functionReturnParameters": 1253,
+                  "id": 1268,
                   "nodeType": "Return",
                   "src": "805:20:8"
                 }
               ]
             },
             "documentation": "@dev Create new Deposit Escrow instance.\nDeposit Escrow has the same implementation as Instrument Escrow, but uses a\ndifferent contract name to better distinguish their difference.",
-            "id": 1324,
+            "id": 1270,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createDepositEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1304,
+              "id": 1250,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "631:2:8"
             },
             "returnParameters": {
-              "id": 1307,
+              "id": 1253,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1306,
+                  "id": 1252,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1324,
+                  "scope": 1270,
                   "src": "652:22:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                     "typeString": "contract DepositEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1305,
+                    "id": 1251,
                     "name": "DepositEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 703,
+                    "referencedDeclaration": 649,
                     "src": "652:22:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                       "typeString": "contract DepositEscrowInterface"
                     }
                   },
@@ -1292,45 +1292,45 @@
               ],
               "src": "651:24:8"
             },
-            "scope": 1367,
+            "scope": 1313,
             "src": "603:229:8",
             "stateMutability": "nonpayable",
-            "superFunction": 1377,
+            "superFunction": 1323,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 1344,
+              "id": 1290,
               "nodeType": "Block",
               "src": "982:165:8",
               "statements": [
                 {
                   "assignments": [
-                    1330
+                    1276
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1330,
+                      "id": 1276,
                       "name": "instrumentEscrow",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1344,
+                      "scope": 1290,
                       "src": "992:33:8",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                        "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                         "typeString": "contract InstrumentEscrow"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1329,
+                        "id": 1275,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "992:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
@@ -1338,13 +1338,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1334,
+                  "id": 1280,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1332,
+                      "id": 1278,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1352,23 +1352,23 @@
                       "nodeType": "NewExpression",
                       "src": "1028:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1582_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_InstrumentEscrow_$1528_$",
                         "typeString": "function () returns (contract InstrumentEscrow)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1331,
+                        "id": 1277,
                         "name": "InstrumentEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1582,
+                        "referencedDeclaration": 1528,
                         "src": "1032:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       }
                     },
-                    "id": 1333,
+                    "id": 1279,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1378,7 +1378,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1028:22:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
@@ -1393,18 +1393,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1338,
+                          "id": 1284,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20979,
+                          "referencedDeclaration": 20935,
                           "src": "1095:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1339,
+                        "id": 1285,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1428,32 +1428,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1335,
+                        "id": 1281,
                         "name": "instrumentEscrow",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1330,
+                        "referencedDeclaration": 1276,
                         "src": "1060:16:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                          "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                           "typeString": "contract InstrumentEscrow"
                         }
                       },
-                      "id": 1337,
+                      "id": 1283,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5654,
+                      "referencedDeclaration": 5610,
                       "src": "1060:34:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address) external"
                       }
                     },
-                    "id": 1340,
+                    "id": 1286,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1467,70 +1467,70 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1341,
+                  "id": 1287,
                   "nodeType": "ExpressionStatement",
                   "src": "1060:46:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1342,
+                    "id": 1288,
                     "name": "instrumentEscrow",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1330,
+                    "referencedDeclaration": 1276,
                     "src": "1124:16:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1582",
+                      "typeIdentifier": "t_contract$_InstrumentEscrow_$1528",
                       "typeString": "contract InstrumentEscrow"
                     }
                   },
-                  "functionReturnParameters": 1328,
-                  "id": 1343,
+                  "functionReturnParameters": 1274,
+                  "id": 1289,
                   "nodeType": "Return",
                   "src": "1117:23:8"
                 }
               ]
             },
             "documentation": "@dev Create new Instrument Escrow instance.",
-            "id": 1345,
+            "id": 1291,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1325,
+              "id": 1271,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "936:2:8"
             },
             "returnParameters": {
-              "id": 1328,
+              "id": 1274,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1327,
+                  "id": 1273,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1345,
+                  "scope": 1291,
                   "src": "955:25:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                     "typeString": "contract InstrumentEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1326,
+                    "id": 1272,
                     "name": "InstrumentEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1611,
+                    "referencedDeclaration": 1557,
                     "src": "955:25:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                       "typeString": "contract InstrumentEscrowInterface"
                     }
                   },
@@ -1540,45 +1540,45 @@
               ],
               "src": "954:27:8"
             },
-            "scope": 1367,
+            "scope": 1313,
             "src": "905:242:8",
             "stateMutability": "nonpayable",
-            "superFunction": 1382,
+            "superFunction": 1328,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1365,
+              "id": 1311,
               "nodeType": "Block",
               "src": "1291:155:8",
               "statements": [
                 {
                   "assignments": [
-                    1351
+                    1297
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1351,
+                      "id": 1297,
                       "name": "issuanceEscrow",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1365,
+                      "scope": 1311,
                       "src": "1301:29:8",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                        "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                         "typeString": "contract IssuanceEscrow"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1350,
+                        "id": 1296,
                         "name": "IssuanceEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1710,
+                        "referencedDeclaration": 1656,
                         "src": "1301:14:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                           "typeString": "contract IssuanceEscrow"
                         }
                       },
@@ -1586,13 +1586,13 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1355,
+                  "id": 1301,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1353,
+                      "id": 1299,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1600,23 +1600,23 @@
                       "nodeType": "NewExpression",
                       "src": "1333:18:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_IssuanceEscrow_$1710_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_IssuanceEscrow_$1656_$",
                         "typeString": "function () returns (contract IssuanceEscrow)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1352,
+                        "id": 1298,
                         "name": "IssuanceEscrow",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1710,
+                        "referencedDeclaration": 1656,
                         "src": "1337:14:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                           "typeString": "contract IssuanceEscrow"
                         }
                       }
                     },
-                    "id": 1354,
+                    "id": 1300,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1626,7 +1626,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1333:20:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                       "typeString": "contract IssuanceEscrow"
                     }
                   },
@@ -1641,18 +1641,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1359,
+                          "id": 1305,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 20979,
+                          "referencedDeclaration": 20935,
                           "src": "1396:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1360,
+                        "id": 1306,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1676,32 +1676,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1356,
+                        "id": 1302,
                         "name": "issuanceEscrow",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1351,
+                        "referencedDeclaration": 1297,
                         "src": "1363:14:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                          "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                           "typeString": "contract IssuanceEscrow"
                         }
                       },
-                      "id": 1358,
+                      "id": 1304,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5654,
+                      "referencedDeclaration": 5610,
                       "src": "1363:32:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address) external"
                       }
                     },
-                    "id": 1361,
+                    "id": 1307,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1715,70 +1715,70 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1362,
+                  "id": 1308,
                   "nodeType": "ExpressionStatement",
                   "src": "1363:44:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1363,
+                    "id": 1309,
                     "name": "issuanceEscrow",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1351,
+                    "referencedDeclaration": 1297,
                     "src": "1425:14:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1710",
+                      "typeIdentifier": "t_contract$_IssuanceEscrow_$1656",
                       "typeString": "contract IssuanceEscrow"
                     }
                   },
-                  "functionReturnParameters": 1349,
-                  "id": 1364,
+                  "functionReturnParameters": 1295,
+                  "id": 1310,
                   "nodeType": "Return",
                   "src": "1418:21:8"
                 }
               ]
             },
             "documentation": "@dev Creates new Issuance Escrow intance.",
-            "id": 1366,
+            "id": 1312,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createIssuanceEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1346,
+              "id": 1292,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1247:2:8"
             },
             "returnParameters": {
-              "id": 1349,
+              "id": 1295,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1348,
+                  "id": 1294,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1366,
+                  "scope": 1312,
                   "src": "1266:23:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                     "typeString": "contract IssuanceEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1347,
+                    "id": 1293,
                     "name": "IssuanceEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1736,
+                    "referencedDeclaration": 1682,
                     "src": "1266:23:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                       "typeString": "contract IssuanceEscrowInterface"
                     }
                   },
@@ -1788,14 +1788,14 @@
               ],
               "src": "1265:25:8"
             },
-            "scope": 1367,
+            "scope": 1313,
             "src": "1218:228:8",
             "stateMutability": "nonpayable",
-            "superFunction": 1387,
+            "superFunction": 1333,
             "visibility": "public"
           }
         ],
-        "scope": 1368,
+        "scope": 1314,
         "src": "329:1119:8"
       }
     ],
@@ -1820,7 +1820,7 @@
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:06:50.363Z",
+  "updatedAt": "2019-10-16T00:39:23.792Z",
   "devdoc": {
     "methods": {
       "createDepositEscrow()": {

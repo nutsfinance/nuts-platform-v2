@@ -55,14 +55,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
     "exportedSymbols": {
       "EscrowFactoryInterface": [
-        1388
+        1334
       ]
     },
-    "id": 1389,
+    "id": 1335,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1369,
+        "id": 1315,
         "literals": [
           "solidity",
           "^",
@@ -75,10 +75,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
         "file": "./DepositEscrowInterface.sol",
-        "id": 1370,
+        "id": 1316,
         "nodeType": "ImportDirective",
-        "scope": 1389,
-        "sourceUnit": 704,
+        "scope": 1335,
+        "sourceUnit": 650,
         "src": "25:38:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -86,10 +86,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 1371,
+        "id": 1317,
         "nodeType": "ImportDirective",
-        "scope": 1389,
-        "sourceUnit": 1612,
+        "scope": 1335,
+        "sourceUnit": 1558,
         "src": "64:41:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -97,10 +97,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
         "file": "./IssuanceEscrowInterface.sol",
-        "id": 1372,
+        "id": 1318,
         "nodeType": "ImportDirective",
-        "scope": 1389,
-        "sourceUnit": 1737,
+        "scope": 1335,
+        "sourceUnit": 1683,
         "src": "106:39:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -111,9 +111,9 @@
         "contractKind": "interface",
         "documentation": "@title Interface for Escrow Factory.\nThis is used to hide the implementation of Issuance Escrow and Instrument Escrow.",
         "fullyImplemented": false,
-        "id": 1388,
+        "id": 1334,
         "linearizedBaseContracts": [
-          1388
+          1334
         ],
         "name": "EscrowFactoryInterface",
         "nodeType": "ContractDefinition",
@@ -121,44 +121,44 @@
           {
             "body": null,
             "documentation": "@dev Create new Deposit Escrow instance.",
-            "id": 1377,
+            "id": 1323,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createDepositEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1373,
+              "id": 1319,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "412:2:9"
             },
             "returnParameters": {
-              "id": 1376,
+              "id": 1322,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1375,
+                  "id": 1321,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1377,
+                  "scope": 1323,
                   "src": "433:22:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                     "typeString": "contract DepositEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1374,
+                    "id": 1320,
                     "name": "DepositEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 703,
+                    "referencedDeclaration": 649,
                     "src": "433:22:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                       "typeString": "contract DepositEscrowInterface"
                     }
                   },
@@ -168,7 +168,7 @@
               ],
               "src": "432:24:9"
             },
-            "scope": 1388,
+            "scope": 1334,
             "src": "384:73:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -177,44 +177,44 @@
           {
             "body": null,
             "documentation": "@dev Create new Instrument Escrow instance.",
-            "id": 1382,
+            "id": 1328,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1378,
+              "id": 1324,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "561:2:9"
             },
             "returnParameters": {
-              "id": 1381,
+              "id": 1327,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1380,
+                  "id": 1326,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1382,
+                  "scope": 1328,
                   "src": "582:25:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                     "typeString": "contract InstrumentEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1379,
+                    "id": 1325,
                     "name": "InstrumentEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1611,
+                    "referencedDeclaration": 1557,
                     "src": "582:25:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                       "typeString": "contract InstrumentEscrowInterface"
                     }
                   },
@@ -224,7 +224,7 @@
               ],
               "src": "581:27:9"
             },
-            "scope": 1388,
+            "scope": 1334,
             "src": "530:79:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -233,44 +233,44 @@
           {
             "body": null,
             "documentation": "@dev Creates new Issuance Escrow intance.",
-            "id": 1387,
+            "id": 1333,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createIssuanceEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1383,
+              "id": 1329,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "709:2:9"
             },
             "returnParameters": {
-              "id": 1386,
+              "id": 1332,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1385,
+                  "id": 1331,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1387,
+                  "scope": 1333,
                   "src": "730:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                     "typeString": "contract IssuanceEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1384,
+                    "id": 1330,
                     "name": "IssuanceEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1736,
+                    "referencedDeclaration": 1682,
                     "src": "730:23:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                       "typeString": "contract IssuanceEscrowInterface"
                     }
                   },
@@ -280,14 +280,14 @@
               ],
               "src": "729:25:9"
             },
-            "scope": 1388,
+            "scope": 1334,
             "src": "680:75:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1389,
+        "scope": 1335,
         "src": "280:477:9"
       }
     ],
@@ -297,14 +297,14 @@
     "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/EscrowFactoryInterface.sol",
     "exportedSymbols": {
       "EscrowFactoryInterface": [
-        1388
+        1334
       ]
     },
-    "id": 1389,
+    "id": 1335,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1369,
+        "id": 1315,
         "literals": [
           "solidity",
           "^",
@@ -317,10 +317,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/DepositEscrowInterface.sol",
         "file": "./DepositEscrowInterface.sol",
-        "id": 1370,
+        "id": 1316,
         "nodeType": "ImportDirective",
-        "scope": 1389,
-        "sourceUnit": 704,
+        "scope": 1335,
+        "sourceUnit": 650,
         "src": "25:38:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -328,10 +328,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/InstrumentEscrowInterface.sol",
         "file": "./InstrumentEscrowInterface.sol",
-        "id": 1371,
+        "id": 1317,
         "nodeType": "ImportDirective",
-        "scope": 1389,
-        "sourceUnit": 1612,
+        "scope": 1335,
+        "sourceUnit": 1558,
         "src": "64:41:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -339,10 +339,10 @@
       {
         "absolutePath": "/Users/shengdading/git/nuts-platform-v2/contracts/escrow/IssuanceEscrowInterface.sol",
         "file": "./IssuanceEscrowInterface.sol",
-        "id": 1372,
+        "id": 1318,
         "nodeType": "ImportDirective",
-        "scope": 1389,
-        "sourceUnit": 1737,
+        "scope": 1335,
+        "sourceUnit": 1683,
         "src": "106:39:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -353,9 +353,9 @@
         "contractKind": "interface",
         "documentation": "@title Interface for Escrow Factory.\nThis is used to hide the implementation of Issuance Escrow and Instrument Escrow.",
         "fullyImplemented": false,
-        "id": 1388,
+        "id": 1334,
         "linearizedBaseContracts": [
-          1388
+          1334
         ],
         "name": "EscrowFactoryInterface",
         "nodeType": "ContractDefinition",
@@ -363,44 +363,44 @@
           {
             "body": null,
             "documentation": "@dev Create new Deposit Escrow instance.",
-            "id": 1377,
+            "id": 1323,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createDepositEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1373,
+              "id": 1319,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "412:2:9"
             },
             "returnParameters": {
-              "id": 1376,
+              "id": 1322,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1375,
+                  "id": 1321,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1377,
+                  "scope": 1323,
                   "src": "433:22:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                    "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                     "typeString": "contract DepositEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1374,
+                    "id": 1320,
                     "name": "DepositEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 703,
+                    "referencedDeclaration": 649,
                     "src": "433:22:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$703",
+                      "typeIdentifier": "t_contract$_DepositEscrowInterface_$649",
                       "typeString": "contract DepositEscrowInterface"
                     }
                   },
@@ -410,7 +410,7 @@
               ],
               "src": "432:24:9"
             },
-            "scope": 1388,
+            "scope": 1334,
             "src": "384:73:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -419,44 +419,44 @@
           {
             "body": null,
             "documentation": "@dev Create new Instrument Escrow instance.",
-            "id": 1382,
+            "id": 1328,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createInstrumentEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1378,
+              "id": 1324,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "561:2:9"
             },
             "returnParameters": {
-              "id": 1381,
+              "id": 1327,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1380,
+                  "id": 1326,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1382,
+                  "scope": 1328,
                   "src": "582:25:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                    "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                     "typeString": "contract InstrumentEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1379,
+                    "id": 1325,
                     "name": "InstrumentEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1611,
+                    "referencedDeclaration": 1557,
                     "src": "582:25:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1611",
+                      "typeIdentifier": "t_contract$_InstrumentEscrowInterface_$1557",
                       "typeString": "contract InstrumentEscrowInterface"
                     }
                   },
@@ -466,7 +466,7 @@
               ],
               "src": "581:27:9"
             },
-            "scope": 1388,
+            "scope": 1334,
             "src": "530:79:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -475,44 +475,44 @@
           {
             "body": null,
             "documentation": "@dev Creates new Issuance Escrow intance.",
-            "id": 1387,
+            "id": 1333,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "createIssuanceEscrow",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1383,
+              "id": 1329,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "709:2:9"
             },
             "returnParameters": {
-              "id": 1386,
+              "id": 1332,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1385,
+                  "id": 1331,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1387,
+                  "scope": 1333,
                   "src": "730:23:9",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                    "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                     "typeString": "contract IssuanceEscrowInterface"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1384,
+                    "id": 1330,
                     "name": "IssuanceEscrowInterface",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1736,
+                    "referencedDeclaration": 1682,
                     "src": "730:23:9",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1736",
+                      "typeIdentifier": "t_contract$_IssuanceEscrowInterface_$1682",
                       "typeString": "contract IssuanceEscrowInterface"
                     }
                   },
@@ -522,14 +522,14 @@
               ],
               "src": "729:25:9"
             },
-            "scope": 1388,
+            "scope": 1334,
             "src": "680:75:9",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1389,
+        "scope": 1335,
         "src": "280:477:9"
       }
     ],
@@ -541,7 +541,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-10-16T00:06:50.364Z",
+  "updatedAt": "2019-10-16T00:39:23.794Z",
   "devdoc": {
     "methods": {
       "createDepositEscrow()": {
