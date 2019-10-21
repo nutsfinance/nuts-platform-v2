@@ -23,10 +23,10 @@ contract ParametersUtil {
      * @dev Get serialized lending maker parameters defined in protocol buf.
      */
     function getLendingMakerParameters(address collateralTokenAddress, address lendingTokenAddress, uint256 lendingAmount,
-        uint32 collateralRatio, uint32 engagementDueDays, uint32 tenorDays, uint32 interestRate) public pure returns (bytes memory) {
+        uint32 collateralRatio, uint32 tenorDays, uint32 interestRate) public pure returns (bytes memory) {
 
         LendingMakerParameters.Data memory lendingMakerParamaters = LendingMakerParameters.Data(collateralTokenAddress,
-            lendingTokenAddress, lendingAmount, collateralRatio, engagementDueDays, tenorDays, interestRate);
+            lendingTokenAddress, lendingAmount, collateralRatio, tenorDays, interestRate);
         return LendingMakerParameters.encode(lendingMakerParamaters);
     }
 }

@@ -16,6 +16,9 @@ contract InstrumentBase {
         // The issuance fails to meet the requirements make it engageable.
         // Unfunded is a terminating state.
         Unfunded,
+        // The issuance is cancelled by the maker.
+        // Cancelled is a terminating state.
+        Cancelled,
         // The issuance is due with no engagement.
         // CompleteNotEngaged is a terminating state.
         CompleteNotEngaged,

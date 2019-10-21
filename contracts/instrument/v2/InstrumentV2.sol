@@ -15,9 +15,10 @@ contract InstrumentV2 is InstrumentBase {
      * @param makerParametersData The custom parameters to the newly created issuance
      * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
+     * @return transfersData The transfers to perform after the invocation
      */
     function createIssuance(bytes memory issuanceParametersData, bytes memory makerParametersData, StorageInterface issuanceStorage)
-        public returns (IssuanceStates updatedState);
+        public returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
      * @dev A taker engages to the issuance

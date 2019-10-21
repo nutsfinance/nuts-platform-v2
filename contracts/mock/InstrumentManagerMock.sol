@@ -14,7 +14,7 @@ contract InstrumentManagerMock is InstrumentManagerBase {
      * @param makerParametersData The custom parameters to the newly created issuance
      */
     function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
-        returns (InstrumentBase.IssuanceStates updatedState) {
+        returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
     }
 
     /**

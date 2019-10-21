@@ -200,7 +200,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
 
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        _issuanceProperties[issuanceId].state = _processCreateIssuance(issuanceId, issuanceParametersData, makerParameters);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processCreateIssuance(issuanceId,
+            issuanceParametersData, makerParameters);
+        _postProcessing(issuanceId, state, transfersData);
     }
 
     /**
@@ -312,6 +314,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      */
     function _isIssuanceTerminated(InstrumentBase.IssuanceStates state) internal pure returns (bool) {
         return state == InstrumentBase.IssuanceStates.Unfunded ||
+            state == InstrumentBase.IssuanceStates.Cancelled ||
             state == InstrumentBase.IssuanceStates.CompleteNotEngaged ||
             state == InstrumentBase.IssuanceStates.CompleteEngaged ||
             state == InstrumentBase.IssuanceStates.Delinquent;
@@ -429,7 +432,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @dev Instrument type-specific issuance creation processing.
      */
     function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
-        returns (InstrumentBase.IssuanceStates);
+        returns (InstrumentBase.IssuanceStates, bytes memory);
 
     /**
      * @dev Instrument type-specific issuance engage processing.

@@ -14,9 +14,10 @@ contract InstrumentV3 is InstrumentBase {
      * @param issuanceParametersData Issuance Parameters.
      * @param makerParametersData The custom parameters to the newly created issuance
      * @return updatedState The new state of the issuance.
+     * @return transfersData The transfers to perform after the invocation
      */
     function createIssuance(bytes memory issuanceParametersData, bytes memory makerParametersData) public
-        returns (IssuanceStates updatedState);
+        returns (IssuanceStates updatedState, bytes memory transfersData);
 
     /**
      * @dev A taker engages to the issuance

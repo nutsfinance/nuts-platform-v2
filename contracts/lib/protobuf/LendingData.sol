@@ -10,7 +10,6 @@ library LendingMakerParameters {
     address lendingTokenAddress;
     uint256 lendingAmount;
     uint32 collateralRatio;
-    uint32 engagementDueDays;
     uint32 tenorDays;
     uint32 interestRate;
   }
@@ -49,7 +48,7 @@ library LendingMakerParameters {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[8] memory counters;
+    uint[7] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -71,12 +70,9 @@ library LendingMakerParameters {
         pointer += _read_collateralRatio(pointer, bs, r, counters);
       }
       else if(fieldId == 5) {
-        pointer += _read_engagementDueDays(pointer, bs, r, counters);
-      }
-      else if(fieldId == 6) {
         pointer += _read_tenorDays(pointer, bs, r, counters);
       }
-      else if(fieldId == 7) {
+      else if(fieldId == 6) {
         pointer += _read_interestRate(pointer, bs, r, counters);
       }
       else {
@@ -115,7 +111,7 @@ library LendingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralTokenAddress(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
+  function _read_collateralTokenAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -137,7 +133,7 @@ library LendingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_lendingTokenAddress(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
+  function _read_lendingTokenAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -159,7 +155,7 @@ library LendingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_lendingAmount(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
+  function _read_lendingAmount(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -181,7 +177,7 @@ library LendingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralRatio(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
+  function _read_collateralRatio(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -203,7 +199,7 @@ library LendingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementDueDays(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
+  function _read_tenorDays(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -211,7 +207,7 @@ library LendingMakerParameters {
     if(isNil(r)) {
       counters[5] += 1;
     } else {
-      r.engagementDueDays = x;
+      r.tenorDays = x;
       if(counters[5] > 0) counters[5] -= 1;
     }
     return sz;
@@ -225,7 +221,7 @@ library LendingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tenorDays(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
+  function _read_interestRate(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -233,30 +229,8 @@ library LendingMakerParameters {
     if(isNil(r)) {
       counters[6] += 1;
     } else {
-      r.tenorDays = x;
-      if(counters[6] > 0) counters[6] -= 1;
-    }
-    return sz;
-  }
-
-  /**
-   * @dev The decoder for reading a field
-   * @param p The offset of bytes array to start decode
-   * @param bs The bytes array to be decoded
-   * @param r The in-memory struct
-   * @param counters The counters for repeated fields
-   * @return The number of bytes decoded
-   */
-  function _read_interestRate(uint p, bytes memory bs, Data memory r, uint[8] memory counters) internal pure returns (uint) {
-    /**
-     * if `r` is NULL, then only counting the number of fields.
-     */
-    (uint32 x, uint sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
-    if(isNil(r)) {
-      counters[7] += 1;
-    } else {
       r.interestRate = x;
-      if(counters[7] > 0) counters[7] -= 1;
+      if(counters[6] > 0) counters[6] -= 1;
     }
     return sz;
   }
@@ -300,10 +274,8 @@ library LendingMakerParameters {
     pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint32(r.collateralRatio, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_uint32(r.engagementDueDays, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint32(r.tenorDays, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(7, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint32(r.interestRate, pointer, bs);
     return pointer - offset;
   }
@@ -348,7 +320,6 @@ library LendingMakerParameters {
     e += 1 + 7;
     e += 1 + 7;
     e += 1 + 7;
-    e += 1 + 7;
     return e;
   }
 
@@ -363,7 +334,6 @@ library LendingMakerParameters {
     output.lendingTokenAddress = input.lendingTokenAddress;
     output.lendingAmount = input.lendingAmount;
     output.collateralRatio = input.collateralRatio;
-    output.engagementDueDays = input.engagementDueDays;
     output.tenorDays = input.tenorDays;
     output.interestRate = input.interestRate;
 

@@ -11,7 +11,6 @@ message LendingMakerParameters {
   .solidity.address lendingTokenAddress = 2;
   .solidity.uint256 lendingAmount = 3;
   .solidity.uint32 collateralRatio = 4;
-  .solidity.uint32 engagementDueDays = 5;
-  .solidity.uint32 tenorDays = 6;
-  .solidity.uint32 interestRate = 7;
+  .solidity.uint32 tenorDays = 5;
+  .solidity.uint32 interestRate = 6;
 }

@@ -31,14 +31,14 @@ contract InstrumentV3Manager is InstrumentManagerBase {
      * @param issuanceParametersData Issuance Parameters.
      */
     function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParameters) internal
-        returns (InstrumentBase.IssuanceStates updatedState) {
+        returns (InstrumentBase.IssuanceStates updatedState, bytes memory transfersData) {
 
         // Create an AdminOnlyUpgradeabilityProxy for the new issuance
         // Current Instrument Manager is the proxy admin for this proxy, and only the current
         // Instrument Manager can call fallback on the proxy.
         _issuanceProxies[issuanceId] = address(new AdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this)));
 
-        updatedState = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceParametersData, makerParameters);
+        (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).createIssuance(issuanceParametersData, makerParameters);
     }
 
     /**
