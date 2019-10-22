@@ -110,6 +110,13 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     }
 
     /**
+     * @dev Get the current state of the issuance.
+     */
+    function getIssuanceState(uint256 issuanceId) public view returns (InstrumentBase.IssuanceStates) {
+        return _issuanceProperties[issuanceId].state;
+    }
+
+    /**
      * @dev Deactivates the instrument.
      */
     function deactivate() public {

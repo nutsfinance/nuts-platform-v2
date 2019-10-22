@@ -85,8 +85,8 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      */
     function depositByAdmin(address account) public payable onlyOwner {
         uint256 amount = msg.value;
-        require(account != address(0x0), "Account not set.");
-        require(amount > 0, "Amount not set.");
+        require(account != address(0x0), "Account not set");
+        require(amount > 0, "Amount not set");
 
         _addToBalance(account, Constants.getEthAddress(), amount);
     }
@@ -99,9 +99,9 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param amount The amount of ERC20 token to deposit.
      */
     function depositTokenByAdmin(address account, address token, uint256 amount) public onlyOwner {
-        require(account != address(0x0), "Account not set.");
-        require(token != address(0x0), "Token not set.");
-        require(amount > 0, "Amount not set.");
+        require(account != address(0x0), "Account not set");
+        require(token != address(0x0), "Token not set");
+        require(amount > 0, "Amount not set");
 
         _addToBalance(account, token, amount);
 
@@ -114,9 +114,9 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param amount The amount of ETH to withdraw.
      */
     function withdrawByAdmin(address account, uint256 amount) public onlyOwner {
-        require(account != address(0x0), "Account not set.");
-        require(amount > 0, "Amount not set.");
-        require(getBalance(account) >= amount, "Insufficient ETH Balance.");
+        require(account != address(0x0), "Account not set");
+        require(amount > 0, "Amount not set");
+        require(getBalance(account) >= amount, "Insufficient ETH Balance");
 
         _reduceFromBalance(account, Constants.getEthAddress(), amount);
 
@@ -131,10 +131,10 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param amount The amount of ERC20 tokens to withdraw.
      */
     function withdrawTokenByAdmin(address account, address token, uint256 amount) public onlyOwner {
-        require(account != address(0x0), "Account not set.");
-        require(token != address(0x0), "Token not set.");
-        require(amount > 0, "Amount not set.");
-        require(getTokenBalance(account, IERC20(token)) >= amount, "Insufficient Token Balance.");
+        require(account != address(0x0), "Account not set");
+        require(token != address(0x0), "Token not set");
+        require(amount > 0, "Amount not set");
+        require(getTokenBalance(account, IERC20(token)) >= amount, "Insufficient Token Balance");
 
         _reduceFromBalance(account, token, amount);
 

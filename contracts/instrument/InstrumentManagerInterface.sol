@@ -1,5 +1,6 @@
 pragma solidity ^0.5.0;
 
+import "./InstrumentBase.sol";
 import "../escrow/InstrumentEscrowInterface.sol";
 
 /**
@@ -13,6 +14,11 @@ interface InstrumentManagerInterface {
      * @dev Get the address of Instrument Escrow.
      */
     function getInstrumentEscrowAddress() external view returns (address);
+
+    /**
+     * @dev Get the current state of the issuance.
+     */
+    function getIssuanceState(uint256 issuanceId) external view returns (InstrumentBase.IssuanceStates);
 
     /**
      * @dev Deactivates the instrument.
