@@ -28,6 +28,8 @@ contract Lending is InstrumentV3 {
 
     event LendingDelinquent(uint256 indexed issuanceId);
 
+    event LendingCancelled(uint256 indexed issuanceId);
+
     // Constants
     uint256 constant ENGAGEMENT_DUE_DAYS = 30 days;             // Time available for taker to engage
     uint256 constant COLLATERAL_RATIO_DECIMALS = 4;             // 0.01%
@@ -36,6 +38,9 @@ contract Lending is InstrumentV3 {
     // Scheduled event list
     bytes32 constant ENGAGEMENT_DUE_EVENT = "engagement_due";
     bytes32 constant LENDING_DUE_EVENT = "lending_due";
+
+    // Custom event
+    bytes32 constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
     // Lending parameters
     address private _lendingTokenAddress;
@@ -265,6 +270,30 @@ contract Lending is InstrumentV3 {
                 amount: _collateralAmount
             });
             transfersData = Transfers.encode(transfers);
+        } else if (eventName == CANCEL_ISSUANCE_EVENT) {
+            // Cancel Issuance must be processed in Engageable state
+            require(IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable, "Cancel issuance not in engageable state");
+            // Only maker can cancel issuance
+            require(issuanceParameters.callerAddress == issuanceParameters.makerAddress, "Only maker can cancel issuance");
+
+            // Emits Lending Cancelled event
+            emit LendingCancelled(issuanceParameters.issuanceId);
+
+            // Updates to Cancelled state.
+            updatedState = IssuanceStates.Cancelled;
+
+            // Transfers principal token from Issuance Escrow to Instrument Escrow
+            Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
+            transfers.actions[0] = Transfer.Data({
+                outbound: true,
+                inbound: false,
+                fromAddress: issuanceParameters.makerAddress,
+                toAddress: issuanceParameters.makerAddress,
+                tokenAddress: _lendingTokenAddress,
+                amount: _lendingAmount
+            });
+            transfersData = Transfers.encode(transfers);
+
         } else {
             revert("Unknown event");
         }
