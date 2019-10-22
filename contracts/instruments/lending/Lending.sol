@@ -224,52 +224,57 @@ contract Lending is InstrumentV3 {
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
 
         if (eventName == ENGAGEMENT_DUE_EVENT) {
-            // Engagement Due must be processed in Engageable state
-            require(IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable, "Engagement due not in engageable state");
-            // Engagement Due must be processed after engagement due timestamp
-            require(now >= _engagementDueTimestamp, "Engagement not due");
+            // Engagement Due will be processed only when:
+            // 1. Issuance is in Engageable state
+            // 2. Engagement due timestamp is passed
+            if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable && now >= _engagementDueTimestamp) {
+                // Emits Lending Complete Not Engaged event
+                emit LendingCompleteNotEngaged(issuanceParameters.issuanceId);
 
-            // Emits Lending Complete Not Engaged event
-            emit LendingCompleteNotEngaged(issuanceParameters.issuanceId);
+                // Updates to Complete Not Engaged state
+                updatedState = IssuanceStates.CompleteNotEngaged;
 
-            // Updates to Complete Not Engaged state
-            updatedState = IssuanceStates.CompleteNotEngaged;
-
-            // Transfers principal token from Issuance Escrow to Instrument Escrow
-            Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
-            transfers.actions[0] = Transfer.Data({
-                outbound: true,
-                inbound: false,
-                fromAddress: issuanceParameters.makerAddress,
-                toAddress: issuanceParameters.makerAddress,
-                tokenAddress: _lendingTokenAddress,
-                amount: _lendingAmount
-            });
-            transfersData = Transfers.encode(transfers);
-
+                // Transfers principal token from Issuance Escrow to Instrument Escrow
+                Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
+                transfers.actions[0] = Transfer.Data({
+                    outbound: true,
+                    inbound: false,
+                    fromAddress: issuanceParameters.makerAddress,
+                    toAddress: issuanceParameters.makerAddress,
+                    tokenAddress: _lendingTokenAddress,
+                    amount: _lendingAmount
+                });
+                transfersData = Transfers.encode(transfers);
+            } else {
+                // Not processed Engagement Due event
+                updatedState = IssuanceStates(issuanceParameters.state);
+            }
         } else if (eventName == LENDING_DUE_EVENT) {
-            // Lending Due must be processed in Engaged state
-            require(IssuanceStates(issuanceParameters.state) == IssuanceStates.Engaged, "Lending due not in engaged state");
-            // Lending Due must be processed after lending due timestamp
-            require(now >= _lendingDueTimestamp, "Lending not due");
+            // Lending Due will be processed only when:
+            // 1. Issuance is in Engaged state
+            // 2. Lending due timestamp has passed
+            if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engaged && now >= _lendingDueTimestamp) {
+                // Emits Lending Deliquent event
+                emit LendingDelinquent(issuanceParameters.issuanceId);
 
-            // Emits Lending Deliquent event
-            emit LendingDelinquent(issuanceParameters.issuanceId);
+                // Updates to Delinquent state
+                updatedState = IssuanceStates.Delinquent;
 
-            // Updates to Delinquent state
-            updatedState = IssuanceStates.Delinquent;
-
-            // Transfers collateral token from Issuance Escrow to Instrument Escrow.
-            Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
-            transfers.actions[0] = Transfer.Data({
-                outbound: true,
-                inbound: false,
-                fromAddress: issuanceParameters.takerAddress,
-                toAddress: issuanceParameters.makerAddress,
-                tokenAddress: _lendingTokenAddress,
-                amount: _collateralAmount
-            });
-            transfersData = Transfers.encode(transfers);
+                // Transfers collateral token from Issuance Escrow to Instrument Escrow.
+                Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
+                transfers.actions[0] = Transfer.Data({
+                    outbound: true,
+                    inbound: false,
+                    fromAddress: issuanceParameters.takerAddress,
+                    toAddress: issuanceParameters.makerAddress,
+                    tokenAddress: _lendingTokenAddress,
+                    amount: _collateralAmount
+                });
+                transfersData = Transfers.encode(transfers);
+            } else {
+                // Not process Lending Due event
+                updatedState = IssuanceStates(issuanceParameters.state);
+            }
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
             // Cancel Issuance must be processed in Engageable state
             require(IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable, "Cancel issuance not in engageable state");
