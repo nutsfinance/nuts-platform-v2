@@ -79,13 +79,13 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface, DepositEscro
      * @param token The IERC20 token to deposit.
      * @param amount The amount to deposit.
      */
-    function depositToken(IERC20 token, uint256 amount) public {
+    function depositToken(address token, uint256 amount) public {
         address account = msg.sender;
-        _addToBalance(account, address(token), amount);
+        _addToBalance(account, token, amount);
 
-        token.safeTransferFrom(account, address(this), amount);
+        IERC20(token).safeTransferFrom(account, address(this), amount);
 
-        emit TokenDeposited(account, address(token), amount);
+        emit TokenDeposited(account, token, amount);
     }
 
     /**
@@ -93,13 +93,13 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface, DepositEscro
      * @param token The IERC20 token to withdraw.
      * @param amount The amount to withdraw.
      */
-    function withdrawToken(IERC20 token, uint256 amount) public {
+    function withdrawToken(address token, uint256 amount) public {
         address account = msg.sender;
-        require(getTokenBalance(account, address(token)) >= amount, "InstrumentEscrow: Insufficient balance.");
-        _reduceFromBalance(account, address(token), amount);
+        require(getTokenBalance(account, token) >= amount, "InstrumentEscrow: Insufficient balance.");
+        _reduceFromBalance(account, token, amount);
 
-        token.safeTransfer(account, amount);
+        IERC20(token).safeTransfer(account, amount);
 
-        emit TokenWithdrawn(account, address(token), amount);
+        emit TokenWithdrawn(account, token, amount);
     }
 }

@@ -1,6 +1,5 @@
 pragma solidity ^0.5.0;
 
-import "../lib/token/IERC20.sol";
 import "./EscrowBaseInterface.sol";
 
 /**
@@ -34,13 +33,13 @@ contract InstrumentEscrowInterface is EscrowBaseInterface {
      * @param token The IERC20 token to deposit.
      * @param amount The amount to deposit.
      */
-    function depositToken(IERC20 token, uint256 amount) public;
+    function depositToken(address token, uint256 amount) public;
 
     /**
      * @dev Withdraw IERC20 token from the instrument escrow.
      * @param token The IERC20 token to withdraw.
      * @param amount The amount to withdraw.
      */
-    function withdrawToken(IERC20 token, uint256 amount) public;
+    function withdrawToken(address token, uint256 amount) public;
 
 }
