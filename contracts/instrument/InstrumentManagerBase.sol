@@ -352,7 +352,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
             takerAddress: property.takerAddress,
             engagementTimestamp: property.engagementTimestamp,
             state: uint8(property.state),
-            escrowAddress: property.escrowAddress,
+            instrumentEscrowAddress: address(_instrumentEscrow),
+            issuanceEscrowAddress: property.escrowAddress,
             callerAddress: msg.sender,
             priceOracleAddress: _instrumentConfig.priceOracleAddress()
         });

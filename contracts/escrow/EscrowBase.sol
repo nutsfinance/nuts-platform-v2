@@ -62,7 +62,7 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The IERC20 token to check balance.
      * @return The balance of the account.
      */
-    function getTokenBalance(address account, IERC20 token) public view returns (uint256) {
+    function getTokenBalance(address account, address token) public view returns (uint256) {
         return _accountBalances[account].tokenBalances[address(token)];
     }
 
@@ -134,7 +134,7 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
         require(account != address(0x0), "Account not set");
         require(token != address(0x0), "Token not set");
         require(amount > 0, "Amount not set");
-        require(getTokenBalance(account, IERC20(token)) >= amount, "Insufficient Token Balance");
+        require(getTokenBalance(account, token) >= amount, "Insufficient Token Balance");
 
         _reduceFromBalance(account, token, amount);
 

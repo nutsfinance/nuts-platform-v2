@@ -1,7 +1,5 @@
 pragma solidity ^0.5.0;
 
-import "../lib/token/IERC20.sol";
-
 /**
  * @title Base interface for both instrument and issuance escrows.
  * Abstract contract is used instead of interface as interface does not support inheritance.
@@ -21,7 +19,7 @@ contract EscrowBaseInterface {
      * @param token The IERC20 token to check balance.
      * @return The balance of the account.
      */
-    function getTokenBalance(address account, IERC20 token) public view returns (uint256);
+    function getTokenBalance(address account, address token) public view returns (uint256);
 
     /**
      * @dev Get the list of tokens that are deposited in the escrow.

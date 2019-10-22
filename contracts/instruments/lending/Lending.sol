@@ -68,6 +68,11 @@ contract Lending is InstrumentV3 {
         require(makerParameters.tenorDays >= 2 && makerParameters.tenorDays <= 90, "Invalid tenor days");
         require(makerParameters.collateralRatio >= 5000 && makerParameters.collateralRatio <= 20000, "Invalid collateral ratio");
         require(makerParameters.interestRate >= 10 && makerParameters.interestRate <= 50000, "Invalid interest rate");
+
+        // Validate principal token balance
+        uint256 principalTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
+            .getTokenBalance(issuanceParameters.makerAddress, makerParameters.lendingTokenAddress);
+        require(principalTokenBalance >= makerParameters.lendingAmount, "Insufficient principal balance");
  
         // Persists lending parameters
         _lendingTokenAddress = makerParameters.lendingTokenAddress;
@@ -82,7 +87,7 @@ contract Lending is InstrumentV3 {
         emit EventTimeScheduled(issuanceParameters.issuanceId, _engagementDueTimestamp, ENGAGEMENT_DUE_EVENT, "");
 
         // Emits Lending Created event
-        emit LendingCreated(issuanceParameters.issuanceId, issuanceParameters.makerAddress, issuanceParameters.escrowAddress,
+        emit LendingCreated(issuanceParameters.issuanceId, issuanceParameters.makerAddress, issuanceParameters.issuanceEscrowAddress,
             _collateralTokenAddress, _lendingTokenAddress, _lendingAmount, _collateralRatio, _engagementDueTimestamp);
 
         // Updates to Engageable state.
@@ -115,6 +120,11 @@ contract Lending is InstrumentV3 {
         PriceOracleInterface priceOracle = PriceOracleInterface(issuanceParameters.priceOracleAddress);
         (uint256 numerator, uint256 denominator) = priceOracle.getRate(_lendingTokenAddress, _collateralTokenAddress);
         _collateralAmount = numerator.mul(_lendingAmount).mul(_collateralRatio).div(COLLATERAL_RATIO_DECIMALS).div(denominator);
+
+        // Validates collateral balance
+        uint256 collateralBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
+            .getTokenBalance(issuanceParameters.takerAddress, _collateralTokenAddress);
+        require(collateralBalance >= _collateralAmount, "Insufficient collateral balance");
 
         // Emits Scheduled Lending Due event
         _lendingDueTimestamp = now + _tenorDays * 1 days;

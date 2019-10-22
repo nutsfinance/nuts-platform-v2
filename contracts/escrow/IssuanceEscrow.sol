@@ -1,7 +1,6 @@
 pragma solidity ^0.5.0;
 
 import "../lib/util/Constants.sol";
-import "../lib/token/IERC20.sol";
 import "./EscrowBase.sol";
 import "./IssuanceEscrowInterface.sol";
 
@@ -32,7 +31,7 @@ contract IssuanceEscrow is EscrowBase, IssuanceEscrowInterface {
         require(dest != address(0x0), "IssuanceEscrow: Dest must be set.");
         require(token != address(0x0), "IssuanceEscrow: Token must be set.");
         require(amount > 0, "IssuanceEscrow: Amount must be set.");
-        require(getTokenBalance(source, IERC20(token)) >= amount, "IssuanceEscrow: Insufficient balance.");
+        require(getTokenBalance(source, token) >= amount, "IssuanceEscrow: Insufficient balance.");
 
         _migrateBalance(source, dest, token, amount);
     }

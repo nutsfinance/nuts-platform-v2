@@ -318,7 +318,8 @@ library IssuanceParameters {
     address takerAddress;
     uint256 engagementTimestamp;
     uint8 state;
-    address escrowAddress;
+    address instrumentEscrowAddress;
+    address issuanceEscrowAddress;
     address callerAddress;
     address priceOracleAddress;
   }
@@ -357,7 +358,7 @@ library IssuanceParameters {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[12] memory counters;
+    uint[13] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -391,12 +392,15 @@ library IssuanceParameters {
         pointer += _read_state(pointer, bs, r, counters);
       }
       else if(fieldId == 9) {
-        pointer += _read_escrowAddress(pointer, bs, r, counters);
+        pointer += _read_instrumentEscrowAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 10) {
-        pointer += _read_callerAddress(pointer, bs, r, counters);
+        pointer += _read_issuanceEscrowAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 11) {
+        pointer += _read_callerAddress(pointer, bs, r, counters);
+      }
+      else if(fieldId == 12) {
         pointer += _read_priceOracleAddress(pointer, bs, r, counters);
       }
       else {
@@ -435,7 +439,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -457,7 +461,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_fspAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_fspAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -479,7 +483,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_brokerAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_brokerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -501,7 +505,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -523,7 +527,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -545,7 +549,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -567,7 +571,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -589,7 +593,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_state(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_state(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -611,7 +615,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_escrowAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_instrumentEscrowAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -619,7 +623,7 @@ library IssuanceParameters {
     if(isNil(r)) {
       counters[9] += 1;
     } else {
-      r.escrowAddress = x;
+      r.instrumentEscrowAddress = x;
       if(counters[9] > 0) counters[9] -= 1;
     }
     return sz;
@@ -633,7 +637,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_callerAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_issuanceEscrowAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -641,7 +645,7 @@ library IssuanceParameters {
     if(isNil(r)) {
       counters[10] += 1;
     } else {
-      r.callerAddress = x;
+      r.issuanceEscrowAddress = x;
       if(counters[10] > 0) counters[10] -= 1;
     }
     return sz;
@@ -655,7 +659,7 @@ library IssuanceParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_priceOracleAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_callerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -663,8 +667,30 @@ library IssuanceParameters {
     if(isNil(r)) {
       counters[11] += 1;
     } else {
-      r.priceOracleAddress = x;
+      r.callerAddress = x;
       if(counters[11] > 0) counters[11] -= 1;
+    }
+    return sz;
+  }
+
+  /**
+   * @dev The decoder for reading a field
+   * @param p The offset of bytes array to start decode
+   * @param bs The bytes array to be decoded
+   * @param r The in-memory struct
+   * @param counters The counters for repeated fields
+   * @return The number of bytes decoded
+   */
+  function _read_priceOracleAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+    /**
+     * if `r` is NULL, then only counting the number of fields.
+     */
+    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if(isNil(r)) {
+      counters[12] += 1;
+    } else {
+      r.priceOracleAddress = x;
+      if(counters[12] > 0) counters[12] -= 1;
     }
     return sz;
   }
@@ -716,10 +742,12 @@ library IssuanceParameters {
     pointer += ProtoBufRuntime._encode_key(8, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint8(r.state, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(9, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.escrowAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.instrumentEscrowAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.callerAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.issuanceEscrowAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.callerAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(12, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.priceOracleAddress, pointer, bs);
     return pointer - offset;
   }
@@ -769,6 +797,7 @@ library IssuanceParameters {
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 23;
+    e += 1 + 23;
     return e;
   }
 
@@ -787,7 +816,8 @@ library IssuanceParameters {
     output.takerAddress = input.takerAddress;
     output.engagementTimestamp = input.engagementTimestamp;
     output.state = input.state;
-    output.escrowAddress = input.escrowAddress;
+    output.instrumentEscrowAddress = input.instrumentEscrowAddress;
+    output.issuanceEscrowAddress = input.issuanceEscrowAddress;
     output.callerAddress = input.callerAddress;
     output.priceOracleAddress = input.priceOracleAddress;
 

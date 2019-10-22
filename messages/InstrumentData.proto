@@ -25,7 +25,8 @@ message IssuanceParameters {
     .solidity.address takerAddress = 6;                 // Address of the issuance taker.
     .solidity.uint256 engagementTimestamp = 7;          // Timestamp when issuance is engaged.
     .solidity.uint8 state = 8;                          // Current issuance state.
-    .solidity.address escrowAddress = 9;                // Address of the issuance escrow.
-    .solidity.address callerAddress = 10;               // Address of the caller that triggers the issuance operation.
-    .solidity.address priceOracleAddress = 11;          // Address of the price oracle.
+    .solidity.address instrumentEscrowAddress = 9;      // Address of the Instrument Escrow
+    .solidity.address issuanceEscrowAddress = 10;       // Address of the Issuance Escrow
+    .solidity.address callerAddress = 11;               // Address of the caller that triggers the issuance operation.
+    .solidity.address priceOracleAddress = 12;          // Address of the price oracle.
 }

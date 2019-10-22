@@ -95,7 +95,7 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface, DepositEscro
      */
     function withdrawToken(IERC20 token, uint256 amount) public {
         address account = msg.sender;
-        require(getTokenBalance(account, token) >= amount, "InstrumentEscrow: Insufficient balance.");
+        require(getTokenBalance(account, address(token)) >= amount, "InstrumentEscrow: Insufficient balance.");
         _reduceFromBalance(account, address(token), amount);
 
         token.safeTransfer(account, amount);
