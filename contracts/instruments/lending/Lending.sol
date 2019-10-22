@@ -65,7 +65,9 @@ contract Lending is InstrumentV3 {
         require(makerParameters.collateralTokenAddress != address(0x0), "Collateral token not set");
         require(makerParameters.lendingTokenAddress != address(0x0), "Lending token not set");
         require(makerParameters.lendingAmount > 0, "Lending amount not set");
-        require(makerParameters.collateralRatio > 0, "Collateral ratio not set.");
+        require(makerParameters.tenorDays >= 2 && makerParameters.tenorDays <= 90, "Invalid tenor days");
+        require(makerParameters.collateralRatio >= 5000 && makerParameters.collateralRatio <= 20000, "Invalid collateral ratio");
+        require(makerParameters.interestRate >= 10 && makerParameters.interestRate <= 50000, "Invalid interest rate");
  
         // Persists lending parameters
         _lendingTokenAddress = makerParameters.lendingTokenAddress;

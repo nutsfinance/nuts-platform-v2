@@ -5,9 +5,10 @@ const InstrumentManagerInterface = artifacts.require('./instruments/InstrumentMa
 const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
+const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowInterface.sol');
 const StorageFactory = artifacts.require('./storage/StorageFactory.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const LendingV1 = artifacts.require('./instruments/lending/LendingV1.sol');
+const Lending = artifacts.require('./instruments/lending/Lending.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
 const TokenMock = artifacts.require('./mock/TokenMock.sol');
 
@@ -40,7 +41,7 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
 
     // Deploy LendingV1
     console.log('Deploying lending instrument.');
-    let lending = await deployer.deploy(LendingV1, {from: fsp});
+    let lending = await deployer.deploy(Lending, {from: fsp});
     let parametersUtil = await deployer.deploy(ParametersUtil);
     let instrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
     console.log('Instrument parameters: ' + instrumentParameters);
@@ -59,19 +60,19 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
     await priceOracle.setRate(lendingToken.address, collateralToken.address, 1, 100);
     await priceOracle.setRate(collateralToken.address, lendingToken.address, 100, 1);
 
-    // // Create lending issuance.
-    // const lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, 
-    //     lendingToken.address, 10000, 150, 7, 20, 10000);
-    // console.log('Lending maker parameters: ' + lendingMakerParameters);
-    // await instrumentManager.createIssuance(lendingMakerParameters, {from: maker});
+    // Deposit principal tokens
+    const instrumentEscrow = await InstrumentEscrowInterface.at(instrumentEscrowAddress);
+    await lendingToken.transfer(maker, 20000);
+    await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker});
+    await instrumentEscrow.depositToken(lendingToken.address, 15000, {from: maker});
+    const lendingBalance = await instrumentEscrow.getTokenBalance(maker, lendingToken.address);
+    console.log(lendingBalance.toNumber());
 
-    // // Deposit principal tokens
-    // const instrumentEscrow = await InstrumentEscrowInterface.at(instrumentEscrowAddress);
-    // await lendingToken.transfer(maker, 200);
-    // await lendingToken.approve(instrumentEscrowAddress, 200, {from: maker});
-    // await instrumentEscrow.depositToken(lendingToken.address, 150, {from: maker});
-    // const lendingBalance = await instrumentEscrow.getTokenBalance(maker, lendingToken.address);
-    // console.log(lendingBalance.toNumber());
+    // Create lending issuance.
+    const lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, 
+        lendingToken.address, 10000, 15000, 20, 10000);
+    console.log('Lending maker parameters: ' + lendingMakerParameters);
+    await instrumentManager.createIssuance(lendingMakerParameters, {from: maker});
 };
 
 module.exports = function(deployer, network, accounts) {
