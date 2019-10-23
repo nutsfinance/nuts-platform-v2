@@ -3,28 +3,27 @@ pragma solidity ^0.5.0;
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/math/SafeMath.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
-import "../../lib/protobuf/LendingData.sol";
+import "../../lib/protobuf/BorrowingData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../../instrument/v3/InstrumentV3.sol";
 
-contract Lending is InstrumentV3 {
+contract Borrowing is InstrumentV3 {
     using SafeMath for uint256;
 
-    event LendingCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
-        address collateralTokenAddress, address lendingTokenAddress, uint256 lendingAmount,
-        uint256 collateralRatio, uint256 engagementDueTimestamp);
+    event BorrowingCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
+        address collateralTokenAddress, address borrowingTokenAddress, uint256 borrowingAmount,
+        uint256 collateralRatio, uint256 collateralTokenAmount, uint256 engagementDueTimestamp);
 
-    event LendingEngaged(uint256 indexed issuanceId, address indexed takerAddress, uint256 lendingDueTimstamp,
-        uint256 collateralTokenAmount);
+    event BorrowingEngaged(uint256 indexed issuanceId, address indexed takerAddress, uint256 borrowingDueTimstamp);
 
-    event LendingRepaid(uint256 indexed issuanceId);
+    event BorrowingRepaid(uint256 indexed issuanceId);
 
-    event LendingCompleteNotEngaged(uint256 indexed issuanceId);
+    event BorrowingCompleteNotEngaged(uint256 indexed issuanceId);
 
-    event LendingDelinquent(uint256 indexed issuanceId);
+    event BorrowingDelinquent(uint256 indexed issuanceId);
 
-    event LendingCancelled(uint256 indexed issuanceId);
+    event BorrowingCancelled(uint256 indexed issuanceId);
 
     // Constants
     uint256 constant ENGAGEMENT_DUE_DAYS = 30 days;                 // Time available for taker to engage
@@ -33,19 +32,18 @@ contract Lending is InstrumentV3 {
 
     // Scheduled custom events
     bytes32 constant ENGAGEMENT_DUE_EVENT = "engagement_due";
-    bytes32 constant LENDING_DUE_EVENT = "lending_due";
+    bytes32 constant BORROWING_DUE_EVENT = "borrowing_due";
 
     // Custom events
     bytes32 constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
     // Lending parameters
-    address private _lendingTokenAddress;
     address private _collateralTokenAddress;
+    address private _borrowingTokenAddress;
+    uint256 private _borrowingAmount;
     uint256 private _tenorDays;
-    uint256 private _lendingAmount;
-    uint256 private _collateralRatio;
     uint256 private _engagementDueTimestamp;
-    uint256 private _lendingDueTimestamp;
+    uint256 private _borrowingDueTimestamp;
     uint256 private _interestAmount;
     uint256 private _collateralAmount;
 
@@ -60,49 +58,55 @@ contract Lending is InstrumentV3 {
         returns (IssuanceStates updatedState, bytes memory transfersData) {
 
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
-        LendingMakerParameters.Data memory makerParameters = LendingMakerParameters.decode(makerParametersData);
+        BorrowingMakerParameters.Data memory makerParameters = BorrowingMakerParameters.decode(makerParametersData);
 
         // Validates parameters.
         require(makerParameters.collateralTokenAddress != address(0x0), "Collateral token not set");
-        require(makerParameters.lendingTokenAddress != address(0x0), "Lending token not set");
-        require(makerParameters.lendingAmount > 0, "Lending amount not set");
+        require(makerParameters.borrowingTokenAddress != address(0x0), "Borrowing token not set");
+        require(makerParameters.borrowingAmount > 0, "Borrowing amount not set");
         require(makerParameters.tenorDays >= 2 && makerParameters.tenorDays <= 90, "Invalid tenor days");
         require(makerParameters.collateralRatio >= 5000 && makerParameters.collateralRatio <= 20000, "Invalid collateral ratio");
         require(makerParameters.interestRate >= 10 && makerParameters.interestRate <= 50000, "Invalid interest rate");
 
-        // Validate principal token balance
-        uint256 principalTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
-            .getTokenBalance(issuanceParameters.makerAddress, makerParameters.lendingTokenAddress);
-        require(principalTokenBalance >= makerParameters.lendingAmount, "Insufficient principal balance");
- 
-        // Persists lending parameters
-        _lendingTokenAddress = makerParameters.lendingTokenAddress;
+        // Calculate the collateral amount. Collateral is calculated at the time of issuance creation.
+        PriceOracleInterface priceOracle = PriceOracleInterface(issuanceParameters.priceOracleAddress);
+        (uint256 numerator, uint256 denominator) = priceOracle.getRate(_borrowingTokenAddress, _collateralTokenAddress);
+        require(numerator > 0 && denominator > 0, "Exchange rate not found");
+        _collateralAmount = denominator.mul(_borrowingAmount).mul(makerParameters.collateralRatio).div(COLLATERAL_RATIO_DECIMALS).div(numerator);
+
+        // Validate collateral token balance
+        uint256 collateralTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
+            .getTokenBalance(issuanceParameters.makerAddress, makerParameters.collateralTokenAddress);
+        require(collateralTokenBalance >= _collateralAmount, "Insufficient collateral balance");
+
+        // Persists borrowing parameters
+        _borrowingTokenAddress = makerParameters.borrowingTokenAddress;
+        _borrowingAmount = makerParameters.borrowingAmount;
         _collateralTokenAddress = makerParameters.collateralTokenAddress;
-        _lendingAmount = makerParameters.lendingAmount;
         _tenorDays = makerParameters.tenorDays;
-        _interestAmount = _lendingAmount.mul(makerParameters.tenorDays).mul(makerParameters.interestRate).div(INTEREST_RATE_DECIMALS);
-        _collateralRatio = makerParameters.collateralRatio;
+        _interestAmount = _borrowingAmount.mul(makerParameters.tenorDays).mul(makerParameters.interestRate).div(INTEREST_RATE_DECIMALS);
 
         // Emits Scheduled Engagement Due event
         _engagementDueTimestamp = now + ENGAGEMENT_DUE_DAYS;
         emit EventTimeScheduled(issuanceParameters.issuanceId, _engagementDueTimestamp, ENGAGEMENT_DUE_EVENT, "");
 
-        // Emits Lending Created event
-        emit LendingCreated(issuanceParameters.issuanceId, issuanceParameters.makerAddress, issuanceParameters.issuanceEscrowAddress,
-            _collateralTokenAddress, _lendingTokenAddress, _lendingAmount, _collateralRatio, _engagementDueTimestamp);
+        // Emits Borrowing Created event
+        emit BorrowingCreated(issuanceParameters.issuanceId, issuanceParameters.makerAddress, issuanceParameters.issuanceEscrowAddress,
+            _collateralTokenAddress, _borrowingTokenAddress, _borrowingAmount, makerParameters.collateralRatio,
+            _collateralAmount, _engagementDueTimestamp);
 
         // Updates to Engageable state.
         updatedState = IssuanceStates.Engageable;
 
-        // Transfers principal token from maker(Instrument Escrow) to maker(Issuance Escrow).
+        // Transfers collateral token from maker(Instrument Escrow) to maker(Issuance Escrow).
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
         transfers.actions[0] = Transfer.Data({
             outbound: false,
             inbound: true,
             fromAddress: issuanceParameters.makerAddress,
             toAddress: issuanceParameters.makerAddress,
-            tokenAddress: _lendingTokenAddress,
-            amount: _lendingAmount
+            tokenAddress: _collateralTokenAddress,
+            amount: _collateralAmount
         });
         transfersData = Transfers.encode(transfers);
     }
@@ -117,46 +121,39 @@ contract Lending is InstrumentV3 {
         returns (IssuanceStates updatedState, bytes memory transfersData) {
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
 
-        // Calculate the collateral amount. Collateral is calculated at the time of engagement.
-        PriceOracleInterface priceOracle = PriceOracleInterface(issuanceParameters.priceOracleAddress);
-        (uint256 numerator, uint256 denominator) = priceOracle.getRate(_lendingTokenAddress, _collateralTokenAddress);
-        require(numerator > 0 && denominator > 0, "Exchange rate not found");
-        _collateralAmount = denominator.mul(_lendingAmount).mul(_collateralRatio).div(COLLATERAL_RATIO_DECIMALS).div(numerator);
+        // Validates borrowing balance
+        uint256 borrowingBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
+            .getTokenBalance(issuanceParameters.takerAddress, _borrowingTokenAddress);
+        require(borrowingBalance >= _borrowingAmount, "Insufficient borrowing balance");
 
-        // Validates collateral balance
-        uint256 collateralBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
-            .getTokenBalance(issuanceParameters.takerAddress, _collateralTokenAddress);
-        require(collateralBalance >= _collateralAmount, "Insufficient collateral balance");
+        // Emits Scheduled Borrowing Due event
+        _borrowingDueTimestamp = now + _tenorDays * 1 days;
+        emit EventTimeScheduled(issuanceParameters.issuanceId, _borrowingDueTimestamp, BORROWING_DUE_EVENT, "");
 
-        // Emits Scheduled Lending Due event
-        _lendingDueTimestamp = now + _tenorDays * 1 days;
-        emit EventTimeScheduled(issuanceParameters.issuanceId, _lendingDueTimestamp, LENDING_DUE_EVENT, "");
-
-        // Emits Lending Engaged event
-        emit LendingEngaged(issuanceParameters.issuanceId, issuanceParameters.takerAddress, _lendingDueTimestamp,
-            _collateralAmount);
+        // Emits Borrowing Engaged event
+        emit BorrowingEngaged(issuanceParameters.issuanceId, issuanceParameters.takerAddress, _borrowingDueTimestamp);
 
         // Transition to Engaged state.
         updatedState = IssuanceStates.Engaged;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
-        // Transfers collateral token from taker(Instrument Escrow) to taker(Issuance Escrow).
+        // Transfers borrowing token from taker(Instrument Escrow) to taker(Issuance Escrow).
         transfers.actions[0] = Transfer.Data({
             outbound: false,
             inbound: true,
             fromAddress: issuanceParameters.takerAddress,
             toAddress: issuanceParameters.takerAddress,
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount
+            tokenAddress: _borrowingTokenAddress,
+            amount: _borrowingAmount
         });
-        // Transfers lending token from maker(Issuance Escrow) to taker(Instrument Escrow).
+        // Transfers borrowing token from taker(Issuance Escrow) to maker(Instrument Escrow)
         transfers.actions[1] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: issuanceParameters.makerAddress,
-            toAddress: issuanceParameters.takerAddress,
-            tokenAddress: _lendingTokenAddress,
-            amount: _lendingAmount
+            fromAddress: issuanceParameters.takerAddress,
+            toAddress: issuanceParameters.makerAddress,
+            tokenAddress: _borrowingTokenAddress,
+            amount: _borrowingAmount
         });
         transfersData = Transfers.encode(transfers);
     }
@@ -176,38 +173,37 @@ contract Lending is InstrumentV3 {
 
         // Important: Token deposit can happen only in repay!
         require(IssuanceStates(issuanceParameters.state) == IssuanceStates.Engaged, "Must repay in engaged state");
-        require(issuanceParameters.callerAddress == issuanceParameters.takerAddress, "Only taker can repay");
-        require(tokenAddress == _lendingTokenAddress, "Must repay with lending token");
-        require(amount == _lendingAmount + _interestAmount, "Must repay in full");
+        require(issuanceParameters.callerAddress == issuanceParameters.makerAddress, "Only maker can repay");
+        require(tokenAddress == _borrowingTokenAddress, "Must repay with borrowing token");
+        require(amount == _borrowingAmount + _interestAmount, "Must repay in full");
 
-        // Emits Lending Repaid event
-        emit LendingRepaid(issuanceParameters.issuanceId);
+        // Emits Borrowing Repaid event
+        emit BorrowingRepaid(issuanceParameters.issuanceId);
 
         // Updates to Complete Engaged state.
         updatedState = IssuanceStates.CompleteEngaged;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
-        // Transfers lending amount + interest from taker(Issuance Escrow) to maker(Instrument Escrow).
+        // Transfers lending amount + interest from maker(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[0] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: issuanceParameters.takerAddress,
-            toAddress: issuanceParameters.makerAddress,
-            tokenAddress: _lendingTokenAddress,
-            amount: _lendingAmount + _interestAmount
+            fromAddress: issuanceParameters.makerAddress,
+            toAddress: issuanceParameters.takerAddress,
+            tokenAddress: _borrowingTokenAddress,
+            amount: _borrowingAmount + _interestAmount
         });
-        // Transfers collateral from taker(Issuance Escrow) to taker(Instrument Escrow).
+        // Transfers collateral from maker(Issuance Escrow) to maker(Instrument Escrow).
         transfers.actions[1] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: issuanceParameters.takerAddress,
-            toAddress: issuanceParameters.takerAddress,
+            fromAddress: issuanceParameters.makerAddress,
+            toAddress: issuanceParameters.makerAddress,
             tokenAddress: _collateralTokenAddress,
             amount: _collateralAmount
         });
         transfersData = Transfers.encode(transfers);
     }
-
 
     /**
      * @dev An account has made an ERC20 token withdraw from the issuance
@@ -234,45 +230,45 @@ contract Lending is InstrumentV3 {
             // 1. Issuance is in Engageable state
             // 2. Engagement due timestamp is passed
             if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable && now >= _engagementDueTimestamp) {
-                // Emits Lending Complete Not Engaged event
-                emit LendingCompleteNotEngaged(issuanceParameters.issuanceId);
+                // Emits Borrowing Complete Not Engaged event
+                emit BorrowingCompleteNotEngaged(issuanceParameters.issuanceId);
 
                 // Updates to Complete Not Engaged state
                 updatedState = IssuanceStates.CompleteNotEngaged;
 
-                // Transfers principal token from maker(Issuance Escrow) to maker(Instrument Escrow)
+                // Transfers collateral token from maker(Issuance Escrow) to maker(Instrument Escrow)
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
                 transfers.actions[0] = Transfer.Data({
                     outbound: true,
                     inbound: false,
                     fromAddress: issuanceParameters.makerAddress,
                     toAddress: issuanceParameters.makerAddress,
-                    tokenAddress: _lendingTokenAddress,
-                    amount: _lendingAmount
+                    tokenAddress: _collateralTokenAddress,
+                    amount: _collateralAmount
                 });
                 transfersData = Transfers.encode(transfers);
             } else {
                 // Not processed Engagement Due event
                 updatedState = IssuanceStates(issuanceParameters.state);
             }
-        } else if (eventName == LENDING_DUE_EVENT) {
-            // Lending Due will be processed only when:
+        } else if (eventName == BORROWING_DUE_EVENT) {
+            // Borrowing Due will be processed only when:
             // 1. Issuance is in Engaged state
-            // 2. Lending due timestamp has passed
+            // 2. Borrowing due timestamp has passed
             if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engaged && now >= _lendingDueTimestamp) {
-                // Emits Lending Deliquent event
-                emit LendingDelinquent(issuanceParameters.issuanceId);
+                // Emits Borrowing Deliquent event
+                emit BorrowingDelinquent(issuanceParameters.issuanceId);
 
                 // Updates to Delinquent state
                 updatedState = IssuanceStates.Delinquent;
 
-                // Transfers collateral token from taker(Issuance Escrow) to maker(Instrument Escrow).
+                // Transfers collateral token from maker(Issuance Escrow) to taker(Instrument Escrow).
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
                 transfers.actions[0] = Transfer.Data({
                     outbound: true,
                     inbound: false,
-                    fromAddress: issuanceParameters.takerAddress,
-                    toAddress: issuanceParameters.makerAddress,
+                    fromAddress: issuanceParameters.makerAddress,
+                    toAddress: issuanceParameters.takerAddress,
                     tokenAddress: _collateralTokenAddress,
                     amount: _collateralAmount
                 });
@@ -287,21 +283,21 @@ contract Lending is InstrumentV3 {
             // Only maker can cancel issuance
             require(issuanceParameters.callerAddress == issuanceParameters.makerAddress, "Only maker can cancel issuance");
 
-            // Emits Lending Cancelled event
-            emit LendingCancelled(issuanceParameters.issuanceId);
+            // Emits Borrowing Cancelled event
+            emit BorrowingCancelled(issuanceParameters.issuanceId);
 
             // Updates to Cancelled state.
             updatedState = IssuanceStates.Cancelled;
 
-            // Transfers principal token from maker(Issuance Escrow) to maker(Instrument Escrow)
+            // Transfers collateral token from maker(Issuance Escrow) to maker(Instrument Escrow)
             Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
             transfers.actions[0] = Transfer.Data({
                 outbound: true,
                 inbound: false,
                 fromAddress: issuanceParameters.makerAddress,
                 toAddress: issuanceParameters.makerAddress,
-                tokenAddress: _lendingTokenAddress,
-                amount: _lendingAmount
+                tokenAddress: _collateralTokenAddress,
+                amount: _collateralAmount
             });
             transfersData = Transfers.encode(transfers);
 

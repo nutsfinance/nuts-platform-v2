@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represents the input parameters from makers in
+ * creating new borrowing issuance.
+ */
+message BorrowingMakerParameters {
+  .solidity.address collateralTokenAddress = 1;
+  .solidity.address borrowingTokenAddress = 2;
+  .solidity.uint256 borrowingAmount = 3;
+  .solidity.uint32 collateralRatio = 4;
+  .solidity.uint32 tenorDays = 5;
+  .solidity.uint32 interestRate = 6;
+}
