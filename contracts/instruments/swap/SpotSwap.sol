@@ -49,8 +49,7 @@ contract SpotSwap is InstrumentV3 {
         require(makerParameters.inputAmount > 0, "Input amount not set");
         require(makerParameters.outputAmount > 0, "Output amount not set");
         require(makerParameters.duration >= 1 && makerParameters.duration <= 90, "Invalid duration");
- 
- 
+
         // Validate input token balance
         uint256 inputTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
             .getTokenBalance(issuanceParameters.makerAddress, makerParameters.inputTokenAddress);
@@ -61,7 +60,7 @@ contract SpotSwap is InstrumentV3 {
         _outputTokenAddress = makerParameters.outputTokenAddress;
         _inputAmount = makerParameters.inputAmount;
         _outputAmount = makerParameters.outputAmount;
-        
+
         // Emits Scheduled Swap Due event
         _swapDueTimestamp = now + 1 days * makerParameters.duration;
         emit EventTimeScheduled(issuanceParameters.issuanceId, _swapDueTimestamp, SWAP_DUE_EVENT, "");
@@ -105,14 +104,14 @@ contract SpotSwap is InstrumentV3 {
         updatedState = IssuanceStates.CompleteEngaged;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
-        // Transfers input token from maker(Instrument Escrow) to taker(Issuance Escrow).
+        // Transfers input token from maker(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[0] = Transfer.Data({
-            outbound: false,
-            inbound: true,
+            outbound: true,
+            inbound: false,
             fromAddress: issuanceParameters.makerAddress,
             toAddress: issuanceParameters.takerAddress,
             tokenAddress: _inputTokenAddress,
-            amount: _outputAmount
+            amount: _inputAmount
         });
         // Transfers output token from taker(Instrument Escrow) to taker(Issuance Escrow)
         transfers.actions[1] = Transfer.Data({
