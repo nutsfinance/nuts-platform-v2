@@ -26,7 +26,7 @@ contract Borrowing is InstrumentV3 {
     event BorrowingCancelled(uint256 indexed issuanceId);
 
     // Constants
-    uint256 constant ENGAGEMENT_DUE_DAYS = 30 days;                 // Time available for taker to engage
+    uint256 constant ENGAGEMENT_DUE_DAYS = 14 days;                 // Time available for taker to engage
     uint256 constant COLLATERAL_RATIO_DECIMALS = 10000;             // 0.01%
     uint256 constant INTEREST_RATE_DECIMALS = 1000000;              // 0.0001%
 

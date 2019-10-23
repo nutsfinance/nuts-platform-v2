@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+/**
+ * Represents the input parameters from makers in
+ * creating new swap issuance.
+ */
+message SpotSwapMakerParameters {
+  .solidity.address inputTokenAddress = 1;
+  .solidity.address outputTokenAddress = 2;
+  .solidity.uint256 inputAmount = 3;
+  .solidity.uint256 outputAmount = 4;
+  .solidity.uint256 duration = 5;
+}
