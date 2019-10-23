@@ -184,7 +184,7 @@ contract Borrowing is InstrumentV3 {
         updatedState = IssuanceStates.CompleteEngaged;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
-        // Transfers lending amount + interest from maker(Issuance Escrow) to taker(Instrument Escrow).
+        // Transfers borrowing amount + interest from maker(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[0] = Transfer.Data({
             outbound: true,
             inbound: false,
@@ -255,7 +255,7 @@ contract Borrowing is InstrumentV3 {
             // Borrowing Due will be processed only when:
             // 1. Issuance is in Engaged state
             // 2. Borrowing due timestamp has passed
-            if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engaged && now >= _lendingDueTimestamp) {
+            if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engaged && now >= _borrowingDueTimestamp) {
                 // Emits Borrowing Deliquent event
                 emit BorrowingDelinquent(issuanceParameters.issuanceId);
 
