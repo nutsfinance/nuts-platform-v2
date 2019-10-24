@@ -104,7 +104,7 @@ module.exports = {
          enabled: true,
          runs: 1000
        },
-      evmVersion: "constantinople"
+      evmVersion: "petersburg"
       }
     }
   }

@@ -25,6 +25,18 @@ contract InstrumentV3Manager is InstrumentManagerBase {
 
 
     /**
+     * @dev Returns the address of all proxies.
+     */
+    function getIssuanceAddresses() public view returns (address[] memory) {
+        address[] memory issuanceAddresses = new address[](_lastIssuanceId - 1);
+        for (uint256 i = 1; i < _lastIssuanceId; i++) {
+            issuanceAddresses[i - 1] = _issuanceProxies[i];
+        }
+        return issuanceAddresses;
+    }
+
+
+    /**
      * @dev Instrument type-specific issuance creation processing.
      * @param issuanceId ID of the issuance.
      * @param makerParameters The custom parameters to the newly created issuance
