@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
-import IssuanceListComponent from './IssuanceListComponent';
+import LendingListComponent from './LendingListComponent';
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
@@ -16,7 +16,6 @@ export default class DemoComponent extends Component {
         lendinglTokenAddress: '',
         lendinglAmount: 0,
         collateralRatio: 0,
-        engagementDueDays: 0,
         tenorDays: 0,
         interestRate: 0,
     };
@@ -57,11 +56,11 @@ export default class DemoComponent extends Component {
                             <h2>Escrow Balance</h2>
                             <span>ETH: </span>
                             <span style={{ color: "red" }}><ContractData drizzle={drizzle} drizzleState={drizzleState}
-                                contract="InstrumentEscrowInterface" method="getBalance" methodArgs={[accounts[0]]}/></span>
+                                contract="LendingInstrumentEscrow" method="getBalance" methodArgs={[accounts[0]]}/></span>
                             <br/>
                             <span>Sample Token: </span>
                             <span style={{ color: "red" }}><ContractData drizzle={drizzle} drizzleState={drizzleState}
-                                contract="InstrumentEscrowInterface" method="getTokenBalance" methodArgs={[accounts[0], drizzle.contracts.TokenMock.address]}/></span>
+                                contract="LendingInstrumentEscrow" method="getTokenBalance" methodArgs={[accounts[0], drizzle.contracts.TokenMock.address]}/></span>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -72,7 +71,7 @@ export default class DemoComponent extends Component {
                             <input type="number" placeholder='Amount in Wei' onChange={this.handleDepositValueChange}/>
                             <div style={{ display: "inline-block" }}>
                                 <ContractForm drizzle={drizzle} drizzleState={drizzleState}
-                                    contract="InstrumentEscrowInterface"
+                                    contract="LendingInstrumentEscrow"
                                     method="deposit"
                                     sendArgs={{ value: this.state.depositValue }}
                                     />
@@ -85,7 +84,7 @@ export default class DemoComponent extends Component {
                         <CardContent>
                             <h3>Withdraw ETH</h3>
                             <ContractForm drizzle={drizzle} drizzleState={drizzleState}
-                                contract="InstrumentEscrowInterface"
+                                contract="LendingInstrumentEscrow"
                                 method="withdraw"
                                 labels={['Amount in Wei']}
                                 />
@@ -122,7 +121,7 @@ export default class DemoComponent extends Component {
                                   )}
                                 />
                             <ContractForm drizzle={drizzle} drizzleState={drizzleState}
-                                contract="InstrumentEscrowInterface"
+                                contract="LendingInstrumentEscrow"
                                 method="depositToken"
                                 render={({ inputs, inputTypes, state, handleInputChange, handleSubmit }) => (
                                     <form onSubmit={handleSubmit}>
@@ -154,7 +153,7 @@ export default class DemoComponent extends Component {
                         <CardContent>
                             <h3>Withdraw Sample Token</h3>
                             <ContractForm drizzle={drizzle} drizzleState={drizzleState}
-                                contract="InstrumentEscrowInterface"
+                                contract="LendingInstrumentEscrow"
                                 method="withdrawToken"
                                 render={({ inputs, inputTypes, state, handleInputChange, handleSubmit }) => (
                                     <form onSubmit={handleSubmit}>
@@ -214,12 +213,6 @@ export default class DemoComponent extends Component {
                                     onChange={this.handleIssuanceParameterChange}
                                 />
                                 <br/>
-                                <input key='engagementDueDays'
-                                    type='number'
-                                    name='engagementDueDays'
-                                    placeholder='Engagement Due Days'
-                                    onChange={this.handleIssuanceParameterChange}
-                                />
                                 <input key='tenorDays'
                                     type='number'
                                     name='tenorDays'
@@ -238,11 +231,11 @@ export default class DemoComponent extends Component {
                                 <ContractData drizzle={drizzle} drizzleState={drizzleState}
                                     contract="ParametersUtil" method="getLendingMakerParameters" 
                                     methodArgs={[this.state.collateralTokenAddress, this.state.lendinglTokenAddress,
-                                        this.state.lendinglAmount, this.state.collateralRatio, this.state.engagementDueDays,
+                                        this.state.lendinglAmount, this.state.collateralRatio,
                                         this.state.tenorDays, this.state.interestRate]}/>
                             </span>
                             <ContractForm drizzle={drizzle} drizzleState={drizzleState}
-                                contract="InstrumentManagerInterface"
+                                contract="LendingInstrumentManager"
                                 method="createIssuance"
                                 render={({ inputs, inputTypes, state, handleInputChange, handleSubmit }) => (
                                     <form onSubmit={handleSubmit}>
@@ -260,10 +253,11 @@ export default class DemoComponent extends Component {
                         </CardContent>
                     </Card>
                 </Grid>
+                
                 <Grid item xs={12}>
                     <Card className="LongCard">
                         <CardContent>
-                            <IssuanceListComponent drizzle={drizzle}></IssuanceListComponent>
+                            <LendingListComponent drizzle={drizzle}></LendingListComponent>
                         </CardContent>
                     </Card>
                 </Grid>

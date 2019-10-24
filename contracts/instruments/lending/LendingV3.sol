@@ -7,36 +7,10 @@ import "../../lib/protobuf/LendingData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../../instrument/v3/InstrumentV3.sol";
+import "./LendingBase.sol";
 
-contract Lending is InstrumentV3 {
+contract LendingV3 is InstrumentV3, LendingBase {
     using SafeMath for uint256;
-
-    event LendingCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
-        address collateralTokenAddress, address lendingTokenAddress, uint256 lendingAmount,
-        uint256 collateralRatio, uint256 engagementDueTimestamp);
-
-    event LendingEngaged(uint256 indexed issuanceId, address indexed takerAddress, uint256 lendingDueTimstamp,
-        uint256 collateralTokenAmount);
-
-    event LendingRepaid(uint256 indexed issuanceId);
-
-    event LendingCompleteNotEngaged(uint256 indexed issuanceId);
-
-    event LendingDelinquent(uint256 indexed issuanceId);
-
-    event LendingCancelled(uint256 indexed issuanceId);
-
-    // Constants
-    uint256 constant ENGAGEMENT_DUE_DAYS = 14 days;                 // Time available for taker to engage
-    uint256 constant COLLATERAL_RATIO_DECIMALS = 10000;             // 0.01%
-    uint256 constant INTEREST_RATE_DECIMALS = 1000000;              // 0.0001%
-
-    // Scheduled custom events
-    bytes32 constant ENGAGEMENT_DUE_EVENT = "engagement_due";
-    bytes32 constant LENDING_DUE_EVENT = "lending_due";
-
-    // Custom events
-    bytes32 constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
     // Lending parameters
     address private _lendingTokenAddress;

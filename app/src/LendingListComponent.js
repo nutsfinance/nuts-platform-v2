@@ -5,35 +5,35 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-class IssuanceListComponent extends Component {
+class LendingListComponent extends Component {
     state = {issuances: []};
 
     componentDidMount() {
         const { drizzle } = this.props;
         const web3 = drizzle.web3;
-        const lendingContract = drizzle.contracts.LendingV1;
+        const lendingContract = drizzle.contracts.Lending;
         const lendingContractWeb3 = new web3.eth.Contract(lendingContract.abi, lendingContract.address);
         lendingContractWeb3.getPastEvents(
-          'LendingCreated',
+          'allEvents',
           {
             fromBlock: 0,
             toBlock: 'latest'
           }
         ).then(results => {
             console.log(results);
-            let issuances = [];
-            for (const result of results) {
-                issuances.push({
-                    id: result.returnValues.issuanceId,
-                    collateralToken: result.returnValues.collateralTokenAddress,
-                    lendingToken: result.returnValues.lendingTokenAddress,
-                    lendingAmount: result.returnValues.lendingAmount,
-                    maker: result.returnValues.makerAddress,
-                    escrow: result.returnValues.escrowAddress,
-                });
-            }
+            // let issuances = [];
+            // for (const result of results) {
+            //     issuances.push({
+            //         id: result.returnValues.issuanceId,
+            //         collateralToken: result.returnValues.collateralTokenAddress,
+            //         lendingToken: result.returnValues.lendingTokenAddress,
+            //         lendingAmount: result.returnValues.lendingAmount,
+            //         maker: result.returnValues.makerAddress,
+            //         escrow: result.returnValues.escrowAddress,
+            //     });
+            // }
             
-            this.setState({issuances});
+            // this.setState({issuances});
         });
     }
 
@@ -67,4 +67,4 @@ class IssuanceListComponent extends Component {
     }
 }
 
-export default IssuanceListComponent;
+export default LendingListComponent;

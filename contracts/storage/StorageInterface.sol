@@ -11,27 +11,23 @@ interface StorageInterface {
 
     function removeWriter(address account) external;
 
-    function getString(string calldata key) external view returns (string memory);
+    function getString(bytes32 key) external view returns (string memory);
 
-    function setString(string calldata key, string calldata value) external;
+    function setString(bytes32 key, string calldata value) external;
 
-    function getBytes(string calldata key) external view returns (bytes memory);
+    function getAddress(bytes32 key) external view returns (address);
 
-    function setBytes(string calldata key, bytes calldata value) external;
+    function setAddress(bytes32 key, address value) external;
 
-    function getAddress(string calldata key) external view returns (address);
+    function getUint(bytes32 key) external view returns (uint);
 
-    function setAddress(string calldata key, address value) external;
+    function setUint(bytes32 key, uint value) external;
 
-    function getUint(string calldata key) external view returns (uint);
+    function getInt(bytes32 key) external view returns (int);
 
-    function setUint(string calldata key, uint value) external;
+    function setInt(bytes32 key, int value) external;
 
-    function getInt(string calldata key) external view returns (int);
+    function getBool(bytes32 key) external view returns (bool);
 
-    function setInt(string calldata key, int value) external;
-
-    function getBool(string calldata key) external view returns (bool);
-
-    function setBool(string calldata key, bool value) external;
+    function setBool(bytes32 key, bool value) external;
 }

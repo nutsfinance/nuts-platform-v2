@@ -10,7 +10,22 @@ message LendingMakerParameters {
   .solidity.address collateralTokenAddress = 1;
   .solidity.address lendingTokenAddress = 2;
   .solidity.uint256 lendingAmount = 3;
-  .solidity.uint32 collateralRatio = 4;
-  .solidity.uint32 tenorDays = 5;
-  .solidity.uint32 interestRate = 6;
+  .solidity.uint256 collateralRatio = 4;
+  .solidity.uint256 tenorDays = 5;
+  .solidity.uint256 interestRate = 6;
+}
+
+/**
+ * Represents the lending data in Instrument v1.
+ */
+message LendingData {
+  .solidity.address lendingTokenAddress = 1;
+  .solidity.address collateralTokenAddress = 2;
+  .solidity.uint256 lendingAmount = 3;
+  .solidity.uint256 tenorDays = 4;
+  .solidity.uint256 collateralRatio = 5;
+  .solidity.uint256 engagementDueTimestamp = 6;
+  .solidity.uint256 lendingDueTimestamp = 7;
+  .solidity.uint256 interestAmount = 8;
+  .solidity.uint256 collateralAmount = 9;
 }

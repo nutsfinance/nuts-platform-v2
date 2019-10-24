@@ -8,7 +8,8 @@ const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
 const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowInterface.sol');
 const StorageFactory = artifacts.require('./storage/StorageFactory.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const Lending = artifacts.require('./instruments/lending/Lending.sol');
+const Saving = artifacts.require('./instruments/saving/Saving.sol');
+const Lending = artifacts.require('./instruments/lending/LendingV1.sol');
 const Borrowing = artifacts.require('./instruments/borrowing/Borrowing.sol');
 const SpotSwap = artifacts.require('./instruments/swap/SpotSwap.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
@@ -48,6 +49,21 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
     // const collateralToken = await deployer.deploy(TokenMock);
     // await priceOracle.setRate(lendingToken.address, collateralToken.address, 1, 100);
     // await priceOracle.setRate(collateralToken.address, lendingToken.address, 100, 1);
+
+    /**
+     * Saving Instrument deployment
+     */
+    console.log('Deploying saving instrument.');
+    let saving = await deployer.deploy(Saving, {from: fsp});
+    let savingInstrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
+    // Activate Saving Instrument
+    await instrumentRegistry.activateInstrument(saving.address, 'version3', savingInstrumentParameters, {from: fsp});
+    const savingInstrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(saving.address, {from: fsp});
+    console.log('Saving instrument manager address: ' + savingInstrumentManagerAddress);
+    const savingInstrumentManager = await InstrumentManagerInterface.at(savingInstrumentManagerAddress);
+    console.log('Get saving instrument');
+    const savingInstrumentEscrowAddress = await savingInstrumentManager.getInstrumentEscrowAddress({from: fsp});
+    console.log('Saving instrument escrow address: ' + savingInstrumentEscrowAddress);
 
     /**
      * Lending Instrument deployment

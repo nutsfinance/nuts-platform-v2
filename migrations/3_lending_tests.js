@@ -2,7 +2,7 @@ const InstrumentManagerInterface = artifacts.require('./instruments/InstrumentMa
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowInterface.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const Lending = artifacts.require('./instruments/lending/Lending.sol');
+const Lending = artifacts.require('./instruments/lending/LendingV1.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
 const TokenMock = artifacts.require('./mock/TokenMock.sol');
 
@@ -35,9 +35,12 @@ const runLendingTestCases = async function(deployer, [owner, proxyAdmin, timerOr
     await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
 
     // Create lending issuance.
+    console.log('Create issuance');
     lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, 
         lendingToken.address, 20000, 15000, 20, 10000);
+    console.log('Lending maker parameters: ' + lendingMakerParameters);
     await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
+    console.log('Issuance created');
 
     // Deposit collateral tokens to Lending Instrument Escrow
     await collateralToken.transfer(taker1, 4000000);

@@ -9,7 +9,7 @@ import "../../storage/StorageInterface.sol";
  * A storage contract is created for each issuance.
  */
 contract InstrumentV2 is InstrumentBase {
-       /**
+    /**
      * @dev Create a new issuance of the financial instrument
      * @param issuanceParametersData Issuance Parameters.
      * @param makerParametersData The custom parameters to the newly created issuance
