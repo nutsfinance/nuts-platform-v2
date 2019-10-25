@@ -6,34 +6,33 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 class LendingListComponent extends Component {
-    state = {issuances: []};
+    state = {issuances: {}};
 
     componentDidMount() {
         const { drizzle } = this.props;
         const web3 = drizzle.web3;
-        const lendingContract = drizzle.contracts.Lending;
-        const lendingContractWeb3 = new web3.eth.Contract(lendingContract.abi, lendingContract.address);
-        lendingContractWeb3.getPastEvents(
-          'allEvents',
-          {
-            fromBlock: 0,
-            toBlock: 'latest'
-          }
-        ).then(results => {
-            console.log(results);
-            // let issuances = [];
-            // for (const result of results) {
-            //     issuances.push({
-            //         id: result.returnValues.issuanceId,
-            //         collateralToken: result.returnValues.collateralTokenAddress,
-            //         lendingToken: result.returnValues.lendingTokenAddress,
-            //         lendingAmount: result.returnValues.lendingAmount,
-            //         maker: result.returnValues.makerAddress,
-            //         escrow: result.returnValues.escrowAddress,
-            //     });
-            // }
-            
-            // this.setState({issuances});
+        const lendingInstrumentManager = drizzle.contracts.LendingInstrumentManager;
+        const LendingInstrumentManagerWeb3 = new web3.eth.Contract(lendingInstrumentManager.abi, lendingInstrumentManager.address);
+        const lending = drizzle.contracts.Lending;
+        LendingInstrumentManagerWeb3.methods.getIssuanceAddresses().call().then(issuanceAddresses => {
+            for (let issuanceAddress of issuanceAddresses) {
+                let lendingWeb3 = new web3.eth.Contract(lending.abi, issuanceAddress);
+                lendingWeb3.getPastEvents(
+                    'allEvents',
+                    {
+                      fromBlock: 0,
+                      toBlock: 'latest'
+                    }
+                  ).then(results => {
+                      console.log(issuanceAddress);
+                      console.log(results);                      
+                      this.setState(prevState => {
+                        let issuances = Object.assign({}, prevState.issuances);
+                        issuances[issuanceAddress] = results;
+                        return {issuances};
+                      });
+                  });
+            }
         });
     }
 
@@ -44,20 +43,16 @@ class LendingListComponent extends Component {
                 <h3>Issuance List</h3>
                 <Table>
                     <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell align="right">Lending Amount</TableCell>
-                        <TableCell align="right">Maker</TableCell>
-                        <TableCell align="right">Escrow</TableCell>
-                    </TableRow>
+                        <TableRow>
+                            <TableCell>Address</TableCell>
+                            <TableCell align="right">Event</TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
-                    {this.state.issuances.map(issuance => (
-                        <TableRow key={issuance.id}>
-                            <TableCell>{issuance.id}</TableCell>
-                            <TableCell align="right">{issuance.lendingAmount}</TableCell>
-                            <TableCell align="right">{issuance.maker}</TableCell>
-                            <TableCell align="right">{issuance.escrow}</TableCell>
+                    {Object.entries(this.state.issuances).map(issuance => (
+                        <TableRow key={issuance[0]}>
+                            <TableCell>{issuance[0]}</TableCell>
+                            <TableCell align="right">{JSON.stringify(issuance[1].map(event => event.event))}</TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

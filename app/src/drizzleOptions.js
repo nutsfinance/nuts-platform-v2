@@ -1,4 +1,4 @@
-import InstrumentManager from './contracts/InstrumentManagerInterface.json';
+import InstrumentManager from './contracts/InstrumentV3Manager.json';
 import InstrumentEscrow from './contracts/InstrumentEscrowInterface.json';
 import SampleToken from './contracts/TokenMock.json';
 import ParametersUtil from './contracts/ParametersUtil.json';
@@ -14,71 +14,71 @@ import SpotSwap from './contracts/SpotSwap.json';
 const SavingInstrumentManager = JSON.parse(JSON.stringify(InstrumentManager));
 SavingInstrumentManager["contractName"] = "SavingInstrumentManager";
 SavingInstrumentManager["networks"]["4"] = {
-  "address": "0x688019Ba26F49D4Ec9131e05EF3CB2F54CC728E4",
-  "transactionHash": "0xcaa55e75cb228af04bc47d9a42fd546de32b0deb1c08a07826e1c22c3bbff01c"
+  "address": "0xb4Da92363991ec58e21d03206485b3BdFb986559",
+  "transactionHash": "0x4050e9a9b8e6fdacb29314cde8436f44666243111a0f6fc9cb924ed5aebe9825"
 };
 const SavingInstrumentEscrow = JSON.parse(JSON.stringify(InstrumentEscrow));
 SavingInstrumentEscrow["contractName"] = "SavingInstrumentEscrow";
 SavingInstrumentEscrow["networks"]["4"] = {
-  "address": "0xc36810740FdB6b2e129B28478CF7B308AE4FAd39",
-  "transactionHash": "0xcaa55e75cb228af04bc47d9a42fd546de32b0deb1c08a07826e1c22c3bbff01c"
+  "address": "0x6b4D10F6b927c27998bC3aA4C05d8CdF2A1C9F6E",
+  "transactionHash": "0x4050e9a9b8e6fdacb29314cde8436f44666243111a0f6fc9cb924ed5aebe9825"
 };
 Saving["networks"]["4"] = {
-  "address": "0x2d69D75dAEFc5926b20389B3d97D16b82eB99306",
-  "transactionHash": "0x283be3a9e9211826792659b0f9147494e8545f50093a5dfe455fdcd95b23aabd"
+  "address": "0xe77FeD97BacCeCc2F58e9426063c28A250eA91a1",
+  "transactionHash": "0xad1ffc08857c69d177d1e9b9af0f09f3977e92fe987daf9b39e198e0a079055f"
 };
 
 
 const LendingInstrumentManager = JSON.parse(JSON.stringify(InstrumentManager));
 LendingInstrumentManager["contractName"] = "LendingInstrumentManager";
 LendingInstrumentManager["networks"]["4"] = {
-  "address": "0x53db607a8F42d372B2E5B02Ebd9133c1eF817C40",
-  "transactionHash": "0xc613a971132480dbc8323926d563622e33d57369d40f4f90db726bf0de158381"
+  "address": "0xD2663B4BB426C4812f7878C1D9473914A020D2F9",
+  "transactionHash": "0xe199c8b26ba6cc5dd5f7fd83c138178b0741ba57fc049eb159f55312af825f6e"
 };
 const LendingInstrumentEscrow = JSON.parse(JSON.stringify(InstrumentEscrow));
 LendingInstrumentEscrow["contractName"] = "LendingInstrumentEscrow";
 LendingInstrumentEscrow["networks"]["4"] = {
-  "address": "0x4233955d5Aaf95040909425A43F9895182d20dBA",
-  "transactionHash": "0xc613a971132480dbc8323926d563622e33d57369d40f4f90db726bf0de158381"
+  "address": "0xEBBd0d5F240BD1940ffe9Aa74E3965079829b4A0",
+  "transactionHash": "0xe199c8b26ba6cc5dd5f7fd83c138178b0741ba57fc049eb159f55312af825f6e"
 };
 Lending["networks"]["4"] = {
-  "address": "0xBF6eBd5f1184Ad4e6806ed058c624cce34647d40",
-  "transactionHash": "0xced46a633256ffc8ce0801d8fdba8e299c9526e780e5a91a4d78e028a0ca6877"
+  "address": "0x92A6206DCeD85216B7447c12144FD1f2F0D16528",
+  "transactionHash": "0x0286a16ac6e05a1746a56c2fa5317bb7aab4d0e07728305b5703ac51b396c19d"
 };
 
 
 const BorrowingInstrumentManager = JSON.parse(JSON.stringify(InstrumentManager));
 BorrowingInstrumentManager["contractName"] = "BorrowingInstrumentManager";
 BorrowingInstrumentManager["networks"]["4"] = {
-  "address": "0x8c1B1bab1Ab57640fe545E315E55dE1eaBBA5Fb0",
-  "transactionHash": "0x4e0a915abbc61bb95db079995c147dafae9e327d3ad18b56e696cb35e7301d15"
+  "address": "0x3dB76b526d03b305018f1547E33C604444287a05",
+  "transactionHash": "0x95e4d2136495ce7740de44f974fc45dddb844b48dbb59c1d2f0173f17c1ee802"
 };
 const BorrowingInstrumentEscrow = JSON.parse(JSON.stringify(InstrumentEscrow));
 BorrowingInstrumentEscrow["contractName"] = "BorrowingInstrumentEscrow";
 BorrowingInstrumentEscrow["networks"]["4"] = {
-  "address": "0xd98233fAF95ca8f211a9192Bf8C1679aFbf748C0",
-  "transactionHash": "0x4e0a915abbc61bb95db079995c147dafae9e327d3ad18b56e696cb35e7301d15"
+  "address": "0xe778ff61533363e88bAfF99Cb4dFa9772c9F9039",
+  "transactionHash": "0x95e4d2136495ce7740de44f974fc45dddb844b48dbb59c1d2f0173f17c1ee802"
 };
 Borrowing["networks"]["4"] = {
-  "address": "0x895d1a149C8b631111A75f5311e73984e470337b",
-  "transactionHash": "0x10382570c34935f970c265bd9ed756ad99b186cf447ec08746d9956709d76cba"
+  "address": "0x1993dde664C76075DE5706d272fC5AE35Dc508A9",
+  "transactionHash": "0xd299b958e158fa0612def55a8ddaef06bf4d029a9573f91eae372295f9a86ee9"
 };
 
 const SpotSwapInstrumentManager = JSON.parse(JSON.stringify(InstrumentManager));
 SpotSwapInstrumentManager["contractName"] = "SpotSwapInstrumentManager";
 SpotSwapInstrumentManager["networks"]["4"] = {
-  "address": "0xee9e285e45eE4cd95c2151413b266354172f7068",
-  "transactionHash": "0x26b8bc574835dd88c76c7960e0636d57ba7698607df1f5ce3fa7ed31c992d3b0"
+  "address": "0xcc4036e2D281a170431D7FA024A555a5fbd5C9c3",
+  "transactionHash": "0x337cb7e2b941a46d5a37a809af3a13d973143eae0aa4c252f1463d62f22615ee"
 };
 const SpotSwapInstrumentEscrow = JSON.parse(JSON.stringify(InstrumentEscrow));
 SpotSwapInstrumentEscrow["contractName"] = "SpotSwapInstrumentEscrow";
 SpotSwapInstrumentEscrow["networks"]["4"] = {
-  "address": "0x0274FdC5B070cf926FF2315E2F46D149e24D8859",
-  "transactionHash": "0x26b8bc574835dd88c76c7960e0636d57ba7698607df1f5ce3fa7ed31c992d3b0"
+  "address": "0xFEC8B41C7094BE3eAC350099665cDB930467182F",
+  "transactionHash": "0x337cb7e2b941a46d5a37a809af3a13d973143eae0aa4c252f1463d62f22615ee"
 };
 SpotSwap["networks"]["4"] = {
-  "address": "0x69b05780a5Ac2A65602b1E284D963238217d8a5D",
-  "transactionHash": "0x066ac157d6e7ee103d2f171a1781cdedb55e0d89d27c16940d3360d1a89a9e8b"
+  "address": "0x0A9890FE23FB91aee615B8D3AB342fB348fff41e",
+  "transactionHash": "0x380ca3bc4dce98839864a584fae02120962433d72b4aeb89eeb6f34b6f4b1df5"
 };
 
 const options = {
