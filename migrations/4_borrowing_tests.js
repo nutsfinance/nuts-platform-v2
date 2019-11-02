@@ -35,7 +35,7 @@ const runBorrowingTestCases = async function(deployer, [owner, proxyAdmin, timer
     await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
 
     // Create borrowing issuance.
-    borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, 
+    borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address,
         borrowingToken.address, 10000, 20000, 20, 10000);
     await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
 
@@ -55,7 +55,7 @@ const runBorrowingTestCases = async function(deployer, [owner, proxyAdmin, timer
     await instrumentEscrow.depositToken(collateralToken.address, 3000000, {from: maker2});
 
     // Create borrowing issuance.
-    borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, 
+    borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address,
         borrowingToken.address, 15000, 20000, 20, 10000);
     await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
 
@@ -70,7 +70,8 @@ const runBorrowingTestCases = async function(deployer, [owner, proxyAdmin, timer
 
 module.exports = function(deployer, network, accounts) {
 deployer
-    .then(() => runBorrowingTestCases(deployer, accounts))
+    .then(() => console.log("a"))
+    // .then(() => runBorrowingTestCases(deployer, accounts))
     .catch(error => {
     console.log(error);
     process.exit(1);

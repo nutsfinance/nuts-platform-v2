@@ -261,7 +261,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         // Invoke Instrument
         bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
         (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenDeposit(issuanceId,
-            issuanceParametersData, Constants.getEthAddress(), amount);
+            issuanceParametersData, tokenAddress, amount);
 
         _postProcessing(issuanceId, state, transfersData);
     }

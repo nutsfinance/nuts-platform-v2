@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/math/SafeMath.sol";
+import "../../lib/util/StringUtil.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/LendingData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
@@ -38,7 +39,7 @@ contract LendingV1 is InstrumentV1, LendingBase {
         uint256 principalTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
             .getTokenBalance(issuanceParameters.makerAddress, makerParameters.lendingTokenAddress);
         require(principalTokenBalance >= makerParameters.lendingAmount, "Insufficient principal balance");
- 
+
         // Persists lending parameters
         LendingData.Data memory lendingData;
         lendingData.lendingTokenAddress = makerParameters.lendingTokenAddress;

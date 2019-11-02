@@ -9,7 +9,7 @@ const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowIn
 const StorageFactory = artifacts.require('./storage/StorageFactory.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
 const Saving = artifacts.require('./instruments/saving/Saving.sol');
-const Lending = artifacts.require('./instruments/lending/LendingV3.sol');
+const Lending = artifacts.require('./instruments/lending/LendingV1.sol');
 const Borrowing = artifacts.require('./instruments/borrowing/Borrowing.sol');
 const SpotSwap = artifacts.require('./instruments/swap/SpotSwap.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
@@ -36,14 +36,14 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
 
     // Deploy Instrument Registry
     let instrumentRegistry = await deployer.deploy(InstrumentRegistry, 0, 0, nutsToken.address, priceOracle.address, escrowFactory.address);
-    
+
     // Registry Instrument Manager Factories
     await instrumentRegistry.setInstrumentManagerFactory('version1', instrumentV1ManagerFactory.address);
     await instrumentRegistry.setInstrumentManagerFactory('version2', instrumentV2ManagerFactory.address);
     await instrumentRegistry.setInstrumentManagerFactory('version3', instrumentV3ManagerFactory.address);
 
     const parametersUtil = await deployer.deploy(ParametersUtil);
-    
+
     // // Deploy ERC20 tokens
     // const lendingToken = await deployer.deploy(TokenMock);
     // const collateralToken = await deployer.deploy(TokenMock);
@@ -72,7 +72,7 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
     let lending = await deployer.deploy(Lending, {from: fsp});
     let lendingInstrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
     // Activate Lending Instrument
-    await instrumentRegistry.activateInstrument(lending.address, 'version3', lendingInstrumentParameters, {from: fsp});
+    await instrumentRegistry.activateInstrument(lending.address, 'version1', lendingInstrumentParameters, {from: fsp});
     const lendingInstrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(lending.address, {from: fsp});
     console.log('Lending instrument manager address: ' + lendingInstrumentManagerAddress);
     const lendingInstrumentManager = await InstrumentManagerInterface.at(lendingInstrumentManagerAddress);
