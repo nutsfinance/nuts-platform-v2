@@ -68,6 +68,13 @@ contract Borrowing is InstrumentV3 {
         require(makerParameters.collateralRatio >= 5000 && makerParameters.collateralRatio <= 20000, "Invalid collateral ratio");
         require(makerParameters.interestRate >= 10 && makerParameters.interestRate <= 50000, "Invalid interest rate");
 
+        // Persists borrowing parameters
+        _borrowingTokenAddress = makerParameters.borrowingTokenAddress;
+        _borrowingAmount = makerParameters.borrowingAmount;
+        _collateralTokenAddress = makerParameters.collateralTokenAddress;
+        _tenorDays = makerParameters.tenorDays;
+        _interestAmount = _borrowingAmount.mul(makerParameters.tenorDays).mul(makerParameters.interestRate).div(INTEREST_RATE_DECIMALS);
+
         // Calculate the collateral amount. Collateral is calculated at the time of issuance creation.
         PriceOracleInterface priceOracle = PriceOracleInterface(issuanceParameters.priceOracleAddress);
         (uint256 numerator, uint256 denominator) = priceOracle.getRate(_borrowingTokenAddress, _collateralTokenAddress);
@@ -79,13 +86,6 @@ contract Borrowing is InstrumentV3 {
         uint256 collateralTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
             .getTokenBalance(issuanceParameters.makerAddress, makerParameters.collateralTokenAddress);
         require(collateralTokenBalance >= _collateralAmount, "Insufficient collateral balance");
-
-        // Persists borrowing parameters
-        _borrowingTokenAddress = makerParameters.borrowingTokenAddress;
-        _borrowingAmount = makerParameters.borrowingAmount;
-        _collateralTokenAddress = makerParameters.collateralTokenAddress;
-        _tenorDays = makerParameters.tenorDays;
-        _interestAmount = _borrowingAmount.mul(makerParameters.tenorDays).mul(makerParameters.interestRate).div(INTEREST_RATE_DECIMALS);
 
         // Emits Scheduled Engagement Due event
         _engagementDueTimestamp = now + ENGAGEMENT_DUE_DAYS;

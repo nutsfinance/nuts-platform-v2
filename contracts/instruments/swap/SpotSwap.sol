@@ -102,7 +102,7 @@ contract SpotSwap is InstrumentV3 {
 
         // Transition to Complete Engaged state.
         updatedState = IssuanceStates.CompleteEngaged;
-
+        emit SwapEngaged(issuanceParameters.issuanceId, issuanceParameters.takerAddress);
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
         // Transfers input token from maker(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[0] = Transfer.Data({

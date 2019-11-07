@@ -2,7 +2,6 @@ pragma solidity ^0.5.0;
 
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/math/SafeMath.sol";
-import "../../lib/util/StringUtil.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/LendingData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
