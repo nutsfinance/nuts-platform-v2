@@ -108,4 +108,16 @@ contract InstrumentV3Manager is InstrumentManagerBase {
         (updatedState, transfersData) = InstrumentV3(_issuanceProxies[issuanceId]).processCustomEvent(
             issuanceParametersData, eventName, eventPayload);
     }
+
+    /**
+     * @dev Instrument type-specific custom data processing.
+     * @param issuanceId ID of the issuance.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param dataName The name of the custom data.
+     */
+    function _readCustomData(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 dataName)
+        internal view returns (bytes memory) {
+
+        return InstrumentV3(_issuanceProxies[issuanceId]).readCustomData(issuanceParametersData, dataName);
+    }
 }

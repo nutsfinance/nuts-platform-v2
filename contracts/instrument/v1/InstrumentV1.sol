@@ -70,4 +70,14 @@ contract InstrumentV1 is InstrumentBase {
      */
     function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload, bytes memory data)
         public returns (IssuanceStates updatedState, bytes memory updatedData, bytes memory transfersData);
+
+    /**
+     * @dev Read custom data.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param dataName The name of the custom data.
+     * @param data The data for this issuance
+     * @return customData The custom data of the issuance.
+     */
+    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName, bytes memory data)
+        public view returns (bytes memory);
 }

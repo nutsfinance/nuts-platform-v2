@@ -306,4 +306,13 @@ contract Borrowing is InstrumentV3 {
             revert("Unknown event");
         }
     }
+
+    /**
+     * @dev Read custom data.
+     * @return customData The custom data of the issuance.
+     */
+    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
+        revert('Unsupported operation.');
+    }
+
 }

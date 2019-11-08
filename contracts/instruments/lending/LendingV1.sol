@@ -292,4 +292,12 @@ contract LendingV1 is InstrumentV1, LendingBase {
             revert("Unknown event");
         }
     }
+
+    /**
+     * @dev Read custom data.
+     */
+    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */,
+        bytes memory /** data */) public view returns (bytes memory) {
+        revert('Unsupported operation.');
+    }
 }

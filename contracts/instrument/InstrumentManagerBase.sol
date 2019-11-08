@@ -316,6 +316,21 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     }
 
     /**
+     * @dev Read custom datas from issuance. This could be invoked by any caller.
+     * @param issuanceId The id of the issuance
+     * @param dataName Name of the custom data
+     */
+    function readCustomData(uint256 issuanceId, bytes32 dataName) public view returns (bytes memory) {
+        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        require(property.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
+
+        // Invoke Instrument
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
+        return _readCustomData(issuanceId, issuanceParametersData, dataName);
+    }
+
+    /**
      * @dev Determines whether the issuance is in termination states.
      */
     function _isIssuanceTerminated(InstrumentBase.IssuanceStates state) internal pure returns (bool) {
@@ -467,4 +482,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName,
         bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
 
+    /**
+     * @dev Instrument type-specific custom data processing.
+     */
+    function _readCustomData(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 dataName)
+        internal view returns (bytes memory);
 }

@@ -139,4 +139,17 @@ contract InstrumentV2Manager is InstrumentManagerBase {
         // Revoke writer role
         issuanceStorage.removeWriter(_instrumentAddress);
     }
+
+    /**
+     * @dev Instrument type-specific custom data processing.
+     * @param issuanceId ID of the issuance.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param dataName The name of the custom data.
+     */
+    function _readCustomData(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 dataName)
+        internal view returns (bytes memory) {
+
+        StorageInterface issuanceStorage = StorageInterface(_issuanceStorages[issuanceId]);
+        return InstrumentV2(_instrumentAddress).readCustomData(issuanceParametersData, dataName, issuanceStorage);
+    }
 }

@@ -283,4 +283,11 @@ contract LendingV3 is InstrumentV3, LendingBase {
             revert("Unknown event");
         }
     }
+
+    /**
+     * @dev Read custom data.
+     */
+    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
+        revert('Unsupported operation.');
+    }
 }

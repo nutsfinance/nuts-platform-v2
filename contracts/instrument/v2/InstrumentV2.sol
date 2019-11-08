@@ -62,11 +62,22 @@ contract InstrumentV2 is InstrumentBase {
      * @param issuanceParametersData Issuance Parameters.
      * @param eventName The name of the custom event.
      * @param eventPayload The custom parameters to the custom event
+     * @param issuanceStorage The storage contract for this issuance.
      * @return updatedState The new state of the issuance.
      * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
     function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload,
         StorageInterface issuanceStorage) public returns (IssuanceStates updatedState, bytes memory transfersData);
+
+    /**
+     * @dev Read custom data.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param dataName The name of the custom data.
+     * @param issuanceStorage The storage contract for this issuance.
+     * @return customData The custom data of the issuance.
+     */
+    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName, StorageInterface issuanceStorage)
+        public view returns (bytes memory);
 
 }

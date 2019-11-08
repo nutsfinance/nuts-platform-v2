@@ -91,4 +91,15 @@ contract InstrumentV1Manager is InstrumentManagerBase {
             issuanceParametersData, eventName, eventPayload, _issuanceData[issuanceId]);
     }
 
+    /**
+     * @dev Instrument type-specific custom data processing.
+     * @param issuanceId ID of the issuance.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param dataName The name of the custom data.
+     */
+    function _readCustomData(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 dataName)
+        internal view returns (bytes memory) {
+
+        return InstrumentV1(_instrumentAddress).readCustomData(issuanceParametersData, dataName, _issuanceData[issuanceId]);
+    }
 }
