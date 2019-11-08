@@ -10,12 +10,13 @@ import "../escrow/EscrowFactoryInterface.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";
+import "../lib/proxy/ProxyFactoryInterface.sol";
 import "../lib/util/Constants.sol";
 
 /**
  * Base instrument manager for instrument v1, v2 and v3.
  */
-contract InstrumentManagerBase is InstrumentManagerInterface {
+contract InstrumentManager is InstrumentManagerInterface {
 
     using SafeERC20 for IERC20;
 
@@ -33,6 +34,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         uint256 engagementTimestamp;
         // Amount of NUTS token deposited in creating this issuance
         uint256 deposit;
+        // Address of instrument proxy
+        address proxyAddress;
         // Address of Issuance Escrow
         address escrowAddress;
         // Current state of the issuance
@@ -63,6 +66,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     InstrumentConfig internal _instrumentConfig;
     // Instrument Escrow is singleton per each Instrument Manager.
     InstrumentEscrowInterface internal _instrumentEscrow;
+    ProxyFactoryInterface internal _proxyFactory;
     // We can derive the list of issuance id as [1, 2, 3, ..., _lastIssuanceId - 1]
     // so we don't need a separate array to store the issuance id list.
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
@@ -73,7 +77,8 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress, bytes memory instrumentParameters) public {
+    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress, address proxyFactoryAddress,
+        bytes memory instrumentParameters) public {
         require(_instrumentAddress == address(0x0), "Already initialized");
         require(fspAddress != address(0x0), "FSP not set");
         require(instrumentAddress != address(0x0), "Instrument not set");
@@ -95,6 +100,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         _lastIssuanceId = 1;
         // Deposit amount for Instrument activation might change. Need to record the amount deposited.
         _depositAmount = _instrumentConfig.instrumentDeposit();
+        _proxyFactory = ProxyFactoryInterface(proxyFactoryAddress);
 
         // Create Instrument Escrow
         _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
@@ -106,13 +112,6 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      */
     function getInstrumentEscrowAddress() public view returns (address) {
         return address(_instrumentEscrow);
-    }
-
-    /**
-     * @dev Get the current state of the issuance.
-     */
-    function getIssuanceState(uint256 issuanceId) public view returns (InstrumentBase.IssuanceStates) {
-        return _issuanceProperties[issuanceId].state;
     }
 
     /**
@@ -193,6 +192,11 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         IssuanceEscrowInterface issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
             .createIssuanceEscrow();
 
+        // Create an AdminOnlyUpgradeabilityProxy for the new issuance
+        // Current Instrument Manager is the proxy admin for this proxy, and only the current
+        // Instrument Manager can call fallback on the proxy.
+        address issuanceProxyAddress = _proxyFactory.createAdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this));
+
         // Create Issuance Property
         _issuanceProperties[issuanceId] = IssuanceProperty({
             makerAddress: msg.sender,
@@ -201,13 +205,15 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
             engagementTimestamp: 0,
             deposit: _instrumentConfig.issuanceDeposit(),
             escrowAddress: address(issuanceEscrow),
+            proxyAddress: issuanceProxyAddress,
             state: InstrumentBase.IssuanceStates.Initiated
         });
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processCreateIssuance(issuanceId,
-            issuanceParametersData, makerParameters);
+        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
+            .createIssuance(issuanceParametersData, makerParameters);
         _postProcessing(issuanceId, state, transfersData);
     }
 
@@ -221,17 +227,17 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         // 1. Taker whitelist is not enabled;
         // 2. Or taker whitelist is enabled, and this taker is allowed.
         require(!_takerWhitelistEnabled || _takerWhitelist[msg.sender], "Taker not eligible");
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.state == InstrumentBase.IssuanceStates.Engageable, "Issuance not engageable");
-        require(property.makerAddress != address(0x0), "Issuance not exist");
+        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
+        require(issuanceProperty.state == InstrumentBase.IssuanceStates.Engageable, "Issuance not engageable");
+        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
 
-        property.takerAddress = msg.sender;
-        property.engagementTimestamp = now;
+        issuanceProperty.takerAddress = msg.sender;
+        issuanceProperty.engagementTimestamp = now;
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processEngageIssuance(issuanceId,
-            issuanceParametersData, takerParameters);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
+            .engageIssuance(issuanceParametersData, takerParameters);
 
         _postProcessing(issuanceId, state, transfersData);
     }
@@ -243,10 +249,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param amount The amount of ERC20 token transfered
      */
     function depositToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(amount > 0, "Amount not set");
-        require(property.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
+        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
             outbound: false,
@@ -259,9 +265,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenDeposit(issuanceId,
-            issuanceParametersData, Constants.getEthAddress(), amount);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
+            .processTokenDeposit(issuanceParametersData, tokenAddress, amount);
 
         _postProcessing(issuanceId, state, transfersData);
     }
@@ -273,10 +279,10 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param amount The amount of ERC20 token transfered
      */
     function withdrawFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(amount > 0, "Amount not set");
-        require(property.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
+        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
             outbound: true,
@@ -289,9 +295,9 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
         _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processTokenWithdraw(issuanceId,
-            issuanceParametersData, Constants.getEthAddress(), amount);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
+            .processTokenWithdraw(issuanceParametersData, tokenAddress, amount);
 
         _postProcessing(issuanceId, state, transfersData);
     }
@@ -303,14 +309,14 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param eventPayload Payload of the custom event
      */
     function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
+        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
+        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = _processCustomEvent(issuanceId,
-            issuanceParametersData, eventName, eventPayload);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
+        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
+            .processCustomEvent(issuanceParametersData, eventName, eventPayload);
 
         _postProcessing(issuanceId, state, transfersData);
     }
@@ -321,13 +327,13 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
      * @param dataName Name of the custom data
      */
     function readCustomData(uint256 issuanceId, bytes32 dataName) public view returns (bytes memory) {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        require(property.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(property.state), "Issuance terminated");
+        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
+        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId);
-        return _readCustomData(issuanceId, issuanceParametersData, dataName);
+        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
+        return InstrumentBase(issuanceProperty.proxyAddress).readCustomData(issuanceParametersData, dataName);
     }
 
     /**
@@ -355,8 +361,7 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
     /**
      * @dev Get issuance parameters passed to Instruments.
      */
-    function _getIssuanceParameters(uint256 issuanceId) private view returns (bytes memory) {
-        IssuanceProperty storage property = _issuanceProperties[issuanceId];
+    function _getIssuanceParameters(uint256 issuanceId, IssuanceProperty storage property) private view returns (bytes memory) {
         IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.Data({
             issuanceId: issuanceId,
             fspAddress: _fspAddress,
@@ -445,46 +450,4 @@ contract InstrumentManagerBase is InstrumentManagerInterface {
             }
         }
     }
-
-    /****************************************************************
-     * Hook methods for Instrument type-specific implementations.
-     ***************************************************************/
-
-    /**
-     * @dev Instrument type-specific issuance creation processing.
-     */
-    function _processCreateIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory makerParametersData) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific issuance engage processing.
-     */
-    function _processEngageIssuance(uint256 issuanceId, bytes memory issuanceParametersData, bytes memory takerParameters) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific issuance ERC20 token deposit processing.
-     * Note: This method is called after deposit is complete, so that the Escrow reflects the balance after deposit.
-     */
-    function _processTokenDeposit(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific issuance ERC20 withdraw processing.
-     * Note: This method is called after withdraw is complete, so that the Escrow reflects the balance after withdraw.
-     */
-    function _processTokenWithdraw(uint256 issuanceId, bytes memory issuanceParametersData, address tokenAddress, uint256 amount) internal
-        returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific custom event processing.
-     */
-    function _processCustomEvent(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 eventName,
-        bytes memory eventPayload) internal returns (InstrumentBase.IssuanceStates, bytes memory);
-
-    /**
-     * @dev Instrument type-specific custom data processing.
-     */
-    function _readCustomData(uint256 issuanceId, bytes memory issuanceParametersData, bytes32 dataName)
-        internal view returns (bytes memory);
 }

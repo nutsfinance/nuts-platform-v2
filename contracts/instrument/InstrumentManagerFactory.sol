@@ -1,15 +1,15 @@
 pragma solidity ^0.5.0;
 
-import "../InstrumentManagerFactoryInterface.sol";
-import "../InstrumentManagerInterface.sol";
-import "./InstrumentV2Manager.sol";
+import "./InstrumentManagerFactoryInterface.sol";
+import "./InstrumentManagerInterface.sol";
+import "./InstrumentManager.sol";
 
-contract InstrumentV2ManagerFactory is InstrumentManagerFactoryInterface {
+contract InstrumentManagerFactory is InstrumentManagerFactoryInterface {
 
-    address private _storageFactoryAddress;
+    address private _proxyFactoryAddress;
 
-    constructor(address storageFactoryAddress) public {
-        _storageFactoryAddress = storageFactoryAddress;
+    constructor(address proxyFactoryAddress) public {
+        _proxyFactoryAddress = proxyFactoryAddress;
     }
 
     /**
@@ -21,9 +21,9 @@ contract InstrumentV2ManagerFactory is InstrumentManagerFactoryInterface {
      */
     function createInstrumentManagerInstance(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
         bytes memory instrumentParameters) public returns (InstrumentManagerInterface) {
-        InstrumentV2Manager manager = new InstrumentV2Manager(fspAddress, instrumentAddress, instrumentConfigAddress,
-            instrumentParameters, _storageFactoryAddress);
 
+        InstrumentManager manager = new InstrumentManager(fspAddress, instrumentAddress, instrumentConfigAddress,
+            _proxyFactoryAddress, instrumentParameters);
         return manager;
     }
 }

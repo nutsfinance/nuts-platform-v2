@@ -61,7 +61,7 @@ contract BaseAdminUpgradeabilityProxy is BaseUpgradeabilityProxy {
    * @param newAdmin Address to transfer proxy administration to.
    */
   function changeAdmin(address newAdmin) external ifAdmin {
-    require(newAdmin != address(0), "Admin must be set");
+    require(newAdmin != address(0), "Admin not set");
     emit AdminChanged(_admin(), newAdmin);
     _setAdmin(newAdmin);
   }

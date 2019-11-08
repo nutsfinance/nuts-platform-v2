@@ -4,9 +4,9 @@ import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/protobuf/SwapData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
-import "../../instrument/v3/InstrumentV3.sol";
+import "../InstrumentBase.sol";
 
-contract SpotSwap is InstrumentV3 {
+contract SpotSwap is InstrumentBase {
     event SwapCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
         address inputTokenAddress, address outputTokenAddress, uint256 inputAmount, uint256 outputAmount,
         uint256 swapDueTimestamp);
@@ -215,5 +215,13 @@ contract SpotSwap is InstrumentV3 {
         } else {
             revert("Unknown event");
         }
+    }
+
+    /**
+     * @dev Read custom data.
+     * @return customData The custom data of the issuance.
+     */
+    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
+        revert('Unsupported operation.');
     }
 }

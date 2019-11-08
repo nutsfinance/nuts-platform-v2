@@ -6,9 +6,9 @@ import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/BorrowingData.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
-import "../../instrument/v3/InstrumentV3.sol";
+import "../InstrumentBase.sol";
 
-contract Borrowing is InstrumentV3 {
+contract Borrowing is InstrumentBase {
     using SafeMath for uint256;
 
     event BorrowingCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
@@ -314,5 +314,4 @@ contract Borrowing is InstrumentV3 {
     function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
         revert('Unsupported operation.');
     }
-
 }

@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
 /**
- * @title Base contract for v1, v2, v3 instruments.
+ * @title Base contract for instruments.
  */
 contract InstrumentBase {
 
@@ -47,4 +47,69 @@ contract InstrumentBase {
      * @param eventPayload The payload the custom event
      */
     event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, bytes32 eventName, bytes eventPayload);
+
+    /**
+     * @dev Create a new issuance of the financial instrument
+     * @param issuanceParametersData Issuance Parameters.
+     * @param makerParametersData The custom parameters to the newly created issuance
+     * @return updatedState The new state of the issuance.
+     * @return transfersData The transfers to perform after the invocation
+     */
+    function createIssuance(bytes memory issuanceParametersData, bytes memory makerParametersData) public
+        returns (IssuanceStates updatedState, bytes memory transfersData);
+
+    /**
+     * @dev A taker engages to the issuance
+     * @param issuanceParametersData Issuance Parameters.
+     * @param takerParameters The custom parameters to the new engagement
+     * @return updatedState The new state of the issuance.
+     * @return transfersData The transfers to perform after the invocation
+     */
+    function engageIssuance(bytes memory issuanceParametersData, bytes memory takerParameters) public
+        returns (IssuanceStates updatedState, bytes memory transfersData);
+
+    /**
+     * @dev An account has made an ERC20 token deposit to the issuance
+     * @param issuanceParametersData Issuance Parameters.
+     * @param tokenAddress The address of the ERC20 token to deposit.
+     * @param amount The amount of ERC20 token to deposit.
+     * @return updatedState The new state of the issuance.
+     * @return updatedData The updated data of the issuance.
+     * @return transfersData The transfers to perform after the invocation
+     */
+    function processTokenDeposit(bytes memory issuanceParametersData, address tokenAddress, uint256 amount) public
+        returns (IssuanceStates updatedState, bytes memory transfersData);
+
+
+    /**
+     * @dev An account has made an ERC20 token withdraw from the issuance
+     * @param issuanceParametersData Issuance Parameters.
+     * @param tokenAddress The address of the ERC20 token to withdraw.
+     * @param amount The amount of ERC20 token to withdraw.
+     * @return updatedState The new state of the issuance.
+     * @return updatedData The updated data of the issuance.
+     * @return transfersData The transfers to perform after the invocation
+     */
+    function processTokenWithdraw(bytes memory issuanceParametersData, address tokenAddress, uint256 amount)
+        public returns (IssuanceStates updatedState, bytes memory transfersData);
+
+    /**
+     * @dev A custom event is triggered.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param eventName The name of the custom event.
+     * @param eventPayload The custom parameters to the custom event
+     * @return updatedState The new state of the issuance.
+     * @return updatedData The updated data of the issuance.
+     * @return transfersData The transfers to perform after the invocation
+     */
+    function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory eventPayload)
+        public returns (IssuanceStates updatedState, bytes memory transfersData);
+
+    /**
+     * @dev Read custom data.
+     * @param issuanceParametersData Issuance Parameters.
+     * @param dataName The name of the custom data.
+     * @return customData The custom data of the issuance.
+     */
+    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName) public view returns (bytes memory);
 }

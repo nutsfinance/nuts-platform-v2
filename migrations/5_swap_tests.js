@@ -1,7 +1,7 @@
-const InstrumentManagerInterface = artifacts.require('./instruments/InstrumentManagerInterface.sol');
+const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
 const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowInterface.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const SpotSwap = artifacts.require('./instruments/swap/SpotSwap.sol');
+const SpotSwap = artifacts.require('./instrument/swap/SpotSwap.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
 const TokenMock = artifacts.require('./mock/TokenMock.sol');
 

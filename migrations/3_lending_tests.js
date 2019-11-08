@@ -1,8 +1,8 @@
-const InstrumentManagerInterface = artifacts.require('./instruments/InstrumentManagerInterface.sol');
+const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowInterface.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const Lending = artifacts.require('./instruments/lending/LendingV3.sol');
+const Lending = artifacts.require('./instrument/lending/Lending.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
 const TokenMock = artifacts.require('./mock/TokenMock.sol');
 

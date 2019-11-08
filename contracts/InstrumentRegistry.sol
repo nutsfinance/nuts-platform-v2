@@ -2,7 +2,6 @@ pragma solidity ^0.5.0;
 
 import "./escrow/DepositEscrowInterface.sol";
 import "./escrow/EscrowFactoryInterface.sol";
-import "./storage/StorageFactoryInterface.sol";
 import "./instrument/InstrumentManagerInterface.sol";
 import "./instrument/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
@@ -20,7 +19,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     // Mapping: Instrument Address => Instrument Manager Address
     mapping(address => address) private _instrumentManagers;
     // Mapping: Version => Instrument Manager Factory
-    mapping(string => InstrumentManagerFactoryInterface) private _instrumentManagerFactories;
+    InstrumentManagerFactoryInterface private _instrumentManagerFactory;
 
     /**
      * @dev Initialization method for Instrument Registry.
@@ -30,13 +29,14 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param newPriceOracleAddress Address of Price Oracle
      * @param newEscrowFactoryAddress Address of Escrow Factory.
      */
-    constructor(uint256 newInstrumentDeposit, uint256 newIssuanceDeposit, address newDepositTokenAddress,
-        address newPriceOracleAddress, address newEscrowFactoryAddress) public {
-        require(address(depositTokenAddress) == address(0x0), "Registry already initialized");
+    constructor(address instrumentManagerFactoryAddress, uint256 newInstrumentDeposit, uint256 newIssuanceDeposit,
+        address newDepositTokenAddress, address newPriceOracleAddress, address newEscrowFactoryAddress) public {
+        require(address(_instrumentManagerFactory) == address(0x0), "Registry already initialized");
         require(newDepositTokenAddress != address(0x0), "Deposit token address not set");
         require(newPriceOracleAddress != address(0x0), "Price Oracle address not set");
         require(newEscrowFactoryAddress != address(0x0), "Escrow Factory address not set");
 
+        _instrumentManagerFactory = InstrumentManagerFactoryInterface(instrumentManagerFactoryAddress);
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositTokenAddress = newDepositTokenAddress;
@@ -51,8 +51,8 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev Update Instrument Manager Factory
      */
-    function setInstrumentManagerFactory(string memory version, InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
-        _instrumentManagerFactories[version] = instrumentManagerFactory;
+    function setInstrumentManagerFactory(InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
+        _instrumentManagerFactory = instrumentManagerFactory;
     }
 
     /**
@@ -79,16 +79,15 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev MOST IMPORTANT method: Activate new financial instrument.
      * @param instrumentAddress Address of Instrument to activate.
-     * @param version Version of Instrument.
      * @param instrumentParameters Custom parameters for this instrument.
      */
-    function activateInstrument(address instrumentAddress, string memory version, bytes memory instrumentParameters)
+    function activateInstrument(address instrumentAddress, bytes memory instrumentParameters)
         public returns (InstrumentManagerInterface) {
         require(_instrumentManagers[instrumentAddress] == address(0x0), "Instrument already activated");
         require(instrumentAddress != address(0x0), "Instrument address not set");
 
         // Create Instrument Manager
-        InstrumentManagerInterface instrumentManager = _instrumentManagerFactories[version].createInstrumentManagerInstance(
+        InstrumentManagerInterface instrumentManager = _instrumentManagerFactory.createInstrumentManagerInstance(
             msg.sender, instrumentAddress, address(this), instrumentParameters);
 
         _instrumentManagers[instrumentAddress] = address(instrumentManager);

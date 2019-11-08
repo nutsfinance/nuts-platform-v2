@@ -50,7 +50,7 @@ contract BaseUpgradeabilityProxy is Proxy {
    * @param newImplementation Address of the new implementation.
    */
   function _setImplementation(address newImplementation) internal {
-    require(Address.isContract(newImplementation), "New implementation must be set");
+    require(Address.isContract(newImplementation), "Implementation not set");
 
     bytes32 slot = IMPLEMENTATION_SLOT;
 

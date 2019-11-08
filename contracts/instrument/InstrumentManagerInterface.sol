@@ -16,11 +16,6 @@ interface InstrumentManagerInterface {
     function getInstrumentEscrowAddress() external view returns (address);
 
     /**
-     * @dev Get the current state of the issuance.
-     */
-    function getIssuanceState(uint256 issuanceId) external view returns (InstrumentBase.IssuanceStates);
-
-    /**
      * @dev Deactivates the instrument.
      */
     function deactivate() external;
