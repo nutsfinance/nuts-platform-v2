@@ -7,6 +7,7 @@ import "../escrow/InstrumentEscrowInterface.sol";
 import "../escrow/IssuanceEscrowInterface.sol";
 import "../escrow/DepositEscrowInterface.sol";
 import "../escrow/EscrowFactoryInterface.sol";
+import "../lib/access/WhitelistAccess.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";
@@ -19,6 +20,7 @@ import "../lib/util/Constants.sol";
 contract InstrumentManager is InstrumentManagerInterface {
 
     using SafeERC20 for IERC20;
+    using WhitelistAccess for WhitelistAccess.Whitelist;
 
     /**
      * @dev Common property of issuance.
@@ -48,12 +50,10 @@ contract InstrumentManager is InstrumentManagerInterface {
     uint256 internal _startTimestamp;
 
     // Maker whitelist
-    bool internal _makerWhitelistEnabled;
-    mapping(address => bool) internal _makerWhitelist;
+    WhitelistAccess.Whitelist internal _makerWhitelist;
 
     // Taker whitelist
-    bool internal _takerWhitelistEnabled;
-    mapping(address => bool) internal _takerWhitelist;
+    WhitelistAccess.Whitelist internal _takerWhitelist;
 
     address internal _fspAddress;
     address internal _brokerAddress;
@@ -89,8 +89,8 @@ contract InstrumentManager is InstrumentManagerInterface {
         _active = true;
         _expiration = parameters.expiration;
         _startTimestamp = now;
-        _makerWhitelistEnabled = parameters.supportMakerWhitelist;
-        _takerWhitelistEnabled = parameters.supportTakerWhitelist;
+        _makerWhitelist.enabled = parameters.supportMakerWhitelist;
+        _takerWhitelist.enabled = parameters.supportTakerWhitelist;
         _instrumentConfig = InstrumentConfig(instrumentConfigAddress);
 
         _fspAddress = fspAddress;
@@ -140,10 +140,8 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param allowed Whether this maker is allowed to create new issuance.
      */
     function setMakerWhitelist(address makerAddress, bool allowed) public {
-        require(_makerWhitelistEnabled, "Maker whitelist disabled");
-        require(msg.sender == _fspAddress, "Only FSP can whitelist maker");
-
-        _makerWhitelist[makerAddress] = allowed;
+        require(msg.sender == _fspAddress, "Only FSP can whitelist");
+        _makerWhitelist.setAllowed(makerAddress, allowed);
     }
 
     /**
@@ -152,10 +150,8 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param allowed Whether this taker is allowed to engage issuance.
      */
     function setTakerWhitelist(address takerAddress, bool allowed) public {
-        require(_takerWhitelistEnabled, "Taker whitelist disabled");
-        require(msg.sender == _fspAddress, "Only FSP can whitelist taker");
-
-        _takerWhitelist[takerAddress] = allowed;
+        require(msg.sender == _fspAddress, "Only FSP can whitelist");
+        _takerWhitelist.setAllowed(takerAddress, allowed);
     }
 
     /**
@@ -171,7 +167,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         // Maker is allowed if:
         // 1. Maker whitelist is not enabled;
         // 2. Or maker whitelist is enabled, and this maker is allowed.
-        require(!_makerWhitelistEnabled || _makerWhitelist[msg.sender], "Maker not eligible");
+        require(_makerWhitelist.isAllowed(msg.sender), "Maker not allowed");
 
         // Deposit NUTS token
         if (_instrumentConfig.issuanceDeposit() > 0) {
@@ -226,7 +222,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         // Taker is allowed if:
         // 1. Taker whitelist is not enabled;
         // 2. Or taker whitelist is enabled, and this taker is allowed.
-        require(!_takerWhitelistEnabled || _takerWhitelist[msg.sender], "Taker not eligible");
+        require(_takerWhitelist.isAllowed(msg.sender), "Taker not allowed");
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(issuanceProperty.state == InstrumentBase.IssuanceStates.Engageable, "Issuance not engageable");
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
