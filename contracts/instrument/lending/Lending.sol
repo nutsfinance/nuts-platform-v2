@@ -4,6 +4,7 @@ import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/math/SafeMath.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/LendingData.sol";
+import "../../lib/protobuf/Liability.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../InstrumentBase.sol";
@@ -38,6 +39,9 @@ contract Lending is InstrumentBase {
     // Custom events
     bytes32 constant internal CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
+    // Custom data
+    bytes32 constant internal LENDING_DATA = "lending_data";
+
     // Lending parameters
     address private _lendingTokenAddress;
     address private _collateralTokenAddress;
@@ -48,6 +52,8 @@ contract Lending is InstrumentBase {
     uint256 private _lendingDueTimestamp;
     uint256 private _interestAmount;
     uint256 private _collateralAmount;
+    uint256 private _repaidTimestamp;
+    Liability.Data[] private _liabilities;
 
     /**
      * @dev Creates a new issuance of the financial instrument
@@ -139,6 +145,41 @@ contract Lending is InstrumentBase {
         // Transition to Engaged state.
         updatedState = IssuanceStates.Engaged;
 
+        // Create liabilities
+        Liability.Data memory liabilities1 = Liability.Data({
+            id: 1,
+            liabilityType: Liability.Type.Payable,
+            obligator: Liability.Role.CollateralCustodian,
+            claimor: Liability.Role.Taker,
+            tokenAddress: _collateralTokenAddress,
+            amount: _collateralAmount,
+            dueTimestamp: _lendingDueTimestamp,
+            paidOff: false
+        });
+        _liabilities.push(liabilities1);
+        Liability.Data memory liabilities2 = Liability.Data({
+            id: 2,
+            liabilityType: Liability.Type.Payable,
+            obligator: Liability.Role.Taker,
+            claimor: Liability.Role.Maker,
+            tokenAddress: _lendingTokenAddress,
+            amount: _lendingAmount,
+            dueTimestamp: _lendingDueTimestamp,
+            paidOff: false
+        });
+        _liabilities.push(liabilities2);
+        Liability.Data memory liabilities3 = Liability.Data({
+            id: 3,
+            liabilityType: Liability.Type.Payable,
+            obligator: Liability.Role.Taker,
+            claimor: Liability.Role.Maker,
+            tokenAddress: _lendingTokenAddress,
+            amount: _interestAmount,
+            dueTimestamp: _lendingDueTimestamp,
+            paidOff: false
+        });
+        _liabilities.push(liabilities3);
+
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Transfers collateral token from taker(Instrument Escrow) to taker(Issuance Escrow).
         transfers.actions[0] = Transfer.Data({
@@ -182,9 +223,15 @@ contract Lending is InstrumentBase {
 
         // Emits Lending Repaid event
         emit LendingRepaid(issuanceParameters.issuanceId);
+        _repaidTimestamp = now;
 
         // Updates to Complete Engaged state.
         updatedState = IssuanceStates.CompleteEngaged;
+
+        // Updates liabilities
+        _liabilities[0].paidOff = true;
+        _liabilities[1].paidOff = true;
+        _liabilities[2].paidOff = true;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Transfers lending amount + interest from taker(Issuance Escrow) to maker(Instrument Escrow).
@@ -313,7 +360,31 @@ contract Lending is InstrumentBase {
     /**
      * @dev Read custom data.
      */
-    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
-        revert('Unsupported operation.');
+    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName) public view returns (bytes memory) {
+        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+        if (dataName == LENDING_DATA) {
+            LendingData.Data memory lendingData = LendingData.Data({
+                lendingTokenAddress: _lendingTokenAddress,
+                collateralTokenAddress: _collateralTokenAddress,
+                lendingAmount: _lendingAmount,
+                collateralRatio: _collateralRatio,
+                collateralAmount: _collateralAmount,
+                interestAmount: _interestAmount,
+                tenorDays: _tenorDays,
+                engagementDueTimestamp: _engagementDueTimestamp,
+                lendingDueTimestamp: _lendingDueTimestamp,
+                makerAddress: issuanceParameters.makerAddress,
+                takerAddress: issuanceParameters.takerAddress,
+                escrowAddress: issuanceParameters.issuanceEscrowAddress,
+                creationTimestamp: issuanceParameters.creationTimestamp,
+                engagementTimestamp: issuanceParameters.engagementTimestamp,
+                repaidTimestamp: _repaidTimestamp,
+                state: uint8(issuanceParameters.state),
+                liabilities: _liabilities
+            });
+            return LendingData.encode(lendingData);
+        } else {
+            revert('Unknown data');
+        }
     }
 }

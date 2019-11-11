@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+message Liability {
+    enum Role {
+        Maker = 0;
+        Taker = 1;
+        CollateralCustodian = 2;
+    }
+
+    enum Type {
+        Payable = 0;
+    }
+
+    .solidity.uint8 id = 1;
+    Type liabilityType = 2;
+    Role obligator = 3;
+    Role claimor = 4;
+    .solidity.address tokenAddress = 5;
+    .solidity.uint256 amount = 6;
+    .solidity.uint256 dueTimestamp = 7;
+    bool paidOff = 8;
+}
