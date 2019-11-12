@@ -13,3 +13,21 @@ message SpotSwapMakerParameters {
   .solidity.uint256 outputAmount = 4;
   .solidity.uint256 duration = 5;
 }
+
+/**
+ * Represents the data about he swap spot issuance.
+ */
+message SpotSwapData {
+  .solidity.address inputTokenAddress = 1;
+  .solidity.address outputTokenAddress = 2;
+  .solidity.uint256 inputAmount = 3;
+  .solidity.uint256 outputAmount = 4;
+  .solidity.uint256 duration = 5;
+  .solidity.uint256 swapDueTimestamp = 6;
+  .solidity.address makerAddress = 7;
+  .solidity.address takerAddress = 8;
+  .solidity.address escrowAddress = 9;
+  .solidity.uint256 creationTimestamp = 10;
+  .solidity.uint256 engagementTimestamp = 11;
+  .solidity.uint8 state = 12;
+}

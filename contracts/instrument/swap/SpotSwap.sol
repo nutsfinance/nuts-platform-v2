@@ -23,11 +23,15 @@ contract SpotSwap is InstrumentBase {
     // Custom events
     bytes32 constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
+    // Custom data
+    bytes32 constant internal SWAP_DATA = "swap_data";
+
     // Lending parameters
     address private _inputTokenAddress;
     address private _outputTokenAddress;
     uint256 private _inputAmount;
     uint256 private _outputAmount;
+    uint256 private _duration;
     uint256 private _swapDueTimestamp;
 
     /**
@@ -62,7 +66,8 @@ contract SpotSwap is InstrumentBase {
         _outputAmount = makerParameters.outputAmount;
 
         // Emits Scheduled Swap Due event
-        _swapDueTimestamp = now + 1 days * makerParameters.duration;
+        _duration = makerParameters.duration;
+        _swapDueTimestamp = now + 1 days * _duration;
         emit EventTimeScheduled(issuanceParameters.issuanceId, _swapDueTimestamp, SWAP_DUE_EVENT, "");
 
         // Emits Swap Created event
@@ -221,7 +226,26 @@ contract SpotSwap is InstrumentBase {
      * @dev Read custom data.
      * @return customData The custom data of the issuance.
      */
-    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
-        revert('Unsupported operation.');
+    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName) public view returns (bytes memory) {
+        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+        if (dataName == SWAP_DATA) {
+            SpotSwapData.Data memory swapData = SpotSwapData.Data({
+                inputTokenAddress: _inputTokenAddress,
+                outputTokenAddress: _outputTokenAddress,
+                inputAmount: _inputAmount,
+                outputAmount: _outputAmount,
+                duration: _duration,
+                swapDueTimestamp: _swapDueTimestamp,
+                makerAddress: issuanceParameters.makerAddress,
+                takerAddress: issuanceParameters.takerAddress,
+                escrowAddress: issuanceParameters.issuanceEscrowAddress,
+                creationTimestamp: issuanceParameters.creationTimestamp,
+                engagementTimestamp: issuanceParameters.engagementTimestamp,
+                state: uint8(issuanceParameters.state)
+            });
+            return SpotSwapData.encode(swapData);
+        } else {
+            revert('Unknown data');
+        }
     }
 }

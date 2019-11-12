@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "SolidityTypes.proto";
+import "Liability.proto";
 
 /**
  * Represents the input parameters from makers in
@@ -13,4 +14,27 @@ message BorrowingMakerParameters {
   .solidity.uint32 collateralRatio = 4;
   .solidity.uint32 tenorDays = 5;
   .solidity.uint32 interestRate = 6;
+}
+
+/**
+ * Represents the data about the borrowing issuance.
+ */
+message BorrowingData {
+  .solidity.address borrowingTokenAddress = 1;
+  .solidity.address collateralTokenAddress = 2;
+  .solidity.uint256 borrowingAmount = 3;
+  .solidity.uint256 collateralRatio = 4;
+  .solidity.uint256 collateralAmount = 5;
+  .solidity.uint256 interestAmount = 6;
+  .solidity.uint256 tenorDays = 7;
+  .solidity.uint256 engagementDueTimestamp = 8;
+  .solidity.uint256 borrowingDueTimestamp = 9;
+  .solidity.address makerAddress = 10;
+  .solidity.address takerAddress = 11;
+  .solidity.address escrowAddress = 12;
+  .solidity.uint256 creationTimestamp = 13;
+  .solidity.uint256 engagementTimestamp = 14;
+  .solidity.uint256 repaidTimestamp = 15;
+  .solidity.uint8 state = 16;
+  repeated Liability liabilities = 17;
 }

@@ -4,6 +4,7 @@ import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/math/SafeMath.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/BorrowingData.sol";
+import "../../lib/protobuf/Liability.sol";
 import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../InstrumentBase.sol";
@@ -37,6 +38,9 @@ contract Borrowing is InstrumentBase {
     // Custom events
     bytes32 constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
+    // Custom data
+    bytes32 constant internal BORROWING_DATA = "borrowing_data";
+
     // Lending parameters
     address private _collateralTokenAddress;
     address private _borrowingTokenAddress;
@@ -45,7 +49,10 @@ contract Borrowing is InstrumentBase {
     uint256 private _engagementDueTimestamp;
     uint256 private _borrowingDueTimestamp;
     uint256 private _interestAmount;
+    uint256 private _collateralRatio;
     uint256 private _collateralAmount;
+    uint256 private _repaidTimestamp;
+    Liability.Data[] private _liabilities;
 
     /**
      * @dev Creates a new issuance of the financial instrument
@@ -72,7 +79,8 @@ contract Borrowing is InstrumentBase {
         PriceOracleInterface priceOracle = PriceOracleInterface(issuanceParameters.priceOracleAddress);
         (uint256 numerator, uint256 denominator) = priceOracle.getRate(_borrowingTokenAddress, _collateralTokenAddress);
         require(numerator > 0 && denominator > 0, "Exchange rate not found");
-        _collateralAmount = denominator.mul(makerParameters.borrowingAmount).mul(makerParameters.collateralRatio)
+        _collateralRatio = makerParameters.collateralRatio;
+        _collateralAmount = denominator.mul(makerParameters.borrowingAmount).mul(_collateralRatio)
             .div(COLLATERAL_RATIO_DECIMALS).div(numerator);
 
         // Validate collateral token balance
@@ -311,7 +319,31 @@ contract Borrowing is InstrumentBase {
      * @dev Read custom data.
      * @return customData The custom data of the issuance.
      */
-    function readCustomData(bytes memory /** issuanceParametersData */, bytes32 /** dataName */) public view returns (bytes memory) {
-        revert('Unsupported operation.');
+    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName) public view returns (bytes memory) {
+        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+        if (dataName == BORROWING_DATA) {
+            BorrowingData.Data memory borrowingData = BorrowingData.Data({
+                borrowingTokenAddress: _borrowingTokenAddress,
+                collateralTokenAddress: _collateralTokenAddress,
+                borrowingAmount: _borrowingAmount,
+                collateralRatio: _collateralRatio,
+                collateralAmount: _collateralAmount,
+                interestAmount: _interestAmount,
+                tenorDays: _tenorDays,
+                engagementDueTimestamp: _engagementDueTimestamp,
+                borrowingDueTimestamp: _borrowingDueTimestamp,
+                makerAddress: issuanceParameters.makerAddress,
+                takerAddress: issuanceParameters.takerAddress,
+                escrowAddress: issuanceParameters.issuanceEscrowAddress,
+                creationTimestamp: issuanceParameters.creationTimestamp,
+                engagementTimestamp: issuanceParameters.engagementTimestamp,
+                repaidTimestamp: _repaidTimestamp,
+                state: uint8(issuanceParameters.state),
+                liabilities: _liabilities
+            });
+            return BorrowingData.encode(borrowingData);
+        } else {
+            revert('Unknown data');
+        }
     }
 }
