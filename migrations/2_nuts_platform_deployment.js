@@ -1,6 +1,5 @@
 const InstrumentManagerFactory = artifacts.require('./instrument/InstrumentManagerFactory.sol');
 const InstrumentManagerInterface = artifacts.require('./instruments/InstrumentManagerInterface.sol');
-const ProxyFactory = artifacts.require('./lib/proxy/ProxyFactory.sol');
 const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
@@ -15,11 +14,8 @@ const TokenMock = artifacts.require('./mock/TokenMock.sol');
 
 const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker2, taker2, maker3, taker3]) {
 
-    // Deploy Proxy Factory
-    let proxyFactory = await deployer.deploy(ProxyFactory);
-
     // Deploy Instrument Managers
-    let instrumentManagerFactory = await deployer.deploy(InstrumentManagerFactory, proxyFactory.address);
+    let instrumentManagerFactory = await deployer.deploy(InstrumentManagerFactory);
 
     // Deploy NUTS token
     let nutsToken = await deployer.deploy(NUTSToken);
