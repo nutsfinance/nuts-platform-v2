@@ -6,12 +6,6 @@ import "./InstrumentManager.sol";
 
 contract InstrumentManagerFactory is InstrumentManagerFactoryInterface {
 
-    address private _proxyFactoryAddress;
-
-    constructor(address proxyFactoryAddress) public {
-        _proxyFactoryAddress = proxyFactoryAddress;
-    }
-
     /**
      * @dev Create a new instrument manager instance
      * @param fspAddress The address of fsp who creates the instrument.
@@ -23,7 +17,7 @@ contract InstrumentManagerFactory is InstrumentManagerFactoryInterface {
         bytes memory instrumentParameters) public returns (InstrumentManagerInterface) {
 
         InstrumentManager manager = new InstrumentManager(fspAddress, instrumentAddress, instrumentConfigAddress,
-            _proxyFactoryAddress, instrumentParameters);
+            instrumentParameters);
         return manager;
     }
 }

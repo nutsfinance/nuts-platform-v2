@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
 import "./InstrumentManagerInterface.sol";
-import "./InstrumentBase.sol";
+import "./InstrumentInterface.sol";
 import "../InstrumentConfig.sol";
 import "../escrow/InstrumentEscrowInterface.sol";
 import "../escrow/IssuanceEscrowInterface.sol";
@@ -11,7 +11,7 @@ import "../lib/access/WhitelistAccess.sol";
 import "../lib/token/SafeERC20.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";
-import "../lib/proxy/ProxyFactoryInterface.sol";
+import "../lib/proxy/AdminOnlyUpgradeabilityProxy.sol";
 import "../lib/util/Constants.sol";
 
 /**
@@ -28,20 +28,16 @@ contract InstrumentManager is InstrumentManagerInterface {
     struct IssuanceProperty {
         // Address of issuance creator
         address makerAddress;
-        // When the issuance is created
-        uint256 creationTimestamp;
         // Address of issuance taker
         address takerAddress;
-        // When the issuance is engaged
-        uint256 engagementTimestamp;
         // Amount of NUTS token deposited in creating this issuance
         uint256 deposit;
         // Address of instrument proxy
         address proxyAddress;
         // Address of Issuance Escrow
         address escrowAddress;
-        // Current state of the issuance
-        InstrumentBase.IssuanceStates state;
+        // Whether the issuance is terminated
+        bool terminated;
     }
 
     // Instrument expiration
@@ -66,7 +62,6 @@ contract InstrumentManager is InstrumentManagerInterface {
     InstrumentConfig internal _instrumentConfig;
     // Instrument Escrow is singleton per each Instrument Manager.
     InstrumentEscrowInterface internal _instrumentEscrow;
-    ProxyFactoryInterface internal _proxyFactory;
     // We can derive the list of issuance id as [1, 2, 3, ..., _lastIssuanceId - 1]
     // so we don't need a separate array to store the issuance id list.
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
@@ -77,7 +72,7 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress, address proxyFactoryAddress,
+    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
         bytes memory instrumentParameters) public {
         require(_instrumentAddress == address(0x0), "Already initialized");
         require(fspAddress != address(0x0), "FSP not set");
@@ -97,10 +92,8 @@ contract InstrumentManager is InstrumentManagerInterface {
         // If broker address is not provided, default to fsp address.
         _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;
         _instrumentAddress = instrumentAddress;
-        _lastIssuanceId = 1;
         // Deposit amount for Instrument activation might change. Need to record the amount deposited.
         _depositAmount = _instrumentConfig.instrumentDeposit();
-        _proxyFactory = ProxyFactoryInterface(proxyFactoryAddress);
 
         // Create Instrument Escrow
         _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
@@ -112,6 +105,13 @@ contract InstrumentManager is InstrumentManagerInterface {
      */
     function getInstrumentEscrowAddress() public view returns (address) {
         return address(_instrumentEscrow);
+    }
+
+    /**
+     * @dev Get the ID of the last created issuance.
+     */
+    function getLastIssuanceId() public view returns (uint256) {
+        return _lastIssuanceId;
     }
 
     /**
@@ -181,7 +181,6 @@ contract InstrumentManager is InstrumentManagerInterface {
         }
 
         // Get issuance Id
-        uint256 issuanceId = _lastIssuanceId;
         _lastIssuanceId++;
 
         // Create Issuance Escrow.
@@ -191,26 +190,24 @@ contract InstrumentManager is InstrumentManagerInterface {
         // Create an AdminOnlyUpgradeabilityProxy for the new issuance
         // Current Instrument Manager is the proxy admin for this proxy, and only the current
         // Instrument Manager can call fallback on the proxy.
-        address issuanceProxyAddress = _proxyFactory.createAdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this));
+        AdminOnlyUpgradeabilityProxy issuanceProxy = new AdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this));
 
         // Create Issuance Property
-        _issuanceProperties[issuanceId] = IssuanceProperty({
+        _issuanceProperties[_lastIssuanceId] = IssuanceProperty({
             makerAddress: msg.sender,
-            creationTimestamp: now,
             takerAddress: address(0x0),
-            engagementTimestamp: 0,
             deposit: _instrumentConfig.issuanceDeposit(),
             escrowAddress: address(issuanceEscrow),
-            proxyAddress: issuanceProxyAddress,
-            state: InstrumentBase.IssuanceStates.Initiated
+            proxyAddress: address(issuanceProxy),
+            terminated: false
         });
 
         // Invoke Instrument
-        IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
-            .createIssuance(issuanceParametersData, makerParameters);
-        _postProcessing(issuanceId, state, transfersData);
+        InstrumentInterface instrument = InstrumentInterface(address(issuanceProxy));
+        instrument.initialize(_lastIssuanceId, _fspAddress, _brokerAddress, address(_instrumentEscrow),
+            address(issuanceEscrow), _instrumentConfig.priceOracleAddress());
+        bytes memory transfersData = instrument.createIssuance(msg.sender, makerParameters);
+        _postProcessing(_lastIssuanceId, instrument.isTerminated(), transfersData);
     }
 
     /**
@@ -224,18 +221,15 @@ contract InstrumentManager is InstrumentManagerInterface {
         // 2. Or taker whitelist is enabled, and this taker is allowed.
         require(_takerWhitelist.isAllowed(msg.sender), "Taker not allowed");
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
-        require(issuanceProperty.state == InstrumentBase.IssuanceStates.Engageable, "Issuance not engageable");
+        require(!issuanceProperty.terminated, "Issuance terminated");
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
 
         issuanceProperty.takerAddress = msg.sender;
-        issuanceProperty.engagementTimestamp = now;
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
-            .engageIssuance(issuanceParametersData, takerParameters);
-
-        _postProcessing(issuanceId, state, transfersData);
+        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
+        bytes memory transfersData = instrument.engageIssuance(msg.sender, takerParameters);
+        _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
     /**
@@ -248,7 +242,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(amount > 0, "Amount not set");
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
+        require(!issuanceProperty.terminated, "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
             outbound: false,
@@ -261,11 +255,10 @@ contract InstrumentManager is InstrumentManagerInterface {
         _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
-            .processTokenDeposit(issuanceParametersData, tokenAddress, amount);
+        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
+        bytes memory transfersData = instrument.processTokenDeposit(msg.sender, tokenAddress, amount);
 
-        _postProcessing(issuanceId, state, transfersData);
+        _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
     /**
@@ -278,7 +271,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(amount > 0, "Amount not set");
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
+        require(!issuanceProperty.terminated, "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
             outbound: true,
@@ -291,11 +284,9 @@ contract InstrumentManager is InstrumentManagerInterface {
         _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
-            .processTokenWithdraw(issuanceParametersData, tokenAddress, amount);
-
-        _postProcessing(issuanceId, state, transfersData);
+        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
+        bytes memory transfersData = instrument.processTokenWithdraw(msg.sender, tokenAddress, amount);
+        _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
     /**
@@ -307,14 +298,12 @@ contract InstrumentManager is InstrumentManagerInterface {
     function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
+        require(!issuanceProperty.terminated, "Issuance terminated");
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
-        (InstrumentBase.IssuanceStates state, bytes memory transfersData) = InstrumentBase(issuanceProperty.proxyAddress)
-            .processCustomEvent(issuanceParametersData, eventName, eventPayload);
-
-        _postProcessing(issuanceId, state, transfersData);
+        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
+        bytes memory transfersData = instrument.processCustomEvent(msg.sender, eventName, eventPayload);
+        _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
     /**
@@ -325,22 +314,10 @@ contract InstrumentManager is InstrumentManagerInterface {
     function readCustomData(uint256 issuanceId, bytes32 dataName) public view returns (bytes memory) {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
-        require(!_isIssuanceTerminated(issuanceProperty.state), "Issuance terminated");
 
         // Invoke Instrument
-        bytes memory issuanceParametersData = _getIssuanceParameters(issuanceId, issuanceProperty);
-        return InstrumentBase(issuanceProperty.proxyAddress).readCustomData(issuanceParametersData, dataName);
-    }
-
-    /**
-     * @dev Determines whether the issuance is in termination states.
-     */
-    function _isIssuanceTerminated(InstrumentBase.IssuanceStates state) internal pure returns (bool) {
-        return state == InstrumentBase.IssuanceStates.Unfunded ||
-            state == InstrumentBase.IssuanceStates.Cancelled ||
-            state == InstrumentBase.IssuanceStates.CompleteNotEngaged ||
-            state == InstrumentBase.IssuanceStates.CompleteEngaged ||
-            state == InstrumentBase.IssuanceStates.Delinquent;
+        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
+        return instrument.readCustomData(msg.sender, dataName);
     }
 
     /**
@@ -355,35 +332,12 @@ contract InstrumentManager is InstrumentManagerInterface {
     }
 
     /**
-     * @dev Get issuance parameters passed to Instruments.
-     */
-    function _getIssuanceParameters(uint256 issuanceId, IssuanceProperty storage property) private view returns (bytes memory) {
-        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.Data({
-            issuanceId: issuanceId,
-            fspAddress: _fspAddress,
-            brokerAddress: _brokerAddress,
-            makerAddress: property.makerAddress,
-            creationTimestamp: property.creationTimestamp,
-            takerAddress: property.takerAddress,
-            engagementTimestamp: property.engagementTimestamp,
-            state: uint8(property.state),
-            instrumentEscrowAddress: address(_instrumentEscrow),
-            issuanceEscrowAddress: property.escrowAddress,
-            callerAddress: msg.sender,
-            priceOracleAddress: _instrumentConfig.priceOracleAddress()
-        });
-
-        return IssuanceParameters.encode(issuanceParameters);
-    }
-
-    /**
      * @dev Process updated state and transfers after instrument invocation.
      */
-    function _postProcessing(uint256 issuanceId, InstrumentBase.IssuanceStates state, bytes memory transfersData) internal {
+    function _postProcessing(uint256 issuanceId, bool terminated, bytes memory transfersData) internal {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        // Processes state update.
-        property.state = state;
-        if (_isIssuanceTerminated(state) && property.deposit > 0) {
+        if (terminated && property.deposit > 0) {
+            property.terminated = true;
             // Withdraws NUTS token
             DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
                 .withdrawToken(_instrumentConfig.depositTokenAddress(), property.deposit);

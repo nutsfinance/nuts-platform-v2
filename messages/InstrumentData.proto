@@ -3,30 +3,11 @@ syntax = "proto3";
 import "SolidityTypes.proto";
 
 /**
- * Parameters in creating Instrument Manager for Instrument v1, v2 and v3.
+ * Parameters in creating Instrument Manager for Instruments.
  */
 message InstrumentParameters {
     .solidity.uint256 expiration = 1;
     .solidity.address brokerAddress = 2;
     bool supportMakerWhitelist = 3;
     bool supportTakerWhitelist = 4;
-}
-
-/**
- * Parameters in invoking Instrument methods for Instrument v1, v2 and v3.
- */
-message IssuanceParameters {
-    // Common parameters in all methods
-    .solidity.uint256 issuanceId = 1;                   // Id of the target issuance.
-    .solidity.address fspAddress = 2;                   // Address of FSP who creates the instrument.
-    .solidity.address brokerAddress = 3;                // Address of the instrument broker.
-    .solidity.address makerAddress = 4;                 // Address of the issuance maker.
-    .solidity.uint256 creationTimestamp = 5;            // Timestamp when issuance is created.
-    .solidity.address takerAddress = 6;                 // Address of the issuance taker.
-    .solidity.uint256 engagementTimestamp = 7;          // Timestamp when issuance is engaged.
-    .solidity.uint8 state = 8;                          // Current issuance state.
-    .solidity.address instrumentEscrowAddress = 9;      // Address of the Instrument Escrow
-    .solidity.address issuanceEscrowAddress = 10;       // Address of the Issuance Escrow
-    .solidity.address callerAddress = 11;               // Address of the caller that triggers the issuance operation.
-    .solidity.address priceOracleAddress = 12;          // Address of the price oracle.
 }

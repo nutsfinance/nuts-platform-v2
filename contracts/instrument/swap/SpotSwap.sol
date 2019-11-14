@@ -2,8 +2,8 @@ pragma solidity ^0.5.0;
 
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/protobuf/SwapData.sol";
-import "../../lib/protobuf/InstrumentData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
+import "../../lib/protobuf/StandardizedNonTokenLineItem.sol";
 import "../InstrumentBase.sol";
 
 contract SpotSwap is InstrumentBase {
@@ -17,34 +17,24 @@ contract SpotSwap is InstrumentBase {
 
     event SwapCancelled(uint256 indexed issuanceId);
 
-    // Scheduled custom events
-    bytes32 constant SWAP_DUE_EVENT = "swap_due";
-
-    // Custom events
-    bytes32 constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
-
     // Custom data
     bytes32 constant internal SWAP_DATA = "swap_data";
 
-    // Lending parameters
+    // SpotSwap parameters
     address private _inputTokenAddress;
     address private _outputTokenAddress;
     uint256 private _inputAmount;
     uint256 private _outputAmount;
     uint256 private _duration;
-    uint256 private _swapDueTimestamp;
 
     /**
-     * @dev Creates a new issuance of the financial instrument
-     * @param issuanceParametersData Issuance Parameters.
+     * @dev Create a new issuance of the financial instrument
+     * @param callerAddress Address which invokes this function.
      * @param makerParametersData The custom parameters to the newly created issuance
-     * @return updatedState The new state of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function createIssuance(bytes memory issuanceParametersData, bytes memory makerParametersData) public
-        returns (IssuanceStates updatedState, bytes memory transfersData) {
-
-        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+    function createIssuance(address callerAddress, bytes memory makerParametersData) public returns (bytes memory transfersData) {
+        require(_state == IssuanceProperties.State.Initiated, "Issuance not in Initiated");
         SpotSwapMakerParameters.Data memory makerParameters = SpotSwapMakerParameters.decode(makerParametersData);
 
         // Validates parameters.
@@ -55,35 +45,40 @@ contract SpotSwap is InstrumentBase {
         require(makerParameters.duration >= 1 && makerParameters.duration <= 90, "Invalid duration");
 
         // Validate input token balance
-        uint256 inputTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
-            .getTokenBalance(issuanceParameters.makerAddress, makerParameters.inputTokenAddress);
+        uint256 inputTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress)
+            .getTokenBalance(_makerAddress, makerParameters.inputTokenAddress);
         require(inputTokenBalance >= makerParameters.inputAmount, "Insufficient input balance");
 
-        // Persists swap parameters
+        // Sets common properties
+        _makerAddress = callerAddress;
+        _creationTimestamp = now;
+        _state = IssuanceProperties.State.Engageable;
+        _issuanceDueTimestamp = now + 1 days * makerParameters.duration;
+
+        // Sets swap parameters
         _inputTokenAddress = makerParameters.inputTokenAddress;
         _outputTokenAddress = makerParameters.outputTokenAddress;
         _inputAmount = makerParameters.inputAmount;
         _outputAmount = makerParameters.outputAmount;
+        _duration = makerParameters.duration;
 
         // Emits Scheduled Swap Due event
-        _duration = makerParameters.duration;
-        _swapDueTimestamp = now + 1 days * _duration;
-        emit EventTimeScheduled(issuanceParameters.issuanceId, _swapDueTimestamp, SWAP_DUE_EVENT, "");
+        emit EventTimeScheduled(_issuanceId, _issuanceDueTimestamp, ISSUANCE_DUE_EVENT, "");
 
         // Emits Swap Created event
-        emit SwapCreated(issuanceParameters.issuanceId, issuanceParameters.makerAddress, issuanceParameters.issuanceEscrowAddress,
-            _inputTokenAddress, _outputTokenAddress, _inputAmount, _outputAmount, _swapDueTimestamp);
+        emit SwapCreated(_issuanceId, _makerAddress, _issuanceEscrowAddress, _inputTokenAddress, _outputTokenAddress,
+            _inputAmount, _outputAmount, _issuanceDueTimestamp);
 
         // Updates to Engageable state.
-        updatedState = IssuanceStates.Engageable;
+        _state = IssuanceProperties.State.Engageable;
 
         // Transfers input token from maker(Instrument Escrow) to maker(Issuance Escrow).
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
         transfers.actions[0] = Transfer.Data({
             outbound: false,
             inbound: true,
-            fromAddress: issuanceParameters.makerAddress,
-            toAddress: issuanceParameters.makerAddress,
+            fromAddress: _makerAddress,
+            toAddress: _makerAddress,
             tokenAddress: _inputTokenAddress,
             amount: _inputAmount
         });
@@ -92,29 +87,32 @@ contract SpotSwap is InstrumentBase {
 
     /**
      * @dev A taker engages to the issuance
-     * @param issuanceParametersData Issuance Parameters.
-     * @return updatedState The new state of the issuance.
+     * @param callerAddress Address which invokes this function.
      * @return transfersData The transfers to perform after the invocation
      */
-    function engageIssuance(bytes memory issuanceParametersData, bytes memory /* takerParameters */) public
-        returns (IssuanceStates updatedState, bytes memory transfersData) {
-        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+    function engageIssuance(address callerAddress, bytes memory /** takerParameters */) public returns (bytes memory transfersData) {
+        require(_state == IssuanceProperties.State.Engageable, "Issuance not in Engageable");
 
         // Validates output balance
-        uint256 outputTokenBalance = EscrowBaseInterface(issuanceParameters.instrumentEscrowAddress)
-            .getTokenBalance(issuanceParameters.takerAddress, _outputTokenAddress);
+        uint256 outputTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress)
+            .getTokenBalance(_takerAddress, _outputTokenAddress);
         require(outputTokenBalance >= _outputAmount, "Insufficient output balance");
 
+        // Sets common properties
+        _takerAddress = callerAddress;
+        _engagementTimestamp = now;
+
         // Transition to Complete Engaged state.
-        updatedState = IssuanceStates.CompleteEngaged;
+        _state = IssuanceProperties.State.CompleteEngaged;
+        _settlementTimestamp = now;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
         // Transfers input token from maker(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[0] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: issuanceParameters.makerAddress,
-            toAddress: issuanceParameters.takerAddress,
+            fromAddress: _makerAddress,
+            toAddress: _takerAddress,
             tokenAddress: _inputTokenAddress,
             amount: _inputAmount
         });
@@ -122,8 +120,8 @@ contract SpotSwap is InstrumentBase {
         transfers.actions[1] = Transfer.Data({
             outbound: false,
             inbound: true,
-            fromAddress: issuanceParameters.takerAddress,
-            toAddress: issuanceParameters.takerAddress,
+            fromAddress: _takerAddress,
+            toAddress: _takerAddress,
             tokenAddress: _outputTokenAddress,
             amount: _outputAmount
         });
@@ -131,8 +129,8 @@ contract SpotSwap is InstrumentBase {
         transfers.actions[2] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: issuanceParameters.takerAddress,
-            toAddress: issuanceParameters.makerAddress,
+            fromAddress: _takerAddress,
+            toAddress: _makerAddress,
             tokenAddress: _outputTokenAddress,
             amount: _outputAmount
         });
@@ -140,78 +138,56 @@ contract SpotSwap is InstrumentBase {
     }
 
     /**
-     * @dev An account has made an ERC20 token deposit to the issuance
-     */
-    function processTokenDeposit(bytes memory /* issuanceParametersData */, address /* tokenAddress */, uint256 /* amount */) public
-        returns (IssuanceStates, bytes memory) {
-        revert("Deposit not supported.");
-    }
-
-    /**
-     * @dev An account has made an ERC20 token withdraw from the issuance
-     */
-    function processTokenWithdraw(bytes memory /* issuanceParametersData */, address /* tokenAddress */, uint256 /* amount */)
-        public returns (IssuanceStates, bytes memory) {
-        revert("Withdrawal not supported.");
-    }
-
-    /**
      * @dev A custom event is triggered.
-     * @param issuanceParametersData Issuance Parameters.
+     * @param callerAddress Address which invokes this function.
      * @param eventName The name of the custom event.
-     * @return updatedState The new state of the issuance.
-     * @return updatedData The updated data of the issuance.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processCustomEvent(bytes memory issuanceParametersData, bytes32 eventName, bytes memory /* eventPayload */)
-        public returns (IssuanceStates updatedState, bytes memory transfersData) {
-        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+    function processCustomEvent(address callerAddress, bytes32 eventName, bytes memory /** eventPayload */) public
+        returns (bytes memory transfersData) {
 
-        if (eventName == SWAP_DUE_EVENT) {
+        if (eventName == ISSUANCE_DUE_EVENT) {
             // Swap Due will be processed only when:
             // 1. Issuance is in Engageable state
             // 2. Swap due timestamp is passed
-            if (IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable && now >= _swapDueTimestamp) {
+            if (_state == IssuanceProperties.State.Engageable && now >= _issuanceDueTimestamp) {
                 // Emits Swap Complete Not Engaged event
-                emit SwapCompleteNotEngaged(issuanceParameters.issuanceId);
+                emit SwapCompleteNotEngaged(_issuanceId);
 
                 // Updates to Complete Not Engaged state
-                updatedState = IssuanceStates.CompleteNotEngaged;
+                _state = IssuanceProperties.State.CompleteNotEngaged;
 
                 // Transfers input token from maker(Issuance Escrow) to maker(Instrument Escrow)
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
                 transfers.actions[0] = Transfer.Data({
                     outbound: true,
                     inbound: false,
-                    fromAddress: issuanceParameters.makerAddress,
-                    toAddress: issuanceParameters.makerAddress,
+                    fromAddress: _makerAddress,
+                    toAddress: _makerAddress,
                     tokenAddress: _inputTokenAddress,
                     amount: _inputAmount
                 });
                 transfersData = Transfers.encode(transfers);
-            } else {
-                // Not processed Engagement Due event
-                updatedState = IssuanceStates(issuanceParameters.state);
             }
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
             // Cancel Issuance must be processed in Engageable state
-            require(IssuanceStates(issuanceParameters.state) == IssuanceStates.Engageable, "Cancel issuance not in engageable state");
+            require(_state == IssuanceProperties.State.Engageable, "Cancel issuance not in engageable state");
             // Only maker can cancel issuance
-            require(issuanceParameters.callerAddress == issuanceParameters.makerAddress, "Only maker can cancel issuance");
+            require(callerAddress == _makerAddress, "Only maker can cancel issuance");
 
             // Emits Swap Cancelled event
-            emit SwapCancelled(issuanceParameters.issuanceId);
+            emit SwapCancelled(_issuanceId);
 
             // Updates to Cancelled state.
-            updatedState = IssuanceStates.Cancelled;
+            _state = IssuanceProperties.State.Cancelled;
 
             // Transfers collateral token from maker(Issuance Escrow) to maker(Instrument Escrow)
             Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
             transfers.actions[0] = Transfer.Data({
                 outbound: true,
                 inbound: false,
-                fromAddress: issuanceParameters.makerAddress,
-                toAddress: issuanceParameters.makerAddress,
+                fromAddress: _makerAddress,
+                toAddress: _makerAddress,
                 tokenAddress: _inputTokenAddress,
                 amount: _inputAmount
             });
@@ -224,26 +200,39 @@ contract SpotSwap is InstrumentBase {
 
     /**
      * @dev Read custom data.
+     * @param dataName The name of the custom data.
      * @return customData The custom data of the issuance.
      */
-    function readCustomData(bytes memory issuanceParametersData, bytes32 dataName) public view returns (bytes memory) {
-        IssuanceParameters.Data memory issuanceParameters = IssuanceParameters.decode(issuanceParametersData);
+    function readCustomData(address /** callerAddress */, bytes32 dataName) public view returns (bytes memory) {
         if (dataName == SWAP_DATA) {
-            SpotSwapData.Data memory swapData = SpotSwapData.Data({
+            IssuanceProperties.Data memory issuanceProperties = IssuanceProperties.Data({
+                issuanceId: _issuanceId,
+                makerAddress: _makerAddress,
+                takerAddress: _takerAddress,
+                engagementDueTimestamp: _engagementDueTimestamp,
+                issuanceDueTimestamp: _issuanceDueTimestamp,
+                creationTimestamp: _creationTimestamp,
+                engagementTimestamp: _engagementTimestamp,
+                settlementTimestamp: _settlementTimestamp,
+                issuanceEscrowAddress: _issuanceEscrowAddress,
+                state: _state,
+                nonTokenLineItems: _standardizedNonTokenLineItems
+            });
+
+            SpotSwapProperties.Data memory spotSwapProperties = SpotSwapProperties.Data({
                 inputTokenAddress: _inputTokenAddress,
                 outputTokenAddress: _outputTokenAddress,
                 inputAmount: _inputAmount,
                 outputAmount: _outputAmount,
-                duration: _duration,
-                swapDueTimestamp: _swapDueTimestamp,
-                makerAddress: issuanceParameters.makerAddress,
-                takerAddress: issuanceParameters.takerAddress,
-                escrowAddress: issuanceParameters.issuanceEscrowAddress,
-                creationTimestamp: issuanceParameters.creationTimestamp,
-                engagementTimestamp: issuanceParameters.engagementTimestamp,
-                state: uint8(issuanceParameters.state)
+                duration: _duration
             });
-            return SpotSwapData.encode(swapData);
+            
+            SpotSwapCompleteProperties.Data memory spotSwapCompleteProperties = SpotSwapCompleteProperties.Data({
+                issuanceProperties: issuanceProperties,
+                spotSwapProperties: spotSwapProperties
+            });
+
+            return SpotSwapCompleteProperties.encode(spotSwapCompleteProperties);
         } else {
             revert('Unknown data');
         }

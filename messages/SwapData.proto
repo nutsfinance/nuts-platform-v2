@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "SolidityTypes.proto";
+import "IssuanceData.proto";
 
 /**
  * Represents the input parameters from makers in
@@ -15,19 +16,20 @@ message SpotSwapMakerParameters {
 }
 
 /**
- * Represents the data about he swap spot issuance.
+ * Represents the properties about he swap spot issuance.
  */
-message SpotSwapData {
+message SpotSwapProperties {
   .solidity.address inputTokenAddress = 1;
   .solidity.address outputTokenAddress = 2;
   .solidity.uint256 inputAmount = 3;
   .solidity.uint256 outputAmount = 4;
   .solidity.uint256 duration = 5;
-  .solidity.uint256 swapDueTimestamp = 6;
-  .solidity.address makerAddress = 7;
-  .solidity.address takerAddress = 8;
-  .solidity.address escrowAddress = 9;
-  .solidity.uint256 creationTimestamp = 10;
-  .solidity.uint256 engagementTimestamp = 11;
-  .solidity.uint8 state = 12;
+}
+
+/**
+ * Represents all properties about the spot swap issuance.
+ */
+ message SpotSwapCompleteProperties {
+  IssuanceProperties issuanceProperties = 1;
+  SpotSwapProperties spotSwapProperties = 2;
 }

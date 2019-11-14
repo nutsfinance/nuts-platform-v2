@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+import "StandardizedNonTokenLineItem.proto";
+
+message IssuanceProperties {
+    enum State {
+        Unknown = 0;
+        Initiated = 1;
+        Engageable = 2;
+        Engaged = 3;
+        Unfunded = 4;
+        Cancelled = 5;
+        CompleteNotEngaged = 6;
+        CompleteEngaged = 7;
+        Delinquent = 8;
+    }
+
+    // Common properties for all issuances
+    .solidity.uint256 issuanceId = 1;                   // Id of the target issuance.
+    .solidity.address makerAddress = 2;                 // Address of the issuance maker.
+    .solidity.address takerAddress = 3;                 // Address of the issuance taker.
+    .solidity.uint256 engagementDueTimestamp = 4;       // Timestamp when engagement is due.
+    .solidity.uint256 issuanceDueTimestamp = 5;         // Timestamp when issuance is due.
+    .solidity.uint256 creationTimestamp = 6;            // Timestamp when issuance is created.
+    .solidity.uint256 engagementTimestamp = 7;          // Timestamp when issuance is engaged.
+    .solidity.uint256 settlementTimestamp = 8;          // Timestamp when issuance is settled.
+    .solidity.address issuanceEscrowAddress = 9;        // Address of the Issuance Escrow
+    State state = 10;                                   // The current issuance state.
+    repeated StandardizedNonTokenLineItem nonTokenLineItems = 11;
+}
