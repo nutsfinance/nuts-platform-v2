@@ -57,7 +57,7 @@ const runBorrowingTestCases = async function(deployer, [owner, proxyAdmin, timer
     // Create borrowing issuance.
     borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, 
         borrowingToken.address, 15000, 20000, 20, 10000);
-    await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker2});
 
     // Deposit borrowing tokens to Borrowing Instrument Escrow
     await borrowingToken.transfer(taker2, 20000);

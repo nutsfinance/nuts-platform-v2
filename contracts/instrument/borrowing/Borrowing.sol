@@ -64,16 +64,16 @@ contract Borrowing is InstrumentBase {
 
         // Calculate the collateral amount. Collateral is calculated at the time of issuance creation.
         PriceOracleInterface priceOracle = PriceOracleInterface(_priceOracleAddress);
-        (uint256 numerator, uint256 denominator) = priceOracle.getRate(_borrowingTokenAddress, _collateralTokenAddress);
+        (uint256 numerator, uint256 denominator) = priceOracle.getRate(makerParameters.borrowingTokenAddress,
+            makerParameters.collateralTokenAddress);
         require(numerator > 0 && denominator > 0, "Exchange rate not found");
-        _collateralRatio = makerParameters.collateralRatio;
-        _collateralAmount = denominator.mul(makerParameters.borrowingAmount).mul(_collateralRatio)
+        uint256 collateralAmount = denominator.mul(makerParameters.borrowingAmount).mul(makerParameters.collateralRatio)
             .div(COLLATERAL_RATIO_DECIMALS).div(numerator);
 
         // Validate collateral token balance
-        uint256 collateralTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress)
-            .getTokenBalance(_makerAddress, makerParameters.collateralTokenAddress);
-        require(collateralTokenBalance >= _collateralAmount, "Insufficient collateral balance");
+        uint256 collateralTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress,
+            makerParameters.collateralTokenAddress);
+        require(collateralTokenBalance >= collateralAmount, "Insufficient collateral balance");
 
         // Sets common properties
         _makerAddress = callerAddress;
@@ -89,6 +89,7 @@ contract Borrowing is InstrumentBase {
         _interestRate = makerParameters.interestRate;
         _interestAmount = _borrowingAmount.mul(makerParameters.tenorDays).mul(makerParameters.interestRate).div(INTEREST_RATE_DECIMALS);
         _collateralRatio = makerParameters.collateralRatio;
+        _collateralAmount = collateralAmount;
 
         // Emits Scheduled Engagement Due event
         emit EventTimeScheduled(_issuanceId, _engagementDueTimestamp, ENGAGEMENT_DUE_EVENT, "");
@@ -130,14 +131,15 @@ contract Borrowing is InstrumentBase {
      */
     function engageIssuance(address callerAddress, bytes memory /** takerParameters */) public returns (bytes memory transfersData) {
         require(_state == IssuanceProperties.State.Engageable, "Issuance not in Engageable");
+
+        // Validates borrowing balance
+        uint256 borrowingBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress, _borrowingTokenAddress);
+        require(borrowingBalance >= _borrowingAmount, "Insufficient borrowing balance");
+
         // Sets common properties
         _takerAddress = callerAddress;
         _engagementTimestamp = now;
         _issuanceDueTimestamp = now + _tenorDays * 1 days;
-
-        // Validates borrowing balance
-        uint256 borrowingBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(_takerAddress, _borrowingTokenAddress);
-        require(borrowingBalance >= _borrowingAmount, "Insufficient borrowing balance");
 
         // Emits Scheduled Borrowing Due event
         emit EventTimeScheduled(_issuanceId, _issuanceDueTimestamp, ISSUANCE_DUE_EVENT, "");
@@ -208,6 +210,9 @@ contract Borrowing is InstrumentBase {
         require(callerAddress == _makerAddress, "Only maker can repay");
         require(tokenAddress == _borrowingTokenAddress, "Must repay with borrowing token");
         require(amount == _borrowingAmount + _interestAmount, "Must repay in full");
+
+        // Sets common properties
+        _settlementTimestamp = now;
 
         // Emits Borrowing Repaid event
         emit BorrowingRepaid(_issuanceId);
@@ -321,6 +326,8 @@ contract Borrowing is InstrumentBase {
             });
             transfersData = Transfers.encode(transfers);
 
+            // Updates payble custodian --> maker
+            _standardizedNonTokenLineItems[0].paidOff = true;
         } else {
             revert("Unknown event");
         }
@@ -357,7 +364,7 @@ contract Borrowing is InstrumentBase {
                 interestAmount: _interestAmount,
                 tenorDays: _tenorDays
             });
-            
+
             BorrowingCompleteProperties.Data memory borrowingCompleteProperties = BorrowingCompleteProperties.Data({
                 issuanceProperties: issuanceProperties,
                 borrowingProperties: borrowingProperties

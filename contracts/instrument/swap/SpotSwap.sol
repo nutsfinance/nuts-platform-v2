@@ -45,14 +45,15 @@ contract SpotSwap is InstrumentBase {
         require(makerParameters.duration >= 1 && makerParameters.duration <= 90, "Invalid duration");
 
         // Validate input token balance
-        uint256 inputTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress)
-            .getTokenBalance(_makerAddress, makerParameters.inputTokenAddress);
+        uint256 inputTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress,
+            makerParameters.inputTokenAddress);
         require(inputTokenBalance >= makerParameters.inputAmount, "Insufficient input balance");
 
         // Sets common properties
         _makerAddress = callerAddress;
         _creationTimestamp = now;
         _state = IssuanceProperties.State.Engageable;
+        _engagementDueTimestamp = now + 1 days * makerParameters.duration;
         _issuanceDueTimestamp = now + 1 days * makerParameters.duration;
 
         // Sets swap parameters
@@ -94,17 +95,16 @@ contract SpotSwap is InstrumentBase {
         require(_state == IssuanceProperties.State.Engageable, "Issuance not in Engageable");
 
         // Validates output balance
-        uint256 outputTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress)
-            .getTokenBalance(_takerAddress, _outputTokenAddress);
+        uint256 outputTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress, _outputTokenAddress);
         require(outputTokenBalance >= _outputAmount, "Insufficient output balance");
 
         // Sets common properties
         _takerAddress = callerAddress;
         _engagementTimestamp = now;
+        _settlementTimestamp = now;
 
         // Transition to Complete Engaged state.
         _state = IssuanceProperties.State.CompleteEngaged;
-        _settlementTimestamp = now;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
         // Transfers input token from maker(Issuance Escrow) to taker(Instrument Escrow).
@@ -226,7 +226,7 @@ contract SpotSwap is InstrumentBase {
                 outputAmount: _outputAmount,
                 duration: _duration
             });
-            
+
             SpotSwapCompleteProperties.Data memory spotSwapCompleteProperties = SpotSwapCompleteProperties.Data({
                 issuanceProperties: issuanceProperties,
                 spotSwapProperties: spotSwapProperties
