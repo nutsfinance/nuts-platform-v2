@@ -6,6 +6,7 @@ import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/LendingData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../../lib/protobuf/StandardizedNonTokenLineItem.sol";
+import "../../lib/util/Constants.sol";
 import "../InstrumentBase.sol";
 
 contract Lending is InstrumentBase {
@@ -135,48 +136,48 @@ contract Lending is InstrumentBase {
         // Transition to Engaged state.
         _state = IssuanceProperties.State.Engaged;
 
-        // Create liabilities
-        // Liability.Data memory liabilities1 = Liability.Data({
-        //     id: 1,
-        //     liabilityType: Liability.Type.Payable,
-        //     obligator: Liability.Role.CollateralCustodian,
-        //     claimor: Liability.Role.Taker,
-        //     tokenAddress: _collateralTokenAddress,
-        //     amount: _collateralAmount,
-        //     dueTimestamp: _lendingDueTimestamp,
-        //     paidOff: false
-        // });
-        // _liabilities.push(liabilities1);
-        // Liability.Data memory liabilities2 = Liability.Data({
-        //     id: 2,
-        //     liabilityType: Liability.Type.Payable,
-        //     obligator: Liability.Role.Taker,
-        //     claimor: Liability.Role.Maker,
-        //     tokenAddress: _lendingTokenAddress,
-        //     amount: _lendingAmount,
-        //     dueTimestamp: _lendingDueTimestamp,
-        //     paidOff: false
-        // });
-        // _liabilities.push(liabilities2);
-        // Liability.Data memory liabilities3 = Liability.Data({
-        //     id: 3,
-        //     liabilityType: Liability.Type.Payable,
-        //     obligator: Liability.Role.Taker,
-        //     claimor: Liability.Role.Maker,
-        //     tokenAddress: _lendingTokenAddress,
-        //     amount: _interestAmount,
-        //     dueTimestamp: _lendingDueTimestamp,
-        //     paidOff: false
-        // });
-        // _liabilities.push(liabilities3);
+        // Create payables
+        StandardizedNonTokenLineItem.Data memory item1 = StandardizedNonTokenLineItem.Data({
+            id: 1,
+            lineItemType: StandardizedNonTokenLineItem.Type.Payable,
+            obligatorAddress: Constants.getCustodianAddress(),
+            claimorAddress: _takerAddress,
+            tokenAddress: _collateralTokenAddress,
+            amount: _collateralAmount,
+            dueTimestamp: _issuanceDueTimestamp,
+            paidOff: false
+        });
+        _standardizedNonTokenLineItems.push(item1);
+        StandardizedNonTokenLineItem.Data memory item2 = StandardizedNonTokenLineItem.Data({
+            id: 2,
+            lineItemType: StandardizedNonTokenLineItem.Type.Payable,
+            obligatorAddress: _takerAddress,
+            claimorAddress: _makerAddress,
+            tokenAddress: _lendingTokenAddress,
+            amount: _lendingAmount,
+            dueTimestamp: _issuanceDueTimestamp,
+            paidOff: false
+        });
+        _standardizedNonTokenLineItems.push(item2);
+        StandardizedNonTokenLineItem.Data memory item3 = StandardizedNonTokenLineItem.Data({
+            id: 3,
+            lineItemType: StandardizedNonTokenLineItem.Type.Payable,
+            obligatorAddress: _takerAddress,
+            claimorAddress: _makerAddress,
+            tokenAddress: _lendingTokenAddress,
+            amount: _interestAmount,
+            dueTimestamp: _issuanceDueTimestamp,
+            paidOff: false
+        });
+        _standardizedNonTokenLineItems.push(item3);
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
-        // Transfers collateral token from taker(Instrument Escrow) to taker(Issuance Escrow).
+        // Transfers collateral token from taker(Instrument Escrow) to custodian(Issuance Escrow).
         transfers.actions[0] = Transfer.Data({
             outbound: false,
             inbound: true,
             fromAddress: _takerAddress,
-            toAddress: _takerAddress,
+            toAddress: Constants.getCustodianAddress(),
             tokenAddress: _collateralTokenAddress,
             amount: _collateralAmount
         });
@@ -213,10 +214,10 @@ contract Lending is InstrumentBase {
         // Updates to Complete Engaged state.
         _state = IssuanceProperties.State.CompleteEngaged;
 
-        // Updates liabilities
-        // _liabilities[0].paidOff = true;
-        // _liabilities[1].paidOff = true;
-        // _liabilities[2].paidOff = true;
+        // Updates payables
+        _standardizedNonTokenLineItems[0].paidOff = true;
+        _standardizedNonTokenLineItems[1].paidOff = true;
+        _standardizedNonTokenLineItems[2].paidOff = true;
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Transfers lending amount + interest from taker(Issuance Escrow) to maker(Instrument Escrow).
@@ -228,11 +229,11 @@ contract Lending is InstrumentBase {
             tokenAddress: _lendingTokenAddress,
             amount: _lendingAmount + _interestAmount
         });
-        // Transfers collateral from taker(Issuance Escrow) to taker(Instrument Escrow).
+        // Transfers collateral from custodian(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[1] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: _takerAddress,
+            fromAddress: Constants.getCustodianAddress(),
             toAddress: _takerAddress,
             tokenAddress: _collateralTokenAddress,
             amount: _collateralAmount
@@ -283,12 +284,12 @@ contract Lending is InstrumentBase {
                 // Updates to Delinquent state
                 _state = IssuanceProperties.State.Delinquent;
 
-                // Transfers collateral token from taker(Issuance Escrow) to maker(Instrument Escrow).
+                // Transfers collateral token from custodian(Issuance Escrow) to maker(Instrument Escrow).
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
                 transfers.actions[0] = Transfer.Data({
                     outbound: true,
                     inbound: false,
-                    fromAddress: _takerAddress,
+                    fromAddress: Constants.getCustodianAddress(),
                     toAddress: _makerAddress,
                     tokenAddress: _collateralTokenAddress,
                     amount: _collateralAmount

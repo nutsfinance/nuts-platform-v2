@@ -325,10 +325,10 @@ contract InstrumentManager is InstrumentManagerInterface {
      * For one issuance, only the issuance maker, issuance taker and instrument broker can
      * deposit to or withdraw from the issuance.
      */
-    function _isTransferAllowed(uint256 issuanceId, address fromAddress, address toAddress) internal view returns (bool) {
+    function _isTransferAllowed(uint256 issuanceId, address account) internal view returns (bool) {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        return (property.makerAddress == fromAddress || property.takerAddress == fromAddress || _brokerAddress == fromAddress)
-            && (property.makerAddress == toAddress || property.takerAddress == toAddress || _brokerAddress == toAddress);
+        return property.makerAddress == account || property.takerAddress == account
+            || _brokerAddress == account || Constants.getCustodianAddress() == account;
     }
 
     /**
@@ -358,7 +358,8 @@ contract InstrumentManager is InstrumentManagerInterface {
      */
     function _processTransfer(uint256 issuanceId, Transfer.Data memory transfer) private {
         // The transfer can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, transfer.fromAddress, transfer.toAddress), "Transfer not allowed");
+        require(_isTransferAllowed(issuanceId, transfer.fromAddress)
+            && _isTransferAllowed(issuanceId, transfer.toAddress), "Transfer not allowed");
 
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);

@@ -6,6 +6,7 @@ import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/BorrowingData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../../lib/protobuf/StandardizedNonTokenLineItem.sol";
+import "../../lib/util/Constants.sol";
 import "../InstrumentBase.sol";
 
 contract Borrowing is InstrumentBase {
@@ -96,13 +97,26 @@ contract Borrowing is InstrumentBase {
         emit BorrowingCreated(_issuanceId, _makerAddress, _issuanceEscrowAddress, _collateralTokenAddress, _borrowingTokenAddress,
             _borrowingAmount, _collateralRatio, _collateralAmount, _engagementDueTimestamp);
 
-        // Transfers collateral token from maker(Instrument Escrow) to maker(Issuance Escrow).
+        // Create payables
+        StandardizedNonTokenLineItem.Data memory item1 = StandardizedNonTokenLineItem.Data({
+            id: 1,
+            lineItemType: StandardizedNonTokenLineItem.Type.Payable,
+            obligatorAddress: Constants.getCustodianAddress(),
+            claimorAddress: _makerAddress,
+            tokenAddress: _collateralTokenAddress,
+            amount: _collateralAmount,
+            dueTimestamp: _engagementDueTimestamp,
+            paidOff: false
+        });
+        _standardizedNonTokenLineItems.push(item1);
+
+        // Transfers collateral token from maker(Instrument Escrow) to custodian(Issuance Escrow).
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
         transfers.actions[0] = Transfer.Data({
             outbound: false,
             inbound: true,
             fromAddress: _makerAddress,
-            toAddress: _makerAddress,
+            toAddress: Constants.getCustodianAddress(),
             tokenAddress: _collateralTokenAddress,
             amount: _collateralAmount
         });
@@ -133,6 +147,31 @@ contract Borrowing is InstrumentBase {
 
         // Transition to Engaged state.
         _state = IssuanceProperties.State.Engaged;
+
+        // Update payable 1's due time
+        _standardizedNonTokenLineItems[0].dueTimestamp = _issuanceDueTimestamp;
+        StandardizedNonTokenLineItem.Data memory item2 = StandardizedNonTokenLineItem.Data({
+            id: 2,
+            lineItemType: StandardizedNonTokenLineItem.Type.Payable,
+            obligatorAddress: _makerAddress,
+            claimorAddress: _takerAddress,
+            tokenAddress: _borrowingTokenAddress,
+            amount: _borrowingAmount,
+            dueTimestamp: _issuanceDueTimestamp,
+            paidOff: false
+        });
+        _standardizedNonTokenLineItems.push(item2);
+        StandardizedNonTokenLineItem.Data memory item3 = StandardizedNonTokenLineItem.Data({
+            id: 3,
+            lineItemType: StandardizedNonTokenLineItem.Type.Payable,
+            obligatorAddress: _makerAddress,
+            claimorAddress: _takerAddress,
+            tokenAddress: _borrowingTokenAddress,
+            amount: _interestAmount,
+            dueTimestamp: _issuanceDueTimestamp,
+            paidOff: false
+        });
+        _standardizedNonTokenLineItems.push(item3);
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Transfers borrowing token from taker(Instrument Escrow) to taker(Issuance Escrow).
@@ -176,6 +215,11 @@ contract Borrowing is InstrumentBase {
         // Updates to Complete Engaged state.
         _state = IssuanceProperties.State.CompleteEngaged;
 
+        // Updates payables
+        _standardizedNonTokenLineItems[0].paidOff = true;
+        _standardizedNonTokenLineItems[1].paidOff = true;
+        _standardizedNonTokenLineItems[2].paidOff = true;
+
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Transfers borrowing amount + interest from maker(Issuance Escrow) to taker(Instrument Escrow).
         transfers.actions[0] = Transfer.Data({
@@ -186,11 +230,11 @@ contract Borrowing is InstrumentBase {
             tokenAddress: _borrowingTokenAddress,
             amount: _borrowingAmount + _interestAmount
         });
-        // Transfers collateral from maker(Issuance Escrow) to maker(Instrument Escrow).
+        // Transfers collateral from custodian(Issuance Escrow) to maker(Instrument Escrow).
         transfers.actions[1] = Transfer.Data({
             outbound: true,
             inbound: false,
-            fromAddress: _makerAddress,
+            fromAddress: Constants.getCustodianAddress(),
             toAddress: _makerAddress,
             tokenAddress: _collateralTokenAddress,
             amount: _collateralAmount
@@ -218,12 +262,12 @@ contract Borrowing is InstrumentBase {
                 // Updates to Complete Not Engaged state
                 _state = IssuanceProperties.State.CompleteNotEngaged;
 
-                // Transfers collateral token from maker(Issuance Escrow) to maker(Instrument Escrow)
+                // Transfers collateral token from custodian(Issuance Escrow) to maker(Instrument Escrow)
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
                 transfers.actions[0] = Transfer.Data({
                     outbound: true,
                     inbound: false,
-                    fromAddress: _makerAddress,
+                    fromAddress: Constants.getCustodianAddress(),
                     toAddress: _makerAddress,
                     tokenAddress: _collateralTokenAddress,
                     amount: _collateralAmount
@@ -241,12 +285,12 @@ contract Borrowing is InstrumentBase {
                 // Updates to Delinquent state
                 _state = IssuanceProperties.State.Delinquent;
 
-                // Transfers collateral token from maker(Issuance Escrow) to taker(Instrument Escrow).
+                // Transfers collateral token from custodian(Issuance Escrow) to taker(Instrument Escrow).
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
                 transfers.actions[0] = Transfer.Data({
                     outbound: true,
                     inbound: false,
-                    fromAddress: _makerAddress,
+                    fromAddress: Constants.getCustodianAddress(),
                     toAddress: _takerAddress,
                     tokenAddress: _collateralTokenAddress,
                     amount: _collateralAmount
@@ -265,12 +309,12 @@ contract Borrowing is InstrumentBase {
             // Updates to Cancelled state.
             _state = IssuanceProperties.State.Cancelled;
 
-            // Transfers collateral token from maker(Issuance Escrow) to maker(Instrument Escrow)
+            // Transfers collateral token from custodian(Issuance Escrow) to maker(Instrument Escrow)
             Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
             transfers.actions[0] = Transfer.Data({
                 outbound: true,
                 inbound: false,
-                fromAddress: _makerAddress,
+                fromAddress: Constants.getCustodianAddress(),
                 toAddress: _makerAddress,
                 tokenAddress: _collateralTokenAddress,
                 amount: _collateralAmount
