@@ -71,10 +71,10 @@ interface InstrumentInterface {
         returns (bytes memory transfersData);
 
     /**
-     * @dev Read custom data.
+     * @dev Get custom data.
      * @param callerAddress Address which invokes this function.
      * @param dataName The name of the custom data.
      * @return customData The custom data of the issuance.
      */
-    function readCustomData(address callerAddress, bytes32 dataName) external view returns (bytes memory);
+    function getCustomData(address callerAddress, bytes32 dataName) external view returns (bytes memory);
 }

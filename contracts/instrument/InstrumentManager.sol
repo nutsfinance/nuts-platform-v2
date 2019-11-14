@@ -307,17 +307,17 @@ contract InstrumentManager is InstrumentManagerInterface {
     }
 
     /**
-     * @dev Read custom datas from issuance. This could be invoked by any caller.
+     * @dev Get custom datas from issuance. This could be invoked by any caller.
      * @param issuanceId The id of the issuance
      * @param dataName Name of the custom data
      */
-    function readCustomData(uint256 issuanceId, bytes32 dataName) public view returns (bytes memory) {
+    function getCustomData(uint256 issuanceId, bytes32 dataName) public view returns (bytes memory) {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
 
         // Invoke Instrument
         InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
-        return instrument.readCustomData(msg.sender, dataName);
+        return instrument.getCustomData(msg.sender, dataName);
     }
 
     /**

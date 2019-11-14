@@ -334,11 +334,11 @@ contract Borrowing is InstrumentBase {
     }
 
     /**
-     * @dev Read custom data.
+     * @dev Get custom data.
      * @param dataName The name of the custom data.
      * @return customData The custom data of the issuance.
      */
-    function readCustomData(address /** callerAddress */, bytes32 dataName) public view returns (bytes memory) {
+    function getCustomData(address /** callerAddress */, bytes32 dataName) public view returns (bytes memory) {
         if (dataName == BORROWING_DATA) {
             IssuanceProperties.Data memory issuanceProperties = IssuanceProperties.Data({
                 issuanceId: _issuanceId,

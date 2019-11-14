@@ -122,9 +122,9 @@ contract InstrumentBase is InstrumentInterface {
     }
 
     /**
-     * @dev Read custom data.
+     * @dev Get custom data.
      */
-    function readCustomData(address /** callerAddress */, bytes32 /** dataName */) public view returns (bytes memory) {
+    function getCustomData(address /** callerAddress */, bytes32 /** dataName */) public view returns (bytes memory) {
         revert('Unsupported operation');
     }
 }

@@ -73,9 +73,9 @@ interface InstrumentManagerInterface {
     function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes calldata eventPayload) external;
 
     /**
-     * @dev Read custom data about the issuance.
+     * @dev Get custom data about the issuance.
      * @param issuanceId The id of the issuance
      * @param dataName Name of the custom data
      */
-    function readCustomData(uint256 issuanceId, bytes32 dataName) external view returns (bytes memory);
+    function getCustomData(uint256 issuanceId, bytes32 dataName) external view returns (bytes memory);
 }
