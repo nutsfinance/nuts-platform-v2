@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 import "./ProtoBufRuntime.sol";
-import "./StandardizedNonTokenLineItem.sol";
+import "./SupplementalLineItem.sol";
 
 library IssuanceProperties {
 
@@ -115,7 +115,7 @@ function decode_State(int64 x) internal pure returns (State) {
     uint256 settlementTimestamp;
     address issuanceEscrowAddress;
     IssuanceProperties.State state;
-    StandardizedNonTokenLineItem.Data[] nonTokenLineItems;
+    SupplementalLineItem.Data[] supplementalLineItems;
   }
 
   // Decoder section
@@ -192,7 +192,7 @@ function decode_State(int64 x) internal pure returns (State) {
         pointer += _read_state(pointer, bs, r, counters);
       }
       else if(fieldId == 11) {
-        pointer += _read_nonTokenLineItems(pointer, bs, nil(), counters);
+        pointer += _read_supplementalLineItems(pointer, bs, nil(), counters);
       }
       
       else {
@@ -220,7 +220,7 @@ function decode_State(int64 x) internal pure returns (State) {
 
     }
     pointer = offset;
-    r.nonTokenLineItems = new StandardizedNonTokenLineItem.Data[](counters[11]);
+    r.supplementalLineItems = new SupplementalLineItem.Data[](counters[11]);
 
     while(pointer < offset+sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
@@ -256,7 +256,7 @@ function decode_State(int64 x) internal pure returns (State) {
         pointer += _read_state(pointer, bs, nil(), counters);
       }
       else if(fieldId == 11) {
-        pointer += _read_nonTokenLineItems(pointer, bs, r, counters);
+        pointer += _read_supplementalLineItems(pointer, bs, r, counters);
       }
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
@@ -515,15 +515,15 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_nonTokenLineItems(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_supplementalLineItems(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (StandardizedNonTokenLineItem.Data memory x, uint sz) = _decode_StandardizedNonTokenLineItem(p, bs);
+    (SupplementalLineItem.Data memory x, uint sz) = _decode_SupplementalLineItem(p, bs);
     if(isNil(r)) {
       counters[11] += 1;
     } else {
-      r.nonTokenLineItems[r.nonTokenLineItems.length - counters[11]] = x;
+      r.supplementalLineItems[r.supplementalLineItems.length - counters[11]] = x;
       if(counters[11] > 0) counters[11] -= 1;
     }
     return sz;
@@ -537,12 +537,12 @@ function decode_State(int64 x) internal pure returns (State) {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_StandardizedNonTokenLineItem(uint p, bytes memory bs)
-      internal pure returns (StandardizedNonTokenLineItem.Data memory, uint) {
+  function _decode_SupplementalLineItem(uint p, bytes memory bs)
+      internal pure returns (SupplementalLineItem.Data memory, uint) {
     uint pointer = p;
     (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (StandardizedNonTokenLineItem.Data memory r,) = StandardizedNonTokenLineItem._decode(pointer, bs, sz);
+    (SupplementalLineItem.Data memory r,) = SupplementalLineItem._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -597,9 +597,9 @@ function decode_State(int64 x) internal pure returns (State) {
     pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.Varint, pointer, bs);
     int64 _enum_state = encode_State(r.state);
     pointer += ProtoBufRuntime._encode_enum(_enum_state, pointer, bs);
-    for(i = 0; i < r.nonTokenLineItems.length; i++) {
+    for(i = 0; i < r.supplementalLineItems.length; i++) {
       pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-      pointer += StandardizedNonTokenLineItem._encode_nested(r.nonTokenLineItems[i], pointer, bs);
+      pointer += SupplementalLineItem._encode_nested(r.supplementalLineItems[i], pointer, bs);
     }
     return pointer - offset;
   }
@@ -649,8 +649,8 @@ function decode_State(int64 x) internal pure returns (State) {
     e += 1 + 35;
     e += 1 + 23;
     e += 1 + ProtoBufRuntime._sz_enum(encode_State(r.state));
-    for(i = 0; i < r.nonTokenLineItems.length; i++) {
-      e += 1 + ProtoBufRuntime._sz_lendelim(StandardizedNonTokenLineItem._estimate(r.nonTokenLineItems[i]));
+    for(i = 0; i < r.supplementalLineItems.length; i++) {
+      e += 1 + ProtoBufRuntime._sz_lendelim(SupplementalLineItem._estimate(r.supplementalLineItems[i]));
     }
     return e;
   }
@@ -673,31 +673,31 @@ function decode_State(int64 x) internal pure returns (State) {
     output.issuanceEscrowAddress = input.issuanceEscrowAddress;
     output.state = input.state;
 
-    output.nonTokenLineItems.length = input.nonTokenLineItems.length;
-    for(uint i11 = 0; i11 < input.nonTokenLineItems.length; i11++) {
-      StandardizedNonTokenLineItem.store(input.nonTokenLineItems[i11], output.nonTokenLineItems[i11]);
+    output.supplementalLineItems.length = input.supplementalLineItems.length;
+    for(uint i11 = 0; i11 < input.supplementalLineItems.length; i11++) {
+      SupplementalLineItem.store(input.supplementalLineItems[i11], output.supplementalLineItems[i11]);
     }
     
 
   }
 
 
-  //array helpers for NonTokenLineItems
+  //array helpers for SupplementalLineItems
   /**
    * @dev Add value to an array
    * @param self The in-memory struct
    * @param value The value to add
    */
-  function addNonTokenLineItems(Data memory self, StandardizedNonTokenLineItem.Data memory value) internal pure {
+  function addSupplementalLineItems(Data memory self, SupplementalLineItem.Data memory value) internal pure {
     /**
      * First resize the array. Then add the new element to the end.
      */
-    StandardizedNonTokenLineItem.Data[] memory tmp = new StandardizedNonTokenLineItem.Data[](self.nonTokenLineItems.length + 1);
-    for (uint i = 0; i < self.nonTokenLineItems.length; i++) {
-      tmp[i] = self.nonTokenLineItems[i];
+    SupplementalLineItem.Data[] memory tmp = new SupplementalLineItem.Data[](self.supplementalLineItems.length + 1);
+    for (uint i = 0; i < self.supplementalLineItems.length; i++) {
+      tmp[i] = self.supplementalLineItems[i];
     }
-    tmp[self.nonTokenLineItems.length] = value;
-    self.nonTokenLineItems = tmp;
+    tmp[self.supplementalLineItems.length] = value;
+    self.supplementalLineItems = tmp;
   }
 
 

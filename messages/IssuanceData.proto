@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "SolidityTypes.proto";
-import "StandardizedNonTokenLineItem.proto";
+import "SupplementalLineItem.proto";
 
 message IssuanceProperties {
     enum State {
@@ -27,5 +27,5 @@ message IssuanceProperties {
     .solidity.uint256 settlementTimestamp = 8;          // Timestamp when issuance is settled.
     .solidity.address issuanceEscrowAddress = 9;        // Address of the Issuance Escrow
     State state = 10;                                   // The current issuance state.
-    repeated StandardizedNonTokenLineItem nonTokenLineItems = 11;
+    repeated SupplementalLineItem supplementalLineItems = 11;
 }

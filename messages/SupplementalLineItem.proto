@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "SolidityTypes.proto";
+
+message SupplementalLineItem {
+
+    enum Type {
+        UnknownType = 0;
+        Payable = 1;
+    }
+
+    enum State {
+        UnknownState = 0;
+        Unpaid = 1;
+        Paid = 2;
+        Reinitiated = 3;
+    }
+
+    .solidity.uint8 id = 1;
+    Type lineItemType = 2;
+    State state = 3;
+    .solidity.address obligatorAddress = 4;
+    .solidity.address claimorAddress = 5;
+    .solidity.address tokenAddress = 6;
+    .solidity.uint256 amount = 7;
+    .solidity.uint256 dueTimestamp = 8;
+    .solidity.uint8 reinitiatedTo = 9;
+}

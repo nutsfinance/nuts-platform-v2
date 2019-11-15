@@ -1,7 +1,8 @@
 pragma solidity ^0.5.0;
 
 import "../lib/protobuf/IssuanceData.sol";
-import "../lib/protobuf/StandardizedNonTokenLineItem.sol";
+import "../lib/protobuf/SupplementalLineItem.sol";
+import "../lib/protobuf/TokenTransfer.sol";
 import "./InstrumentInterface.sol";
 
 /**
@@ -26,6 +27,18 @@ contract InstrumentBase is InstrumentInterface {
      */
     event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, bytes32 eventName, bytes eventPayload);
 
+    /**
+     * @dev Token is transferred.
+     */
+    event TokenTransferred(uint256 indexed issuanceId, Transfer.Type transferType, address fromAddress, address toAddress,
+        address tokenAddress, uint256 amount);
+
+    event SupplementalLineItemCreated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.Type itemType,
+        SupplementalLineItem.State state, address obligatorAddress, address claimorAddress, address tokenAddress, uint256 amount,
+        uint256 dueTimestamp);
+    
+    event SupplementalLineItemUpdated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.State state, uint8 reinitiatedTo);
+
     // Scheduled custom events
     bytes32 constant internal ENGAGEMENT_DUE_EVENT = "engagement_due";
     bytes32 constant internal ISSUANCE_DUE_EVENT = "issuance_due";
@@ -48,7 +61,7 @@ contract InstrumentBase is InstrumentInterface {
     uint256 internal _issuanceDueTimestamp;
     uint256 internal _settlementTimestamp;
     IssuanceProperties.State internal _state;
-    StandardizedNonTokenLineItem.Data[] internal _standardizedNonTokenLineItems;
+    SupplementalLineItem.Data[] internal _supplementalLineItems;
 
     /**
      * @dev Initializes an issuance with common parameters.
@@ -126,5 +139,24 @@ contract InstrumentBase is InstrumentInterface {
      */
     function getCustomData(address /** callerAddress */, bytes32 /** dataName */) public view returns (bytes memory) {
         revert('Unsupported operation');
+    }
+
+    /**
+     * @dev Returns the common properties about the issuance.
+     */
+    function getIssuanceProperties() internal view returns (IssuanceProperties.Data memory) {
+        return IssuanceProperties.Data({
+            issuanceId: _issuanceId,
+            makerAddress: _makerAddress,
+            takerAddress: _takerAddress,
+            engagementDueTimestamp: _engagementDueTimestamp,
+            issuanceDueTimestamp: _issuanceDueTimestamp,
+            creationTimestamp: _creationTimestamp,
+            engagementTimestamp: _engagementTimestamp,
+            settlementTimestamp: _settlementTimestamp,
+            issuanceEscrowAddress: _issuanceEscrowAddress,
+            state: _state,
+            supplementalLineItems: _supplementalLineItems
+        });
     }
 }

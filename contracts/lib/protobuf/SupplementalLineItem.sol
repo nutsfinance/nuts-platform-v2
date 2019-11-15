@@ -1,12 +1,12 @@
 pragma solidity ^0.5.0;
 import "./ProtoBufRuntime.sol";
 
-library StandardizedNonTokenLineItem {
+library SupplementalLineItem {
 
   //enum definition
 // Solidity enum definitions
 enum Type {
-    Unknown,
+    UnknownType,
     Payable
   }
 
@@ -14,7 +14,7 @@ enum Type {
 // Solidity enum encoder
 function encode_Type(Type x) internal pure returns (int64) {
     
-  if (x == Type.Unknown) {
+  if (x == Type.UnknownType) {
     return 0;
   }
 
@@ -29,7 +29,7 @@ function encode_Type(Type x) internal pure returns (int64) {
 function decode_Type(int64 x) internal pure returns (Type) {
     
   if (x == 0) {
-    return Type.Unknown;
+    return Type.UnknownType;
   }
 
   if (x == 1) {
@@ -39,16 +39,70 @@ function decode_Type(int64 x) internal pure returns (Type) {
 }
 
 
+// Solidity enum definitions
+enum State {
+    UnknownState,
+    Unpaid,
+    Paid,
+    Reinitiated
+  }
+
+
+// Solidity enum encoder
+function encode_State(State x) internal pure returns (int64) {
+    
+  if (x == State.UnknownState) {
+    return 0;
+  }
+
+  if (x == State.Unpaid) {
+    return 1;
+  }
+
+  if (x == State.Paid) {
+    return 2;
+  }
+
+  if (x == State.Reinitiated) {
+    return 3;
+  }
+  revert();
+}
+
+
+// Solidity enum decoder
+function decode_State(int64 x) internal pure returns (State) {
+    
+  if (x == 0) {
+    return State.UnknownState;
+  }
+
+  if (x == 1) {
+    return State.Unpaid;
+  }
+
+  if (x == 2) {
+    return State.Paid;
+  }
+
+  if (x == 3) {
+    return State.Reinitiated;
+  }
+  revert();
+}
+
+
   //struct definition
   struct Data {
     uint8 id;
-    StandardizedNonTokenLineItem.Type lineItemType;
+    SupplementalLineItem.Type lineItemType;
+    SupplementalLineItem.State state;
     address obligatorAddress;
     address claimorAddress;
     address tokenAddress;
     uint256 amount;
     uint256 dueTimestamp;
-    bool paidOff;
+    uint8 reinitiatedTo;
   }
 
   // Decoder section
@@ -85,7 +139,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[9] memory counters;
+    uint[10] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -101,22 +155,25 @@ function decode_Type(int64 x) internal pure returns (Type) {
         pointer += _read_lineItemType(pointer, bs, r, counters);
       }
       else if(fieldId == 3) {
-        pointer += _read_obligatorAddress(pointer, bs, r, counters);
+        pointer += _read_state(pointer, bs, r, counters);
       }
       else if(fieldId == 4) {
-        pointer += _read_claimorAddress(pointer, bs, r, counters);
+        pointer += _read_obligatorAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 5) {
-        pointer += _read_tokenAddress(pointer, bs, r, counters);
+        pointer += _read_claimorAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 6) {
-        pointer += _read_amount(pointer, bs, r, counters);
+        pointer += _read_tokenAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 7) {
-        pointer += _read_dueTimestamp(pointer, bs, r, counters);
+        pointer += _read_amount(pointer, bs, r, counters);
       }
       else if(fieldId == 8) {
-        pointer += _read_paidOff(pointer, bs, r, counters);
+        pointer += _read_dueTimestamp(pointer, bs, r, counters);
+      }
+      else if(fieldId == 9) {
+        pointer += _read_reinitiatedTo(pointer, bs, r, counters);
       }
       
       else {
@@ -156,7 +213,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_id(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_id(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -178,12 +235,12 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_lineItemType(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_lineItemType(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
     (int64 tmp, uint sz) = ProtoBufRuntime._decode_enum(p, bs);
-    StandardizedNonTokenLineItem.Type x = decode_Type(tmp);
+    SupplementalLineItem.Type x = decode_Type(tmp);
     if(isNil(r)) {
       counters[2] += 1;
     } else {
@@ -201,15 +258,16 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_obligatorAddress(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_state(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    (int64 tmp, uint sz) = ProtoBufRuntime._decode_enum(p, bs);
+    SupplementalLineItem.State x = decode_State(tmp);
     if(isNil(r)) {
       counters[3] += 1;
     } else {
-      r.obligatorAddress = x;
+      r.state = x;
       if(counters[3] > 0) counters[3] -= 1;
     }
     return sz;
@@ -223,7 +281,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_claimorAddress(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_obligatorAddress(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -231,7 +289,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
     if(isNil(r)) {
       counters[4] += 1;
     } else {
-      r.claimorAddress = x;
+      r.obligatorAddress = x;
       if(counters[4] > 0) counters[4] -= 1;
     }
     return sz;
@@ -245,7 +303,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_claimorAddress(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -253,7 +311,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
     if(isNil(r)) {
       counters[5] += 1;
     } else {
-      r.tokenAddress = x;
+      r.claimorAddress = x;
       if(counters[5] > 0) counters[5] -= 1;
     }
     return sz;
@@ -267,15 +325,15 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_amount(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
     if(isNil(r)) {
       counters[6] += 1;
     } else {
-      r.amount = x;
+      r.tokenAddress = x;
       if(counters[6] > 0) counters[6] -= 1;
     }
     return sz;
@@ -289,7 +347,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_dueTimestamp(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_amount(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -297,7 +355,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
     if(isNil(r)) {
       counters[7] += 1;
     } else {
-      r.dueTimestamp = x;
+      r.amount = x;
       if(counters[7] > 0) counters[7] -= 1;
     }
     return sz;
@@ -311,16 +369,38 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_paidOff(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_dueTimestamp(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (bool x, uint sz) = ProtoBufRuntime._decode_bool(p, bs);
+    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
     if(isNil(r)) {
       counters[8] += 1;
     } else {
-      r.paidOff = x;
+      r.dueTimestamp = x;
       if(counters[8] > 0) counters[8] -= 1;
+    }
+    return sz;
+  }
+
+  /**
+   * @dev The decoder for reading a field
+   * @param p The offset of bytes array to start decode
+   * @param bs The bytes array to be decoded
+   * @param r The in-memory struct
+   * @param counters The counters for repeated fields
+   * @return The number of bytes decoded
+   */
+  function _read_reinitiatedTo(uint p, bytes memory bs, Data memory r, uint[10] memory counters) internal pure returns (uint) {
+    /**
+     * if `r` is NULL, then only counting the number of fields.
+     */
+    (uint8 x, uint sz) = ProtoBufRuntime._decode_sol_uint8(p, bs);
+    if(isNil(r)) {
+      counters[9] += 1;
+    } else {
+      r.reinitiatedTo = x;
+      if(counters[9] > 0) counters[9] -= 1;
     }
     return sz;
   }
@@ -360,18 +440,21 @@ function decode_Type(int64 x) internal pure returns (Type) {
     pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.Varint, pointer, bs);
     int64 _enum_lineItemType = encode_Type(r.lineItemType);
     pointer += ProtoBufRuntime._encode_enum(_enum_lineItemType, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.obligatorAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.Varint, pointer, bs);
+    int64 _enum_state = encode_State(r.state);
+    pointer += ProtoBufRuntime._encode_enum(_enum_state, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.claimorAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.obligatorAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.claimorAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_uint256(r.amount, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(7, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_uint256(r.amount, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(8, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint256(r.dueTimestamp, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(8, ProtoBufRuntime.WireType.Varint, pointer, bs);
-    pointer += ProtoBufRuntime._encode_bool(r.paidOff, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(9, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_uint8(r.reinitiatedTo, pointer, bs);
     return pointer - offset;
   }
   // nested encoder
@@ -412,12 +495,13 @@ function decode_Type(int64 x) internal pure returns (Type) {
     uint e;
     e += 1 + 4;
     e += 1 + ProtoBufRuntime._sz_enum(encode_Type(r.lineItemType));
+    e += 1 + ProtoBufRuntime._sz_enum(encode_State(r.state));
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 35;
     e += 1 + 35;
-    e += 1 + 1;
+    e += 1 + 4;
     return e;
   }
 
@@ -430,12 +514,13 @@ function decode_Type(int64 x) internal pure returns (Type) {
   function store(Data memory input, Data storage output) internal {
     output.id = input.id;
     output.lineItemType = input.lineItemType;
+    output.state = input.state;
     output.obligatorAddress = input.obligatorAddress;
     output.claimorAddress = input.claimorAddress;
     output.tokenAddress = input.tokenAddress;
     output.amount = input.amount;
     output.dueTimestamp = input.dueTimestamp;
-    output.paidOff = input.paidOff;
+    output.reinitiatedTo = input.reinitiatedTo;
 
   }
 
@@ -463,4 +548,4 @@ function decode_Type(int64 x) internal pure returns (Type) {
     }
   }
 }
-//library StandardizedNonTokenLineItem
+//library SupplementalLineItem

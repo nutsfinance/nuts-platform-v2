@@ -3,7 +3,8 @@ pragma solidity ^0.5.0;
 import "../../escrow/EscrowBaseInterface.sol";
 import "../../lib/protobuf/SwapData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
-import "../../lib/protobuf/StandardizedNonTokenLineItem.sol";
+import "../../lib/protobuf/SupplementalLineItem.sol";
+import "../../lib/util/Constants.sol";
 import "../InstrumentBase.sol";
 
 contract SpotSwap is InstrumentBase {
@@ -73,17 +74,37 @@ contract SpotSwap is InstrumentBase {
         // Updates to Engageable state.
         _state = IssuanceProperties.State.Engageable;
 
-        // Transfers input token from maker(Instrument Escrow) to maker(Issuance Escrow).
-        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
+        // Transfers principal token
+        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
+        // Input token inbound transfer: Maker
         transfers.actions[0] = Transfer.Data({
-            outbound: false,
-            inbound: true,
+            transferType: Transfer.Type.Inbound,
             fromAddress: _makerAddress,
             toAddress: _makerAddress,
             tokenAddress: _inputTokenAddress,
             amount: _inputAmount
         });
+        // Input token intra-issuance transfer: Maker --> Custodian
+        transfers.actions[1] = Transfer.Data({
+            transferType: Transfer.Type.IntraIssuance,
+            fromAddress: _makerAddress,
+            toAddress: Constants.getCustodianAddress(),
+            tokenAddress: _inputTokenAddress,
+            amount: _inputAmount
+        });
         transfersData = Transfers.encode(transfers);
+        // Create payable 1: Custodian --> Maker
+        _supplementalLineItems.push(SupplementalLineItem.Data({
+            id: 1,
+            lineItemType: SupplementalLineItem.Type.Payable,
+            state: SupplementalLineItem.State.Unpaid,
+            obligatorAddress: Constants.getCustodianAddress(),
+            claimorAddress: _makerAddress,
+            tokenAddress: _inputTokenAddress,
+            amount: _inputAmount,
+            dueTimestamp: _engagementDueTimestamp,
+            reinitiatedTo: 0
+        }));
     }
 
     /**
@@ -106,33 +127,56 @@ contract SpotSwap is InstrumentBase {
         // Transition to Complete Engaged state.
         _state = IssuanceProperties.State.CompleteEngaged;
 
-        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
-        // Transfers input token from maker(Issuance Escrow) to taker(Instrument Escrow).
+        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](6));
+        // Output token inbound transfer: Taker
         transfers.actions[0] = Transfer.Data({
-            outbound: true,
-            inbound: false,
+            transferType: Transfer.Type.Inbound,
+            fromAddress: _takerAddress,
+            toAddress: _takerAddress,
+            tokenAddress: _outputTokenAddress,
+            amount: _outputAmount
+        });
+        // Input token intra-issuance transfer: Custodian --> Maker
+        transfers.actions[1] = Transfer.Data({
+            transferType: Transfer.Type.IntraIssuance,
+            fromAddress: Constants.getCustodianAddress(),
+            toAddress: _makerAddress,
+            tokenAddress: _inputTokenAddress,
+            amount: _inputAmount
+        });
+        // Maker payable 1 as paid
+        _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+        // Input token intra-issuance transfer: Maker --> Taker
+        transfers.actions[2] = Transfer.Data({
+            transferType: Transfer.Type.IntraIssuance,
             fromAddress: _makerAddress,
             toAddress: _takerAddress,
             tokenAddress: _inputTokenAddress,
             amount: _inputAmount
         });
-        // Transfers output token from taker(Instrument Escrow) to taker(Issuance Escrow)
-        transfers.actions[1] = Transfer.Data({
-            outbound: false,
-            inbound: true,
-            fromAddress: _takerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _outputTokenAddress,
-            amount: _outputAmount
-        });
-        // Transfers output token from taker(Issuance Escrow) to maker(Instrument Escrow).
-        transfers.actions[2] = Transfer.Data({
-            outbound: true,
-            inbound: false,
+        // Output token intra-issuance transfer: Taker --> Maker
+        transfers.actions[3] = Transfer.Data({
+            transferType: Transfer.Type.IntraIssuance,
             fromAddress: _takerAddress,
             toAddress: _makerAddress,
             tokenAddress: _outputTokenAddress,
             amount: _outputAmount
+        });
+        // Output token outbound transfer: Maker
+        transfers.actions[4] = Transfer.Data({
+            transferType: Transfer.Type.Outbound,
+            fromAddress: _makerAddress,
+            toAddress: _makerAddress,
+            tokenAddress: _outputTokenAddress,
+            amount: _outputAmount
+        });
+        // Input token outbound transfer: Taker
+        transfers.actions[5] = Transfer.Data({
+            transferType: Transfer.Type.Outbound,
+            fromAddress: _takerAddress,
+            toAddress: _takerAddress,
+            tokenAddress: _inputTokenAddress,
+            amount: _inputAmount
         });
         transfersData = Transfers.encode(transfers);
     }
@@ -157,11 +201,20 @@ contract SpotSwap is InstrumentBase {
                 // Updates to Complete Not Engaged state
                 _state = IssuanceProperties.State.CompleteNotEngaged;
 
-                // Transfers input token from maker(Issuance Escrow) to maker(Instrument Escrow)
-                Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
+                Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
+                // Input token intra-issuance transfer: Custodian --> Maker
                 transfers.actions[0] = Transfer.Data({
-                    outbound: true,
-                    inbound: false,
+                    transferType: Transfer.Type.IntraIssuance,
+                    fromAddress: Constants.getCustodianAddress(),
+                    toAddress: _makerAddress,
+                    tokenAddress: _inputTokenAddress,
+                    amount: _inputAmount
+                });
+                // Mark payable 1 as paid
+                _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+                // Input token outbound transfer: Maker
+                transfers.actions[1] = Transfer.Data({
+                    transferType: Transfer.Type.Outbound,
                     fromAddress: _makerAddress,
                     toAddress: _makerAddress,
                     tokenAddress: _inputTokenAddress,
@@ -181,11 +234,20 @@ contract SpotSwap is InstrumentBase {
             // Updates to Cancelled state.
             _state = IssuanceProperties.State.Cancelled;
 
-            // Transfers collateral token from maker(Issuance Escrow) to maker(Instrument Escrow)
-            Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](1));
+            Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
+            // Input token intra-issuance transfer: Custodian --> Maker
             transfers.actions[0] = Transfer.Data({
-                outbound: true,
-                inbound: false,
+                transferType: Transfer.Type.IntraIssuance,
+                fromAddress: Constants.getCustodianAddress(),
+                toAddress: _makerAddress,
+                tokenAddress: _inputTokenAddress,
+                amount: _inputAmount
+            });
+            // Mark payable 1 as paid
+            _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+            // Input token outbound transfer: Maker
+            transfers.actions[1] = Transfer.Data({
+                transferType: Transfer.Type.Outbound,
                 fromAddress: _makerAddress,
                 toAddress: _makerAddress,
                 tokenAddress: _inputTokenAddress,
@@ -205,20 +267,6 @@ contract SpotSwap is InstrumentBase {
      */
     function getCustomData(address /** callerAddress */, bytes32 dataName) public view returns (bytes memory) {
         if (dataName == SWAP_DATA) {
-            IssuanceProperties.Data memory issuanceProperties = IssuanceProperties.Data({
-                issuanceId: _issuanceId,
-                makerAddress: _makerAddress,
-                takerAddress: _takerAddress,
-                engagementDueTimestamp: _engagementDueTimestamp,
-                issuanceDueTimestamp: _issuanceDueTimestamp,
-                creationTimestamp: _creationTimestamp,
-                engagementTimestamp: _engagementTimestamp,
-                settlementTimestamp: _settlementTimestamp,
-                issuanceEscrowAddress: _issuanceEscrowAddress,
-                state: _state,
-                nonTokenLineItems: _standardizedNonTokenLineItems
-            });
-
             SpotSwapProperties.Data memory spotSwapProperties = SpotSwapProperties.Data({
                 inputTokenAddress: _inputTokenAddress,
                 outputTokenAddress: _outputTokenAddress,
@@ -228,7 +276,7 @@ contract SpotSwap is InstrumentBase {
             });
 
             SpotSwapCompleteProperties.Data memory spotSwapCompleteProperties = SpotSwapCompleteProperties.Data({
-                issuanceProperties: issuanceProperties,
+                issuanceProperties: getIssuanceProperties(),
                 spotSwapProperties: spotSwapProperties
             });
 

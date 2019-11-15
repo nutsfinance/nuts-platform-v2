@@ -245,8 +245,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         require(!issuanceProperty.terminated, "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
-            outbound: false,
-            inbound: true,
+            transferType: Transfer.Type.Inbound,
             fromAddress: msg.sender,
             toAddress: msg.sender,
             tokenAddress: tokenAddress,
@@ -274,8 +273,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         require(!issuanceProperty.terminated, "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
-            outbound: true,
-            inbound: false,
+            transferType: Transfer.Type.Outbound,
             fromAddress: msg.sender,
             toAddress: msg.sender,
             tokenAddress: tokenAddress,
@@ -364,41 +362,39 @@ contract InstrumentManager is InstrumentManagerInterface {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
         // Check whether it's outbound, inbound, or transfer within the escrow.
-        if (transfer.outbound) {
+        if (transfer.transferType == Transfer.Type.Outbound) {
+            // IMPORTANT: transfer.toAddress is not valid in outbound transfer.
             if (transfer.tokenAddress == Constants.getEthAddress()) {
                 // First withdraw ETH from Issuance Escrow to owner
                 issuanceEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
                 // Then deposit the ETH from owner to Instrument Escrow
-                _instrumentEscrow.depositByAdmin.value(transfer.amount)(transfer.toAddress);
+                _instrumentEscrow.depositByAdmin.value(transfer.amount)(transfer.fromAddress);
             } else {
                 // First withdraw ERC20 token from Issuance Escrow to owner
                 issuanceEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
                 // (Important!!!)Then set allowance for Instrument Escrow
                 IERC20(transfer.tokenAddress).safeApprove(address(_instrumentEscrow), transfer.amount);
                 // Then deposit the ERC20 token from owner to Instrument Escrow
-                _instrumentEscrow.depositTokenByAdmin(transfer.toAddress, transfer.tokenAddress, transfer.amount);
+                _instrumentEscrow.depositTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
             }
-        } else if (transfer.inbound) {
+        } else if (transfer.transferType == Transfer.Type.Inbound) {
+            // IMPORTANT: transfer.toAddress is not valid in inbound transfer.
             if (transfer.tokenAddress == Constants.getEthAddress()) {
                 // First withdraw ETH from Instrument Escrow
-                _instrumentEscrow.withdrawByAdmin(msg.sender, transfer.amount);
+                _instrumentEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
                 // Then deposit ETH to Issuance Escrow
-                IssuanceEscrowInterface(property.escrowAddress).depositByAdmin.value(transfer.amount)(msg.sender);
+                IssuanceEscrowInterface(property.escrowAddress).depositByAdmin.value(transfer.amount)(transfer.fromAddress);
             } else {
                 // Withdraw ERC20 token from Instrument Escrow
-                _instrumentEscrow.withdrawTokenByAdmin(msg.sender, transfer.tokenAddress, transfer.amount);
+                _instrumentEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
                 // IMPORTANT: Set allowance before deposit
                 IERC20(transfer.tokenAddress).safeApprove(property.escrowAddress, transfer.amount);
                 // Deposit ERC20 token to Issuance Escrow
-                IssuanceEscrowInterface(property.escrowAddress).depositTokenByAdmin(msg.sender, transfer.tokenAddress, transfer.amount);
+                IssuanceEscrowInterface(property.escrowAddress).depositTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
             }
         } else {
             // It's a transfer inside the issuance escrow
-            if (transfer.tokenAddress == Constants.getEthAddress()) {
-                issuanceEscrow.transfer(transfer.fromAddress, transfer.toAddress, transfer.amount);
-            } else {
-                issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
-            }
+            issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
         }
     }
 }
