@@ -268,7 +268,7 @@ contract Borrowing is InstrumentBase {
             amount: _collateralAmount
         });
         // Mark payable 4 as paid
-        _supplementalLineItems[4].state = SupplementalLineItem.State.Paid;
+        _supplementalLineItems[3].state = SupplementalLineItem.State.Paid;
         // Collateral token outbound transfer: Maker
         transfers.actions[2] = Transfer.Data({
             transferType: Transfer.Type.Outbound,
@@ -350,7 +350,7 @@ contract Borrowing is InstrumentBase {
                     amount: _collateralAmount
                 });
                 // Mark payable 4 as paid
-                _supplementalLineItems[4].state = SupplementalLineItem.State.Paid;
+                _supplementalLineItems[3].state = SupplementalLineItem.State.Paid;
                 // Collateral token intra-issuance transfer: Maker --> Taker
                 transfers.actions[0] = Transfer.Data({
                     transferType: Transfer.Type.IntraIssuance,

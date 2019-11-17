@@ -31,7 +31,7 @@ const runSpotSwapTestCases = async function(deployer, [owner, proxyAdmin, timerO
     await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
 
     // Create spot swap issuance.
-    spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, 
+    spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address,
         outputToken.address, 2000000, 40000, 20);
     await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
 
@@ -51,7 +51,7 @@ const runSpotSwapTestCases = async function(deployer, [owner, proxyAdmin, timerO
     await instrumentEscrow.depositToken(inputToken.address, 43200000, {from: maker2});
 
     // Create spot swap issuance.
-    spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, 
+    spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address,
         outputToken.address, 43200000, 3456, 20);
     await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker2});
 
@@ -66,9 +66,10 @@ const runSpotSwapTestCases = async function(deployer, [owner, proxyAdmin, timerO
 
 module.exports = function(deployer, network, accounts) {
 deployer
-    .then(() => runSpotSwapTestCases(deployer, accounts))
+    .then(() => console.log("a"))
+    //.then(() => runSpotSwapTestCases(deployer, accounts))
     .catch(error => {
-    console.log(error);
-    process.exit(1);
+      console.log(error);
+      process.exit(1);
     });
 };

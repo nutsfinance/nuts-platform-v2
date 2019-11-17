@@ -1,5 +1,5 @@
 const InstrumentManagerFactory = artifacts.require('./instrument/InstrumentManagerFactory.sol');
-const InstrumentManagerInterface = artifacts.require('./instruments/InstrumentManagerInterface.sol');
+const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
 const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
@@ -31,7 +31,7 @@ const deployNutsPlatform = async function(deployer, [owner, proxyAdmin, timerOra
         0, 0, nutsToken.address, priceOracle.address, escrowFactory.address);
 
     const parametersUtil = await deployer.deploy(ParametersUtil);
-    
+
     // // Deploy ERC20 tokens
     // const lendingToken = await deployer.deploy(TokenMock);
     // const collateralToken = await deployer.deploy(TokenMock);

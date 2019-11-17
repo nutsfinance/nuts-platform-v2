@@ -179,6 +179,7 @@ contract SpotSwap is InstrumentBase {
             amount: _inputAmount
         });
         transfersData = Transfers.encode(transfers);
+        emit SwapEngaged(_issuanceId, _takerAddress);
     }
 
     /**
