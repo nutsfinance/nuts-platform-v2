@@ -352,7 +352,7 @@ contract Borrowing is InstrumentBase {
                 // Mark payable 4 as paid
                 _supplementalLineItems[3].state = SupplementalLineItem.State.Paid;
                 // Collateral token intra-issuance transfer: Maker --> Taker
-                transfers.actions[0] = Transfer.Data({
+                transfers.actions[1] = Transfer.Data({
                     transferType: Transfer.Type.IntraIssuance,
                     fromAddress: _makerAddress,
                     toAddress: _takerAddress,

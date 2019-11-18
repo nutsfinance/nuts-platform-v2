@@ -84,7 +84,7 @@ contract Lending is InstrumentBase {
 
         // Updates to Engageable state
         _state = IssuanceProperties.State.Engageable;
- 
+
         // Emits Scheduled Engagement Due event
         emit EventTimeScheduled(_issuanceId, _engagementDueTimestamp, ENGAGEMENT_DUE_EVENT, "");
 
@@ -249,7 +249,7 @@ contract Lending is InstrumentBase {
         // Mark payable 1 as reinitiated by payable 4
         _supplementalLineItems[0].state = SupplementalLineItem.State.Reinitiated;
         _supplementalLineItems[0].reinitiatedTo = 4;
-        emit SupplementalLineItemUpdated(_issuanceId, 0, SupplementalLineItem.State.Reinitiated, 4);
+        emit SupplementalLineItemUpdated(_issuanceId, 1, SupplementalLineItem.State.Reinitiated, 4);
         // Principal token outbound transfer: Taker
         transfers.actions[4] = Transfer.Data({
             transferType: Transfer.Type.Outbound,
@@ -368,7 +368,7 @@ contract Lending is InstrumentBase {
                     _makerAddress, _lendingTokenAddress, _lendingAmount);
                 // Mark payable 1 as paid
                 _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
-                emit SupplementalLineItemUpdated(_issuanceId, 0, SupplementalLineItem.State.Paid, 0);
+                emit SupplementalLineItemUpdated(_issuanceId, 1, SupplementalLineItem.State.Paid, 0);
                 // Principal token outbound transfer: Maker
                 transfers.actions[1] = Transfer.Data({
                     transferType: Transfer.Type.Outbound,
@@ -406,7 +406,7 @@ contract Lending is InstrumentBase {
                 _supplementalLineItems[1].state = SupplementalLineItem.State.Paid;
                 emit SupplementalLineItemUpdated(_issuanceId, 1, SupplementalLineItem.State.Paid, 0);
                 // Collateral token intra-issuance transfer: Taker --> Maker
-                transfers.actions[0] = Transfer.Data({
+                transfers.actions[1] = Transfer.Data({
                     transferType: Transfer.Type.IntraIssuance,
                     fromAddress: _takerAddress,
                     toAddress: _makerAddress,
