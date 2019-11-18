@@ -160,6 +160,7 @@ contract InstrumentBase is InstrumentInterface {
             creationTimestamp: _creationTimestamp,
             engagementTimestamp: _engagementTimestamp,
             settlementTimestamp: _settlementTimestamp,
+            issuanceProxyAddress: address(this),
             issuanceEscrowAddress: _issuanceEscrowAddress,
             state: _state,
             supplementalLineItems: supplementalLineItems

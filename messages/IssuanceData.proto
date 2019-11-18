@@ -25,7 +25,8 @@ message IssuanceProperties {
     .solidity.uint256 creationTimestamp = 6;            // Timestamp when issuance is created.
     .solidity.uint256 engagementTimestamp = 7;          // Timestamp when issuance is engaged.
     .solidity.uint256 settlementTimestamp = 8;          // Timestamp when issuance is settled.
-    .solidity.address issuanceEscrowAddress = 9;        // Address of the Issuance Escrow
-    State state = 10;                                   // The current issuance state.
-    repeated SupplementalLineItem supplementalLineItems = 11;
+    .solidity.address issuanceProxyAddress = 9;         // Address of the Issuance proxy
+    .solidity.address issuanceEscrowAddress = 10;        // Address of the Issuance Escrow
+    State state = 11;                                   // The current issuance state.
+    repeated SupplementalLineItem supplementalLineItems = 12;
 }

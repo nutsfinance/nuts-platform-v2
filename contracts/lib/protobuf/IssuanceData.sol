@@ -113,6 +113,7 @@ function decode_State(int64 x) internal pure returns (State) {
     uint256 creationTimestamp;
     uint256 engagementTimestamp;
     uint256 settlementTimestamp;
+    address issuanceProxyAddress;
     address issuanceEscrowAddress;
     IssuanceProperties.State state;
     SupplementalLineItem.Data[] supplementalLineItems;
@@ -152,7 +153,7 @@ function decode_State(int64 x) internal pure returns (State) {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[12] memory counters;
+    uint[13] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -186,12 +187,15 @@ function decode_State(int64 x) internal pure returns (State) {
         pointer += _read_settlementTimestamp(pointer, bs, r, counters);
       }
       else if(fieldId == 9) {
-        pointer += _read_issuanceEscrowAddress(pointer, bs, r, counters);
+        pointer += _read_issuanceProxyAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 10) {
-        pointer += _read_state(pointer, bs, r, counters);
+        pointer += _read_issuanceEscrowAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 11) {
+        pointer += _read_state(pointer, bs, r, counters);
+      }
+      else if(fieldId == 12) {
         pointer += _read_supplementalLineItems(pointer, bs, nil(), counters);
       }
       
@@ -220,7 +224,7 @@ function decode_State(int64 x) internal pure returns (State) {
 
     }
     pointer = offset;
-    r.supplementalLineItems = new SupplementalLineItem.Data[](counters[11]);
+    r.supplementalLineItems = new SupplementalLineItem.Data[](counters[12]);
 
     while(pointer < offset+sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
@@ -250,12 +254,15 @@ function decode_State(int64 x) internal pure returns (State) {
         pointer += _read_settlementTimestamp(pointer, bs, nil(), counters);
       }
       else if(fieldId == 9) {
-        pointer += _read_issuanceEscrowAddress(pointer, bs, nil(), counters);
+        pointer += _read_issuanceProxyAddress(pointer, bs, nil(), counters);
       }
       else if(fieldId == 10) {
-        pointer += _read_state(pointer, bs, nil(), counters);
+        pointer += _read_issuanceEscrowAddress(pointer, bs, nil(), counters);
       }
       else if(fieldId == 11) {
+        pointer += _read_state(pointer, bs, nil(), counters);
+      }
+      else if(fieldId == 12) {
         pointer += _read_supplementalLineItems(pointer, bs, r, counters);
       }
       else {
@@ -294,7 +301,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -316,7 +323,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -338,7 +345,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -360,7 +367,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementDueTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_engagementDueTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -382,7 +389,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceDueTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_issuanceDueTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -404,7 +411,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -426,7 +433,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -448,7 +455,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_settlementTimestamp(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_settlementTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -470,7 +477,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceEscrowAddress(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_issuanceProxyAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -478,7 +485,7 @@ function decode_State(int64 x) internal pure returns (State) {
     if(isNil(r)) {
       counters[9] += 1;
     } else {
-      r.issuanceEscrowAddress = x;
+      r.issuanceProxyAddress = x;
       if(counters[9] > 0) counters[9] -= 1;
     }
     return sz;
@@ -492,16 +499,15 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_state(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_issuanceEscrowAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (int64 tmp, uint sz) = ProtoBufRuntime._decode_enum(p, bs);
-    IssuanceProperties.State x = decode_State(tmp);
+    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
     if(isNil(r)) {
       counters[10] += 1;
     } else {
-      r.state = x;
+      r.issuanceEscrowAddress = x;
       if(counters[10] > 0) counters[10] -= 1;
     }
     return sz;
@@ -515,16 +521,39 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_supplementalLineItems(uint p, bytes memory bs, Data memory r, uint[12] memory counters) internal pure returns (uint) {
+  function _read_state(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+    /**
+     * if `r` is NULL, then only counting the number of fields.
+     */
+    (int64 tmp, uint sz) = ProtoBufRuntime._decode_enum(p, bs);
+    IssuanceProperties.State x = decode_State(tmp);
+    if(isNil(r)) {
+      counters[11] += 1;
+    } else {
+      r.state = x;
+      if(counters[11] > 0) counters[11] -= 1;
+    }
+    return sz;
+  }
+
+  /**
+   * @dev The decoder for reading a field
+   * @param p The offset of bytes array to start decode
+   * @param bs The bytes array to be decoded
+   * @param r The in-memory struct
+   * @param counters The counters for repeated fields
+   * @return The number of bytes decoded
+   */
+  function _read_supplementalLineItems(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
     (SupplementalLineItem.Data memory x, uint sz) = _decode_SupplementalLineItem(p, bs);
     if(isNil(r)) {
-      counters[11] += 1;
+      counters[12] += 1;
     } else {
-      r.supplementalLineItems[r.supplementalLineItems.length - counters[11]] = x;
-      if(counters[11] > 0) counters[11] -= 1;
+      r.supplementalLineItems[r.supplementalLineItems.length - counters[12]] = x;
+      if(counters[12] > 0) counters[12] -= 1;
     }
     return sz;
   }
@@ -593,12 +622,14 @@ function decode_State(int64 x) internal pure returns (State) {
     pointer += ProtoBufRuntime._encode_key(8, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_uint256(r.settlementTimestamp, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(9, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_address(r.issuanceProxyAddress, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.issuanceEscrowAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.Varint, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.Varint, pointer, bs);
     int64 _enum_state = encode_State(r.state);
     pointer += ProtoBufRuntime._encode_enum(_enum_state, pointer, bs);
     for(i = 0; i < r.supplementalLineItems.length; i++) {
-      pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+      pointer += ProtoBufRuntime._encode_key(12, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
       pointer += SupplementalLineItem._encode_nested(r.supplementalLineItems[i], pointer, bs);
     }
     return pointer - offset;
@@ -648,6 +679,7 @@ function decode_State(int64 x) internal pure returns (State) {
     e += 1 + 35;
     e += 1 + 35;
     e += 1 + 23;
+    e += 1 + 23;
     e += 1 + ProtoBufRuntime._sz_enum(encode_State(r.state));
     for(i = 0; i < r.supplementalLineItems.length; i++) {
       e += 1 + ProtoBufRuntime._sz_lendelim(SupplementalLineItem._estimate(r.supplementalLineItems[i]));
@@ -670,12 +702,13 @@ function decode_State(int64 x) internal pure returns (State) {
     output.creationTimestamp = input.creationTimestamp;
     output.engagementTimestamp = input.engagementTimestamp;
     output.settlementTimestamp = input.settlementTimestamp;
+    output.issuanceProxyAddress = input.issuanceProxyAddress;
     output.issuanceEscrowAddress = input.issuanceEscrowAddress;
     output.state = input.state;
 
     output.supplementalLineItems.length = input.supplementalLineItems.length;
-    for(uint i11 = 0; i11 < input.supplementalLineItems.length; i11++) {
-      SupplementalLineItem.store(input.supplementalLineItems[i11], output.supplementalLineItems[i11]);
+    for(uint i12 = 0; i12 < input.supplementalLineItems.length; i12++) {
+      SupplementalLineItem.store(input.supplementalLineItems[i12], output.supplementalLineItems[i12]);
     }
     
 
