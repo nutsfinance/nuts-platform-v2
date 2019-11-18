@@ -66,8 +66,7 @@ const runSpotSwapTestCases = async function(deployer, [owner, proxyAdmin, timerO
 
 module.exports = function(deployer, network, accounts) {
 deployer
-    .then(() => console.log("a"))
-    //.then(() => runSpotSwapTestCases(deployer, accounts))
+    .then(() => runSpotSwapTestCases(deployer, accounts))
     .catch(error => {
       console.log(error);
       process.exit(1);

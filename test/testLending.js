@@ -1,8 +1,8 @@
 const { BN, constants, balance, expectEvent, expectRevert } = require('@openzeppelin/test-helpers');
 const assert = require('assert');
 const SolidityEvent = require("web3");
-const LogParser = require(__dirname + "/logParser.js");
-const LineItems = require(__dirname + "/lineItems.js");
+const LogParser = require(__dirname + "/LogParser.js");
+const LineItems = require(__dirname + "/LineItems.js");
 const protobuf = require(__dirname + "/../protobuf-js-messages");
 const custodianAddress = "0xDbE7A2544eeFfec81A7D898Ac08075e0D56FEac6";
 
@@ -311,7 +311,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       lendingDueTimstamp: issuanceDueTimestamp.toString(),
       collateralTokenAmount: '3000000'
     });
-    
+
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
       transferType: '1',
