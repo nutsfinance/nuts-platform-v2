@@ -36,7 +36,7 @@ contract InstrumentBase is InstrumentInterface {
     event SupplementalLineItemCreated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.Type itemType,
         SupplementalLineItem.State state, address obligatorAddress, address claimorAddress, address tokenAddress, uint256 amount,
         uint256 dueTimestamp);
-    
+
     event SupplementalLineItemUpdated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.State state, uint8 reinitiatedTo);
 
     // Scheduled custom events
@@ -61,7 +61,9 @@ contract InstrumentBase is InstrumentInterface {
     uint256 internal _issuanceDueTimestamp;
     uint256 internal _settlementTimestamp;
     IssuanceProperties.State internal _state;
-    SupplementalLineItem.Data[] internal _supplementalLineItems;
+    // List of supplemental line items
+    mapping(uint8 => SupplementalLineItem.Data) internal _supplementalLineItems;
+    uint8[] internal _supplementalLineItemIds;
 
     /**
      * @dev Initializes an issuance with common parameters.
@@ -144,7 +146,11 @@ contract InstrumentBase is InstrumentInterface {
     /**
      * @dev Returns the common properties about the issuance.
      */
-    function getIssuanceProperties() internal view returns (IssuanceProperties.Data memory) {
+    function _getIssuanceProperties() internal view returns (IssuanceProperties.Data memory) {
+        SupplementalLineItem.Data[] memory supplementalLineItems = new SupplementalLineItem.Data[](_supplementalLineItemIds.length);
+        for (uint i = 0; i < _supplementalLineItemIds.length; i++) {
+            supplementalLineItems[i] = _supplementalLineItems[_supplementalLineItemIds[i]];
+        }
         return IssuanceProperties.Data({
             issuanceId: _issuanceId,
             makerAddress: _makerAddress,
@@ -156,7 +162,83 @@ contract InstrumentBase is InstrumentInterface {
             settlementTimestamp: _settlementTimestamp,
             issuanceEscrowAddress: _issuanceEscrowAddress,
             state: _state,
-            supplementalLineItems: _supplementalLineItems
+            supplementalLineItems: supplementalLineItems
         });
+    }
+
+    /**
+     * @dev Create a new inbound transfer action.
+     */
+    function _createInboundTransfer(address account, address tokenAddress, uint256 amount) internal returns (Transfer.Data memory) {
+        Transfer.Data memory transfer = Transfer.Data({
+            transferType: Transfer.Type.Inbound,
+            fromAddress: account,
+            toAddress: account,
+            tokenAddress: tokenAddress,
+            amount: amount
+        });
+        emit TokenTransferred(_issuanceId, Transfer.Type.Inbound, account, account, tokenAddress, amount);
+        return transfer;
+    }
+
+    /**
+     * @dev Create a new outbound transfer action.
+     */
+    function _createOutboundTransfer(address account, address tokenAddress, uint256 amount) internal returns (Transfer.Data memory) {
+        Transfer.Data memory transfer = Transfer.Data({
+            transferType: Transfer.Type.Outbound,
+            fromAddress: account,
+            toAddress: account,
+            tokenAddress: tokenAddress,
+            amount: amount
+        });
+        emit TokenTransferred(_issuanceId, Transfer.Type.Outbound, account, account, tokenAddress, amount);
+        return transfer;
+    }
+
+    /**
+     * @dev Create a new intra-issuance transfer action.
+     */
+    function _createIntraIssuanceTransfer(address fromAddress, address toAddress, address tokenAddress, uint256 amount)
+        internal returns (Transfer.Data memory) {
+        Transfer.Data memory transfer = Transfer.Data({
+            transferType: Transfer.Type.IntraIssuance,
+            fromAddress: fromAddress,
+            toAddress: toAddress,
+            tokenAddress: tokenAddress,
+            amount: amount
+        });
+        emit TokenTransferred(_issuanceId, Transfer.Type.Inbound, fromAddress, toAddress, tokenAddress, amount);
+        return transfer;
+    }
+
+    /**
+     * @dev Create new payable for the issuance.
+     */
+    function _createNewPayable(uint8 id, address obligatorAddress, address claimorAddress, address tokenAddress,
+        uint256 amount, uint256 dueTimestamp) internal {
+        _supplementalLineItemIds.push(id);
+        _supplementalLineItems[id] = SupplementalLineItem.Data({
+            id: id,
+            lineItemType: SupplementalLineItem.Type.Payable,
+            state: SupplementalLineItem.State.Unpaid,
+            obligatorAddress: obligatorAddress,
+            claimorAddress: claimorAddress,
+            tokenAddress: tokenAddress,
+            amount: amount,
+            dueTimestamp: dueTimestamp,
+            reinitiatedTo: 0
+        });
+        emit SupplementalLineItemCreated(_issuanceId, id, SupplementalLineItem.Type.Payable, SupplementalLineItem.State.Unpaid,
+            obligatorAddress, claimorAddress, tokenAddress, amount, dueTimestamp);
+    }
+
+    /**
+     * @dev Updates the existing payable for the issuance.
+     */
+    function _updatePayable(uint8 id, SupplementalLineItem.State state, uint8 reinitiatedTo) internal {
+        _supplementalLineItems[id].state = state;
+        _supplementalLineItems[id].reinitiatedTo = reinitiatedTo;
+        emit SupplementalLineItemUpdated(_issuanceId, id, state, reinitiatedTo);
     }
 }

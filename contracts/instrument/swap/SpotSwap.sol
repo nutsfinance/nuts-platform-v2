@@ -77,34 +77,13 @@ contract SpotSwap is InstrumentBase {
         // Transfers principal token
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Input token inbound transfer: Maker
-        transfers.actions[0] = Transfer.Data({
-            transferType: Transfer.Type.Inbound,
-            fromAddress: _makerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _inputTokenAddress,
-            amount: _inputAmount
-        });
+        transfers.actions[0] = _createInboundTransfer(_makerAddress, _inputTokenAddress, _inputAmount);
         // Input token intra-issuance transfer: Maker --> Custodian
-        transfers.actions[1] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: _makerAddress,
-            toAddress: Constants.getCustodianAddress(),
-            tokenAddress: _inputTokenAddress,
-            amount: _inputAmount
-        });
+        transfers.actions[1] = _createIntraIssuanceTransfer(_makerAddress, Constants.getCustodianAddress(),
+            _inputTokenAddress, _inputAmount);
         transfersData = Transfers.encode(transfers);
         // Create payable 1: Custodian --> Maker
-        _supplementalLineItems.push(SupplementalLineItem.Data({
-            id: 1,
-            lineItemType: SupplementalLineItem.Type.Payable,
-            state: SupplementalLineItem.State.Unpaid,
-            obligatorAddress: Constants.getCustodianAddress(),
-            claimorAddress: _makerAddress,
-            tokenAddress: _inputTokenAddress,
-            amount: _inputAmount,
-            dueTimestamp: _engagementDueTimestamp,
-            reinitiatedTo: 0
-        }));
+        _createNewPayable(1, Constants.getCustodianAddress(), _makerAddress, _inputTokenAddress, _inputAmount, _engagementDueTimestamp);
     }
 
     /**
@@ -129,55 +108,19 @@ contract SpotSwap is InstrumentBase {
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](6));
         // Output token inbound transfer: Taker
-        transfers.actions[0] = Transfer.Data({
-            transferType: Transfer.Type.Inbound,
-            fromAddress: _takerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _outputTokenAddress,
-            amount: _outputAmount
-        });
+        transfers.actions[0] = _createInboundTransfer(_takerAddress, _outputTokenAddress, _outputAmount);
         // Input token intra-issuance transfer: Custodian --> Maker
-        transfers.actions[1] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: Constants.getCustodianAddress(),
-            toAddress: _makerAddress,
-            tokenAddress: _inputTokenAddress,
-            amount: _inputAmount
-        });
+        transfers.actions[1] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress, _inputTokenAddress, _inputAmount);
         // Maker payable 1 as paid
-        _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+        _updatePayable(1, SupplementalLineItem.State.Paid, 0);
         // Input token intra-issuance transfer: Maker --> Taker
-        transfers.actions[2] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: _makerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _inputTokenAddress,
-            amount: _inputAmount
-        });
+        transfers.actions[2] = _createIntraIssuanceTransfer(_makerAddress, _takerAddress, _inputTokenAddress, _inputAmount);
         // Output token intra-issuance transfer: Taker --> Maker
-        transfers.actions[3] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: _takerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _outputTokenAddress,
-            amount: _outputAmount
-        });
+        transfers.actions[3] = _createIntraIssuanceTransfer(_takerAddress, _makerAddress, _outputTokenAddress, _outputAmount);
         // Output token outbound transfer: Maker
-        transfers.actions[4] = Transfer.Data({
-            transferType: Transfer.Type.Outbound,
-            fromAddress: _makerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _outputTokenAddress,
-            amount: _outputAmount
-        });
+        transfers.actions[4] = _createOutboundTransfer(_makerAddress, _outputTokenAddress, _outputAmount);
         // Input token outbound transfer: Taker
-        transfers.actions[5] = Transfer.Data({
-            transferType: Transfer.Type.Outbound,
-            fromAddress: _takerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _inputTokenAddress,
-            amount: _inputAmount
-        });
+        transfers.actions[5] = _createOutboundTransfer(_takerAddress, _inputTokenAddress, _inputAmount);
         transfersData = Transfers.encode(transfers);
         emit SwapEngaged(_issuanceId, _takerAddress);
     }
@@ -204,23 +147,11 @@ contract SpotSwap is InstrumentBase {
 
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
                 // Input token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = Transfer.Data({
-                    transferType: Transfer.Type.IntraIssuance,
-                    fromAddress: Constants.getCustodianAddress(),
-                    toAddress: _makerAddress,
-                    tokenAddress: _inputTokenAddress,
-                    amount: _inputAmount
-                });
+                transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress, _inputTokenAddress, _inputAmount);
                 // Mark payable 1 as paid
-                _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+                _updatePayable(1, SupplementalLineItem.State.Paid, 0);
                 // Input token outbound transfer: Maker
-                transfers.actions[1] = Transfer.Data({
-                    transferType: Transfer.Type.Outbound,
-                    fromAddress: _makerAddress,
-                    toAddress: _makerAddress,
-                    tokenAddress: _inputTokenAddress,
-                    amount: _inputAmount
-                });
+                transfers.actions[1] = _createOutboundTransfer(_makerAddress, _inputTokenAddress, _inputAmount);
                 transfersData = Transfers.encode(transfers);
             }
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
@@ -237,25 +168,12 @@ contract SpotSwap is InstrumentBase {
 
             Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
             // Input token intra-issuance transfer: Custodian --> Maker
-            transfers.actions[0] = Transfer.Data({
-                transferType: Transfer.Type.IntraIssuance,
-                fromAddress: Constants.getCustodianAddress(),
-                toAddress: _makerAddress,
-                tokenAddress: _inputTokenAddress,
-                amount: _inputAmount
-            });
+            transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress, _inputTokenAddress, _inputAmount);
             // Mark payable 1 as paid
-            _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+            _updatePayable(1, SupplementalLineItem.State.Paid, 0);
             // Input token outbound transfer: Maker
-            transfers.actions[1] = Transfer.Data({
-                transferType: Transfer.Type.Outbound,
-                fromAddress: _makerAddress,
-                toAddress: _makerAddress,
-                tokenAddress: _inputTokenAddress,
-                amount: _inputAmount
-            });
+            transfers.actions[1] = _createOutboundTransfer(_makerAddress, _inputTokenAddress, _inputAmount);
             transfersData = Transfers.encode(transfers);
-
         } else {
             revert("Unknown event");
         }
@@ -277,7 +195,7 @@ contract SpotSwap is InstrumentBase {
             });
 
             SpotSwapCompleteProperties.Data memory spotSwapCompleteProperties = SpotSwapCompleteProperties.Data({
-                issuanceProperties: getIssuanceProperties(),
+                issuanceProperties: _getIssuanceProperties(),
                 spotSwapProperties: spotSwapProperties
             });
 

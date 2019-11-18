@@ -101,34 +101,14 @@ contract Borrowing is InstrumentBase {
         // Transfers collateral token
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
         // Collateral token inbound transfer: Maker
-        transfers.actions[0] = Transfer.Data({
-            transferType: Transfer.Type.Inbound,
-            fromAddress: _makerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount
-        });
+        transfers.actions[0] = _createInboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
         // Collateral token intra-issuance transfer: Maker --> Custodian
-        transfers.actions[1] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: _makerAddress,
-            toAddress: Constants.getCustodianAddress(),
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount
-        });
+        transfers.actions[1] = _createIntraIssuanceTransfer(_makerAddress, Constants.getCustodianAddress(),
+            _collateralTokenAddress, _collateralAmount);
         transfersData = Transfers.encode(transfers);
         // Create payable 1: Custodian --> Maker
-        _supplementalLineItems.push(SupplementalLineItem.Data({
-            id: 1,
-            lineItemType: SupplementalLineItem.Type.Payable,
-            state: SupplementalLineItem.State.Unpaid,
-            obligatorAddress: Constants.getCustodianAddress(),
-            claimorAddress: _makerAddress,
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount,
-            dueTimestamp: _engagementDueTimestamp,
-            reinitiatedTo: 0
-        }));
+        _createNewPayable(1, Constants.getCustodianAddress(), _makerAddress, _collateralTokenAddress,
+            _collateralAmount, _engagementDueTimestamp);
     }
 
     /**
@@ -159,68 +139,19 @@ contract Borrowing is InstrumentBase {
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
         // Principal token inbound transfer: Taker
-        transfers.actions[0] = Transfer.Data({
-            transferType: Transfer.Type.Inbound,
-            fromAddress: _takerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _borrowingAmount
-        });
+        transfers.actions[0] = _createInboundTransfer(_takerAddress, _borrowingTokenAddress, _borrowingAmount);
         // Principal token intra-issuance transfer: Taker --> Maker
-        transfers.actions[1] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: _takerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _borrowingAmount
-        });
+        transfers.actions[1] = _createIntraIssuanceTransfer(_takerAddress, _makerAddress, _borrowingTokenAddress, _borrowingAmount);
         // Create payable 2: Maker --> Taker
-         _supplementalLineItems.push(SupplementalLineItem.Data({
-            id: 2,
-            lineItemType: SupplementalLineItem.Type.Payable,
-            state: SupplementalLineItem.State.Unpaid,
-            obligatorAddress: _makerAddress,
-            claimorAddress: _takerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _borrowingAmount,
-            dueTimestamp: _issuanceDueTimestamp,
-            reinitiatedTo: 0
-        }));
+        _createNewPayable(2, _makerAddress, _takerAddress, _borrowingTokenAddress, _borrowingAmount, _issuanceDueTimestamp);
         // Create payable 3: Maker --> Taker
-         _supplementalLineItems.push(SupplementalLineItem.Data({
-            id: 3,
-            lineItemType: SupplementalLineItem.Type.Payable,
-            state: SupplementalLineItem.State.Unpaid,
-            obligatorAddress: _makerAddress,
-            claimorAddress: _takerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _interestAmount,
-            dueTimestamp: _issuanceDueTimestamp,
-            reinitiatedTo: 0
-        }));
+        _createNewPayable(2, _makerAddress, _takerAddress, _borrowingTokenAddress, _interestAmount, _issuanceDueTimestamp);
         // Create payable 4: Custodian --> Maker
-        _supplementalLineItems.push(SupplementalLineItem.Data({
-            id: 4,
-            lineItemType: SupplementalLineItem.Type.Payable,
-            state: SupplementalLineItem.State.Unpaid,
-            obligatorAddress: Constants.getCustodianAddress(),
-            claimorAddress: _makerAddress,
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount,
-            dueTimestamp: _issuanceDueTimestamp,
-            reinitiatedTo: 0
-        }));
+        _createNewPayable(2, Constants.getCustodianAddress(), _makerAddress, _collateralTokenAddress, _collateralAmount, _issuanceDueTimestamp);
         // Mark payable 1 as reinitiated by payable 4
-        _supplementalLineItems[0].state = SupplementalLineItem.State.Reinitiated;
-        _supplementalLineItems[0].reinitiatedTo = 4;
+        _updatePayable(1, SupplementalLineItem.State.Reinitiated, 4);
         // Principal token outbound transfer: Taker
-        transfers.actions[2] = Transfer.Data({
-            transferType: Transfer.Type.Outbound,
-            fromAddress: _makerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _borrowingAmount
-        });
+        transfers.actions[2] = _createOutboundTransfer(_makerAddress, _borrowingTokenAddress, _borrowingAmount);
         transfersData = Transfers.encode(transfers);
     }
 
@@ -249,42 +180,20 @@ contract Borrowing is InstrumentBase {
 
         Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](4));
         // Principal token intra-issuance transfer: Maker --> Taker
-        transfers.actions[0] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: _makerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _borrowingAmount + _interestAmount
-        });
+        transfers.actions[0] = _createIntraIssuanceTransfer(_makerAddress, _takerAddress, _borrowingTokenAddress,
+            _borrowingAmount + _interestAmount);
         // Mark payable 2 & 3 as paid
-        _supplementalLineItems[1].state = SupplementalLineItem.State.Paid;
-        _supplementalLineItems[2].state = SupplementalLineItem.State.Paid;
+        _updatePayable(2, SupplementalLineItem.State.Paid, 0);
+        _updatePayable(3, SupplementalLineItem.State.Paid, 0);
         // Collateral token intra-issuance transfer: Custodian --> Maker
-        transfers.actions[1] = Transfer.Data({
-            transferType: Transfer.Type.IntraIssuance,
-            fromAddress: Constants.getCustodianAddress(),
-            toAddress: _makerAddress,
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount
-        });
+        transfers.actions[1] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
+            _collateralTokenAddress, _collateralAmount);
         // Mark payable 4 as paid
-        _supplementalLineItems[3].state = SupplementalLineItem.State.Paid;
+        _updatePayable(4, SupplementalLineItem.State.Paid, 0);
         // Collateral token outbound transfer: Maker
-        transfers.actions[2] = Transfer.Data({
-            transferType: Transfer.Type.Outbound,
-            fromAddress: _makerAddress,
-            toAddress: _makerAddress,
-            tokenAddress: _collateralTokenAddress,
-            amount: _collateralAmount
-        });
+        transfers.actions[2] = _createOutboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
         // Principal token outbound transfer: Taker
-        transfers.actions[3] = Transfer.Data({
-            transferType: Transfer.Type.Outbound,
-            fromAddress: _takerAddress,
-            toAddress: _takerAddress,
-            tokenAddress: _borrowingTokenAddress,
-            amount: _borrowingAmount + _interestAmount
-        });
+        transfers.actions[3] = _createOutboundTransfer(_takerAddress, _borrowingTokenAddress, _borrowingAmount + _interestAmount);
         transfersData = Transfers.encode(transfers);
     }
 
@@ -310,23 +219,12 @@ contract Borrowing is InstrumentBase {
 
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
                 // Collateral token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = Transfer.Data({
-                    transferType: Transfer.Type.IntraIssuance,
-                    fromAddress: Constants.getCustodianAddress(),
-                    toAddress: _makerAddress,
-                    tokenAddress: _collateralTokenAddress,
-                    amount: _collateralAmount
-                });
+                transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
+                    _collateralTokenAddress, _collateralAmount);
                 // Mark payable 1 as paid
-                _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+                _updatePayable(1, SupplementalLineItem.State.Paid, 0);
                 // Collateral token outbound transfer: Maker
-                transfers.actions[1] = Transfer.Data({
-                    transferType: Transfer.Type.Outbound,
-                    fromAddress: _makerAddress,
-                    toAddress: _makerAddress,
-                    tokenAddress: _collateralTokenAddress,
-                    amount: _collateralAmount
-                });
+                transfers.actions[1] = _createOutboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
                 transfersData = Transfers.encode(transfers);
             }
         } else if (eventName == ISSUANCE_DUE_EVENT) {
@@ -342,31 +240,14 @@ contract Borrowing is InstrumentBase {
 
                 Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
                 // Collateral token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = Transfer.Data({
-                    transferType: Transfer.Type.IntraIssuance,
-                    fromAddress: Constants.getCustodianAddress(),
-                    toAddress: _makerAddress,
-                    tokenAddress: _collateralTokenAddress,
-                    amount: _collateralAmount
-                });
+                transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
+                    _collateralTokenAddress, _collateralAmount);
                 // Mark payable 4 as paid
-                _supplementalLineItems[3].state = SupplementalLineItem.State.Paid;
+                _updatePayable(4, SupplementalLineItem.State.Paid, 0);
                 // Collateral token intra-issuance transfer: Maker --> Taker
-                transfers.actions[1] = Transfer.Data({
-                    transferType: Transfer.Type.IntraIssuance,
-                    fromAddress: _makerAddress,
-                    toAddress: _takerAddress,
-                    tokenAddress: _collateralTokenAddress,
-                    amount: _collateralAmount
-                });
+                transfers.actions[1] = _createIntraIssuanceTransfer(_makerAddress, _takerAddress, _collateralTokenAddress, _collateralAmount);
                 // Collateral token outbound transfer: Taker
-                transfers.actions[2] = Transfer.Data({
-                    transferType: Transfer.Type.Outbound,
-                    fromAddress: _takerAddress,
-                    toAddress: _takerAddress,
-                    tokenAddress: _collateralTokenAddress,
-                    amount: _collateralAmount
-                });
+                transfers.actions[2] = _createOutboundTransfer(_takerAddress, _collateralTokenAddress, _collateralAmount);
                 transfersData = Transfers.encode(transfers);
             }
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
@@ -383,23 +264,12 @@ contract Borrowing is InstrumentBase {
 
             Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
             // Collateral token intra-issuance transfer: Custodian --> Maker
-            transfers.actions[0] = Transfer.Data({
-                transferType: Transfer.Type.IntraIssuance,
-                fromAddress: Constants.getCustodianAddress(),
-                toAddress: _makerAddress,
-                tokenAddress: _collateralTokenAddress,
-                amount: _collateralAmount
-            });
+            transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
+                _collateralTokenAddress, _collateralAmount);
             // Mark payable 1 as paid
-            _supplementalLineItems[0].state = SupplementalLineItem.State.Paid;
+            _updatePayable(1, SupplementalLineItem.State.Paid, 0);
             // Collateral token outbound transfer: Maker
-            transfers.actions[1] = Transfer.Data({
-                transferType: Transfer.Type.Outbound,
-                fromAddress: _makerAddress,
-                toAddress: _makerAddress,
-                tokenAddress: _collateralTokenAddress,
-                amount: _collateralAmount
-            });
+            transfers.actions[1] = _createOutboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
             transfersData = Transfers.encode(transfers);
         } else {
             revert("Unknown event");
@@ -425,7 +295,7 @@ contract Borrowing is InstrumentBase {
             });
 
             BorrowingCompleteProperties.Data memory borrowingCompleteProperties = BorrowingCompleteProperties.Data({
-                issuanceProperties: getIssuanceProperties(),
+                issuanceProperties: _getIssuanceProperties(),
                 borrowingProperties: borrowingProperties
             });
 
