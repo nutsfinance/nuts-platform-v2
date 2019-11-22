@@ -7,6 +7,7 @@ const protobuf = require(__dirname + "/../protobuf-js-messages");
 const custodianAddress = "0xDbE7A2544eeFfec81A7D898Ac08075e0D56FEac6";
 
 const InstrumentManagerFactory = artifacts.require('./instrument/InstrumentManagerFactory.sol');
+const InstrumentManager = artifacts.require('./instrument/InstrumentManager.sol');
 const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
 const Lending = artifacts.require('./instrument/lending/Lending.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
@@ -18,6 +19,7 @@ const TokenMock = artifacts.require('./mock/TokenMock.sol');
 const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
 const IssuanceEscrow = artifacts.require('./escrow/IssuanceEscrow.sol');
+const InstrumentEscrow = artifacts.require('./escrow/InstrumentEscrow.sol');
 
 let parametersUtil;
 let collateralToken;
@@ -122,16 +124,17 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await expectRevert(instrumentManager.createIssuance(lendingMakerParameters, {from: maker1}), 'Insufficient principal balance');
   }),
   it('valid parameters', async () => {
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1}));
     assert.equal(20000, await instrumentEscrow.getTokenBalance(maker1, lendingToken.address));
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address,
         lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
-
+    allTransactions.push(createdIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     assert.equal(2, properties.getIssuanceproperties().getState());
@@ -225,15 +228,21 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       to: issuanceEscrowAddress,
       value: '20000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'lending_create_issuance.csv');
   }),
   it('engage lending', async () => {
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1}));
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'LendingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
@@ -241,9 +250,10 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     // Deposit collateral tokens to Lending Instrument Escrow
     await collateralToken.transfer(taker1, 4000000);
     await collateralToken.approve(instrumentEscrowAddress, 4000000, {from: taker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1}));
     assert.equal(4000000, await instrumentEscrow.getTokenBalance(taker1, collateralToken.address));
     let engageIssuance = await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(engageIssuance);
     assert.equal(1000000, await instrumentEscrow.getTokenBalance(taker1, collateralToken.address));
     assert.equal(20000, await instrumentEscrow.getTokenBalance(taker1, lendingToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(maker1, lendingToken.address));
@@ -449,21 +459,27 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       to: instrumentManagerAddress,
       value: '3000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'lending_engage_issuance.csv');
   }),
   it('cancel lending', async () => {
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1}));
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'LendingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     let cancelIssuance = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1});
-
+    allTransactions.push(cancelIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     let lineItems = properties.getIssuanceproperties().getSupplementallineitemsList();
@@ -546,12 +562,16 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       to: instrumentManagerAddress,
       value: '20000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'lending_cancel.csv');
   }),
   it('cancel lending not engageable', async () => {
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
     await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
@@ -569,7 +589,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
     await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
@@ -578,13 +598,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker2}), 'Only maker can cancel issuance');
   }),
   it('repaid successful', async () => {
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1}));
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'LendingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
@@ -592,10 +614,10 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     // Deposit collateral tokens to Lending Instrument Escrow
     await collateralToken.transfer(taker1, 4000000);
     await collateralToken.approve(instrumentEscrowAddress, 4000000, {from: taker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1}));
     assert.equal(4000000, await instrumentEscrow.getTokenBalance(taker1, collateralToken.address));
 
-    await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(await instrumentManager.engageIssuance(1, '0x0', {from: taker1}));
     assert.equal(1000000, await instrumentEscrow.getTokenBalance(taker1, collateralToken.address));
     assert.equal(20000, await instrumentEscrow.getTokenBalance(taker1, lendingToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(maker1, lendingToken.address));
@@ -603,11 +625,11 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
 
     await lendingToken.transfer(taker1, 24000);
     await lendingToken.approve(instrumentEscrowAddress, 24000, {from: taker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 24000, {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 24000, {from: taker1}));
     assert.equal(44000, await instrumentEscrow.getTokenBalance(taker1, lendingToken.address));
 
     let depositToIssuance = await instrumentManager.depositToIssuance(1, lendingToken.address, 24000, {from: taker1});
-
+    allTransactions.push(depositToIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     let engagementDueTimestamp = properties.getIssuanceproperties().getEngagementduetimestamp().toNumber();
@@ -692,11 +714,19 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     });
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
-      itemId: '1',
+      itemId: '3',
       state: '2',
       reinitiatedTo: '0'
     });
 
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: lendingToken.address,
+      amount: '24000'
+    });
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
       transferType: '3',
@@ -786,12 +816,16 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       to: instrumentEscrowAddress,
       value: '3000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'lending_repaid_successful.csv');
   }),
   it('repaid not engaged', async () => {
     await lendingToken.transfer(maker1, 40000);
     await lendingToken.approve(instrumentEscrowAddress, 40000, {from: maker1});
     await instrumentEscrow.depositToken(lendingToken.address, 40000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
@@ -803,7 +837,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await lendingToken.transfer(maker1, 40000);
     await lendingToken.approve(instrumentEscrowAddress, 40000, {from: maker1});
     await instrumentEscrow.depositToken(lendingToken.address, 40000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
@@ -822,7 +856,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
     await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
@@ -840,7 +874,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
     await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
@@ -855,23 +889,23 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await expectRevert(instrumentManager.depositToIssuance(1, lendingToken.address, 20000, {from: taker1}), "Must repay in full");
   }),
   it('engagement due after due date', async () => {
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1}));
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address,
         lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
-
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
-
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
 
     let issuanceEscrowAddress = events.find((event) => event.event === 'LendingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
     await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
     let notifyEngagementDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("engagement_due"), web3.utils.fromAscii(""), {from: maker1});
-
+    allTransactions.push(notifyEngagementDue);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     let lineItems = properties.getIssuanceproperties().getSupplementallineitemsList();
@@ -953,6 +987,10 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     });
     assert.equal(20000, await instrumentEscrow.getTokenBalance(maker1, lendingToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(maker1, lendingToken.address));
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'lending_engagement_due.csv');
   }),
   it('engagement due after engaged', async () => {
     await lendingToken.transfer(maker1, 20000);
@@ -985,26 +1023,28 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     assert.equal(2, properties.getIssuanceproperties().getState());
   }),
   it('lending due after engaged', async () => {
+    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await lendingToken.transfer(maker1, 20000);
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1}));
 
     let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address,
         lendingToken.address, 20000, 15000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'LendingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     await collateralToken.transfer(taker1, 4000000);
     await collateralToken.approve(instrumentEscrowAddress, 4000000, {from: taker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1});
-    await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1}));
+    allTransactions.push(await instrumentManager.engageIssuance(1, '0x0', {from: taker1}));
 
     await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
     let notifyLendingDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("issuance_due"), web3.utils.fromAscii(""), {from: maker1});
-
+    allTransactions.push(notifyLendingDue);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     let engagementDueTimestamp = properties.getIssuanceproperties().getEngagementduetimestamp().toNumber();
@@ -1073,7 +1113,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
-      itemId: '1',
+      itemId: '2',
       state: '2',
       reinitiatedTo: '0'
     });
@@ -1139,5 +1179,9 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       to: instrumentEscrowAddress,
       value: '3000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'lending_due.csv');
   })
 });

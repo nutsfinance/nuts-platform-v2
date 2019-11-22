@@ -4,8 +4,11 @@ const SolidityEvent = require("web3");
 const LogParser = require(__dirname + "/LogParser.js");
 const protobuf = require(__dirname + "/../protobuf-js-messages");
 const LineItems = require(__dirname + "/LineItems.js");
+const custodianAddress = "0xDbE7A2544eeFfec81A7D898Ac08075e0D56FEac6";
+
 
 const InstrumentManagerFactory = artifacts.require('./instrument/InstrumentManagerFactory.sol');
+const InstrumentManager = artifacts.require('./instrument/InstrumentManager.sol');
 const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
 const SpotSwap = artifacts.require('./instrument/swap/SpotSwap.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
@@ -17,7 +20,8 @@ const TokenMock = artifacts.require('./mock/TokenMock.sol');
 const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
 const IssuanceEscrow = artifacts.require('./escrow/IssuanceEscrow.sol');
-const custodianAddress = "0xDbE7A2544eeFfec81A7D898Ac08075e0D56FEac6";
+const InstrumentEscrow = artifacts.require('./escrow/InstrumentEscrow.sol');
+
 
 let parametersUtil;
 let swap;
@@ -94,15 +98,17 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     await expectRevert(instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1}), 'Insufficient input balance');
   }),
   it('valid parameters', async () => {
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
 
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1}));
     assert.equal(2000000, await instrumentEscrow.getTokenBalance(maker1, inputToken.address));
 
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("swap_data"));
     let properties = protobuf.SwapData.SpotSwapCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     assert.equal(2, properties.getIssuanceproperties().getState());
@@ -139,6 +145,36 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       inputAmount: '2000000',
       outputAmount: '40000',
     });
+
+    expectEvent(receipt, 'SupplementalLineItemCreated', {
+      issuanceId: '1',
+      itemId: '1',
+      itemType: '1',
+      state: '1',
+      obligatorAddress: custodianAddress,
+      claimorAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000',
+      dueTimestamp: engagementDueTimestamp.toString()
+    });
+
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: maker1,
+      toAddress: custodianAddress,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+
     expectEvent(receipt, 'BalanceDecreased', {
       account: maker1,
       token: inputToken.address,
@@ -154,6 +190,7 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       token: inputToken.address,
       amount: '2000000'
     });
+
     expectEvent(receipt, 'Transfer', {
       from: instrumentEscrowAddress,
       to: instrumentManagerAddress,
@@ -164,26 +201,33 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       to: issuanceEscrowAddress,
       value: '2000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_create_issuance.csv');
   }),
   it('engage spot swap', async () => {
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
+
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1}));
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
-
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = events.find((event) => event.event === 'SwapCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     await outputToken.transfer(taker1, 40000);
     await outputToken.approve(instrumentEscrowAddress, 40000, {from: taker1});
-    await instrumentEscrow.depositToken(outputToken.address, 40000, {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(outputToken.address, 40000, {from: taker1}));
     assert.equal(40000, await instrumentEscrow.getTokenBalance(taker1, outputToken.address));
 
     // Engage spot swap issuance
     let engageIssuance = await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(engageIssuance);
     let engageIssuanceEvents = LogParser.logParser(engageIssuance.receipt.rawLogs, abis);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("swap_data"));
     let properties = protobuf.SwapData.SpotSwapCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
@@ -209,11 +253,64 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     assert.equal(0, await instrumentEscrow.getTokenBalance(taker1, outputToken.address));
     assert.equal(2000000, await instrumentEscrow.getTokenBalance(taker1, inputToken.address));
     assert.equal(40000, await instrumentEscrow.getTokenBalance(maker1, outputToken.address));
-
     let receipt = {logs: engageIssuanceEvents};
     expectEvent(receipt, 'SwapEngaged', {
       issuanceId: new BN(1),
       takerAddress: taker1
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: outputToken.address,
+      amount: '40000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: maker1,
+      toAddress: taker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: taker1,
+      toAddress: maker1,
+      tokenAddress: outputToken.address,
+      amount: '40000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: outputToken.address,
+      amount: '40000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '1',
+      state: '2',
+      reinitiatedTo: '0'
     });
     expectEvent(receipt, 'BalanceDecreased', {
       account: custodianAddress,
@@ -291,12 +388,16 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       to: issuanceEscrowAddress,
       value: '40000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_engage_issuance.csv');
   }),
   it('engage spot swap insufficient output balance', async () => {
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
 
@@ -314,7 +415,7 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
 
@@ -333,7 +434,7 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
 
@@ -342,18 +443,21 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker2}), 'Only maker can cancel issuance');
   }),
   it('cancel spot swap', async () => {
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
+
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1}));
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
-
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = events.find((event) => event.event === 'SwapCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     let cancelIssuance = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1});
+    allTransactions.push(cancelIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("swap_data"));
     let properties = protobuf.SwapData.SpotSwapCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     let engagementDueTimestamp = properties.getIssuanceproperties().getEngagementduetimestamp().toNumber();
@@ -409,20 +513,49 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       to: instrumentManagerAddress,
       value: '2000000'
     });
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '1',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_cancel_issuance.csv');
   }),
   it('notify due after due', async () => {
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
+
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    allTransactions.push(await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1}));
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
-
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = events.find((event) => event.event === 'SwapCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
     await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
     let notifyDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("issuance_due"), web3.utils.fromAscii(""), {from: maker1});
+    allTransactions.push(notifyDue);
     let notifyDueEvents = LogParser.logParser(notifyDue.receipt.rawLogs, abis);
 
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("swap_data"));
@@ -476,14 +609,40 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       to: instrumentManagerAddress,
       value: '2000000'
     });
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '1',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: inputToken.address,
+      amount: '2000000'
+    });
     assert.equal(2000000, await instrumentEscrow.getTokenBalance(maker1, inputToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(maker1, inputToken.address));
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_engagement_due.csv');
   }),
   it('notify due before due', async () => {
     await inputToken.transfer(maker1, 2000000);
     await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
-    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
     let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
     let createdIssuance = await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
 

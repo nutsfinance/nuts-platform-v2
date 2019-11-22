@@ -2,11 +2,13 @@ const { BN, constants, balance, expectEvent, expectRevert } = require('@openzepp
 const assert = require('assert');
 const SolidityEvent = require("web3");
 const LogParser = require(__dirname + "/LogParser.js");
+const GoogleSheets = require(__dirname + "/GoogleSheets.js");
 const protobuf = require(__dirname + "/../protobuf-js-messages");
 const LineItems = require(__dirname + "/LineItems.js");
 const custodianAddress = "0xDbE7A2544eeFfec81A7D898Ac08075e0D56FEac6";
 
 const InstrumentManagerFactory = artifacts.require('./instrument/InstrumentManagerFactory.sol');
+const InstrumentManager = artifacts.require('./instrument/InstrumentManager.sol');
 const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
 const Borrowing = artifacts.require('./instrument/borrowing/Borrowing.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
@@ -18,6 +20,7 @@ const TokenMock = artifacts.require('./mock/TokenMock.sol');
 const NUTSToken = artifacts.require('./token/NUTSToken.sol');
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
 const IssuanceEscrow = artifacts.require('./escrow/IssuanceEscrow.sol');
+const InstrumentEscrow = artifacts.require('./escrow/InstrumentEscrow.sol');
 
 let parametersUtil;
 let collateralToken;
@@ -121,16 +124,17 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await expectRevert(instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1}), 'Insufficient collateral balance');
   }),
   it('valid parameters', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
-
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1}));
     assert.equal(2000000, await instrumentEscrow.getTokenBalance(maker1, collateralToken.address));
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address,
         borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
 
     let issuanceEscrowAddress = events.find((event) => event.event === 'BorrowingCreated').args.escrowAddress;
@@ -170,6 +174,35 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       collateralTokenAmount: '2000000'
     });
 
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: maker1,
+      toAddress: custodianAddress,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+
+    expectEvent(receipt, 'SupplementalLineItemCreated', {
+      issuanceId: '1',
+       itemId: '1',
+       itemType: '1',
+       state: '1',
+       obligatorAddress: custodianAddress,
+       claimorAddress: maker1,
+       tokenAddress: collateralToken.address,
+       amount: '2000000',
+       dueTimestamp: engagementDueTimestamp.toString()
+    });
+
     expectEvent(receipt, 'BalanceDecreased', {
       account: maker1,
       token: collateralToken.address,
@@ -196,16 +229,22 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       from: instrumentManagerAddress,
       value: '2000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_create_issuance.csv');
   }),
   it('engage borrowing', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
 
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1}));
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'BorrowingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
@@ -213,10 +252,11 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     // Deposit collateral tokens to borrowing Instrument Escrow
     await borrowingToken.transfer(taker1, 20000);
     await borrowingToken.approve(instrumentEscrowAddress, 20000, {from: taker1});
-    await instrumentEscrow.depositToken(borrowingToken.address, 20000, {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(borrowingToken.address, 20000, {from: taker1}));
     assert.equal(20000, await instrumentEscrow.getTokenBalance(taker1, borrowingToken.address));
 
     let engageIssuance = await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(engageIssuance);
     let engageIssuanceEvents = LogParser.logParser(engageIssuance.receipt.rawLogs, abis);
     assert.equal(10000, await instrumentEscrow.getTokenBalance(maker1, borrowingToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(taker1, borrowingToken.address));
@@ -275,12 +315,76 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     assert.equal(4, lineItems.length);
     lineItemsJson.forEach((json) => assert.ok(LineItems.searchLineItems(lineItems, json).length > 0));
     assert.equal(3, properties.getIssuanceproperties().getState());
-
     let receipt = {logs: engageIssuanceEvents};
     expectEvent(receipt, 'BorrowingEngaged', {
       issuanceId: new BN(1),
       takerAddress: taker1,
       borrowingDueTimstamp: issuanceDueTimestamp.toString()
+    });
+
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: borrowingToken.address,
+      amount: '10000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: taker1,
+      toAddress: maker1,
+      tokenAddress: borrowingToken.address,
+      amount: '10000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: borrowingToken.address,
+      amount: '10000'
+    });
+
+    expectEvent(receipt, 'SupplementalLineItemCreated', {
+      issuanceId: '1',
+      itemId: '2',
+      itemType: '1',
+      state: '1',
+      obligatorAddress: maker1,
+      claimorAddress: taker1,
+      tokenAddress: borrowingToken.address,
+      amount: '10000',
+      dueTimestamp: issuanceDueTimestamp.toString()
+    });
+    expectEvent(receipt, 'SupplementalLineItemCreated', {
+      issuanceId: '1',
+      itemId: '3',
+      itemType: '1',
+      state: '1',
+      obligatorAddress: maker1,
+      claimorAddress: taker1,
+      tokenAddress: borrowingToken.address,
+      amount: '2000',
+      dueTimestamp: issuanceDueTimestamp.toString()
+    });
+    expectEvent(receipt, 'SupplementalLineItemCreated', {
+      issuanceId: '1',
+      itemId: '4',
+      itemType: '1',
+      state: '1',
+      obligatorAddress: custodianAddress,
+      claimorAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000',
+      dueTimestamp: issuanceDueTimestamp.toString()
+    });
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '1',
+      state: '3',
+      reinitiatedTo: '4'
     });
 
     expectEvent(receipt, 'BalanceDecreased', {
@@ -324,22 +428,29 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       to: instrumentEscrowAddress,
       value: '10000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_engage_issuance.csv');
   }),
   it('cancel borrowing', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
 
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1}));
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address,
         borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = events.find((event) => event.event === 'BorrowingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     let cancelIssuance = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1});
+    allTransactions.push(cancelIssuance);
     let cancelIssuanceEvents = LogParser.logParser(cancelIssuance.receipt.rawLogs, abis);
 
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("borrowing_data"));
@@ -371,6 +482,30 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       issuanceId: new BN(1)
     });
 
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '1',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+
     expectEvent(receipt, 'BalanceIncreased', {
       account: maker1,
       token: collateralToken.address,
@@ -397,9 +532,13 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       to: instrumentManagerAddress,
       value: '2000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_cancel_issuance.csv');
   }),
   it('cancel borrowing not engageable', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
@@ -419,7 +558,7 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1}), 'Cancel issuance not in engageable state');
   }),
   it('cancel borrowing not from maker', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
@@ -431,14 +570,16 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker2}), 'Only maker can cancel issuance');
   }),
   it('repaid successful', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
 
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1}));
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'BorrowingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
@@ -447,18 +588,19 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     // Deposit collateral tokens to borrowing Instrument Escrow
     await borrowingToken.transfer(taker1, 20000);
     await borrowingToken.approve(instrumentEscrowAddress, 20000, {from: taker1});
-    await instrumentEscrow.depositToken(borrowingToken.address, 20000, {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(borrowingToken.address, 20000, {from: taker1}));
     assert.equal(20000, await instrumentEscrow.getTokenBalance(taker1, borrowingToken.address));
 
-    await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(await instrumentManager.engageIssuance(1, '0x0', {from: taker1}));
     assert.equal(10000, await instrumentEscrow.getTokenBalance(maker1, borrowingToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(taker1, borrowingToken.address));
 
     await borrowingToken.transfer(maker1, 2000);
     await borrowingToken.approve(instrumentEscrowAddress, 2000, {from: maker1});
-    await instrumentEscrow.depositToken(borrowingToken.address, 2000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(borrowingToken.address, 2000, {from: maker1}));
     assert.equal(12000, await instrumentEscrow.getTokenBalance(maker1, borrowingToken.address));
     let depositToIssuance = await instrumentManager.depositToIssuance(1, borrowingToken.address, 12000, {from: maker1});
+    allTransactions.push(depositToIssuance);
     let depositToIssuanceEvents = LogParser.logParser(depositToIssuance.receipt.rawLogs, abis);
 
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("borrowing_data"));
@@ -530,6 +672,66 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       issuanceId: new BN(1)
     });
 
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: borrowingToken.address,
+      amount: '12000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: maker1,
+      toAddress: taker1,
+      tokenAddress: borrowingToken.address,
+      amount: '12000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: borrowingToken.address,
+      amount: '12000'
+    });
+
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '2',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '3',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '4',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+
     expectEvent(receipt, 'BalanceDecreased', {
       account: maker1,
       token: borrowingToken.address,
@@ -596,12 +798,16 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       to: instrumentEscrowAddress,
       value: '12000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_repaid.csv');
   }),
   it('repaid not engaged', async () => {
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
@@ -616,7 +822,7 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
@@ -634,7 +840,7 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await collateralToken.transfer(maker1, 2200000);
     await collateralToken.approve(instrumentEscrowAddress, 2200000, {from: maker1});
     await instrumentEscrow.depositToken(collateralToken.address, 2200000, {from: maker1});
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
@@ -652,7 +858,7 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
     await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address, borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
@@ -667,21 +873,24 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     await expectRevert(instrumentManager.depositToIssuance(1, borrowingToken.address, 10000, {from: maker1}), "Must repay in full");
   }),
   it('engagement due after due date', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
 
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1}));
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address,
         borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = events.find((event) => event.event === 'BorrowingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
     let notifyEngagementDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("engagement_due"), web3.utils.fromAscii(""), {from: maker1});
+    allTransactions.push(notifyEngagementDue);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("borrowing_data"));
     let properties = protobuf.BorrowingData.BorrowingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
     let lineItems = properties.getIssuanceproperties().getSupplementallineitemsList();
@@ -709,6 +918,30 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
 
     expectEvent(receipt, 'BorrowingCompleteNotEngaged', {
       issuanceId: new BN(1)
+    });
+
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '1',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
     });
 
     expectEvent(receipt, 'BalanceDecreased', {
@@ -739,6 +972,10 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     });
     assert.equal(2000000, await instrumentEscrow.getTokenBalance(maker1, collateralToken.address));
     assert.equal(0, await issuanceEscrow.getTokenBalance(maker1, collateralToken.address));
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_engagement_due.csv');
   }),
   it('engagement due after engaged', async () => {
     await collateralToken.transfer(maker1, 2000000);
@@ -772,25 +1009,28 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     assert.equal(2, properties.getIssuanceproperties().getState());
   }),
   it('borrowing due after engaged', async () => {
-    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi);
+    let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
+    let allTransactions = [];
 
     await collateralToken.transfer(maker1, 2000000);
     await collateralToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1});
+    allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 2000000, {from: maker1}));
 
     let borrowingMakerParameters = await parametersUtil.getBorrowingMakerParameters(collateralToken.address,
         borrowingToken.address, 10000, 20000, 20, 10000);
     let createdIssuance = await instrumentManager.createIssuance(borrowingMakerParameters, {from: maker1});
+    allTransactions.push(createdIssuance);
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'BorrowingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
 
     await borrowingToken.transfer(taker1, 20000);
     await borrowingToken.approve(instrumentEscrowAddress, 20000, {from: taker1});
-    await instrumentEscrow.depositToken(borrowingToken.address, 20000, {from: taker1});
-    await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
+    allTransactions.push(await instrumentEscrow.depositToken(borrowingToken.address, 20000, {from: taker1}));
+    allTransactions.push(await instrumentManager.engageIssuance(1, '0x0', {from: taker1}));
     await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
     let notifyborrowingDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("issuance_due"), web3.utils.fromAscii(""), {from: maker1});
+    allTransactions.push(notifyborrowingDue);
     let notifyborrowingDueEvents = LogParser.logParser(notifyborrowingDue.receipt.rawLogs, abis);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("borrowing_data"));
     let properties = protobuf.BorrowingData.BorrowingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
@@ -857,6 +1097,38 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       issuanceId: new BN(1)
     });
 
+    expectEvent(receipt, 'SupplementalLineItemUpdated', {
+      issuanceId: '1',
+      itemId: '4',
+      state: '2',
+      reinitiatedTo: '0'
+    });
+
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: custodianAddress,
+      toAddress: maker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: maker1,
+      toAddress: taker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: collateralToken.address,
+      amount: '2000000'
+    });
+
     expectEvent(receipt, 'BalanceDecreased', {
       account: maker1,
       token: collateralToken.address,
@@ -893,5 +1165,9 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
       to: instrumentEscrowAddress,
       value: '2000000'
     });
+    let allLogs = [];
+    allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
+    let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_due.csv');
   })
 });

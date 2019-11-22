@@ -70,7 +70,8 @@ const runBorrowingTestCases = async function(deployer, [owner, proxyAdmin, timer
 
 module.exports = function(deployer, network, accounts) {
 deployer
-    .then(() => runBorrowingTestCases(deployer, accounts))
+    //.then(() => runBorrowingTestCases(deployer, accounts))
+    .then(() => console.log("a"))
     .catch(error => {
       console.log(error);
       process.exit(1);

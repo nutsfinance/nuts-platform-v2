@@ -27,12 +27,6 @@ contract InstrumentBase is InstrumentInterface {
      */
     event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, bytes32 eventName, bytes eventPayload);
 
-    /**
-     * @dev Token is transferred.
-     */
-    event TokenTransferred(uint256 indexed issuanceId, Transfer.Type transferType, address fromAddress, address toAddress,
-        address tokenAddress, uint256 amount);
-
     event SupplementalLineItemCreated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.Type itemType,
         SupplementalLineItem.State state, address obligatorAddress, address claimorAddress, address tokenAddress, uint256 amount,
         uint256 dueTimestamp);
@@ -170,7 +164,7 @@ contract InstrumentBase is InstrumentInterface {
     /**
      * @dev Create a new inbound transfer action.
      */
-    function _createInboundTransfer(address account, address tokenAddress, uint256 amount) internal returns (Transfer.Data memory) {
+    function _createInboundTransfer(address account, address tokenAddress, uint256 amount) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.Inbound,
             fromAddress: account,
@@ -178,14 +172,13 @@ contract InstrumentBase is InstrumentInterface {
             tokenAddress: tokenAddress,
             amount: amount
         });
-        emit TokenTransferred(_issuanceId, Transfer.Type.Inbound, account, account, tokenAddress, amount);
         return transfer;
     }
 
     /**
      * @dev Create a new outbound transfer action.
      */
-    function _createOutboundTransfer(address account, address tokenAddress, uint256 amount) internal returns (Transfer.Data memory) {
+    function _createOutboundTransfer(address account, address tokenAddress, uint256 amount) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.Outbound,
             fromAddress: account,
@@ -193,7 +186,6 @@ contract InstrumentBase is InstrumentInterface {
             tokenAddress: tokenAddress,
             amount: amount
         });
-        emit TokenTransferred(_issuanceId, Transfer.Type.Outbound, account, account, tokenAddress, amount);
         return transfer;
     }
 
@@ -201,7 +193,7 @@ contract InstrumentBase is InstrumentInterface {
      * @dev Create a new intra-issuance transfer action.
      */
     function _createIntraIssuanceTransfer(address fromAddress, address toAddress, address tokenAddress, uint256 amount)
-        internal returns (Transfer.Data memory) {
+        internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.IntraIssuance,
             fromAddress: fromAddress,
@@ -209,7 +201,6 @@ contract InstrumentBase is InstrumentInterface {
             tokenAddress: tokenAddress,
             amount: amount
         });
-        emit TokenTransferred(_issuanceId, Transfer.Type.Inbound, fromAddress, toAddress, tokenAddress, amount);
         return transfer;
     }
 
