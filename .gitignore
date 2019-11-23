@@ -7,6 +7,7 @@ yarn-error.log*
 *.csv
 credentials.json
 token.json
+.DS_Store
 
 # Runtime data
 pids

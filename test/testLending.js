@@ -192,14 +192,14 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
 
     expectEvent(receipt, 'SupplementalLineItemCreated', {
       issuanceId: '1',
-       itemId: '1',
-       itemType: '1',
-       state: '1',
-       obligatorAddress: custodianAddress,
-       claimorAddress: maker1,
-       tokenAddress: lendingToken.address,
-       amount: '20000',
-       dueTimestamp: engagementDueTimestamp.toString()
+      itemId: '1',
+      itemType: '1',
+      state: '1',
+      obligatorAddress: custodianAddress,
+      claimorAddress: maker1,
+      tokenAddress: lendingToken.address,
+      amount: '20000',
+      dueTimestamp: engagementDueTimestamp.toString()
     });
 
     expectEvent(receipt, 'BalanceDecreased', {
