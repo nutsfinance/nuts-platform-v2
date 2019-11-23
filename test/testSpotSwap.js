@@ -204,7 +204,11 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'spotswap_create_issuance.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_create_issuance.csv', accountMappings);
   }),
   it('engage spot swap', async () => {
     let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
@@ -391,7 +395,11 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'spotswap_engage_issuance.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_engage_issuance.csv', accountMappings);
   }),
   it('engage spot swap insufficient output balance', async () => {
     await inputToken.transfer(maker1, 2000000);
@@ -538,7 +546,11 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'spotswap_cancel_issuance.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_cancel_issuance.csv', accountMappings);
   }),
   it('notify due after due', async () => {
     let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
@@ -636,7 +648,11 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'spotswap_engagement_due.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'spotswap_engagement_due.csv', accountMappings);
   }),
   it('notify due before due', async () => {
     await inputToken.transfer(maker1, 2000000);

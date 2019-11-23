@@ -47,12 +47,13 @@ function logParser (logs, abi) {
   }).filter(p => p != null);
 }
 
-async function generateCSV(logs, issuanceId, location) {
+async function generateCSV(logs, issuanceId, location, accountMappings) {
   let csvWriter = createCsvWriter({
     path: location,
     header: [
         {id: 'BlockHeight', title: 'Block Height'},
         {id: 'timestamp', title: 'timestamp'},
+        {id: 'Address', title: 'Address'},
         {id: 'Role', title: 'Role'},
         {id: 'Wallet', title: 'Wallet'},
         {id: 'InstrumentEscrowToken', title: 'Instrument Escrow Token'},
@@ -61,10 +62,10 @@ async function generateCSV(logs, issuanceId, location) {
         {id: 'IssuranceEscrowAmount', title: 'Issurance Escrow Amount'}
     ]
   });
-  await csvWriter.writeRecords(generateTransferLogs(logs, issuanceId));
+  await csvWriter.writeRecords(generateTransferLogs(logs, issuanceId, accountMappings));
 }
 
-function generateTransferLogs(logs, targetIssuanceId) {
+function generateTransferLogs(logs, targetIssuanceId, accountMappings) {
   let instrumentEscrowBalance = {};
   let issuranceEscrowBalance = {};
   let result = [];
@@ -79,7 +80,8 @@ function generateTransferLogs(logs, targetIssuanceId) {
       let baseEntry = {
         BlockHeight: log.blockNumber,
         timestamp: log.timestamp,
-        Role: depositer,
+        Address: depositer,
+        Role: accountMappings[depositer],
         Wallet: ">>"
       };
       result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, depositer, baseEntry));
@@ -92,7 +94,8 @@ function generateTransferLogs(logs, targetIssuanceId) {
       let baseEntry = {
         BlockHeight: log.blockNumber,
         timestamp: log.timestamp,
-        Role: depositer,
+        Address: withdrawer,
+        Role: accountMappings[withdrawer],
         Wallet: "<<"
       };
       result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, depositer, baseEntry));
@@ -114,7 +117,8 @@ function generateTransferLogs(logs, targetIssuanceId) {
         let baseEntry = {
           BlockHeight: log.blockNumber,
           timestamp: log.timestamp,
-          Role: fromAddress,
+          Address: fromAddress,
+          Role: accountMappings[fromAddress],
           Wallet: ""
         };
         result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
@@ -129,7 +133,8 @@ function generateTransferLogs(logs, targetIssuanceId) {
         let baseEntry = {
           BlockHeight: log.blockNumber,
           timestamp: log.timestamp,
-          Role: fromAddress,
+          Address: fromAddress,
+          Role: accountMappings[fromAddress],
           Wallet: ""
         };
         result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
@@ -144,14 +149,16 @@ function generateTransferLogs(logs, targetIssuanceId) {
           let baseEntry = {
             BlockHeight: log.blockNumber,
             timestamp: log.timestamp,
-            Role: fromAddress,
+            Address: fromAddress,
+            Role: accountMappings[fromAddress],
             Wallet: ""
           };
           result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
           baseEntry = {
             BlockHeight: log.blockNumber,
             timestamp: log.timestamp,
-            Role: toAddress,
+            Address: toAddress,
+            Role: accountMappings[toAddress],
             Wallet: ""
           };
           result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, toAddress, baseEntry));

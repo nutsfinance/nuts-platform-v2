@@ -232,7 +232,11 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'borrowing_create_issuance.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_create_issuance.csv', accountMappings);
   }),
   it('engage borrowing', async () => {
     let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
@@ -431,7 +435,11 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'borrowing_engage_issuance.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_engage_issuance.csv', accountMappings);
   }),
   it('cancel borrowing', async () => {
     let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
@@ -535,7 +543,11 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'borrowing_cancel_issuance.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_cancel_issuance.csv', accountMappings);
   }),
   it('cancel borrowing not engageable', async () => {
     let abis = [].concat(Borrowing.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
@@ -801,7 +813,11 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'borrowing_repaid.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_repaid.csv', accountMappings);
   }),
   it('repaid not engaged', async () => {
     await collateralToken.transfer(maker1, 2000000);
@@ -975,7 +991,11 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'borrowing_engagement_due.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_engagement_due.csv', accountMappings);
   }),
   it('engagement due after engaged', async () => {
     await collateralToken.transfer(maker1, 2000000);
@@ -1168,6 +1188,10 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let allLogs = [];
     allTransactions.forEach(t => allLogs = allLogs.concat(t.receipt.rawLogs));
     let allEvents = await LogParser.logParserWithTimestamp(allLogs, abis);
-    await LogParser.generateCSV(allEvents, '1', 'borrowing_due.csv');
+    let accountMappings = {};
+    accountMappings[maker1] = "maker";
+    accountMappings[taker1] = "taker";
+    accountMappings[custodianAddress] = "custodian";
+    await LogParser.generateCSV(allEvents, '1', 'borrowing_due.csv', accountMappings);
   })
 });
