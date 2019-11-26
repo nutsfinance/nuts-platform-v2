@@ -67,6 +67,12 @@ contract InstrumentManager is InstrumentManagerInterface {
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
 
     /**
+     * @dev Token is transferred.
+     */
+    event TokenTransferred(uint256 indexed issuanceId, Transfer.Type transferType, address fromAddress, address toAddress,
+        address tokenAddress, uint256 amount);
+
+    /**
      * @param fspAddress Address of FSP that activates this financial instrument.
      * @param instrumentAddress Address of the financial instrument contract.
      * @param instrumentConfigAddress Address of the Instrument Config contract.
@@ -358,7 +364,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         // The transfer can only come from issuance maker, issuance taker and instrument broker.
         require(_isTransferAllowed(issuanceId, transfer.fromAddress)
             && _isTransferAllowed(issuanceId, transfer.toAddress), "Transfer not allowed");
-
+        emit TokenTransferred(issuanceId, transfer.transferType, transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
         // Check whether it's outbound, inbound, or transfer within the escrow.

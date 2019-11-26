@@ -44,7 +44,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.IssuanceProperties.repeatedFields_ = [11];
+proto.IssuanceProperties.repeatedFields_ = [12];
 
 
 
@@ -83,8 +83,9 @@ proto.IssuanceProperties.toObject = function(includeInstance, msg) {
     creationtimestamp: (f = msg.getCreationtimestamp()) && SolidityTypes_pb.uint256.toObject(includeInstance, f),
     engagementtimestamp: (f = msg.getEngagementtimestamp()) && SolidityTypes_pb.uint256.toObject(includeInstance, f),
     settlementtimestamp: (f = msg.getSettlementtimestamp()) && SolidityTypes_pb.uint256.toObject(includeInstance, f),
+    issuanceproxyaddress: (f = msg.getIssuanceproxyaddress()) && SolidityTypes_pb.address.toObject(includeInstance, f),
     issuanceescrowaddress: (f = msg.getIssuanceescrowaddress()) && SolidityTypes_pb.address.toObject(includeInstance, f),
-    state: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    state: jspb.Message.getFieldWithDefault(msg, 11, 0),
     supplementallineitemsList: jspb.Message.toObjectList(msg.getSupplementallineitemsList(),
     SupplementalLineItem_pb.SupplementalLineItem.toObject, includeInstance)
   };
@@ -166,13 +167,18 @@ proto.IssuanceProperties.deserializeBinaryFromReader = function(msg, reader) {
     case 9:
       var value = new SolidityTypes_pb.address;
       reader.readMessage(value,SolidityTypes_pb.address.deserializeBinaryFromReader);
-      msg.setIssuanceescrowaddress(value);
+      msg.setIssuanceproxyaddress(value);
       break;
     case 10:
+      var value = new SolidityTypes_pb.address;
+      reader.readMessage(value,SolidityTypes_pb.address.deserializeBinaryFromReader);
+      msg.setIssuanceescrowaddress(value);
+      break;
+    case 11:
       var value = /** @type {!proto.IssuanceProperties.State} */ (reader.readEnum());
       msg.setState(value);
       break;
-    case 11:
+    case 12:
       var value = new SupplementalLineItem_pb.SupplementalLineItem;
       reader.readMessage(value,SupplementalLineItem_pb.SupplementalLineItem.deserializeBinaryFromReader);
       msg.addSupplementallineitems(value);
@@ -270,7 +276,7 @@ proto.IssuanceProperties.serializeBinaryToWriter = function(message, writer) {
       SolidityTypes_pb.uint256.serializeBinaryToWriter
     );
   }
-  f = message.getIssuanceescrowaddress();
+  f = message.getIssuanceproxyaddress();
   if (f != null) {
     writer.writeMessage(
       9,
@@ -278,17 +284,25 @@ proto.IssuanceProperties.serializeBinaryToWriter = function(message, writer) {
       SolidityTypes_pb.address.serializeBinaryToWriter
     );
   }
+  f = message.getIssuanceescrowaddress();
+  if (f != null) {
+    writer.writeMessage(
+      10,
+      f,
+      SolidityTypes_pb.address.serializeBinaryToWriter
+    );
+  }
   f = message.getState();
   if (f !== 0.0) {
     writer.writeEnum(
-      10,
+      11,
       f
     );
   }
   f = message.getSupplementallineitemsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      11,
+      12,
       f,
       SupplementalLineItem_pb.SupplementalLineItem.serializeBinaryToWriter
     );
@@ -576,18 +590,51 @@ proto.IssuanceProperties.prototype.hasSettlementtimestamp = function() {
 
 
 /**
- * optional solidity.address issuanceEscrowAddress = 9;
+ * optional solidity.address issuanceProxyAddress = 9;
  * @return {?proto.solidity.address}
  */
-proto.IssuanceProperties.prototype.getIssuanceescrowaddress = function() {
+proto.IssuanceProperties.prototype.getIssuanceproxyaddress = function() {
   return /** @type{?proto.solidity.address} */ (
     jspb.Message.getWrapperField(this, SolidityTypes_pb.address, 9));
 };
 
 
 /** @param {?proto.solidity.address|undefined} value */
-proto.IssuanceProperties.prototype.setIssuanceescrowaddress = function(value) {
+proto.IssuanceProperties.prototype.setIssuanceproxyaddress = function(value) {
   jspb.Message.setWrapperField(this, 9, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ */
+proto.IssuanceProperties.prototype.clearIssuanceproxyaddress = function() {
+  this.setIssuanceproxyaddress(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.IssuanceProperties.prototype.hasIssuanceproxyaddress = function() {
+  return jspb.Message.getField(this, 9) != null;
+};
+
+
+/**
+ * optional solidity.address issuanceEscrowAddress = 10;
+ * @return {?proto.solidity.address}
+ */
+proto.IssuanceProperties.prototype.getIssuanceescrowaddress = function() {
+  return /** @type{?proto.solidity.address} */ (
+    jspb.Message.getWrapperField(this, SolidityTypes_pb.address, 10));
+};
+
+
+/** @param {?proto.solidity.address|undefined} value */
+proto.IssuanceProperties.prototype.setIssuanceescrowaddress = function(value) {
+  jspb.Message.setWrapperField(this, 10, value);
 };
 
 
@@ -604,38 +651,38 @@ proto.IssuanceProperties.prototype.clearIssuanceescrowaddress = function() {
  * @return {boolean}
  */
 proto.IssuanceProperties.prototype.hasIssuanceescrowaddress = function() {
-  return jspb.Message.getField(this, 9) != null;
+  return jspb.Message.getField(this, 10) != null;
 };
 
 
 /**
- * optional State state = 10;
+ * optional State state = 11;
  * @return {!proto.IssuanceProperties.State}
  */
 proto.IssuanceProperties.prototype.getState = function() {
-  return /** @type {!proto.IssuanceProperties.State} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+  return /** @type {!proto.IssuanceProperties.State} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
 };
 
 
 /** @param {!proto.IssuanceProperties.State} value */
 proto.IssuanceProperties.prototype.setState = function(value) {
-  jspb.Message.setProto3EnumField(this, 10, value);
+  jspb.Message.setProto3EnumField(this, 11, value);
 };
 
 
 /**
- * repeated SupplementalLineItem supplementalLineItems = 11;
+ * repeated SupplementalLineItem supplementalLineItems = 12;
  * @return {!Array<!proto.SupplementalLineItem>}
  */
 proto.IssuanceProperties.prototype.getSupplementallineitemsList = function() {
   return /** @type{!Array<!proto.SupplementalLineItem>} */ (
-    jspb.Message.getRepeatedWrapperField(this, SupplementalLineItem_pb.SupplementalLineItem, 11));
+    jspb.Message.getRepeatedWrapperField(this, SupplementalLineItem_pb.SupplementalLineItem, 12));
 };
 
 
 /** @param {!Array<!proto.SupplementalLineItem>} value */
 proto.IssuanceProperties.prototype.setSupplementallineitemsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 11, value);
+  jspb.Message.setRepeatedWrapperField(this, 12, value);
 };
 
 
@@ -645,7 +692,7 @@ proto.IssuanceProperties.prototype.setSupplementallineitemsList = function(value
  * @return {!proto.SupplementalLineItem}
  */
 proto.IssuanceProperties.prototype.addSupplementallineitems = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 11, opt_value, proto.SupplementalLineItem, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 12, opt_value, proto.SupplementalLineItem, opt_index);
 };
 
 
