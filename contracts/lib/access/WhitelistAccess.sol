@@ -1,5 +1,8 @@
 pragma solidity ^0.5.0;
 
+/**
+ * @title A library to define access white list.
+ */
 library WhitelistAccess {
     struct Whitelist{
         bool enabled;
@@ -16,6 +19,7 @@ library WhitelistAccess {
 
     /**
      * @dev Check whether the account is allowed to access.
+     * Access is allowed if whitelist is not enabled.
      */
     function isAllowed(Whitelist storage self, address account) internal view returns (bool) {
         return !self.enabled || self.allowers[account];

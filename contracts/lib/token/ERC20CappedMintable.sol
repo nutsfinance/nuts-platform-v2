@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
-import "../lib/token/ERC20.sol";
-import "../lib/access/Ownable.sol";
+import "./ERC20.sol";
+import "../access/Ownable.sol";
 
 /**
  * @dev Extension of `ERC20Mintable` that adds a cap on the number
