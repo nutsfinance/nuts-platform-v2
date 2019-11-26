@@ -83,10 +83,10 @@ function processTokenDeposited(log, result, targetIssuanceId, instrumentEscrowBa
   instrumentEscrowBalance[depositer][tokenAddress] += amount;
   let baseEntry = {
     BlockHeight: log.blockNumber,
-    timestamp: log.timestamp,
+    timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
     Address: depositer,
     Role: accountMappings[depositer],
-    Wallet: ">>"
+    Wallet: "Deposit"
   };
   return result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, depositer, baseEntry));
 }
@@ -98,10 +98,10 @@ function processTokenWithdrawn(log, result, targetIssuanceId, instrumentEscrowBa
   instrumentEscrowBalance[withdrawer][tokenAddress] -= amount;
   let baseEntry = {
     BlockHeight: log.blockNumber,
-    timestamp: log.timestamp,
+    timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
     Address: withdrawer,
     Role: accountMappings[withdrawer],
-    Wallet: "<<"
+    Wallet: "Withdraw"
   };
   return result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, depositer, baseEntry));
 }
@@ -122,7 +122,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
     }
     let baseEntry = {
       BlockHeight: log.blockNumber,
-      timestamp: log.timestamp,
+      timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
       Address: fromAddress,
       Role: accountMappings[fromAddress],
       Wallet: ""
@@ -138,7 +138,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
     }
     let baseEntry = {
       BlockHeight: log.blockNumber,
-      timestamp: log.timestamp,
+      timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
       Address: fromAddress,
       Role: accountMappings[fromAddress],
       Wallet: ""
@@ -154,7 +154,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
 
       let baseEntry = {
         BlockHeight: log.blockNumber,
-        timestamp: log.timestamp,
+        timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
         Address: fromAddress,
         Role: accountMappings[fromAddress],
         Wallet: ""
@@ -162,7 +162,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
       result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
       baseEntry = {
         BlockHeight: log.blockNumber,
-        timestamp: log.timestamp,
+        timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
         Address: toAddress,
         Role: accountMappings[toAddress],
         Wallet: ""
@@ -210,7 +210,7 @@ function processLineItemCreated(log, result, targetIssuanceId, payableMappings, 
   }
   let baseEntry = {
     BlockHeight: log.blockNumber,
-    timestamp: log.timestamp,
+    timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
     Address: obligatorAddress,
     Role: accountMappings[obligatorAddress],
     Wallet: "",
