@@ -14,6 +14,9 @@ import "./InstrumentConfig.sol";
  */
 contract InstrumentRegistry is Ownable, InstrumentConfig {
 
+    event InstrumentActivated(address indexed fspAddress, address indexed instrumentAddress,
+        address indexed instrumentManagerAddress);
+
     using SafeERC20 for IERC20;
 
     // Mapping: Instrument Address => Instrument Manager Address
@@ -91,6 +94,8 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
             msg.sender, instrumentAddress, address(this), instrumentParameters);
 
         _instrumentManagers[instrumentAddress] = address(instrumentManager);
+
+        emit InstrumentActivated(msg.sender, instrumentAddress, address(instrumentManager));
 
         if (instrumentDeposit > 0) {
             // Transfer NUTS token to deposit from FSP
