@@ -67,6 +67,11 @@ contract InstrumentManager is InstrumentManagerInterface {
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
 
     /**
+     * @dev A new issuance is created.
+     */
+    event IssuanceCreated(uint256 indexed issuanceId, address indexed makerAddress, address issuanceProxyAddress, address issuanceEscrowAddress);
+
+    /**
      * @dev Token is transferred.
      */
     event TokenTransferred(uint256 indexed issuanceId, Transfer.Type transferType, address fromAddress, address toAddress,
@@ -214,6 +219,8 @@ contract InstrumentManager is InstrumentManagerInterface {
             address(issuanceEscrow), _instrumentConfig.priceOracleAddress());
         bytes memory transfersData = instrument.createIssuance(msg.sender, makerParameters);
         _postProcessing(_lastIssuanceId, instrument.isTerminated(), transfersData);
+
+        emit IssuanceCreated(_lastIssuanceId, msg.sender, address(issuanceProxy), address(issuanceEscrow));
     }
 
     /**
