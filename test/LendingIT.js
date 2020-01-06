@@ -1,32 +1,78 @@
+const { BN, constants, balance, expectEvent, expectRevert } = require('@openzeppelin/test-helpers');
+const assert = require('assert');
+const SolidityEvent = require("web3");
+const LogParser = require(__dirname + "/LogParser.js");
+const LineItems = require(__dirname + "/LineItems.js");
+const protobuf = require(__dirname + "/../protobuf-js-messages");
+const custodianAddress = "0xDbE7A2544eeFfec81A7D898Ac08075e0D56FEac6";
+
+const InstrumentManagerFactory = artifacts.require('./instrument/InstrumentManagerFactory.sol');
+const InstrumentManager = artifacts.require('./instrument/InstrumentManager.sol');
 const InstrumentManagerInterface = artifacts.require('./instrument/InstrumentManagerInterface.sol');
+const Lending = artifacts.require('./instrument/lending/Lending.sol');
 const PriceOracle = artifacts.require('./mock/PriceOracleMock.sol');
 const InstrumentEscrowInterface = artifacts.require('./escrow/InstrumentEscrowInterface.sol');
+const IssuanceEscrowInterface = artifacts.require('./escrow/IssuanceEscrowInterface.sol');
 const InstrumentRegistry = artifacts.require('./InstrumentRegistry.sol');
-const Lending = artifacts.require('./instrument/lending/Lending.sol');
 const ParametersUtil =artifacts.require('./lib/util/ParametersUtil.sol');
 const TokenMock = artifacts.require('./mock/TokenMock.sol');
+const NUTSToken = artifacts.require('./token/NUTSToken.sol');
+const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
+const IssuanceEscrow = artifacts.require('./escrow/IssuanceEscrow.sol');
+const InstrumentEscrow = artifacts.require('./escrow/InstrumentEscrow.sol');
 
-const runLendingTestCases = async function(deployer, [owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker2, taker2, maker3, taker3]) {
-    console.log('Running Lending Test Cases...');
-    const priceOracle = await PriceOracle.deployed();
-    const instrumentRegistry = await InstrumentRegistry.deployed();
-    const lending = await Lending.deployed();
-    const parametersUtil = await ParametersUtil.deployed();
+let parametersUtil;
+let collateralToken;
+let lendingToken;
+let instrumentManagerAddress;
+let instrumentEscrowAddress;
+let lending;
+let instrumentManager;
+let instrumentEscrow;
+
+contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker2, taker2, maker3, taker3]) => {
+  beforeEach(async () => {
+    // Deploy Instrument Managers
+    let instrumentManagerFactory = await InstrumentManagerFactory.new();
+
+    // Deploy NUTS token
+    let nutsToken = await NUTSToken.new();
+
+    // Deploy Price Oracle
+    let priceOracle = await PriceOracle.new();
+
+    // Deploy Escrow Factory
+    let escrowFactory = await EscrowFactory.new();
+
+    // Deploy Instrument Registry
+    let instrumentRegistry = await InstrumentRegistry.new(instrumentManagerFactory.address,
+        0, 0, nutsToken.address, priceOracle.address, escrowFactory.address);
+
+    parametersUtil = await ParametersUtil.new();
+
+    console.log('Deploying lending instrument.');
+    lending = await Lending.new({from: fsp});
+    let lendingInstrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
+    // Activate Lending Instrument
+    await instrumentRegistry.activateInstrument(lending.address, lendingInstrumentParameters, {from: fsp});
+    instrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(lending.address, {from: fsp});
+    console.log('Lending instrument manager address: ' + instrumentManagerAddress);
+    instrumentManager = await InstrumentManagerInterface.at(instrumentManagerAddress);
+    instrumentEscrowAddress = await instrumentManager.getInstrumentEscrowAddress({from: fsp});
+    console.log('Lending instrument escrow address: ' + instrumentEscrowAddress);
+    instrumentEscrow = await InstrumentEscrowInterface.at(instrumentEscrowAddress);
 
     // Deploy ERC20 tokens
-    const lendingToken = await deployer.deploy(TokenMock);
-    const collateralToken = await deployer.deploy(TokenMock);
+    lendingToken = await TokenMock.new();
+    collateralToken = await TokenMock.new();
+    console.log("Lending token address:" + lendingToken.address);
+    console.log("Collateral token address:" + collateralToken.address);
     await priceOracle.setRate(lendingToken.address, collateralToken.address, 1, 100);
     await priceOracle.setRate(collateralToken.address, lendingToken.address, 100, 1);
-
-    const instrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(lending.address, {from: fsp});
-    console.log('Instrument manager address: ' + instrumentManagerAddress);
-    const instrumentManager = await InstrumentManagerInterface.at(instrumentManagerAddress);
-    const instrumentEscrowAddress = await instrumentManager.getInstrumentEscrowAddress({from: fsp});
-    console.log('Instrument escrow address: ' + instrumentEscrowAddress);
-    const instrumentEscrow = await InstrumentEscrowInterface.at(instrumentEscrowAddress);
-    let lendingMakerParameters;
-
+    console.log("maker1: " + maker1);
+    console.log("taker1: " + taker1);
+  }),
+  it('integration tests', async () => {
     /**************************** Lending Issuance 1 *****************************************/
     console.log('Creating Lending Issuance 1...');
     // Deposit principal tokens to Lending Instrument Escrow
@@ -127,14 +173,5 @@ const runLendingTestCases = async function(deployer, [owner, proxyAdmin, timerOr
 
     // Engage lending issuance
     await instrumentManager.engageIssuance(5, '0x0', {from: taker3});
-
-};
-
-module.exports = function(deployer, network, accounts) {
-deployer
-    .then(() => runLendingTestCases(deployer, accounts))
-    .catch(error => {
-      console.log(error);
-      process.exit(1);
-    });
-};
+  })
+});
