@@ -5,7 +5,6 @@ import "./InstrumentInterface.sol";
 import "../InstrumentConfig.sol";
 import "../escrow/InstrumentEscrowInterface.sol";
 import "../escrow/IssuanceEscrowInterface.sol";
-import "../escrow/DepositEscrowInterface.sol";
 import "../escrow/EscrowFactoryInterface.sol";
 import "../lib/access/WhitelistAccess.sol";
 import "../lib/token/SafeERC20.sol";
@@ -194,13 +193,8 @@ contract InstrumentManager is InstrumentManagerInterface {
 
         // Deposit NUTS token
         if (_instrumentConfig.issuanceDeposit() > 0) {
-            // Withdraw NUTS token from Instrument Escrow
+            // Transfers NUTS token from Instrument Escrow to Instrument Manager.
             _instrumentEscrow.withdrawTokenByAdmin(msg.sender, _instrumentConfig.depositTokenAddress(), _instrumentConfig.issuanceDeposit());
-            // Deposit NUTS token to Deposit Escrow
-            IERC20(_instrumentConfig.depositTokenAddress()).safeApprove(_instrumentConfig.depositEscrowAddress(), _instrumentConfig.issuanceDeposit());
-            // Note: The owner of Deposit Escrow is Instrument Registry, not Instrument Manager!
-            DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
-                .depositToken(_instrumentConfig.depositTokenAddress(), _instrumentConfig.issuanceDeposit());
         }
 
         // Get issuance Id
@@ -359,11 +353,13 @@ contract InstrumentManager is InstrumentManagerInterface {
      */
     function _postProcessing(uint256 issuanceId, bool terminated, bytes memory transfersData) internal {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        if (terminated && property.deposit > 0) {
+        if (!property.terminated && terminated) {
             property.terminated = true;
             emit IssuanceTerminated(issuanceId);
-            // Burns NUTS token
-            IBurnable(_instrumentConfig.depositEscrowAddress()).burn(property.deposit);
+            if (property.deposit > 0) {
+                // Burns NUTS token
+                IBurnable(_instrumentConfig.depositTokenAddress()).burn(property.deposit);
+            }
         }
 
         // Processes transfers.

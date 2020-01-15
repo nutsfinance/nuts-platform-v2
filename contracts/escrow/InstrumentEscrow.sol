@@ -5,12 +5,11 @@ import "../lib/token/SafeERC20.sol";
 import "../lib/util/Constants.sol";
 import "./EscrowBase.sol";
 import "./InstrumentEscrowInterface.sol";
-import "./DepositEscrowInterface.sol";
 
 /**
  * @title Instrument Escrow that keeps assets that are not yet locked by issuances.
  */
-contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface, DepositEscrowInterface {
+contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface {
     /**
      * ETH is deposited into instrument escrow.
      * @param depositer The address who deposits ETH.

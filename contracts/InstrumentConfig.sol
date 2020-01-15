@@ -10,9 +10,6 @@ contract InstrumentConfig {
     // Amount of NUTS token deposited to create new issuance
     // Note: Updateable after initialization.
     uint256 public issuanceDeposit;
-    // Address of Deposit Escrow
-    // Note: Non-updateable after initialization.
-    address public depositEscrowAddress;
     // Address of deposited token(NUTS token)
     // Note: Non-updateable after initialization.
     address public depositTokenAddress;

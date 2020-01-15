@@ -1,7 +1,5 @@
 pragma solidity ^0.5.0;
 
-import "./escrow/DepositEscrowInterface.sol";
-import "./escrow/EscrowFactoryInterface.sol";
 import "./instrument/InstrumentManagerInterface.sol";
 import "./instrument/InstrumentManagerFactoryInterface.sol";
 import "./lib/token/IERC20.sol";
@@ -46,10 +44,6 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
         depositTokenAddress = newDepositTokenAddress;
         priceOracleAddress = newPriceOracleAddress;
         escrowFactoryAddress = newEscrowFactoryAddress;
-
-        // Create new Deposit Escrow
-        EscrowFactoryInterface escrowFactory = EscrowFactoryInterface(newEscrowFactoryAddress);
-        depositEscrowAddress = address(escrowFactory.createDepositEscrow());
     }
 
     /**
@@ -100,12 +94,10 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
             instrumentManager.getInstrumentEscrowAddress());
 
         if (instrumentDeposit > 0) {
-            // Transfer NUTS token to deposit from FSP
+            // Transfers NUTS token from sender to Instrument Registry.
             IERC20(depositTokenAddress).safeTransferFrom(msg.sender, address(this), instrumentDeposit);
-            // Deposit the NUTS token to Deposit Escrow, under the account of the newly created Instrument Manager.
-            IERC20(depositTokenAddress).safeApprove(depositEscrowAddress, instrumentDeposit);
-            DepositEscrowInterface(depositEscrowAddress).depositTokenByAdmin(address(instrumentManager),
-                depositTokenAddress, instrumentDeposit);
+            // Sends NUTS token from Instrument Registry to the newly created Instrument Manager.
+            IERC20(depositTokenAddress).safeTransfer(address(instrumentManager), instrumentDeposit);
         }
 
         return instrumentManager;
