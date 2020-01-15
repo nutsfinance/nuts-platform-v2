@@ -1,5 +1,5 @@
 const IssuanceEscrow = artifacts.require('../contracts/escrow/IssuanceEscrow.sol');
-const Token = artifacts.require('../contracts/lib/token/ERC20Mintable.sol');
+const Token = artifacts.require('./mock/TokenMock.sol');
 const assert = require('assert');
 
 let escrowInstance;
@@ -30,19 +30,17 @@ contract('InstrumentEscrow', ([owner, account1, account2]) => {
     }),
     it('should transfer ERC20 token ownership', async () => {
         // Step 1: Deposit 120 tokens for account2
-        let token = await Token.new();
-        await token.mint(owner, 200, {from: owner});
-        await token.approve(escrowInstance.address, 120, {from: owner});
-        await escrowInstance.depositTokenByAdmin(account2, token.address, 120, {from: owner});
-        let account2Balance = (await escrowInstance.getTokenBalance(account2, token.address)).toNumber();
+        await tokenInstance.approve(escrowInstance.address, 120, {from: owner});
+        await escrowInstance.depositTokenByAdmin(account2, tokenInstance.address, 120, {from: owner});
+        let account2Balance = (await escrowInstance.getTokenBalance(account2, tokenInstance.address)).toNumber();
         assert.equal(account2Balance, 120);
 
         // Step 2: Transfer 80 tokens from account2 to account1
-        let account1Balance = (await escrowInstance.getTokenBalance(account1, token.address)).toNumber();
+        let account1Balance = (await escrowInstance.getTokenBalance(account1, tokenInstance.address)).toNumber();
         assert.equal(account1Balance, 0);
-        await escrowInstance.transferToken(account2, account1, token.address, 80, {from: owner});
-        account1Balance = (await escrowInstance.getTokenBalance(account1, token.address)).toNumber();
-        account2Balance = (await escrowInstance.getTokenBalance(account2, token.address)).toNumber();
+        await escrowInstance.transferToken(account2, account1, tokenInstance.address, 80, {from: owner});
+        account1Balance = (await escrowInstance.getTokenBalance(account1, tokenInstance.address)).toNumber();
+        account2Balance = (await escrowInstance.getTokenBalance(account2, tokenInstance.address)).toNumber();
         assert.equal(account1Balance, 80);
         assert.equal(account2Balance, 40);
     })
