@@ -919,7 +919,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
 
     let issuanceEscrowAddress = events.find((event) => event.event === 'LendingCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
-    await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
+    await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 1}, (err, result) => { console.log(err, result)});
     let notifyEngagementDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("engagement_due"), web3.utils.fromAscii(""), {from: maker1});
     allTransactions.push(notifyEngagementDue);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
@@ -1062,7 +1062,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     allTransactions.push(await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1}));
     allTransactions.push(await instrumentManager.engageIssuance(1, '0x0', {from: taker1}));
 
-    await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
+    await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 1}, (err, result) => { console.log(err, result)});
     let notifyLendingDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("issuance_due"), web3.utils.fromAscii(""), {from: maker1});
     allTransactions.push(notifyLendingDue);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));

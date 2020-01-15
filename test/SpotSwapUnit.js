@@ -565,7 +565,7 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     let events = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = events.find((event) => event.event === 'SwapCreated').args.escrowAddress;
     let issuanceEscrow = await IssuanceEscrowInterface.at(issuanceEscrowAddress);
-    await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 0}, (err, result) => { console.log(err, result)});
+    await web3.currentProvider.send({jsonrpc: 2.0, method: 'evm_increaseTime', params: [8640000], id: 1}, (err, result) => { console.log(err, result)});
     let notifyDue = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("issuance_due"), web3.utils.fromAscii(""), {from: maker1});
     allTransactions.push(notifyDue);
     let notifyDueEvents = LogParser.logParser(notifyDue.receipt.rawLogs, abis);
