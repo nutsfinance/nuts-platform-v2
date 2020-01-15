@@ -14,13 +14,14 @@ import "./InstrumentConfig.sol";
  */
 contract InstrumentRegistry is Ownable, InstrumentConfig {
 
-    event InstrumentActivated(address indexed fspAddress, address indexed instrumentAddress,
-        address indexed instrumentManagerAddress, address instrumentEscrowAddress);
+    event InstrumentActivated(uint256 indexed instrumentId, address indexed fspAddress, address indexed instrumentAddress,
+        address instrumentManagerAddress, address instrumentEscrowAddress);
 
     using SafeERC20 for IERC20;
 
-    // Mapping: Instrument Address => Instrument Manager Address
-    mapping(address => address) private _instrumentManagers;
+    uint256 private _lastInstrumentId;
+    // Mapping: Instrument ID => Instrument Manager Address
+    mapping(uint256 => address) private _instrumentManagers;
     // Mapping: Version => Instrument Manager Factory
     InstrumentManagerFactoryInterface private _instrumentManagerFactory;
 
@@ -86,16 +87,16 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      */
     function activateInstrument(address instrumentAddress, bytes memory instrumentParameters)
         public returns (InstrumentManagerInterface) {
-        require(_instrumentManagers[instrumentAddress] == address(0x0), "Instrument already activated");
         require(instrumentAddress != address(0x0), "Instrument address not set");
 
+        _lastInstrumentId++;
         // Create Instrument Manager
         InstrumentManagerInterface instrumentManager = _instrumentManagerFactory.createInstrumentManagerInstance(
-            msg.sender, instrumentAddress, address(this), instrumentParameters);
+            _lastInstrumentId, msg.sender, instrumentAddress, address(this), instrumentParameters);
 
-        _instrumentManagers[instrumentAddress] = address(instrumentManager);
+        _instrumentManagers[_lastInstrumentId] = address(instrumentManager);
 
-        emit InstrumentActivated(msg.sender, instrumentAddress, address(instrumentManager),
+        emit InstrumentActivated(_lastInstrumentId, msg.sender, instrumentAddress, address(instrumentManager),
             instrumentManager.getInstrumentEscrowAddress());
 
         if (instrumentDeposit > 0) {
@@ -111,10 +112,9 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     }
 
     /**
-     * @dev Retrieve Instrument Manager address by Instrument address.
+     * @dev Retrieve Instrument Manager address by Instrument ID.
      */
-    function lookupInstrumentManager(address instrumentAddress) public view
-        returns (address instrumentManagerAddress) {
-        return _instrumentManagers[instrumentAddress];
+    function lookupInstrumentManager(uint256 instrumentId) public view returns (address instrumentManagerAddress) {
+        return _instrumentManagers[instrumentId];
     }
 }

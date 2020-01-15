@@ -51,6 +51,7 @@ contract InstrumentManager is InstrumentManagerInterface {
     // Taker whitelist
     WhitelistAccess.Whitelist internal _takerWhitelist;
 
+    uint256 internal _instrumentId;
     address internal _fspAddress;
     address internal _brokerAddress;
     address internal _instrumentAddress;
@@ -67,9 +68,19 @@ contract InstrumentManager is InstrumentManagerInterface {
     mapping(uint256 => IssuanceProperty) internal _issuanceProperties;
 
     /**
+     * @dev The instrument is deactivated.
+     */
+    event InstrumentDeactivated(uint256 indexed instrumentId);
+
+    /**
      * @dev A new issuance is created.
      */
     event IssuanceCreated(uint256 indexed issuanceId, address indexed makerAddress, address issuanceProxyAddress, address issuanceEscrowAddress);
+
+    /**
+     * @dev An issuance is terminated.
+     */
+    event IssuanceTerminated(uint256 indexed issuanceId);
 
     /**
      * @dev Token is transferred.
@@ -78,12 +89,13 @@ contract InstrumentManager is InstrumentManagerInterface {
         address tokenAddress, uint256 amount);
 
     /**
+     * @param instrumentId ID of the instrument.
      * @param fspAddress Address of FSP that activates this financial instrument.
      * @param instrumentAddress Address of the financial instrument contract.
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    constructor(address fspAddress, address instrumentAddress, address instrumentConfigAddress,
+    constructor(uint256 instrumentId, address fspAddress, address instrumentAddress, address instrumentConfigAddress,
         bytes memory instrumentParameters) public {
         require(_instrumentAddress == address(0x0), "Already initialized");
         require(fspAddress != address(0x0), "FSP not set");
@@ -99,6 +111,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         _takerWhitelist.enabled = parameters.supportTakerWhitelist;
         _instrumentConfig = InstrumentConfig(instrumentConfigAddress);
 
+        _instrumentId = instrumentId;
         _fspAddress = fspAddress;
         // If broker address is not provided, default to fsp address.
         _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;
@@ -143,6 +156,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         }
 
         _active = false;
+        emit InstrumentDeactivated(_instrumentId);
     }
 
     /**
@@ -349,6 +363,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         if (terminated && property.deposit > 0) {
             property.terminated = true;
+            emit IssuanceTerminated(issuanceId);
             // Withdraws NUTS token
             DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
                 .withdrawToken(_instrumentConfig.depositTokenAddress(), property.deposit);

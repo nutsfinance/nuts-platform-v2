@@ -55,7 +55,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     let lendingInstrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
     // Activate Lending Instrument
     await instrumentRegistry.activateInstrument(lending.address, lendingInstrumentParameters, {from: fsp});
-    instrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(lending.address, {from: fsp});
+    instrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(1, {from: fsp});
     console.log('Lending instrument manager address: ' + instrumentManagerAddress);
     instrumentManager = await InstrumentManagerInterface.at(instrumentManagerAddress);
     instrumentEscrowAddress = await instrumentManager.getInstrumentEscrowAddress({from: fsp});
