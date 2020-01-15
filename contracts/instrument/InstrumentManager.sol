@@ -371,7 +371,8 @@ contract InstrumentManager is InstrumentManagerInterface {
         // The transfer can only come from issuance maker, issuance taker and instrument broker.
         require(_isTransferAllowed(issuanceId, transfer.fromAddress)
             && _isTransferAllowed(issuanceId, transfer.toAddress), "Transfer not allowed");
-        emit TokenTransferred(issuanceId, transfer.transferType, transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
+        emit TokenTransferred(issuanceId, transfer.transferType, transfer.fromAddress, transfer.toAddress,
+            transfer.tokenAddress, transfer.amount);
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
         // Check whether it's outbound, inbound, or transfer within the escrow.
@@ -396,18 +397,20 @@ contract InstrumentManager is InstrumentManagerInterface {
                 // First withdraw ETH from Instrument Escrow
                 _instrumentEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
                 // Then deposit ETH to Issuance Escrow
-                IssuanceEscrowInterface(property.escrowAddress).depositByAdmin.value(transfer.amount)(transfer.fromAddress);
+                issuanceEscrow.depositByAdmin.value(transfer.amount)(transfer.fromAddress);
             } else {
                 // Withdraw ERC20 token from Instrument Escrow
                 _instrumentEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
                 // IMPORTANT: Set allowance before deposit
                 IERC20(transfer.tokenAddress).safeApprove(property.escrowAddress, transfer.amount);
                 // Deposit ERC20 token to Issuance Escrow
-                IssuanceEscrowInterface(property.escrowAddress).depositTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
+                issuanceEscrow.depositTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
             }
         } else {
             // It's a transfer inside the issuance escrow
             issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
         }
     }
+
+    function () external payable {}
 }
