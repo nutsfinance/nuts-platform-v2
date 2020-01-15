@@ -13,11 +13,11 @@ contract ParametersUtil {
     /**
      * @dev Get serialized instrument parameters defined in protocol buf.
      */
-    function getInstrumentParameters(uint256 expiration, address brokerAddress, bool supportMakerWhitelist,
-        bool supportTakerWhitelist) public pure returns (bytes memory) {
+    function getInstrumentParameters(uint256 instrumentTerminationTimestamp, uint256 instrumentOverrideTimestamp,
+        address brokerAddress, bool supportMakerWhitelist, bool supportTakerWhitelist) public pure returns (bytes memory) {
 
-        InstrumentParameters.Data memory instrumentParameters = InstrumentParameters.Data(expiration, brokerAddress,
-            supportMakerWhitelist, supportTakerWhitelist);
+        InstrumentParameters.Data memory instrumentParameters = InstrumentParameters.Data(instrumentTerminationTimestamp,
+            instrumentOverrideTimestamp, brokerAddress, supportMakerWhitelist, supportTakerWhitelist);
         return InstrumentParameters.encode(instrumentParameters);
     }
 

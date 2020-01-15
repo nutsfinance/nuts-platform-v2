@@ -12,7 +12,7 @@ module.exports = async function(callback) {
       let instrumentRegistry = await InstrumentRegistry.deployed();
       console.log('InstrumentRegistry Address: ' + instrumentRegistry.address);
       let parametersUtil = await ParametersUtil.deployed();
-      let instrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
+      let instrumentParameters = await parametersUtil.getInstrumentParameters(-1, -1, fsp, false, false);
 
       // Activate Instrument
       console.log('Deploying instrument.');

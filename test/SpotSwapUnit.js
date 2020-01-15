@@ -52,7 +52,7 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
 
     parametersUtil = await ParametersUtil.new();
     swap = await SpotSwap.new({from: fsp});
-    let swapInstrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
+    let swapInstrumentParameters = await parametersUtil.getInstrumentParameters(-1, -1, fsp, false, false);
     // Activate Spot Swap Instrument
     await instrumentRegistry.activateInstrument(swap.address, swapInstrumentParameters, {from: fsp});
     instrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(1, {from: fsp});

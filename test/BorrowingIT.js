@@ -53,7 +53,7 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
 
     console.log('Deploying borrowing instrument.');
     borrowing = await Borrowing.new({from: fsp});
-    let borrowingInstrumentParameters = await parametersUtil.getInstrumentParameters(0, fsp, false, false);
+    let borrowingInstrumentParameters = await parametersUtil.getInstrumentParameters(-1, -1, fsp, false, false);
     // Activate Borrowing Instrument
     await instrumentRegistry.activateInstrument(borrowing.address, borrowingInstrumentParameters, {from: fsp});
     instrumentManagerAddress = await instrumentRegistry.lookupInstrumentManager(1, {from: fsp});

@@ -6,7 +6,8 @@ library InstrumentParameters {
 
   //struct definition
   struct Data {
-    uint256 expiration;
+    uint256 instrumentTerminationTimestamp;
+    uint256 instrumentOverrideTimestamp;
     address brokerAddress;
     bool supportMakerWhitelist;
     bool supportTakerWhitelist;
@@ -46,7 +47,7 @@ library InstrumentParameters {
   function _decode(uint p, bytes memory bs, uint sz)
       internal pure returns (Data memory, uint) {
     Data memory r;
-    uint[5] memory counters;
+    uint[6] memory counters;
     uint fieldId;
     ProtoBufRuntime.WireType wireType;
     uint bytesRead;
@@ -56,15 +57,18 @@ library InstrumentParameters {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
       if(fieldId == 1) {
-        pointer += _read_expiration(pointer, bs, r, counters);
+        pointer += _read_instrumentTerminationTimestamp(pointer, bs, r, counters);
       }
       else if(fieldId == 2) {
-        pointer += _read_brokerAddress(pointer, bs, r, counters);
+        pointer += _read_instrumentOverrideTimestamp(pointer, bs, r, counters);
       }
       else if(fieldId == 3) {
-        pointer += _read_supportMakerWhitelist(pointer, bs, r, counters);
+        pointer += _read_brokerAddress(pointer, bs, r, counters);
       }
       else if(fieldId == 4) {
+        pointer += _read_supportMakerWhitelist(pointer, bs, r, counters);
+      }
+      else if(fieldId == 5) {
         pointer += _read_supportTakerWhitelist(pointer, bs, r, counters);
       }
       
@@ -105,7 +109,7 @@ library InstrumentParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_expiration(uint p, bytes memory bs, Data memory r, uint[5] memory counters) internal pure returns (uint) {
+  function _read_instrumentTerminationTimestamp(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -113,7 +117,7 @@ library InstrumentParameters {
     if(isNil(r)) {
       counters[1] += 1;
     } else {
-      r.expiration = x;
+      r.instrumentTerminationTimestamp = x;
       if(counters[1] > 0) counters[1] -= 1;
     }
     return sz;
@@ -127,15 +131,15 @@ library InstrumentParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_brokerAddress(uint p, bytes memory bs, Data memory r, uint[5] memory counters) internal pure returns (uint) {
+  function _read_instrumentOverrideTimestamp(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
     if(isNil(r)) {
       counters[2] += 1;
     } else {
-      r.brokerAddress = x;
+      r.instrumentOverrideTimestamp = x;
       if(counters[2] > 0) counters[2] -= 1;
     }
     return sz;
@@ -149,15 +153,15 @@ library InstrumentParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_supportMakerWhitelist(uint p, bytes memory bs, Data memory r, uint[5] memory counters) internal pure returns (uint) {
+  function _read_brokerAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (bool x, uint sz) = ProtoBufRuntime._decode_bool(p, bs);
+    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
     if(isNil(r)) {
       counters[3] += 1;
     } else {
-      r.supportMakerWhitelist = x;
+      r.brokerAddress = x;
       if(counters[3] > 0) counters[3] -= 1;
     }
     return sz;
@@ -171,7 +175,7 @@ library InstrumentParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_supportTakerWhitelist(uint p, bytes memory bs, Data memory r, uint[5] memory counters) internal pure returns (uint) {
+  function _read_supportMakerWhitelist(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
@@ -179,8 +183,30 @@ library InstrumentParameters {
     if(isNil(r)) {
       counters[4] += 1;
     } else {
-      r.supportTakerWhitelist = x;
+      r.supportMakerWhitelist = x;
       if(counters[4] > 0) counters[4] -= 1;
+    }
+    return sz;
+  }
+
+  /**
+   * @dev The decoder for reading a field
+   * @param p The offset of bytes array to start decode
+   * @param bs The bytes array to be decoded
+   * @param r The in-memory struct
+   * @param counters The counters for repeated fields
+   * @return The number of bytes decoded
+   */
+  function _read_supportTakerWhitelist(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+    /**
+     * if `r` is NULL, then only counting the number of fields.
+     */
+    (bool x, uint sz) = ProtoBufRuntime._decode_bool(p, bs);
+    if(isNil(r)) {
+      counters[5] += 1;
+    } else {
+      r.supportTakerWhitelist = x;
+      if(counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -216,12 +242,14 @@ library InstrumentParameters {
     uint pointer = p;
     
     pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
-    pointer += ProtoBufRuntime._encode_sol_uint256(r.expiration, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_uint256(r.instrumentTerminationTimestamp, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_sol_uint256(r.instrumentOverrideTimestamp, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
     pointer += ProtoBufRuntime._encode_sol_address(r.brokerAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.Varint, pointer, bs);
-    pointer += ProtoBufRuntime._encode_bool(r.supportMakerWhitelist, pointer, bs);
     pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.Varint, pointer, bs);
+    pointer += ProtoBufRuntime._encode_bool(r.supportMakerWhitelist, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.Varint, pointer, bs);
     pointer += ProtoBufRuntime._encode_bool(r.supportTakerWhitelist, pointer, bs);
     return pointer - offset;
   }
@@ -261,6 +289,7 @@ library InstrumentParameters {
   function _estimate(Data memory /* r */) internal pure returns (uint) {
     uint e;
     e += 1 + 35;
+    e += 1 + 35;
     e += 1 + 23;
     e += 1 + 1;
     e += 1 + 1;
@@ -274,7 +303,8 @@ library InstrumentParameters {
    * @param output The in-storage struct
    */
   function store(Data memory input, Data storage output) internal {
-    output.expiration = input.expiration;
+    output.instrumentTerminationTimestamp = input.instrumentTerminationTimestamp;
+    output.instrumentOverrideTimestamp = input.instrumentOverrideTimestamp;
     output.brokerAddress = input.brokerAddress;
     output.supportMakerWhitelist = input.supportMakerWhitelist;
     output.supportTakerWhitelist = input.supportTakerWhitelist;

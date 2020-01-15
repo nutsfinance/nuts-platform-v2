@@ -6,8 +6,9 @@ import "SolidityTypes.proto";
  * Parameters in creating Instrument Manager for Instruments.
  */
 message InstrumentParameters {
-    .solidity.uint256 expiration = 1;
-    .solidity.address brokerAddress = 2;
-    bool supportMakerWhitelist = 3;
-    bool supportTakerWhitelist = 4;
+    .solidity.uint256 instrumentTerminationTimestamp = 1;
+    .solidity.uint256 instrumentOverrideTimestamp = 2;
+    .solidity.address brokerAddress = 3;
+    bool supportMakerWhitelist = 4;
+    bool supportTakerWhitelist = 5;
 }

@@ -9,6 +9,7 @@ import "../escrow/DepositEscrowInterface.sol";
 import "../escrow/EscrowFactoryInterface.sol";
 import "../lib/access/WhitelistAccess.sol";
 import "../lib/token/SafeERC20.sol";
+import "../lib/token/IBurnable.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";
 import "../lib/proxy/AdminOnlyUpgradeabilityProxy.sol";
@@ -42,8 +43,8 @@ contract InstrumentManager is InstrumentManagerInterface {
 
     // Instrument expiration
     bool internal _active;
-    uint256 internal _expiration;
-    uint256 internal _startTimestamp;
+    uint256 internal _instrumentTerminationTimestamp;
+    uint256 internal _instrumentOverrideTimestamp;
 
     // Maker whitelist
     WhitelistAccess.Whitelist internal _makerWhitelist;
@@ -105,8 +106,8 @@ contract InstrumentManager is InstrumentManagerInterface {
 
         InstrumentParameters.Data memory parameters = InstrumentParameters.decode(instrumentParameters);
         _active = true;
-        _expiration = parameters.expiration;
-        _startTimestamp = now;
+        _instrumentTerminationTimestamp = parameters.instrumentTerminationTimestamp;
+        _instrumentOverrideTimestamp = parameters.instrumentOverrideTimestamp;
         _makerWhitelist.enabled = parameters.supportMakerWhitelist;
         _takerWhitelist.enabled = parameters.supportTakerWhitelist;
         _instrumentConfig = InstrumentConfig(instrumentConfigAddress);
@@ -143,16 +144,13 @@ contract InstrumentManager is InstrumentManagerInterface {
      */
     function deactivate() public {
         require(_active, "Instrument deactivated");
-        require(msg.sender == _fspAddress, "Only FSP can deactivate");
+        require((now >= _instrumentOverrideTimestamp && msg.sender == _fspAddress) || now >= _instrumentTerminationTimestamp,
+            "Cannot deactivate");
 
         // Return the deposited NUTS token
         if (_depositAmount > 0) {
-            // Withdraw NUTS token from Deposit Escrow
-            DepositEscrowInterface depositEscrow = DepositEscrowInterface(_instrumentConfig.depositEscrowAddress());
-            depositEscrow.withdrawToken(_instrumentConfig.depositTokenAddress(), _depositAmount);
-
-            // Transfer to FSP
-            IERC20(_instrumentConfig.depositTokenAddress()).safeTransfer(_fspAddress, _depositAmount);
+            // Burn NUTS token from Deposit Escrow
+            IBurnable(_instrumentConfig.depositTokenAddress()).burn(_depositAmount);
         }
 
         _active = false;
@@ -188,7 +186,7 @@ contract InstrumentManager is InstrumentManagerInterface {
         // The instrument is active if:
         // 1. It's not deactivated by FSP;
         // 2. It does not expiration, or expiration is not reached.
-        require(_active && (_expiration == 0 || _expiration + _startTimestamp > now), "Instrument deactivated");
+        require(_active && (now <= _instrumentTerminationTimestamp), "Instrument deactivated");
         // Maker is allowed if:
         // 1. Maker whitelist is not enabled;
         // 2. Or maker whitelist is enabled, and this maker is allowed.
@@ -364,12 +362,8 @@ contract InstrumentManager is InstrumentManagerInterface {
         if (terminated && property.deposit > 0) {
             property.terminated = true;
             emit IssuanceTerminated(issuanceId);
-            // Withdraws NUTS token
-            DepositEscrowInterface(_instrumentConfig.depositEscrowAddress())
-                .withdrawToken(_instrumentConfig.depositTokenAddress(), property.deposit);
-
-            // Transfer NUTS token to maker
-            IERC20(_instrumentConfig.depositTokenAddress()).safeTransfer(property.makerAddress, property.deposit);
+            // Burns NUTS token
+            IBurnable(_instrumentConfig.depositEscrowAddress()).burn(property.deposit);
         }
 
         // Processes transfers.
