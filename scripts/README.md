@@ -1,6 +1,6 @@
 ### Activate Instrument
 ```
-truffle exec scripts/activate_instrument.js --instrument=lending|borrowing|spotswap
+truffle exec scripts/activate_instrument.js --instrument=lending|borrowing|spotswap --fsp=0xec652e6CEC1558227b406E68539e3d725cCDdC32 --instrument-termination-timestamp=-1 --instrument-override-timestamp=-1 --support-maker-whitelist=false --support-taker-whitelist=false --instrument-registry-address=0xC14f5D8eE243901dF224D98B949e5e89e64F2f04
 ```
 
 ### Create Issuance

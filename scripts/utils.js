@@ -27,6 +27,23 @@ function getInstrumentCode(instrument, artifacts) {
   throw "unsupported instrument";
 }
 
+function logParser (web3, logs, abi) {
+  let events = abi.filter(function (json) {
+    return json.type === 'event';
+  });
+
+  return logs.map(function (log) {
+    let foundAbi = events.find(function(abi) {
+      return (web3.eth.abi.encodeEventSignature(abi) == log.topics[0]);
+    });
+    if (foundAbi) {
+      let args = web3.eth.abi.decodeLog(foundAbi.inputs, log.data, foundAbi.anonymous ? log.topics : log.topics.slice(1));
+      return {event: foundAbi.name, args: args};
+    }
+    return null;
+  }).filter(p => p != null);
+}
+
 function getInstrumentParameters(argv, parametersUtil) {
   let instrumentType = argv.instrument;
   if (instrumentType === 'lending') {
@@ -46,5 +63,6 @@ function getInstrumentParameters(argv, parametersUtil) {
 module.exports = {
   getInstrumentCode: getInstrumentCode,
   getAllAccounts: getAllAccounts,
-  getInstrumentParameters: getInstrumentParameters
+  getInstrumentParameters: getInstrumentParameters,
+  logParser: logParser
 };
