@@ -489,6 +489,9 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     expectEvent(receipt, 'BorrowingCancelled', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
@@ -682,6 +685,9 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let receipt = {logs: depositToIssuanceEvents};
     expectEvent(receipt, 'BorrowingRepaid', {
       issuanceId: new BN(1)
+    });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
     });
 
     expectEvent(receipt, 'TokenTransferred', {
@@ -935,6 +941,9 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     expectEvent(receipt, 'BorrowingCompleteNotEngaged', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
@@ -1115,6 +1124,9 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     let receipt = {logs: notifyborrowingDueEvents};
     expectEvent(receipt, 'BorrowingDelinquent', {
       issuanceId: new BN(1)
+    });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
     });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {

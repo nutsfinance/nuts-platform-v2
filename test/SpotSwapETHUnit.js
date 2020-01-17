@@ -208,6 +208,10 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
       issuanceId: new BN(1),
       takerAddress: taker1
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
+
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
       transferType: '1',
@@ -373,6 +377,10 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     expectEvent(receipt, 'SwapCancelled', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
+
     expectEvent(receipt, 'BalanceIncreased', {
       account: maker1,
       token: ethAddress,
@@ -453,6 +461,10 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     expectEvent(receipt, 'SwapCompleteNotEngaged', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
+    
     expectEvent(receipt, 'BalanceIncreased', {
       account: maker1,
       token: ethAddress,

@@ -1,0 +1,20 @@
+pragma solidity ^0.5.0;
+
+import "../lib/token/ERC20Burnable.sol";
+import "../lib/token/ERC20Pausable.sol";
+import "../lib/token/ERC20CappedMintable.sol";
+
+/**
+ * @title NUTS Token.
+ */
+contract NUTSTokenMock is ERC20CappedMintable, ERC20Burnable, ERC20Pausable {
+    string public constant name = 'NUTS Token';
+    string public constant symbol = 'NUTS';
+    uint8 public constant decimals = 18;
+    uint256 public constant cap = 200000000 * 10 ** uint256(decimals);
+
+    constructor() ERC20CappedMintable(cap) public {
+      _mint(msg.sender, 1000000);
+    }
+
+}

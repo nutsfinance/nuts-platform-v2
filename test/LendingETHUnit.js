@@ -403,6 +403,9 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     expectEvent(receipt, 'LendingCancelled', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
@@ -535,6 +538,9 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     expectEvent(receipt, 'LendingRepaid', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
@@ -666,6 +672,9 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     expectEvent(receipt, 'LendingCompleteNotEngaged', {
       issuanceId: new BN(1)
     });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
+    });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
       issuanceId: '1',
@@ -790,6 +799,9 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     assert.equal(0, await issuanceEscrow.getBalance(taker1));
     expectEvent(receipt, 'LendingDelinquent', {
       issuanceId: new BN(1)
+    });
+    expectEvent(receipt, 'IssuanceTerminated', {
+      issuanceId: '1'
     });
 
     expectEvent(receipt, 'SupplementalLineItemUpdated', {
