@@ -21,6 +21,8 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      */
     event BalanceDecreased(address account, address token, uint256 amount);
 
+    event EscrowTerminated();
+
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -187,5 +189,12 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
     function _migrateBalance(address source, address dest, address token, uint256 amount) internal {
         _reduceFromBalance(source, token, amount);
         _addToBalance(dest, token, amount);
+    }
+
+    /**
+     * @dev Notify issuance escrow needs to be terminated
+     */
+    function terminateEscrow() public {
+      emit EscrowTerminated();
     }
 }

@@ -356,6 +356,9 @@ contract InstrumentManager is InstrumentManagerInterface {
         if (!property.terminated && terminated) {
             property.terminated = true;
             emit IssuanceTerminated(issuanceId);
+            IssuanceProperty storage property = _issuanceProperties[issuanceId];
+            IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
+            issuanceEscrow.terminateEscrow();
             if (property.deposit > 0) {
                 // Burns NUTS token
                 IBurnable(_instrumentConfig.depositTokenAddress()).burn(property.deposit);
