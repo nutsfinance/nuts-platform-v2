@@ -58,9 +58,4 @@ contract EscrowBaseInterface {
      * @param amount The amount of ERC20 tokens to withdraw.
      */
     function withdrawTokenByAdmin(address account, address token, uint256 amount) public;
-
-    /**
-     * @dev Notify issuance escrow needs to be terminated
-     */
-    function terminateEscrow() public;
 }
