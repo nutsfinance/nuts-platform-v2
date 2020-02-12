@@ -71,7 +71,7 @@ contract Lending is InstrumentBase {
         // Sets common properties
         _makerAddress = callerAddress;
         _creationTimestamp = now;
-        _engagementDueTimestamp = now + ENGAGEMENT_DUE_DAYS;
+        _engagementDueTimestamp = now.add(ENGAGEMENT_DUE_DAYS);
 
         // Sets lending properties
         _lendingTokenAddress = makerParameters.lendingTokenAddress;
@@ -125,7 +125,7 @@ contract Lending is InstrumentBase {
         // Sets common properties
         _takerAddress = callerAddress;
         _engagementTimestamp = now;
-        _issuanceDueTimestamp = now + _tenorDays * 1 days;
+        _issuanceDueTimestamp = now.add(_tenorDays * 1 days);
 
         // Sets lending properties
         _collateralAmount = collateralAmount;

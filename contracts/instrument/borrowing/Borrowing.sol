@@ -78,7 +78,7 @@ contract Borrowing is InstrumentBase {
         // Sets common properties
         _makerAddress = callerAddress;
         _creationTimestamp = now;
-        _engagementDueTimestamp = now + ENGAGEMENT_DUE_DAYS;
+        _engagementDueTimestamp = now.add(ENGAGEMENT_DUE_DAYS);
         _state = IssuanceProperties.State.Engageable;
 
         // Sets borrowing parameters
@@ -126,7 +126,7 @@ contract Borrowing is InstrumentBase {
         // Sets common properties
         _takerAddress = callerAddress;
         _engagementTimestamp = now;
-        _issuanceDueTimestamp = now + _tenorDays * 1 days;
+        _issuanceDueTimestamp = now.add(_tenorDays * 1 days);
 
         // Emits Scheduled Borrowing Due event
         emit EventTimeScheduled(_issuanceId, _issuanceDueTimestamp, ISSUANCE_DUE_EVENT, "");

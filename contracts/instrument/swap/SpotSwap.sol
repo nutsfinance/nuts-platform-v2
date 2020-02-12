@@ -1,6 +1,7 @@
 pragma solidity ^0.5.0;
 
 import "../../escrow/EscrowBaseInterface.sol";
+import "../../lib/math/SafeMath.sol";
 import "../../lib/protobuf/SwapData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
 import "../../lib/protobuf/SupplementalLineItem.sol";
@@ -8,6 +9,8 @@ import "../../lib/util/Constants.sol";
 import "../InstrumentBase.sol";
 
 contract SpotSwap is InstrumentBase {
+    using SafeMath for uint256;
+
     event SwapCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
         address inputTokenAddress, address outputTokenAddress, uint256 inputAmount, uint256 outputAmount,
         uint256 swapDueTimestamp);
@@ -54,8 +57,8 @@ contract SpotSwap is InstrumentBase {
         _makerAddress = callerAddress;
         _creationTimestamp = now;
         _state = IssuanceProperties.State.Engageable;
-        _engagementDueTimestamp = now + 1 days * makerParameters.duration;
-        _issuanceDueTimestamp = now + 1 days * makerParameters.duration;
+        _engagementDueTimestamp = now.add(1 days * makerParameters.duration);
+        _issuanceDueTimestamp = _engagementDueTimestamp;
 
         // Sets swap parameters
         _inputTokenAddress = makerParameters.inputTokenAddress;
