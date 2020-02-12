@@ -24,8 +24,8 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     InstrumentManagerFactoryInterface private _instrumentManagerFactory;
 
     /**
-     * @dev Initialization method for Instrument Registry.
-     * @param newInstrumentDeposit The NUTS token deposited for new Instrument,
+     * @param instrumentManagerFactoryAddress Address of Instrument Manager Factory.
+     * @param newInstrumentDeposit The NUTS token deposited for new Instrument.
      * @param newIssuanceDeposit The NUTS token deposited for new Issuance.
      * @param newDepositTokenAddress Address of NUTS token.
      * @param newPriceOracleAddress Address of Price Oracle
@@ -33,7 +33,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      */
     constructor(address instrumentManagerFactoryAddress, uint256 newInstrumentDeposit, uint256 newIssuanceDeposit,
         address newDepositTokenAddress, address newPriceOracleAddress, address newEscrowFactoryAddress) public {
-        require(address(_instrumentManagerFactory) == address(0x0), "Registry already initialized");
+        require(instrumentManagerFactoryAddress != address(0x0), "Instrument Manager Factory not set");
         require(newDepositTokenAddress != address(0x0), "Deposit token address not set");
         require(newPriceOracleAddress != address(0x0), "Price Oracle address not set");
         require(newEscrowFactoryAddress != address(0x0), "Escrow Factory address not set");
