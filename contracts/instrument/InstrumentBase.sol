@@ -70,7 +70,12 @@ contract InstrumentBase is InstrumentInterface {
      */
     function initialize(uint256 issuanceId, address fspAddress, address brokerAddress, address instrumentEscrowAddress,
         address issuanceEscrowAddress, address priceOracleAddress) public {
-        require(_issuanceId == 0, 'Already initialized');
+        require(_issuanceId == 0, "Already initialized");
+        require(issuanceId != 0, "Issuance ID not set");
+        require(fspAddress != address(0x0), "FSP not set");
+        require(instrumentEscrowAddress != address(0x0), "Instrument Escrow not set");
+        require(issuanceEscrowAddress != address(0x0), "Issuance Escrow not set");
+        require(priceOracleAddress != address(0x0), "Price Oracle not set");
         _issuanceId = issuanceId;
         _fspAddress = fspAddress;
         _brokerAddress = brokerAddress;
@@ -209,6 +214,8 @@ contract InstrumentBase is InstrumentInterface {
      */
     function _createNewPayable(uint8 id, address obligatorAddress, address claimorAddress, address tokenAddress,
         uint256 amount, uint256 dueTimestamp) internal {
+        require(_supplementalLineItems[id].state == SupplementalLineItem.State.UnknownState, "Item exists");
+
         _supplementalLineItemIds.push(id);
         _supplementalLineItems[id] = SupplementalLineItem.Data({
             id: id,
@@ -229,6 +236,8 @@ contract InstrumentBase is InstrumentInterface {
      * @dev Updates the existing payable for the issuance.
      */
     function _updatePayable(uint8 id, SupplementalLineItem.State state, uint8 reinitiatedTo) internal {
+        require(_supplementalLineItems[id].state != SupplementalLineItem.State.UnknownState, "Item not exists");
+
         _supplementalLineItems[id].state = state;
         _supplementalLineItems[id].reinitiatedTo = reinitiatedTo;
         emit SupplementalLineItemUpdated(_issuanceId, id, state, reinitiatedTo);
