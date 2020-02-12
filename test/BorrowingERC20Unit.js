@@ -66,8 +66,8 @@ contract('Borrowing', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, mak
     // Deploy ERC20 tokens
     borrowingToken = await TokenMock.new();
     collateralToken = await TokenMock.new();
-    await priceOracle.setRate(borrowingToken.address, collateralToken.address, 1, 100);
-    await priceOracle.setRate(collateralToken.address, borrowingToken.address, 100, 1);
+    await priceOracle.setRate(borrowingToken.address, collateralToken.address, 100, 1);
+    await priceOracle.setRate(collateralToken.address, borrowingToken.address, 1, 100);
     console.log("Borrowing token address:" + borrowingToken.address);
     console.log("Collateral token address:" + collateralToken.address);
     console.log("maker1: " + maker1);

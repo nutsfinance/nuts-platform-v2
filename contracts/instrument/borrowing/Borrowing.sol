@@ -67,8 +67,8 @@ contract Borrowing is InstrumentBase {
         (uint256 numerator, uint256 denominator) = priceOracle.getRate(makerParameters.borrowingTokenAddress,
             makerParameters.collateralTokenAddress);
         require(numerator > 0 && denominator > 0, "Exchange rate not found");
-        uint256 collateralAmount = denominator.mul(makerParameters.borrowingAmount).mul(makerParameters.collateralRatio)
-            .div(COLLATERAL_RATIO_DECIMALS).div(numerator);
+        uint256 collateralAmount = numerator.mul(makerParameters.borrowingAmount).mul(makerParameters.collateralRatio)
+            .div(COLLATERAL_RATIO_DECIMALS).div(denominator);
 
         // Validate collateral token balance
         uint256 collateralTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress,

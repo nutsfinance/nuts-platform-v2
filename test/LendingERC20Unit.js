@@ -68,8 +68,8 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     collateralToken = await TokenMock.new();
     console.log("Lending token address:" + lendingToken.address);
     console.log("Collateral token address:" + collateralToken.address);
-    await priceOracle.setRate(lendingToken.address, collateralToken.address, 1, 100);
-    await priceOracle.setRate(collateralToken.address, lendingToken.address, 100, 1);
+    await priceOracle.setRate(lendingToken.address, collateralToken.address, 100, 1);
+    await priceOracle.setRate(collateralToken.address, lendingToken.address, 1, 100);
     console.log("maker1: " + maker1);
     console.log("taker1: " + taker1);
   }),

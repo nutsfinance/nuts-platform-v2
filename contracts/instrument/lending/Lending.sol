@@ -116,7 +116,7 @@ contract Lending is InstrumentBase {
         PriceOracleInterface priceOracle = PriceOracleInterface(_priceOracleAddress);
         (uint256 numerator, uint256 denominator) = priceOracle.getRate(_lendingTokenAddress, _collateralTokenAddress);
         require(numerator > 0 && denominator > 0, "Exchange rate not found");
-        uint256 collateralAmount = denominator.mul(_lendingAmount).mul(_collateralRatio).div(COLLATERAL_RATIO_DECIMALS).div(numerator);
+        uint256 collateralAmount = numerator.mul(_lendingAmount).mul(_collateralRatio).div(COLLATERAL_RATIO_DECIMALS).div(denominator);
 
         // Validates collateral balance
         uint256 collateralBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress, _collateralTokenAddress);
