@@ -188,9 +188,9 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @return The id of the newly created issuance.
      */
     function createIssuance(bytes memory makerParameters) public returns (uint256) {
-        // The instrument is active if:
-        // 1. It's not deactivated by FSP;
-        // 2. It does not expiration, or expiration is not reached.
+        // Makers can create new issuance if:
+        // 1. The instrument is active, i.e. is not deactivated by FSP,
+        // 2. And the instrument has not reached its termination timestamp.
         require(_active && (now <= _instrumentTerminationTimestamp), "Instrument deactivated");
         // Maker is allowed if:
         // 1. Maker whitelist is not enabled;
