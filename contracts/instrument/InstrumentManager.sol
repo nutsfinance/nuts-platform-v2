@@ -104,6 +104,10 @@ contract InstrumentManager is InstrumentManagerInterface {
         require(instrumentParameters.length > 0, "Instrument parameters not set");
 
         InstrumentParameters.Data memory parameters = InstrumentParameters.decode(instrumentParameters);
+        // Termination must be set, otherwise the instrument is auto-terminated.
+        require(parameters.instrumentTerminationTimestamp != 0, "Termination not set");
+        // Override can be optional, if not provided the instrument can be deactivated any time.
+
         _active = true;
         _instrumentTerminationTimestamp = parameters.instrumentTerminationTimestamp;
         _instrumentOverrideTimestamp = parameters.instrumentOverrideTimestamp;
