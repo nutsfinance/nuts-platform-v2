@@ -30,11 +30,11 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      */
     struct AccountBalance {
         // Mapping: ERC20 token address => ERC20 token amount.
-        // ETH is treated specially with adress Constants.getEthAddress()
+        // ETH is treated specially with address Constants.getEthAddress()
         mapping(address => uint256) tokenBalances;
         // Mapping: ERC20 token address => ERC20 token address index in the token list.
         // Note: The index starts with 1.
-        mapping(address => uint256) tokenIndeces;
+        mapping(address => uint256) tokenIndices;
         // Token address list. Should not have any duplicate.
         address[] tokenList;
     }
@@ -157,9 +157,9 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
         accountBalance.tokenBalances[token] = accountBalance.tokenBalances[token].add(amount);
 
         // If the token is not in the token list, add it
-        if (accountBalance.tokenIndeces[token] == 0) {
+        if (accountBalance.tokenIndices[token] == 0) {
             accountBalance.tokenList.push(token);
-            accountBalance.tokenIndeces[token] = accountBalance.tokenList.length;
+            accountBalance.tokenIndices[token] = accountBalance.tokenList.length;
         }
 
         emit BalanceIncreased(account, token, amount);
