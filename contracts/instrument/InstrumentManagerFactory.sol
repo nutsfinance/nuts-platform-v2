@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.16;
 
 import "./InstrumentManagerFactoryInterface.sol";
 import "./InstrumentManagerInterface.sol";

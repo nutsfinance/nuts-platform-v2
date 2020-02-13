@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.16;
 
 /**
  * @title Base contract to hold instrument-related config.

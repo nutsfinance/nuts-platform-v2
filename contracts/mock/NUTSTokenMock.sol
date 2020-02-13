@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.16;
 
 import "../lib/token/ERC20Burnable.sol";
 import "../lib/token/ERC20Pausable.sol";

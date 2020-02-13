@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.5.16;
 /**
  * @title Runtime library for ProtoBuf serialization and/or deserialization.
  * All ProtoBuf generated code will use this library.
