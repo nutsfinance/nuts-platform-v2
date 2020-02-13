@@ -151,7 +151,7 @@ contract Borrowing is InstrumentBase {
         _createNewPayable(4, Constants.getCustodianAddress(), _makerAddress, _collateralTokenAddress, _collateralAmount, _issuanceDueTimestamp);
         // Mark payable 1 as reinitiated by payable 4
         _updatePayable(1, SupplementalLineItem.State.Reinitiated, 4);
-        // Principal token outbound transfer: Taker
+        // Principal token outbound transfer: Maker
         transfers.actions[2] = _createOutboundTransfer(_makerAddress, _borrowingTokenAddress, _borrowingAmount);
         transfersData = Transfers.encode(transfers);
     }

@@ -27,10 +27,29 @@ contract InstrumentBase is InstrumentInterface {
      */
     event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, bytes32 eventName, bytes eventPayload);
 
+    /**
+     * @dev The event used to track the creation of a new supplemental line item.
+     * @param issuanceId The id of the issuance
+     * @param itemId The id of the supplemental line item
+     * @param itemType Type of the supplemental line item
+     * @param state State of the supplemental line item
+     * @param obligatorAddress The obligator of the supplemental line item
+     * @param claimorAddress The claimor of the supplemental line item
+     * @param tokenAddress The asset type of the supplemental line item
+     * @param amount The asset amount of the supplemental line item
+     * @param dueTimestamp When is the supplemental line item due
+     */
     event SupplementalLineItemCreated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.Type itemType,
         SupplementalLineItem.State state, address obligatorAddress, address claimorAddress, address tokenAddress, uint256 amount,
         uint256 dueTimestamp);
 
+    /**
+     * @dev The event used to track the update of an existing supplemental line item
+     * @param issuanceId The id of the issuance
+     * @param itemId The id of the supplemental line item
+     * @param state The new state of the supplemental line item
+     * @param reinitiatedTo The target supplemental line item if the current one is reinitiated
+     */
     event SupplementalLineItemUpdated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.State state, uint8 reinitiatedTo);
 
     // Scheduled custom events
