@@ -1,9 +1,10 @@
 pragma solidity 0.5.16;
 
-import "../lib/math/SafeMath.sol";
-import "../lib/token/IERC20.sol";
-import "../lib/token/SafeERC20.sol";
-import "../lib/access/Ownable.sol";
+import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+
 import "../lib/util/Constants.sol";
 import "./EscrowBaseInterface.sol";
 

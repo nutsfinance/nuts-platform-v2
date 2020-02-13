@@ -1,7 +1,8 @@
 pragma solidity 0.5.16;
 
+import "@openzeppelin/contracts/math/SafeMath.sol";
+
 import "../../escrow/EscrowBaseInterface.sol";
-import "../../lib/math/SafeMath.sol";
 import "../../lib/priceoracle/PriceOracleInterface.sol";
 import "../../lib/protobuf/LendingData.sol";
 import "../../lib/protobuf/TokenTransfer.sol";
