@@ -1,7 +1,8 @@
 pragma solidity 0.5.16;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20Pausable.sol";
+
 import "../lib/token/ERC20Burnable.sol";
-import "../lib/token/ERC20Pausable.sol";
 import "../lib/token/ERC20CappedMintable.sol";
 
 /**

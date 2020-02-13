@@ -1,5 +1,8 @@
 pragma solidity 0.5.16;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+
 import "./InstrumentManagerInterface.sol";
 import "./InstrumentInterface.sol";
 import "../InstrumentConfig.sol";
@@ -7,7 +10,6 @@ import "../escrow/InstrumentEscrowInterface.sol";
 import "../escrow/IssuanceEscrowInterface.sol";
 import "../escrow/EscrowFactoryInterface.sol";
 import "../lib/access/WhitelistAccess.sol";
-import "../lib/token/SafeERC20.sol";
 import "../lib/token/IBurnable.sol";
 import "../lib/protobuf/InstrumentData.sol";
 import "../lib/protobuf/TokenTransfer.sol";

@@ -1,7 +1,8 @@
 pragma solidity 0.5.16;
 
-import "../lib/token/IERC20.sol";
-import "../lib/token/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+
 import "../lib/util/Constants.sol";
 import "./EscrowBase.sol";
 import "./InstrumentEscrowInterface.sol";

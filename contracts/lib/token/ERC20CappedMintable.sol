@@ -1,7 +1,7 @@
 pragma solidity 0.5.16;
 
-import "./ERC20.sol";
-import "../access/Ownable.sol";
+import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
  * @dev Extension of `ERC20Mintable` that adds a cap on the number

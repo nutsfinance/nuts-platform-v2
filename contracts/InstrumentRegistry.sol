@@ -1,10 +1,11 @@
 pragma solidity 0.5.16;
 
+import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+
 import "./instrument/InstrumentManagerInterface.sol";
 import "./instrument/InstrumentManagerFactoryInterface.sol";
-import "./lib/token/IERC20.sol";
-import "./lib/token/SafeERC20.sol";
-import "./lib/access/Ownable.sol";
 import "./InstrumentConfig.sol";
 
 /**
