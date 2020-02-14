@@ -454,6 +454,18 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     let issuanceEscrowAddress = events.find((event) => event.event === 'SwapCreated').args.escrowAddress;
     await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker2}), 'Only maker can cancel issuance');
   }),
+  it('operations after issuance terminated', async() => {
+    await inputToken.transfer(maker1, 2000000);
+    await inputToken.approve(instrumentEscrowAddress, 2000000, {from: maker1});
+    await instrumentEscrow.depositToken(inputToken.address, 2000000, {from: maker1});
+    let spotSwapMakerParameters = await parametersUtil.getSpotSwapMakerParameters(inputToken.address, outputToken.address, 2000000, 40000, 20);
+    await instrumentManager.createIssuance(spotSwapMakerParameters, {from: maker1});
+    await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1});
+    await expectRevert(instrumentManager.engageIssuance(1, [], {from: taker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.depositToIssuance(1, maker1, 1, {from: maker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.withdrawFromIssuance(1, maker1, 1, {from: maker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii(""), [], {from: maker1}), "Issuance terminated");
+  }),
   it('cancel spot swap', async () => {
     let abis = [].concat(SpotSwap.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
     let allTransactions = [];
@@ -607,7 +619,7 @@ contract('SpotSwap', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, make
     expectEvent(receipt, 'IssuanceTerminated', {
       issuanceId: '1'
     });
-    
+
     expectEvent(receipt, 'BalanceIncreased', {
       account: maker1,
       token: inputToken.address,

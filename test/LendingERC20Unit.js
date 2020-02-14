@@ -472,6 +472,18 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     accountMappings[custodianAddress] = "custodian";
     await LogParser.generateCSV(allEvents, '1', 'lending_engage_issuance.csv', accountMappings);
   }),
+  it('operations after issuance terminated', async() => {
+    await lendingToken.transfer(maker1, 20000);
+    await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
+    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
+    let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
+    await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
+    await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1});
+    await expectRevert(instrumentManager.engageIssuance(1, [], {from: taker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.depositToIssuance(1, maker1, 1, {from: maker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.withdrawFromIssuance(1, maker1, 1, {from: maker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii(""), [], {from: maker1}), "Issuance terminated");
+  }),
   it('cancel lending', async () => {
     let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);
     let allTransactions = [];

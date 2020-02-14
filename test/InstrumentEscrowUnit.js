@@ -2,15 +2,42 @@ const InstrumentEscrow = artifacts.require('../contracts/escrow/InstrumentEscrow
 const EscrowFactory = artifacts.require('./escrow/EscrowFactory.sol');
 const Token = artifacts.require('./mock/TokenMock.sol');
 const assert = require('assert');
+const { BN, constants, balance, expectEvent, expectRevert } = require('@openzeppelin/test-helpers');
 
 let escrowInstance;
 let tokenInstance;
 const DIFF = 100000000000000000;       // The transaction cost should be less then 0.1 Ether
+const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 contract('InstrumentEscrow', ([owner, account1, account2]) => {
     beforeEach(async () => {
         tokenInstance = await Token.new();
         escrowInstance = await InstrumentEscrow.new();
+    }),
+    it('invalid admin operations', async() => {
+      await expectRevert(escrowInstance.depositByAdmin(account1, {from: account2, value: 100}), "caller is not the owner");
+      await expectRevert(escrowInstance.depositByAdmin(EMPTY_ADDRESS, {from: owner, value: 100}), "EscrowBase: Account not set");
+      await expectRevert(escrowInstance.depositByAdmin(account1, {from: owner, value: 0}), "EscrowBase: Amount not set");
+
+      await expectRevert(escrowInstance.depositTokenByAdmin(account1, tokenInstance.address, 10, {from: account2}), "caller is not the owner");
+      await expectRevert(escrowInstance.depositTokenByAdmin(EMPTY_ADDRESS, tokenInstance.address, 10, {from: owner}), "EscrowBase: Account not set");
+      await expectRevert(escrowInstance.depositTokenByAdmin(account1, EMPTY_ADDRESS, 10, {from: owner}), "EscrowBase: Token not set");
+      await expectRevert(escrowInstance.depositTokenByAdmin(account1, tokenInstance.address, 0, {from: owner}), "EscrowBase: Amount not set");
+
+      await expectRevert(escrowInstance.withdrawByAdmin(account1, 100, {from: account2}), "caller is not the owner");
+      await expectRevert(escrowInstance.withdrawByAdmin(EMPTY_ADDRESS, 100, {from: owner}), "EscrowBase: Account not set");
+      await expectRevert(escrowInstance.withdrawByAdmin(account1, 0, {from: owner}), "EscrowBase: Amount not set");
+      await expectRevert(escrowInstance.withdrawByAdmin(account1, 100, {from: owner}), "EscrowBase: Insufficient ETH Balance");
+
+      await expectRevert(escrowInstance.withdrawTokenByAdmin(account1, tokenInstance.address, 10, {from: account2}), "caller is not the owner");
+      await expectRevert(escrowInstance.withdrawTokenByAdmin(EMPTY_ADDRESS, tokenInstance.address, 10, {from: owner}), "EscrowBase: Account not set");
+      await expectRevert(escrowInstance.withdrawTokenByAdmin(account1, EMPTY_ADDRESS, 10, {from: owner}), "EscrowBase: Token not set");
+      await expectRevert(escrowInstance.withdrawTokenByAdmin(account1, tokenInstance.address, 0, {from: owner}), "EscrowBase: Amount not set");
+      await expectRevert(escrowInstance.withdrawTokenByAdmin(account1, tokenInstance.address, 10, {from: owner}), "EscrowBase: Insufficient Token Balance");
+    }),
+    it('invalid operations', async() => {
+      await expectRevert(escrowInstance.withdraw(new web3.utils.BN('10000000000000000000'), {from: account2}), "InstrumentEscrow: Insufficient balance.");
+      await expectRevert(escrowInstance.withdrawToken(tokenInstance.address, 50, {from: account1}), "InstrumentEscrow: Insufficient balance.");
     }),
     it('should deposit and withdraw Ethers', async () => {
         let prev = parseInt(await web3.eth.getBalance(account2));
