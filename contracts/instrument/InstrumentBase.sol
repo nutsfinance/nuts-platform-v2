@@ -16,7 +16,12 @@ contract InstrumentBase is InstrumentInterface {
      * @param eventName The name of the custom event
      * @param eventPayload The payload the custom event
      */
-    event EventTimeScheduled(uint256 indexed issuanceId, uint256 timestamp, bytes32 eventName, bytes eventPayload);
+    event EventTimeScheduled(
+        uint256 indexed issuanceId,
+        uint256 timestamp,
+        bytes32 eventName,
+        bytes eventPayload
+    );
 
     /**
      * @dev The event used to schedule contract events after specific block.
@@ -25,7 +30,12 @@ contract InstrumentBase is InstrumentInterface {
      * @param eventName The name of the custom event
      * @param eventPayload The payload the custom event
      */
-    event EventBlockScheduled(uint256 indexed issuanceId, uint256 blockNumber, bytes32 eventName, bytes eventPayload);
+    event EventBlockScheduled(
+        uint256 indexed issuanceId,
+        uint256 blockNumber,
+        bytes32 eventName,
+        bytes eventPayload
+    );
 
     /**
      * @dev The event used to track the creation of a new supplemental line item.
@@ -39,9 +49,17 @@ contract InstrumentBase is InstrumentInterface {
      * @param amount The asset amount of the supplemental line item
      * @param dueTimestamp When is the supplemental line item due
      */
-    event SupplementalLineItemCreated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.Type itemType,
-        SupplementalLineItem.State state, address obligatorAddress, address claimorAddress, address tokenAddress, uint256 amount,
-        uint256 dueTimestamp);
+    event SupplementalLineItemCreated(
+        uint256 indexed issuanceId,
+        uint8 indexed itemId,
+        SupplementalLineItem.Type itemType,
+        SupplementalLineItem.State state,
+        address obligatorAddress,
+        address claimorAddress,
+        address tokenAddress,
+        uint256 amount,
+        uint256 dueTimestamp
+    );
 
     /**
      * @dev The event used to track the update of an existing supplemental line item
@@ -50,14 +68,19 @@ contract InstrumentBase is InstrumentInterface {
      * @param state The new state of the supplemental line item
      * @param reinitiatedTo The target supplemental line item if the current one is reinitiated
      */
-    event SupplementalLineItemUpdated(uint256 indexed issuanceId, uint8 indexed itemId, SupplementalLineItem.State state, uint8 reinitiatedTo);
+    event SupplementalLineItemUpdated(
+        uint256 indexed issuanceId,
+        uint8 indexed itemId,
+        SupplementalLineItem.State state,
+        uint8 reinitiatedTo
+    );
 
     // Scheduled custom events
-    bytes32 constant internal ENGAGEMENT_DUE_EVENT = "engagement_due";
-    bytes32 constant internal ISSUANCE_DUE_EVENT = "issuance_due";
+    bytes32 internal constant ENGAGEMENT_DUE_EVENT = "engagement_due";
+    bytes32 internal constant ISSUANCE_DUE_EVENT = "issuance_due";
 
     // Custom events
-    bytes32 constant internal CANCEL_ISSUANCE_EVENT = "cancel_issuance";
+    bytes32 internal constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
 
     // Common properties shared by all issuances
     uint256 internal _issuanceId;
@@ -87,13 +110,25 @@ contract InstrumentBase is InstrumentInterface {
      * @param issuanceEscrowAddress Address of the issuance escrow.
      * @param priceOracleAddress Address of the price oracle.
      */
-    function initialize(uint256 issuanceId, address fspAddress, address brokerAddress, address instrumentEscrowAddress,
-        address issuanceEscrowAddress, address priceOracleAddress) public {
+    function initialize(
+        uint256 issuanceId,
+        address fspAddress,
+        address brokerAddress,
+        address instrumentEscrowAddress,
+        address issuanceEscrowAddress,
+        address priceOracleAddress
+    ) public {
         require(_issuanceId == 0, "Already initialized");
         require(issuanceId != 0, "Issuance ID not set");
         require(fspAddress != address(0x0), "FSP not set");
-        require(instrumentEscrowAddress != address(0x0), "Instrument Escrow not set");
-        require(issuanceEscrowAddress != address(0x0), "Issuance Escrow not set");
+        require(
+            instrumentEscrowAddress != address(0x0),
+            "Instrument Escrow not set"
+        );
+        require(
+            issuanceEscrowAddress != address(0x0),
+            "Issuance Escrow not set"
+        );
         require(priceOracleAddress != address(0x0), "Price Oracle not set");
         _issuanceId = issuanceId;
         _fspAddress = fspAddress;
@@ -108,7 +143,8 @@ contract InstrumentBase is InstrumentInterface {
      * @dev Checks whether the issuance is terminated. No futher action is taken on a terminated issuance.
      */
     function isTerminated() public view returns (bool) {
-        return _state == IssuanceProperties.State.Unfunded ||
+        return
+            _state == IssuanceProperties.State.Unfunded ||
             _state == IssuanceProperties.State.Cancelled ||
             _state == IssuanceProperties.State.CompleteNotEngaged ||
             _state == IssuanceProperties.State.CompleteEngaged ||
@@ -118,77 +154,105 @@ contract InstrumentBase is InstrumentInterface {
     /**
      * @dev Create a new issuance of the financial instrument
      */
-    function createIssuance(address /** callerAddress */, bytes memory /** makerParametersData */) public returns (bytes memory) {
-        revert('Unsupported operation');
+    function createIssuance(
+        address, /** callerAddress */
+        bytes memory /** makerParametersData */
+    ) public returns (bytes memory) {
+        revert("Unsupported operation");
     }
 
     /**
      * @dev A taker engages to the issuance
      */
-    function engageIssuance(address /** callerAddress */, bytes memory /** takerParameters */) public returns (bytes memory) {
-        revert('Unsupported operation');
+    function engageIssuance(
+        address, /** callerAddress */
+        bytes memory /** takerParameters */
+    ) public returns (bytes memory) {
+        revert("Unsupported operation");
     }
 
     /**
      * @dev An account has made an ERC20 token deposit to the issuance
      */
-    function processTokenDeposit(address /** callerAddress */, address /** tokenAddress */, uint256 /** amount */)
-        public returns (bytes memory)  {
-        revert('Unsupported operation');
+    function processTokenDeposit(
+        address, /** callerAddress */
+        address, /** tokenAddress */
+        uint256 /** amount */
+    ) public returns (bytes memory) {
+        revert("Unsupported operation");
     }
-
 
     /**
      * @dev An account has made an ERC20 token withdraw from the issuance
      */
-    function processTokenWithdraw(address /** callerAddress */, address /** tokenAddress */, uint256 /** amount */)
-        public returns (bytes memory)  {
-        revert('Unsupported operation');
+    function processTokenWithdraw(
+        address, /** callerAddress */
+        address, /** tokenAddress */
+        uint256 /** amount */
+    ) public returns (bytes memory) {
+        revert("Unsupported operation");
     }
 
     /**
      * @dev A custom event is triggered.
      */
-    function processCustomEvent(address /** callerAddress */, bytes32 /** eventName */, bytes memory /** eventPayload */)
-        public returns (bytes memory) {
-        revert('Unsupported operation');
+    function processCustomEvent(
+        address, /** callerAddress */
+        bytes32, /** eventName */
+        bytes memory /** eventPayload */
+    ) public returns (bytes memory) {
+        revert("Unsupported operation");
     }
 
     /**
      * @dev Get custom data.
      */
-    function getCustomData(address /** callerAddress */, bytes32 /** dataName */) public view returns (bytes memory) {
-        revert('Unsupported operation');
+    function getCustomData(
+        address, /** callerAddress */
+        bytes32 /** dataName */
+    ) public view returns (bytes memory) {
+        revert("Unsupported operation");
     }
 
     /**
      * @dev Returns the common properties about the issuance.
      */
-    function _getIssuanceProperties() internal view returns (IssuanceProperties.Data memory) {
-        SupplementalLineItem.Data[] memory supplementalLineItems = new SupplementalLineItem.Data[](_supplementalLineItemIds.length);
-        for (uint i = 0; i < _supplementalLineItemIds.length; i++) {
+    function _getIssuanceProperties()
+        internal
+        view
+        returns (IssuanceProperties.Data memory)
+    {
+        SupplementalLineItem.Data[] memory supplementalLineItems = new SupplementalLineItem.Data[](
+            _supplementalLineItemIds.length
+        );
+        for (uint256 i = 0; i < _supplementalLineItemIds.length; i++) {
             supplementalLineItems[i] = _supplementalLineItems[_supplementalLineItemIds[i]];
         }
-        return IssuanceProperties.Data({
-            issuanceId: _issuanceId,
-            makerAddress: _makerAddress,
-            takerAddress: _takerAddress,
-            engagementDueTimestamp: _engagementDueTimestamp,
-            issuanceDueTimestamp: _issuanceDueTimestamp,
-            creationTimestamp: _creationTimestamp,
-            engagementTimestamp: _engagementTimestamp,
-            settlementTimestamp: _settlementTimestamp,
-            issuanceProxyAddress: address(this),
-            issuanceEscrowAddress: _issuanceEscrowAddress,
-            state: _state,
-            supplementalLineItems: supplementalLineItems
-        });
+        return
+            IssuanceProperties.Data({
+                issuanceId: _issuanceId,
+                makerAddress: _makerAddress,
+                takerAddress: _takerAddress,
+                engagementDueTimestamp: _engagementDueTimestamp,
+                issuanceDueTimestamp: _issuanceDueTimestamp,
+                creationTimestamp: _creationTimestamp,
+                engagementTimestamp: _engagementTimestamp,
+                settlementTimestamp: _settlementTimestamp,
+                issuanceProxyAddress: address(this),
+                issuanceEscrowAddress: _issuanceEscrowAddress,
+                state: _state,
+                supplementalLineItems: supplementalLineItems
+            });
     }
 
     /**
      * @dev Create a new inbound transfer action.
      */
-    function _createInboundTransfer(address account, address tokenAddress, uint256 amount) internal pure returns (Transfer.Data memory) {
+    function _createInboundTransfer(
+        address account,
+        address tokenAddress,
+        uint256 amount
+    ) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.Inbound,
             fromAddress: account,
@@ -202,7 +266,11 @@ contract InstrumentBase is InstrumentInterface {
     /**
      * @dev Create a new outbound transfer action.
      */
-    function _createOutboundTransfer(address account, address tokenAddress, uint256 amount) internal pure returns (Transfer.Data memory) {
+    function _createOutboundTransfer(
+        address account,
+        address tokenAddress,
+        uint256 amount
+    ) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.Outbound,
             fromAddress: account,
@@ -216,8 +284,12 @@ contract InstrumentBase is InstrumentInterface {
     /**
      * @dev Create a new intra-issuance transfer action.
      */
-    function _createIntraIssuanceTransfer(address fromAddress, address toAddress, address tokenAddress, uint256 amount)
-        internal pure returns (Transfer.Data memory) {
+    function _createIntraIssuanceTransfer(
+        address fromAddress,
+        address toAddress,
+        address tokenAddress,
+        uint256 amount
+    ) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.IntraIssuance,
             fromAddress: fromAddress,
@@ -231,9 +303,19 @@ contract InstrumentBase is InstrumentInterface {
     /**
      * @dev Create new payable for the issuance.
      */
-    function _createNewPayable(uint8 id, address obligatorAddress, address claimorAddress, address tokenAddress,
-        uint256 amount, uint256 dueTimestamp) internal {
-        require(_supplementalLineItems[id].state == SupplementalLineItem.State.UnknownState, "Item exists");
+    function _createNewPayable(
+        uint8 id,
+        address obligatorAddress,
+        address claimorAddress,
+        address tokenAddress,
+        uint256 amount,
+        uint256 dueTimestamp
+    ) internal {
+        require(
+            _supplementalLineItems[id].state ==
+                SupplementalLineItem.State.UnknownState,
+            "Item exists"
+        );
 
         _supplementalLineItemIds.push(id);
         _supplementalLineItems[id] = SupplementalLineItem.Data({
@@ -247,15 +329,32 @@ contract InstrumentBase is InstrumentInterface {
             dueTimestamp: dueTimestamp,
             reinitiatedTo: 0
         });
-        emit SupplementalLineItemCreated(_issuanceId, id, SupplementalLineItem.Type.Payable, SupplementalLineItem.State.Unpaid,
-            obligatorAddress, claimorAddress, tokenAddress, amount, dueTimestamp);
+        emit SupplementalLineItemCreated(
+            _issuanceId,
+            id,
+            SupplementalLineItem.Type.Payable,
+            SupplementalLineItem.State.Unpaid,
+            obligatorAddress,
+            claimorAddress,
+            tokenAddress,
+            amount,
+            dueTimestamp
+        );
     }
 
     /**
      * @dev Updates the existing payable for the issuance.
      */
-    function _updatePayable(uint8 id, SupplementalLineItem.State state, uint8 reinitiatedTo) internal {
-        require(_supplementalLineItems[id].state != SupplementalLineItem.State.UnknownState, "Item not exists");
+    function _updatePayable(
+        uint8 id,
+        SupplementalLineItem.State state,
+        uint8 reinitiatedTo
+    ) internal {
+        require(
+            _supplementalLineItems[id].state !=
+                SupplementalLineItem.State.UnknownState,
+            "Item not exists"
+        );
 
         _supplementalLineItems[id].state = state;
         _supplementalLineItems[id].reinitiatedTo = reinitiatedTo;

@@ -5,7 +5,6 @@ pragma solidity 0.5.16;
  * Abstract contract is used instead of interface as interface does not support inheritance.
  */
 contract EscrowBaseInterface {
-
     /**
      * @dev Get the current ETH balance of an account in the escrow.
      * @param account The account to check ETH balance.
@@ -19,14 +18,20 @@ contract EscrowBaseInterface {
      * @param token The IERC20 token to check balance.
      * @return The balance of the account.
      */
-    function getTokenBalance(address account, address token) public view returns (uint256);
+    function getTokenBalance(address account, address token)
+        public
+        view
+        returns (uint256);
 
     /**
      * @dev Get the list of tokens that are deposited in the escrow.
      * @param account The address to check the deposited token list.
      * @return The list of tokens deposited in the escrow.
      */
-    function getTokenList(address account) public view returns (address[] memory tokens);
+    function getTokenList(address account)
+        public
+        view
+        returns (address[] memory tokens);
 
     /**
      * @dev Deposits ETH from Instrument Manager into an account.
@@ -41,7 +46,8 @@ contract EscrowBaseInterface {
      * @param token The ERC20 token to deposit.
      * @param amount The amount of ERC20 token to deposit.
      */
-    function depositTokenByAdmin(address account, address token, uint256 amount) public;
+    function depositTokenByAdmin(address account, address token, uint256 amount)
+        public;
 
     /**
      * @dev Withdraw ETH from an account to Instrument Manager.
@@ -57,5 +63,9 @@ contract EscrowBaseInterface {
      * @param token The ERC20 token to withdraw.
      * @param amount The amount of ERC20 tokens to withdraw.
      */
-    function withdrawTokenByAdmin(address account, address token, uint256 amount) public;
+    function withdrawTokenByAdmin(
+        address account,
+        address token,
+        uint256 amount
+    ) public;
 }

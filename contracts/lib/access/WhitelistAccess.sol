@@ -4,7 +4,7 @@ pragma solidity 0.5.16;
  * @title A library to define access white list.
  */
 library WhitelistAccess {
-    struct Whitelist{
+    struct Whitelist {
         bool enabled;
         mapping(address => bool) allowers;
     }
@@ -12,7 +12,9 @@ library WhitelistAccess {
     /**
      * @dev Updates the whitelist access for account.
      */
-    function setAllowed(Whitelist storage self, address account, bool allowed) internal {
+    function setAllowed(Whitelist storage self, address account, bool allowed)
+        internal
+    {
         require(self.enabled, "Whitelist disabled");
         self.allowers[account] = allowed;
     }
@@ -21,7 +23,11 @@ library WhitelistAccess {
      * @dev Check whether the account is allowed to access.
      * Access is allowed if whitelist is not enabled.
      */
-    function isAllowed(Whitelist storage self, address account) internal view returns (bool) {
+    function isAllowed(Whitelist storage self, address account)
+        internal
+        view
+        returns (bool)
+    {
         return !self.enabled || self.allowers[account];
     }
 }

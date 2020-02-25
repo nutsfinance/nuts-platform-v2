@@ -8,7 +8,6 @@ import "./EscrowBaseInterface.sol";
  * Abstract contract is used instead of interface as interface does not support inheritance.
  */
 contract InstrumentEscrowInterface is EscrowBaseInterface {
-
     /**********************************************
      * APIs to deposit and withdraw Ether
      ***********************************************/

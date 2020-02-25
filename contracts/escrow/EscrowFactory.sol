@@ -10,11 +10,13 @@ import "./InstrumentEscrowInterface.sol";
  * @title Escrow Factory. This should be a singleton in NUTS Platform.
  */
 contract EscrowFactory is EscrowFactoryInterface {
-
     /**
      * @dev Create new Instrument Escrow instance.
      */
-    function createInstrumentEscrow() public returns (InstrumentEscrowInterface) {
+    function createInstrumentEscrow()
+        public
+        returns (InstrumentEscrowInterface)
+    {
         InstrumentEscrow instrumentEscrow = new InstrumentEscrow();
         instrumentEscrow.transferOwnership(msg.sender);
 

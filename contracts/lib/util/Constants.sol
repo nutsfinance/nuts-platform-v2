@@ -1,7 +1,6 @@
 pragma solidity 0.5.16;
 
 library Constants {
-
     /**
      * @dev Defines a special address to represent ETH.
      */

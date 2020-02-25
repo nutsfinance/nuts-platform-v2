@@ -31,7 +31,11 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface {
      * @param token The deposit token address.
      * @param amount The deposit token amount.
      */
-    event TokenDeposited(address indexed depositer, address indexed token, uint256 amount);
+    event TokenDeposited(
+        address indexed depositer,
+        address indexed token,
+        uint256 amount
+    );
 
     /**
      * Token is withdrawn from instrument escrow.
@@ -39,7 +43,11 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface {
      * @param token The withdrawal token address.
      * @param amount The withdrawal token amount.
      */
-    event TokenWithdrawn(address indexed withdrawer, address indexed token, uint256 amount);
+    event TokenWithdrawn(
+        address indexed withdrawer,
+        address indexed token,
+        uint256 amount
+    );
 
     /**********************************************
      * APIs to deposit and withdraw Ether
@@ -62,7 +70,10 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface {
      */
     function withdraw(uint256 amount) public {
         address payable account = msg.sender;
-        require(getBalance(account) >= amount, "InstrumentEscrow: Insufficient balance.");
+        require(
+            getBalance(account) >= amount,
+            "InstrumentEscrow: Insufficient balance."
+        );
         _reduceFromBalance(account, Constants.getEthAddress(), amount);
 
         account.transfer(amount);
@@ -95,7 +106,10 @@ contract InstrumentEscrow is EscrowBase, InstrumentEscrowInterface {
      */
     function withdrawToken(address token, uint256 amount) public {
         address account = msg.sender;
-        require(getTokenBalance(account, token) >= amount, "InstrumentEscrow: Insufficient balance.");
+        require(
+            getTokenBalance(account, token) >= amount,
+            "InstrumentEscrow: Insufficient balance."
+        );
         _reduceFromBalance(account, token, amount);
 
         IERC20(token).safeTransfer(account, amount);
