@@ -13,11 +13,23 @@ import "../InstrumentBase.sol";
 contract Borrowing is InstrumentBase {
     using SafeMath for uint256;
 
-    event BorrowingCreated(uint256 indexed issuanceId, address indexed makerAddress, address escrowAddress,
-        address collateralTokenAddress, address borrowingTokenAddress, uint256 borrowingAmount,
-        uint256 collateralRatio, uint256 collateralTokenAmount, uint256 engagementDueTimestamp);
+    event BorrowingCreated(
+        uint256 indexed issuanceId,
+        address indexed makerAddress,
+        address escrowAddress,
+        address collateralTokenAddress,
+        address borrowingTokenAddress,
+        uint256 borrowingAmount,
+        uint256 collateralRatio,
+        uint256 collateralTokenAmount,
+        uint256 engagementDueTimestamp
+    );
 
-    event BorrowingEngaged(uint256 indexed issuanceId, address indexed takerAddress, uint256 borrowingDueTimstamp);
+    event BorrowingEngaged(
+        uint256 indexed issuanceId,
+        address indexed takerAddress,
+        uint256 borrowingDueTimstamp
+    );
 
     event BorrowingRepaid(uint256 indexed issuanceId);
 
@@ -28,12 +40,18 @@ contract Borrowing is InstrumentBase {
     event BorrowingCancelled(uint256 indexed issuanceId);
 
     // Constants
-    uint256 constant ENGAGEMENT_DUE_DAYS = 14 days;                 // Time available for taker to engage
-    uint256 constant COLLATERAL_RATIO_DECIMALS = 10000;             // 0.01%
-    uint256 constant INTEREST_RATE_DECIMALS = 1000000;              // 0.0001%
+    uint256 constant ENGAGEMENT_DUE_DAYS = 14 days; // Time available for taker to engage
+    uint256 internal constant TENOR_DAYS_MIN = 2; // Minimum tenor is 2 days
+    uint256 internal constant TENOR_DAYS_MAX = 90; // Maximum tenor is 90 days
+    uint256 internal constant COLLATERAL_RATIO_DECIMALS = 10**4; // 0.01%
+    uint256 internal constant COLLATERAL_RATIO_MIN = 5000; // Minimum collateral is 50%
+    uint256 internal constant COLLATERAL_RATIO_MAX = 20000; // Maximum collateral is 200%
+    uint256 internal constant INTEREST_RATE_DECIMALS = 10**6; // 0.0001%
+    uint256 internal constant INTEREST_RATE_MIN = 10; // Mimimum interest rate is 0.0010%
+    uint256 internal constant INTEREST_RATE_MAX = 50000; // Maximum interest rate is 5.0000%
 
     // Custom data
-    bytes32 constant internal BORROWING_DATA = "borrowing_data";
+    bytes32 internal constant BORROWING_DATA = "borrowing_data";
 
     // Borrowing parameters
     address private _collateralTokenAddress;
@@ -51,30 +69,73 @@ contract Borrowing is InstrumentBase {
      * @param makerParametersData The custom parameters to the newly created issuance
      * @return transfersData The transfers to perform after the invocation
      */
-    function createIssuance(address callerAddress, bytes memory makerParametersData) public returns (bytes memory transfersData) {
-        require(_state == IssuanceProperties.State.Initiated, "Issuance not in Initiated");
-        BorrowingMakerParameters.Data memory makerParameters = BorrowingMakerParameters.decode(makerParametersData);
+    function createIssuance(
+        address callerAddress,
+        bytes memory makerParametersData
+    ) public returns (bytes memory transfersData) {
+        require(
+            _state == IssuanceProperties.State.Initiated,
+            "Issuance not in Initiated"
+        );
+        BorrowingMakerParameters.Data memory makerParameters = BorrowingMakerParameters
+            .decode(makerParametersData);
 
         // Validates parameters.
-        require(makerParameters.collateralTokenAddress != address(0x0), "Collateral token not set");
-        require(makerParameters.borrowingTokenAddress != address(0x0), "Borrowing token not set");
-        require(makerParameters.borrowingAmount > 0, "Borrowing amount not set");
-        require(makerParameters.tenorDays >= 2 && makerParameters.tenorDays <= 90, "Invalid tenor days");
-        require(makerParameters.collateralRatio >= 5000 && makerParameters.collateralRatio <= 20000, "Invalid collateral ratio");
-        require(makerParameters.interestRate >= 10 && makerParameters.interestRate <= 50000, "Invalid interest rate");
+        require(
+            makerParameters.collateralTokenAddress != address(0x0),
+            "Collateral token not set"
+        );
+        require(
+            makerParameters.borrowingTokenAddress != address(0x0),
+            "Borrowing token not set"
+        );
+        require(
+            makerParameters.borrowingAmount > 0,
+            "Borrowing amount not set"
+        );
+        require(
+            makerParameters.tenorDays >= TENOR_DAYS_MIN &&
+                makerParameters.tenorDays <= TENOR_DAYS_MAX,
+            "Invalid tenor days"
+        );
+        require(
+            makerParameters.collateralRatio >= COLLATERAL_RATIO_MIN &&
+                makerParameters.collateralRatio <= COLLATERAL_RATIO_MAX,
+            "Invalid collateral ratio"
+        );
+        require(
+            makerParameters.interestRate >= INTEREST_RATE_MIN &&
+                makerParameters.interestRate <= INTEREST_RATE_MAX,
+            "Invalid interest rate"
+        );
 
         // Calculate the collateral amount. Collateral is calculated at the time of issuance creation.
-        PriceOracleInterface priceOracle = PriceOracleInterface(_priceOracleAddress);
-        (uint256 numerator, uint256 denominator) = priceOracle.getRate(makerParameters.borrowingTokenAddress,
-            makerParameters.collateralTokenAddress);
+        PriceOracleInterface priceOracle = PriceOracleInterface(
+            _priceOracleAddress
+        );
+        (uint256 numerator, uint256 denominator) = priceOracle.getRate(
+            makerParameters.borrowingTokenAddress,
+            makerParameters.collateralTokenAddress
+        );
         require(numerator > 0 && denominator > 0, "Exchange rate not found");
-        uint256 collateralAmount = numerator.mul(makerParameters.borrowingAmount).mul(makerParameters.collateralRatio)
-            .div(COLLATERAL_RATIO_DECIMALS).div(denominator);
+        uint256 collateralAmount = numerator
+            .mul(makerParameters.borrowingAmount)
+            .mul(makerParameters.collateralRatio)
+            .div(COLLATERAL_RATIO_DECIMALS)
+            .div(denominator);
 
         // Validate collateral token balance
-        uint256 collateralTokenBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress,
-            makerParameters.collateralTokenAddress);
-        require(collateralTokenBalance >= collateralAmount, "Insufficient collateral balance");
+        uint256 collateralTokenBalance = EscrowBaseInterface(
+            _instrumentEscrowAddress
+        )
+            .getTokenBalance(
+            callerAddress,
+            makerParameters.collateralTokenAddress
+        );
+        require(
+            collateralTokenBalance >= collateralAmount,
+            "Insufficient collateral balance"
+        );
 
         // Sets common properties
         _makerAddress = callerAddress;
@@ -88,28 +149,61 @@ contract Borrowing is InstrumentBase {
         _collateralTokenAddress = makerParameters.collateralTokenAddress;
         _tenorDays = makerParameters.tenorDays;
         _interestRate = makerParameters.interestRate;
-        _interestAmount = _borrowingAmount.mul(makerParameters.tenorDays).mul(makerParameters.interestRate).div(INTEREST_RATE_DECIMALS);
+        _interestAmount = _borrowingAmount
+            .mul(makerParameters.tenorDays)
+            .mul(makerParameters.interestRate)
+            .div(INTEREST_RATE_DECIMALS);
         _collateralRatio = makerParameters.collateralRatio;
         _collateralAmount = collateralAmount;
 
         // Emits Scheduled Engagement Due event
-        emit EventTimeScheduled(_issuanceId, _engagementDueTimestamp, ENGAGEMENT_DUE_EVENT, "");
+        emit EventTimeScheduled(
+            _issuanceId,
+            _engagementDueTimestamp,
+            ENGAGEMENT_DUE_EVENT,
+            ""
+        );
 
         // Emits Borrowing Created event
-        emit BorrowingCreated(_issuanceId, _makerAddress, _issuanceEscrowAddress, _collateralTokenAddress, _borrowingTokenAddress,
-            _borrowingAmount, _collateralRatio, _collateralAmount, _engagementDueTimestamp);
+        emit BorrowingCreated(
+            _issuanceId,
+            _makerAddress,
+            _issuanceEscrowAddress,
+            _collateralTokenAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount,
+            _collateralRatio,
+            _collateralAmount,
+            _engagementDueTimestamp
+        );
 
         // Transfers collateral token
-        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
+        Transfers.Data memory transfers = Transfers.Data(
+            new Transfer.Data[](2)
+        );
         // Collateral token inbound transfer: Maker
-        transfers.actions[0] = _createInboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
+        transfers.actions[0] = _createInboundTransfer(
+            _makerAddress,
+            _collateralTokenAddress,
+            _collateralAmount
+        );
         // Collateral token intra-issuance transfer: Maker --> Custodian
-        transfers.actions[1] = _createIntraIssuanceTransfer(_makerAddress, Constants.getCustodianAddress(),
-            _collateralTokenAddress, _collateralAmount);
+        transfers.actions[1] = _createIntraIssuanceTransfer(
+            _makerAddress,
+            Constants.getCustodianAddress(),
+            _collateralTokenAddress,
+            _collateralAmount
+        );
         transfersData = Transfers.encode(transfers);
         // Create payable 1: Custodian --> Maker
-        _createNewPayable(1, Constants.getCustodianAddress(), _makerAddress, _collateralTokenAddress,
-            _collateralAmount, _engagementDueTimestamp);
+        _createNewPayable(
+            1,
+            Constants.getCustodianAddress(),
+            _makerAddress,
+            _collateralTokenAddress,
+            _collateralAmount,
+            _engagementDueTimestamp
+        );
     }
 
     /**
@@ -117,12 +211,22 @@ contract Borrowing is InstrumentBase {
      * @param callerAddress Address which invokes this function.
      * @return transfersData The transfers to perform after the invocation
      */
-    function engageIssuance(address callerAddress, bytes memory /** takerParameters */) public returns (bytes memory transfersData) {
-        require(_state == IssuanceProperties.State.Engageable, "Issuance not in Engageable");
+    function engageIssuance(
+        address callerAddress,
+        bytes memory /** takerParameters */
+    ) public returns (bytes memory transfersData) {
+        require(
+            _state == IssuanceProperties.State.Engageable,
+            "Issuance not in Engageable"
+        );
 
         // Validates borrowing balance
-        uint256 borrowingBalance = EscrowBaseInterface(_instrumentEscrowAddress).getTokenBalance(callerAddress, _borrowingTokenAddress);
-        require(borrowingBalance >= _borrowingAmount, "Insufficient borrowing balance");
+        uint256 borrowingBalance = EscrowBaseInterface(_instrumentEscrowAddress)
+            .getTokenBalance(callerAddress, _borrowingTokenAddress);
+        require(
+            borrowingBalance >= _borrowingAmount,
+            "Insufficient borrowing balance"
+        );
 
         // Sets common properties
         _takerAddress = callerAddress;
@@ -130,29 +234,74 @@ contract Borrowing is InstrumentBase {
         _issuanceDueTimestamp = now.add(_tenorDays * 1 days);
 
         // Emits Scheduled Borrowing Due event
-        emit EventTimeScheduled(_issuanceId, _issuanceDueTimestamp, ISSUANCE_DUE_EVENT, "");
+        emit EventTimeScheduled(
+            _issuanceId,
+            _issuanceDueTimestamp,
+            ISSUANCE_DUE_EVENT,
+            ""
+        );
 
         // Emits Borrowing Engaged event
-        emit BorrowingEngaged(_issuanceId, _takerAddress, _issuanceDueTimestamp);
+        emit BorrowingEngaged(
+            _issuanceId,
+            _takerAddress,
+            _issuanceDueTimestamp
+        );
 
         // Transition to Engaged state.
         _state = IssuanceProperties.State.Engaged;
 
-        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
+        Transfers.Data memory transfers = Transfers.Data(
+            new Transfer.Data[](3)
+        );
         // Principal token inbound transfer: Taker
-        transfers.actions[0] = _createInboundTransfer(_takerAddress, _borrowingTokenAddress, _borrowingAmount);
+        transfers.actions[0] = _createInboundTransfer(
+            _takerAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount
+        );
         // Principal token intra-issuance transfer: Taker --> Maker
-        transfers.actions[1] = _createIntraIssuanceTransfer(_takerAddress, _makerAddress, _borrowingTokenAddress, _borrowingAmount);
+        transfers.actions[1] = _createIntraIssuanceTransfer(
+            _takerAddress,
+            _makerAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount
+        );
         // Create payable 2: Maker --> Taker
-        _createNewPayable(2, _makerAddress, _takerAddress, _borrowingTokenAddress, _borrowingAmount, _issuanceDueTimestamp);
+        _createNewPayable(
+            2,
+            _makerAddress,
+            _takerAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount,
+            _issuanceDueTimestamp
+        );
         // Create payable 3: Maker --> Taker
-        _createNewPayable(3, _makerAddress, _takerAddress, _borrowingTokenAddress, _interestAmount, _issuanceDueTimestamp);
+        _createNewPayable(
+            3,
+            _makerAddress,
+            _takerAddress,
+            _borrowingTokenAddress,
+            _interestAmount,
+            _issuanceDueTimestamp
+        );
         // Create payable 4: Custodian --> Maker
-        _createNewPayable(4, Constants.getCustodianAddress(), _makerAddress, _collateralTokenAddress, _collateralAmount, _issuanceDueTimestamp);
+        _createNewPayable(
+            4,
+            Constants.getCustodianAddress(),
+            _makerAddress,
+            _collateralTokenAddress,
+            _collateralAmount,
+            _issuanceDueTimestamp
+        );
         // Mark payable 1 as reinitiated by payable 4
         _updatePayable(1, SupplementalLineItem.State.Reinitiated, 4);
         // Principal token outbound transfer: Maker
-        transfers.actions[2] = _createOutboundTransfer(_makerAddress, _borrowingTokenAddress, _borrowingAmount);
+        transfers.actions[2] = _createOutboundTransfer(
+            _makerAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount
+        );
         transfersData = Transfers.encode(transfers);
     }
 
@@ -163,12 +312,25 @@ contract Borrowing is InstrumentBase {
      * @param amount The amount of ERC20 token to deposit.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processTokenDeposit(address callerAddress, address tokenAddress, uint256 amount) public returns (bytes memory transfersData) {
+    function processTokenDeposit(
+        address callerAddress,
+        address tokenAddress,
+        uint256 amount
+    ) public returns (bytes memory transfersData) {
         // Important: Token deposit can happen only in repay!
-        require(_state == IssuanceProperties.State.Engaged, "Issuance not in Engaged");
+        require(
+            _state == IssuanceProperties.State.Engaged,
+            "Issuance not in Engaged"
+        );
         require(callerAddress == _makerAddress, "Only maker can repay");
-        require(tokenAddress == _borrowingTokenAddress, "Must repay with borrowing token");
-        require(amount == _borrowingAmount + _interestAmount, "Must repay in full");
+        require(
+            tokenAddress == _borrowingTokenAddress,
+            "Must repay with borrowing token"
+        );
+        require(
+            amount == _borrowingAmount + _interestAmount,
+            "Must repay in full"
+        );
 
         // Sets common properties
         _settlementTimestamp = now;
@@ -179,22 +341,40 @@ contract Borrowing is InstrumentBase {
         // Updates to Complete Engaged state.
         _state = IssuanceProperties.State.CompleteEngaged;
 
-        Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](4));
+        Transfers.Data memory transfers = Transfers.Data(
+            new Transfer.Data[](4)
+        );
         // Principal token intra-issuance transfer: Maker --> Taker
-        transfers.actions[0] = _createIntraIssuanceTransfer(_makerAddress, _takerAddress, _borrowingTokenAddress,
-            _borrowingAmount + _interestAmount);
+        transfers.actions[0] = _createIntraIssuanceTransfer(
+            _makerAddress,
+            _takerAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount + _interestAmount
+        );
         // Mark payable 2 & 3 as paid
         _updatePayable(2, SupplementalLineItem.State.Paid, 0);
         _updatePayable(3, SupplementalLineItem.State.Paid, 0);
         // Collateral token intra-issuance transfer: Custodian --> Maker
-        transfers.actions[1] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
-            _collateralTokenAddress, _collateralAmount);
+        transfers.actions[1] = _createIntraIssuanceTransfer(
+            Constants.getCustodianAddress(),
+            _makerAddress,
+            _collateralTokenAddress,
+            _collateralAmount
+        );
         // Mark payable 4 as paid
         _updatePayable(4, SupplementalLineItem.State.Paid, 0);
         // Collateral token outbound transfer: Maker
-        transfers.actions[2] = _createOutboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
+        transfers.actions[2] = _createOutboundTransfer(
+            _makerAddress,
+            _collateralTokenAddress,
+            _collateralAmount
+        );
         // Principal token outbound transfer: Taker
-        transfers.actions[3] = _createOutboundTransfer(_takerAddress, _borrowingTokenAddress, _borrowingAmount + _interestAmount);
+        transfers.actions[3] = _createOutboundTransfer(
+            _takerAddress,
+            _borrowingTokenAddress,
+            _borrowingAmount + _interestAmount
+        );
         transfersData = Transfers.encode(transfers);
     }
 
@@ -204,58 +384,97 @@ contract Borrowing is InstrumentBase {
      * @param eventName The name of the custom event.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processCustomEvent(address callerAddress, bytes32 eventName, bytes memory /** eventPayload */) public
-        returns (bytes memory transfersData) {
-
+    function processCustomEvent(
+        address callerAddress,
+        bytes32 eventName,
+        bytes memory /** eventPayload */
+    ) public returns (bytes memory transfersData) {
         if (eventName == ENGAGEMENT_DUE_EVENT) {
             // Engagement Due will be processed only when:
             // 1. Issuance is in Engageable state
             // 2. Engagement due timestamp is passed
-            if (_state == IssuanceProperties.State.Engageable && now >= _engagementDueTimestamp) {
+            if (
+                _state == IssuanceProperties.State.Engageable &&
+                now >= _engagementDueTimestamp
+            ) {
                 // Emits Borrowing Complete Not Engaged event
                 emit BorrowingCompleteNotEngaged(_issuanceId);
 
                 // Updates to Complete Not Engaged state
                 _state = IssuanceProperties.State.CompleteNotEngaged;
 
-                Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
+                Transfers.Data memory transfers = Transfers.Data(
+                    new Transfer.Data[](2)
+                );
                 // Collateral token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
-                    _collateralTokenAddress, _collateralAmount);
+                transfers.actions[0] = _createIntraIssuanceTransfer(
+                    Constants.getCustodianAddress(),
+                    _makerAddress,
+                    _collateralTokenAddress,
+                    _collateralAmount
+                );
                 // Mark payable 1 as paid
                 _updatePayable(1, SupplementalLineItem.State.Paid, 0);
                 // Collateral token outbound transfer: Maker
-                transfers.actions[1] = _createOutboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
+                transfers.actions[1] = _createOutboundTransfer(
+                    _makerAddress,
+                    _collateralTokenAddress,
+                    _collateralAmount
+                );
                 transfersData = Transfers.encode(transfers);
             }
         } else if (eventName == ISSUANCE_DUE_EVENT) {
             // Borrowing Due will be processed only when:
             // 1. Issuance is in Engaged state
             // 2. Borrowing due timestamp has passed
-            if (_state == IssuanceProperties.State.Engaged && now >= _issuanceDueTimestamp) {
+            if (
+                _state == IssuanceProperties.State.Engaged &&
+                now >= _issuanceDueTimestamp
+            ) {
                 // Emits Borrowing Deliquent event
                 emit BorrowingDelinquent(_issuanceId);
 
                 // Updates to Delinquent state
                 _state = IssuanceProperties.State.Delinquent;
 
-                Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](3));
+                Transfers.Data memory transfers = Transfers.Data(
+                    new Transfer.Data[](3)
+                );
                 // Collateral token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
-                    _collateralTokenAddress, _collateralAmount);
+                transfers.actions[0] = _createIntraIssuanceTransfer(
+                    Constants.getCustodianAddress(),
+                    _makerAddress,
+                    _collateralTokenAddress,
+                    _collateralAmount
+                );
                 // Mark payable 4 as paid
                 _updatePayable(4, SupplementalLineItem.State.Paid, 0);
                 // Collateral token intra-issuance transfer: Maker --> Taker
-                transfers.actions[1] = _createIntraIssuanceTransfer(_makerAddress, _takerAddress, _collateralTokenAddress, _collateralAmount);
+                transfers.actions[1] = _createIntraIssuanceTransfer(
+                    _makerAddress,
+                    _takerAddress,
+                    _collateralTokenAddress,
+                    _collateralAmount
+                );
                 // Collateral token outbound transfer: Taker
-                transfers.actions[2] = _createOutboundTransfer(_takerAddress, _collateralTokenAddress, _collateralAmount);
+                transfers.actions[2] = _createOutboundTransfer(
+                    _takerAddress,
+                    _collateralTokenAddress,
+                    _collateralAmount
+                );
                 transfersData = Transfers.encode(transfers);
             }
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
             // Cancel Issuance must be processed in Engageable state
-            require(_state == IssuanceProperties.State.Engageable, "Cancel issuance not in engageable state");
+            require(
+                _state == IssuanceProperties.State.Engageable,
+                "Cancel issuance not in engageable state"
+            );
             // Only maker can cancel issuance
-            require(callerAddress == _makerAddress, "Only maker can cancel issuance");
+            require(
+                callerAddress == _makerAddress,
+                "Only maker can cancel issuance"
+            );
 
             // Emits Borrowing Cancelled event
             emit BorrowingCancelled(_issuanceId);
@@ -263,14 +482,24 @@ contract Borrowing is InstrumentBase {
             // Updates to Cancelled state.
             _state = IssuanceProperties.State.Cancelled;
 
-            Transfers.Data memory transfers = Transfers.Data(new Transfer.Data[](2));
+            Transfers.Data memory transfers = Transfers.Data(
+                new Transfer.Data[](2)
+            );
             // Collateral token intra-issuance transfer: Custodian --> Maker
-            transfers.actions[0] = _createIntraIssuanceTransfer(Constants.getCustodianAddress(), _makerAddress,
-                _collateralTokenAddress, _collateralAmount);
+            transfers.actions[0] = _createIntraIssuanceTransfer(
+                Constants.getCustodianAddress(),
+                _makerAddress,
+                _collateralTokenAddress,
+                _collateralAmount
+            );
             // Mark payable 1 as paid
             _updatePayable(1, SupplementalLineItem.State.Paid, 0);
             // Collateral token outbound transfer: Maker
-            transfers.actions[1] = _createOutboundTransfer(_makerAddress, _collateralTokenAddress, _collateralAmount);
+            transfers.actions[1] = _createOutboundTransfer(
+                _makerAddress,
+                _collateralTokenAddress,
+                _collateralAmount
+            );
             transfersData = Transfers.encode(transfers);
         } else {
             revert("Unknown event");
@@ -282,9 +511,13 @@ contract Borrowing is InstrumentBase {
      * @param dataName The name of the custom data.
      * @return customData The custom data of the issuance.
      */
-    function getCustomData(address /** callerAddress */, bytes32 dataName) public view returns (bytes memory) {
+    function getCustomData(
+        address, /** callerAddress */
+        bytes32 dataName
+    ) public view returns (bytes memory) {
         if (dataName == BORROWING_DATA) {
-            BorrowingProperties.Data memory borrowingProperties = BorrowingProperties.Data({
+            BorrowingProperties.Data memory borrowingProperties = BorrowingProperties
+                .Data({
                 borrowingTokenAddress: _borrowingTokenAddress,
                 collateralTokenAddress: _collateralTokenAddress,
                 borrowingAmount: _borrowingAmount,
@@ -295,14 +528,16 @@ contract Borrowing is InstrumentBase {
                 tenorDays: _tenorDays
             });
 
-            BorrowingCompleteProperties.Data memory borrowingCompleteProperties = BorrowingCompleteProperties.Data({
+            BorrowingCompleteProperties.Data memory borrowingCompleteProperties = BorrowingCompleteProperties
+                .Data({
                 issuanceProperties: _getIssuanceProperties(),
                 borrowingProperties: borrowingProperties
             });
 
-            return BorrowingCompleteProperties.encode(borrowingCompleteProperties);
+            return
+                BorrowingCompleteProperties.encode(borrowingCompleteProperties);
         } else {
-            revert('Unknown data');
+            revert("Unknown data");
         }
     }
 }
