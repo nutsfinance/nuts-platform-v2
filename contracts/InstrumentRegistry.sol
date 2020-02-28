@@ -12,9 +12,13 @@ import "./InstrumentConfig.sol";
  * @title Instrument Registry.
  */
 contract InstrumentRegistry is Ownable, InstrumentConfig {
-
-    event InstrumentActivated(uint256 indexed instrumentId, address indexed fspAddress, address indexed instrumentAddress,
-        address instrumentManagerAddress, address instrumentEscrowAddress);
+    event InstrumentActivated(
+        uint256 indexed instrumentId,
+        address indexed fspAddress,
+        address indexed instrumentAddress,
+        address instrumentManagerAddress,
+        address instrumentEscrowAddress
+    );
 
     using SafeERC20 for IERC20;
 
@@ -32,14 +36,34 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param newPriceOracleAddress Address of Price Oracle
      * @param newEscrowFactoryAddress Address of Escrow Factory.
      */
-    constructor(address instrumentManagerFactoryAddress, uint256 newInstrumentDeposit, uint256 newIssuanceDeposit,
-        address newDepositTokenAddress, address newPriceOracleAddress, address newEscrowFactoryAddress) public {
-        require(instrumentManagerFactoryAddress != address(0x0), "Instrument Manager Factory not set");
-        require(newDepositTokenAddress != address(0x0), "Deposit token address not set");
-        require(newPriceOracleAddress != address(0x0), "Price Oracle address not set");
-        require(newEscrowFactoryAddress != address(0x0), "Escrow Factory address not set");
+    constructor(
+        address instrumentManagerFactoryAddress,
+        uint256 newInstrumentDeposit,
+        uint256 newIssuanceDeposit,
+        address newDepositTokenAddress,
+        address newPriceOracleAddress,
+        address newEscrowFactoryAddress
+    ) public {
+        require(
+            instrumentManagerFactoryAddress != address(0x0),
+            "Instrument Manager Factory not set"
+        );
+        require(
+            newDepositTokenAddress != address(0x0),
+            "Deposit token address not set"
+        );
+        require(
+            newPriceOracleAddress != address(0x0),
+            "Price Oracle address not set"
+        );
+        require(
+            newEscrowFactoryAddress != address(0x0),
+            "Escrow Factory address not set"
+        );
 
-        _instrumentManagerFactory = InstrumentManagerFactoryInterface(instrumentManagerFactoryAddress);
+        _instrumentManagerFactory = InstrumentManagerFactoryInterface(
+            instrumentManagerFactoryAddress
+        );
         instrumentDeposit = newInstrumentDeposit;
         issuanceDeposit = newIssuanceDeposit;
         depositTokenAddress = newDepositTokenAddress;
@@ -50,14 +74,19 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev Update Instrument Manager Factory
      */
-    function setInstrumentManagerFactory(InstrumentManagerFactoryInterface instrumentManagerFactory) public onlyOwner {
+    function setInstrumentManagerFactory(
+        InstrumentManagerFactoryInterface instrumentManagerFactory
+    ) public onlyOwner {
         _instrumentManagerFactory = instrumentManagerFactory;
     }
 
     /**
      * @dev Update instrument deposit amount.
      */
-    function setInstrumentDeposit(uint256 newInstrumentDeposit) public onlyOwner {
+    function setInstrumentDeposit(uint256 newInstrumentDeposit)
+        public
+        onlyOwner
+    {
         instrumentDeposit = newInstrumentDeposit;
     }
 
@@ -71,7 +100,10 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev Update Escrow Factory address.
      */
-    function setEscrowFactoryAddress(address newEscrowFactoryAddress) public onlyOwner {
+    function setEscrowFactoryAddress(address newEscrowFactoryAddress)
+        public
+        onlyOwner
+    {
         escrowFactoryAddress = newEscrowFactoryAddress;
     }
 
@@ -80,25 +112,48 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @param instrumentAddress Address of Instrument to activate.
      * @param instrumentParameters Custom parameters for this instrument.
      */
-    function activateInstrument(address instrumentAddress, bytes memory instrumentParameters)
-        public returns (InstrumentManagerInterface) {
-        require(instrumentAddress != address(0x0), "Instrument address not set");
+    function activateInstrument(
+        address instrumentAddress,
+        bytes memory instrumentParameters
+    ) public returns (InstrumentManagerInterface) {
+        require(
+            instrumentAddress != address(0x0),
+            "Instrument address not set"
+        );
 
         _lastInstrumentId++;
         // Create Instrument Manager
-        InstrumentManagerInterface instrumentManager = _instrumentManagerFactory.createInstrumentManagerInstance(
-            _lastInstrumentId, msg.sender, instrumentAddress, address(this), instrumentParameters);
+        InstrumentManagerInterface instrumentManager = _instrumentManagerFactory
+            .createInstrumentManagerInstance(
+            _lastInstrumentId,
+            msg.sender,
+            instrumentAddress,
+            address(this),
+            instrumentParameters
+        );
 
         _instrumentManagers[_lastInstrumentId] = address(instrumentManager);
 
-        emit InstrumentActivated(_lastInstrumentId, msg.sender, instrumentAddress, address(instrumentManager),
-            instrumentManager.getInstrumentEscrowAddress());
+        emit InstrumentActivated(
+            _lastInstrumentId,
+            msg.sender,
+            instrumentAddress,
+            address(instrumentManager),
+            instrumentManager.getInstrumentEscrowAddress()
+        );
 
         if (instrumentDeposit > 0) {
             // Transfers NUTS token from sender to Instrument Registry.
-            IERC20(depositTokenAddress).safeTransferFrom(msg.sender, address(this), instrumentDeposit);
+            IERC20(depositTokenAddress).safeTransferFrom(
+                msg.sender,
+                address(this),
+                instrumentDeposit
+            );
             // Sends NUTS token from Instrument Registry to the newly created Instrument Manager.
-            IERC20(depositTokenAddress).safeTransfer(address(instrumentManager), instrumentDeposit);
+            IERC20(depositTokenAddress).safeTransfer(
+                address(instrumentManager),
+                instrumentDeposit
+            );
         }
 
         return instrumentManager;
@@ -107,7 +162,11 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
     /**
      * @dev Retrieve Instrument Manager address by Instrument ID.
      */
-    function lookupInstrumentManager(uint256 instrumentId) public view returns (address instrumentManagerAddress) {
+    function lookupInstrumentManager(uint256 instrumentId)
+        public
+        view
+        returns (address instrumentManagerAddress)
+    {
         return _instrumentManagers[instrumentId];
     }
 }

@@ -13,8 +13,14 @@ interface InstrumentInterface {
      * @param issuanceEscrowAddress Address of the issuance escrow.
      * @param priceOracleAddress Address of the price oracle.
      */
-    function initialize(uint256 issuanceId, address fspAddress, address brokerAddress, address instrumentEscrowAddress,
-        address issuanceEscrowAddress, address priceOracleAddress) external;
+    function initialize(
+        uint256 issuanceId,
+        address fspAddress,
+        address brokerAddress,
+        address instrumentEscrowAddress,
+        address issuanceEscrowAddress,
+        address priceOracleAddress
+    ) external;
 
     /**
      * @dev Checks whether the issuance is terminated. No futher action is taken on a terminated issuance.
@@ -27,8 +33,10 @@ interface InstrumentInterface {
      * @param makerParametersData The custom parameters to the newly created issuance
      * @return transfersData The transfers to perform after the invocation
      */
-    function createIssuance(address callerAddress, bytes calldata makerParametersData) external
-        returns (bytes memory transfersData);
+    function createIssuance(
+        address callerAddress,
+        bytes calldata makerParametersData
+    ) external returns (bytes memory transfersData);
 
     /**
      * @dev A taker engages to the issuance
@@ -36,8 +44,10 @@ interface InstrumentInterface {
      * @param takerParameters The custom parameters to the new engagement
      * @return transfersData The transfers to perform after the invocation
      */
-    function engageIssuance(address callerAddress, bytes calldata takerParameters) external
-        returns (bytes memory transfersData);
+    function engageIssuance(
+        address callerAddress,
+        bytes calldata takerParameters
+    ) external returns (bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token deposit to the issuance
@@ -46,9 +56,11 @@ interface InstrumentInterface {
      * @param amount The amount of ERC20 token to deposit.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processTokenDeposit(address callerAddress, address tokenAddress, uint256 amount) external
-        returns (bytes memory transfersData);
-
+    function processTokenDeposit(
+        address callerAddress,
+        address tokenAddress,
+        uint256 amount
+    ) external returns (bytes memory transfersData);
 
     /**
      * @dev An account has made an ERC20 token withdraw from the issuance
@@ -57,8 +69,11 @@ interface InstrumentInterface {
      * @param amount The amount of ERC20 token to withdraw.
      * @return transfersData The transfers to perform after the invocation
      */
-    function processTokenWithdraw(address callerAddress, address tokenAddress, uint256 amount) external
-        returns (bytes memory transfersData);
+    function processTokenWithdraw(
+        address callerAddress,
+        address tokenAddress,
+        uint256 amount
+    ) external returns (bytes memory transfersData);
 
     /**
      * @dev A custom event is triggered.
@@ -67,8 +82,11 @@ interface InstrumentInterface {
      * @param eventPayload The custom parameters to the custom event
      * @return transfersData The transfers to perform after the invocation
      */
-    function processCustomEvent(address callerAddress, bytes32 eventName, bytes calldata eventPayload) external
-        returns (bytes memory transfersData);
+    function processCustomEvent(
+        address callerAddress,
+        bytes32 eventName,
+        bytes calldata eventPayload
+    ) external returns (bytes memory transfersData);
 
     /**
      * @dev Get custom data.
@@ -76,5 +94,8 @@ interface InstrumentInterface {
      * @param dataName The name of the custom data.
      * @return customData The custom data of the issuance.
      */
-    function getCustomData(address callerAddress, bytes32 dataName) external view returns (bytes memory);
+    function getCustomData(address callerAddress, bytes32 dataName)
+        external
+        view
+        returns (bytes memory);
 }

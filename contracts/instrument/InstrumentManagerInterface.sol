@@ -9,7 +9,6 @@ import "../escrow/InstrumentEscrowInterface.sol";
  * of Instrument Manager on each version.
  */
 interface InstrumentManagerInterface {
-
     /**
      * @dev Get the address of Instrument Escrow.
      */
@@ -39,14 +38,17 @@ interface InstrumentManagerInterface {
      * @param sellerParameters The custom parameters to the newly created issuance
      * @return The id of the newly created issuance.
      */
-    function createIssuance(bytes calldata sellerParameters) external returns (uint256);
+    function createIssuance(bytes calldata sellerParameters)
+        external
+        returns (uint256);
 
     /**
      * @dev A buyer engages to the issuance
      * @param issuanceId The id of the issuance
      * @param buyerParameters The custom parameters to the new engagement
      */
-    function engageIssuance(uint256 issuanceId, bytes calldata buyerParameters) external;
+    function engageIssuance(uint256 issuanceId, bytes calldata buyerParameters)
+        external;
 
     /**
      * @dev The caller deposits token from Instrument Escrow into Issuance Escrow.
@@ -54,7 +56,11 @@ interface InstrumentManagerInterface {
      * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function depositToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
+    function depositToIssuance(
+        uint256 issuanceId,
+        address tokenAddress,
+        uint256 amount
+    ) external;
 
     /**
      * @dev The caller withdraws tokens from Issuance Escrow to Instrument Escrow.
@@ -62,7 +68,11 @@ interface InstrumentManagerInterface {
      * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function withdrawFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) external;
+    function withdrawFromIssuance(
+        uint256 issuanceId,
+        address tokenAddress,
+        uint256 amount
+    ) external;
 
     /**
      * @dev Notify events to issuance. This could be either custom event or scheduled event. Anyone can call this method.
@@ -70,12 +80,19 @@ interface InstrumentManagerInterface {
      * @param eventName Name of the custom event
      * @param eventPayload Payload of the custom event
      */
-    function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes calldata eventPayload) external;
+    function notifyCustomEvent(
+        uint256 issuanceId,
+        bytes32 eventName,
+        bytes calldata eventPayload
+    ) external;
 
     /**
      * @dev Get custom data about the issuance.
      * @param issuanceId The id of the issuance
      * @param dataName Name of the custom data
      */
-    function getCustomData(uint256 issuanceId, bytes32 dataName) external view returns (bytes memory);
+    function getCustomData(uint256 issuanceId, bytes32 dataName)
+        external
+        view
+        returns (bytes memory);
 }

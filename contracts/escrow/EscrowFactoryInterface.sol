@@ -8,11 +8,12 @@ import "./IssuanceEscrowInterface.sol";
  * This is used to hide the implementation of Issuance Escrow and Instrument Escrow.
  */
 interface EscrowFactoryInterface {
-
     /**
      * @dev Create new Instrument Escrow instance.
      */
-    function createInstrumentEscrow() external returns (InstrumentEscrowInterface);
+    function createInstrumentEscrow()
+        external
+        returns (InstrumentEscrowInterface);
 
     /**
      * @dev Creates new Issuance Escrow intance.

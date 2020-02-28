@@ -7,7 +7,6 @@ import "./EscrowBaseInterface.sol";
  * Defines additional methods used by Instrument Manager.
  */
 contract IssuanceEscrowInterface is EscrowBaseInterface {
-
     /**
      * @dev Transfers the ownership of ETH in this escrow.
      * @param source The account where the tokens are from.
@@ -23,5 +22,10 @@ contract IssuanceEscrowInterface is EscrowBaseInterface {
      * @param token The ERC20 tokens to transfer.
      * @param amount The amount to trasfer.
      */
-    function transferToken(address source, address dest, address token, uint256 amount) public;
+    function transferToken(
+        address source,
+        address dest,
+        address token,
+        uint256 amount
+    ) public;
 }

@@ -12,7 +12,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  * No MinterRole is needed as each minter is given a cap of 0 without setting minter cap.
  */
 contract ERC20CappedMintable is ERC20, Ownable {
-
     event MinterCapUpdated(address indexed account, uint256 cap);
 
     // Cap for total supply.
@@ -26,7 +25,7 @@ contract ERC20CappedMintable is ERC20, Ownable {
      * @dev Sets the value of the `cap`. This value is immutable, it can only be
      * set once during construction.
      */
-    constructor (uint256 cap) public {
+    constructor(uint256 cap) public {
         require(cap > 0, "ERC20CappedMintable: cap is 0");
         _cap = cap;
     }
@@ -39,8 +38,15 @@ contract ERC20CappedMintable is ERC20, Ownable {
      * - The caller must be the owner.
      * - The new cap must not be smaller than the current minter amount.
      */
-    function setMinterCap(address account, uint256 cap) public onlyOwner returns (bool) {
-        require(_minterAmount[account] <= cap, "ERC20CappedMintable: cap smaller than current amount.");
+    function setMinterCap(address account, uint256 cap)
+        public
+        onlyOwner
+        returns (bool)
+    {
+        require(
+            _minterAmount[account] <= cap,
+            "ERC20CappedMintable: cap smaller than current amount."
+        );
         _minterCaps[account] = cap;
 
         emit MinterCapUpdated(account, cap);
@@ -74,8 +80,14 @@ contract ERC20CappedMintable is ERC20, Ownable {
      */
     function mint(address account, uint256 value) public returns (bool) {
         address minter = msg.sender;
-        require(totalSupply().add(value) <= _cap, "ERC20CappedMintable: cap exceeded");
-        require(_minterAmount[minter].add(value) <= _minterCaps[minter], "ERC20CappedMintable: minter cap exceeded");
+        require(
+            totalSupply().add(value) <= _cap,
+            "ERC20CappedMintable: cap exceeded"
+        );
+        require(
+            _minterAmount[minter].add(value) <= _minterCaps[minter],
+            "ERC20CappedMintable: minter cap exceeded"
+        );
         _minterAmount[minter] = _minterAmount[minter].add(value);
         _mint(account, value);
 

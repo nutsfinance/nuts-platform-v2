@@ -54,7 +54,8 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @return Current ETH balance of the account.
      */
     function getBalance(address account) public view returns (uint256) {
-        return _accountBalances[account].tokenBalances[Constants.getEthAddress()];
+        return
+            _accountBalances[account].tokenBalances[Constants.getEthAddress()];
     }
 
     /**
@@ -63,7 +64,11 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The IERC20 token to check balance.
      * @return The balance of the account.
      */
-    function getTokenBalance(address account, address token) public view returns (uint256) {
+    function getTokenBalance(address account, address token)
+        public
+        view
+        returns (uint256)
+    {
         return _accountBalances[account].tokenBalances[address(token)];
     }
 
@@ -72,7 +77,11 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param account The address to check the deposited token list.
      * @return The list of tokens deposited in the escrow.
      */
-    function getTokenList(address account) public view returns (address[] memory) {
+    function getTokenList(address account)
+        public
+        view
+        returns (address[] memory)
+    {
         return _accountBalances[account].tokenList;
     }
 
@@ -99,7 +108,10 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The ERC20 token to deposit.
      * @param amount The amount of ERC20 token to deposit.
      */
-    function depositTokenByAdmin(address account, address token, uint256 amount) public onlyOwner {
+    function depositTokenByAdmin(address account, address token, uint256 amount)
+        public
+        onlyOwner
+    {
         require(account != address(0x0), "EscrowBase: Account not set");
         require(token != address(0x0), "EscrowBase: Token not set");
         require(amount > 0, "EscrowBase: Amount not set");
@@ -117,7 +129,10 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
     function withdrawByAdmin(address account, uint256 amount) public onlyOwner {
         require(account != address(0x0), "EscrowBase: Account not set");
         require(amount > 0, "EscrowBase: Amount not set");
-        require(getBalance(account) >= amount, "EscrowBase: Insufficient ETH Balance");
+        require(
+            getBalance(account) >= amount,
+            "EscrowBase: Insufficient ETH Balance"
+        );
 
         _reduceFromBalance(account, Constants.getEthAddress(), amount);
 
@@ -131,11 +146,18 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The ERC20 token to withdraw.
      * @param amount The amount of ERC20 tokens to withdraw.
      */
-    function withdrawTokenByAdmin(address account, address token, uint256 amount) public onlyOwner {
+    function withdrawTokenByAdmin(
+        address account,
+        address token,
+        uint256 amount
+    ) public onlyOwner {
         require(account != address(0x0), "EscrowBase: Account not set");
         require(token != address(0x0), "EscrowBase: Token not set");
         require(amount > 0, "EscrowBase: Amount not set");
-        require(getTokenBalance(account, token) >= amount, "EscrowBase: Insufficient Token Balance");
+        require(
+            getTokenBalance(account, token) >= amount,
+            "EscrowBase: Insufficient Token Balance"
+        );
 
         _reduceFromBalance(account, token, amount);
 
@@ -152,14 +174,20 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The token to add to the balance.
      * @param amount The amount to add to the balance.
      */
-    function _addToBalance(address account, address token, uint256 amount) internal {
+    function _addToBalance(address account, address token, uint256 amount)
+        internal
+    {
         AccountBalance storage accountBalance = _accountBalances[account];
-        accountBalance.tokenBalances[token] = accountBalance.tokenBalances[token].add(amount);
+        accountBalance.tokenBalances[token] = accountBalance
+            .tokenBalances[token]
+            .add(amount);
 
         // If the token is not in the token list, add it
         if (accountBalance.tokenIndices[token] == 0) {
             accountBalance.tokenList.push(token);
-            accountBalance.tokenIndices[token] = accountBalance.tokenList.length;
+            accountBalance.tokenIndices[token] = accountBalance
+                .tokenList
+                .length;
         }
 
         emit BalanceIncreased(account, token, amount);
@@ -171,9 +199,13 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The token to reduce from the balance.
      * @param amount The amount to reduce from the balance.
      */
-    function _reduceFromBalance(address account, address token, uint256 amount) internal {
+    function _reduceFromBalance(address account, address token, uint256 amount)
+        internal
+    {
         AccountBalance storage accountBalance = _accountBalances[account];
-        accountBalance.tokenBalances[token] = accountBalance.tokenBalances[token].sub(amount);
+        accountBalance.tokenBalances[token] = accountBalance
+            .tokenBalances[token]
+            .sub(amount);
 
         emit BalanceDecreased(account, token, amount);
     }
@@ -185,7 +217,12 @@ contract EscrowBase is EscrowBaseInterface, Ownable {
      * @param token The token to transfer.
      * @param amount The amount to transfer.
      */
-    function _migrateBalance(address source, address dest, address token, uint256 amount) internal {
+    function _migrateBalance(
+        address source,
+        address dest,
+        address token,
+        uint256 amount
+    ) internal {
         _reduceFromBalance(source, token, amount);
         _addToBalance(dest, token, amount);
     }

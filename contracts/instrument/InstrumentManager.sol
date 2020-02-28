@@ -20,7 +20,6 @@ import "../lib/util/Constants.sol";
  * Base instrument manager for instrument v1, v2 and v3.
  */
 contract InstrumentManager is InstrumentManagerInterface {
-
     using SafeERC20 for IERC20;
     using WhitelistAccess for WhitelistAccess.Whitelist;
 
@@ -77,7 +76,12 @@ contract InstrumentManager is InstrumentManagerInterface {
     /**
      * @dev A new issuance is created.
      */
-    event IssuanceCreated(uint256 indexed issuanceId, address indexed makerAddress, address issuanceProxyAddress, address issuanceEscrowAddress);
+    event IssuanceCreated(
+        uint256 indexed issuanceId,
+        address indexed makerAddress,
+        address issuanceProxyAddress,
+        address issuanceEscrowAddress
+    );
 
     /**
      * @dev An issuance is terminated.
@@ -87,8 +91,14 @@ contract InstrumentManager is InstrumentManagerInterface {
     /**
      * @dev Token is transferred.
      */
-    event TokenTransferred(uint256 indexed issuanceId, Transfer.Type transferType, address fromAddress, address toAddress,
-        address tokenAddress, uint256 amount);
+    event TokenTransferred(
+        uint256 indexed issuanceId,
+        Transfer.Type transferType,
+        address fromAddress,
+        address toAddress,
+        address tokenAddress,
+        uint256 amount
+    );
 
     /**
      * @param instrumentId ID of the instrument.
@@ -97,21 +107,37 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param instrumentConfigAddress Address of the Instrument Config contract.
      * @param instrumentParameters Custom parameters for the Instrument Manager.
      */
-    constructor(uint256 instrumentId, address fspAddress, address instrumentAddress, address instrumentConfigAddress,
-        bytes memory instrumentParameters) public {
+    constructor(
+        uint256 instrumentId,
+        address fspAddress,
+        address instrumentAddress,
+        address instrumentConfigAddress,
+        bytes memory instrumentParameters
+    ) public {
         require(_instrumentAddress == address(0x0), "Already initialized");
         require(fspAddress != address(0x0), "FSP not set");
         require(instrumentAddress != address(0x0), "Instrument not set");
-        require(instrumentConfigAddress != address(0x0), "Instrument config not set");
-        require(instrumentParameters.length > 0, "Instrument parameters not set");
+        require(
+            instrumentConfigAddress != address(0x0),
+            "Instrument config not set"
+        );
+        require(
+            instrumentParameters.length > 0,
+            "Instrument parameters not set"
+        );
 
-        InstrumentParameters.Data memory parameters = InstrumentParameters.decode(instrumentParameters);
+        InstrumentParameters.Data memory parameters = InstrumentParameters
+            .decode(instrumentParameters);
         // Termination must be set, otherwise the instrument is auto-terminated.
-        require(parameters.instrumentTerminationTimestamp != 0, "Termination not set");
+        require(
+            parameters.instrumentTerminationTimestamp != 0,
+            "Termination not set"
+        );
         // Override can be optional, if not provided the instrument can be deactivated any time.
 
         _active = true;
-        _instrumentTerminationTimestamp = parameters.instrumentTerminationTimestamp;
+        _instrumentTerminationTimestamp = parameters
+            .instrumentTerminationTimestamp;
         _instrumentOverrideTimestamp = parameters.instrumentOverrideTimestamp;
         _makerWhitelist.enabled = parameters.supportMakerWhitelist;
         _takerWhitelist.enabled = parameters.supportTakerWhitelist;
@@ -120,13 +146,17 @@ contract InstrumentManager is InstrumentManagerInterface {
         _instrumentId = instrumentId;
         _fspAddress = fspAddress;
         // If broker address is not provided, default to fsp address.
-        _brokerAddress = parameters.brokerAddress == address(0x0) ? fspAddress : parameters.brokerAddress;
+        _brokerAddress = parameters.brokerAddress == address(0x0)
+            ? fspAddress
+            : parameters.brokerAddress;
         _instrumentAddress = instrumentAddress;
         // Deposit amount for Instrument activation might change. Need to record the amount deposited.
         _depositAmount = _instrumentConfig.instrumentDeposit();
 
         // Create Instrument Escrow
-        _instrumentEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
+        _instrumentEscrow = EscrowFactoryInterface(
+            _instrumentConfig.escrowFactoryAddress()
+        )
             .createInstrumentEscrow();
     }
 
@@ -149,13 +179,19 @@ contract InstrumentManager is InstrumentManagerInterface {
      */
     function deactivate() public {
         require(_active, "Instrument deactivated");
-        require((now >= _instrumentOverrideTimestamp && msg.sender == _fspAddress) || now >= _instrumentTerminationTimestamp,
-            "Cannot deactivate");
+        require(
+            (now >= _instrumentOverrideTimestamp &&
+                msg.sender == _fspAddress) ||
+                now >= _instrumentTerminationTimestamp,
+            "Cannot deactivate"
+        );
 
         // Return the deposited NUTS token
         if (_depositAmount > 0) {
             // Burn NUTS token from Deposit Escrow
-            IBurnable(_instrumentConfig.depositTokenAddress()).burn(_depositAmount);
+            IBurnable(_instrumentConfig.depositTokenAddress()).burn(
+                _depositAmount
+            );
         }
 
         _active = false;
@@ -187,11 +223,17 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param makerParameters The custom parameters to the newly created issuance
      * @return The id of the newly created issuance.
      */
-    function createIssuance(bytes memory makerParameters) public returns (uint256) {
+    function createIssuance(bytes memory makerParameters)
+        public
+        returns (uint256)
+    {
         // Makers can create new issuance if:
         // 1. The instrument is active, i.e. is not deactivated by FSP,
         // 2. And the instrument has not reached its termination timestamp.
-        require(_active && (now <= _instrumentTerminationTimestamp), "Instrument deactivated");
+        require(
+            _active && (now <= _instrumentTerminationTimestamp),
+            "Instrument deactivated"
+        );
         // Maker is allowed if:
         // 1. Maker whitelist is not enabled;
         // 2. Or maker whitelist is enabled, and this maker is allowed.
@@ -200,20 +242,29 @@ contract InstrumentManager is InstrumentManagerInterface {
         // Deposit NUTS token
         if (_instrumentConfig.issuanceDeposit() > 0) {
             // Transfers NUTS token from Instrument Escrow to Instrument Manager.
-            _instrumentEscrow.withdrawTokenByAdmin(msg.sender, _instrumentConfig.depositTokenAddress(), _instrumentConfig.issuanceDeposit());
+            _instrumentEscrow.withdrawTokenByAdmin(
+                msg.sender,
+                _instrumentConfig.depositTokenAddress(),
+                _instrumentConfig.issuanceDeposit()
+            );
         }
 
         // Get issuance Id
         _lastIssuanceId++;
 
         // Create Issuance Escrow.
-        IssuanceEscrowInterface issuanceEscrow = EscrowFactoryInterface(_instrumentConfig.escrowFactoryAddress())
+        IssuanceEscrowInterface issuanceEscrow = EscrowFactoryInterface(
+            _instrumentConfig.escrowFactoryAddress()
+        )
             .createIssuanceEscrow();
 
         // Create an AdminOnlyUpgradeabilityProxy for the new issuance
         // Current Instrument Manager is the proxy admin for this proxy, and only the current
         // Instrument Manager can call fallback on the proxy.
-        AdminOnlyUpgradeabilityProxy issuanceProxy = new AdminOnlyUpgradeabilityProxy(_instrumentAddress, address(this));
+        AdminOnlyUpgradeabilityProxy issuanceProxy = new AdminOnlyUpgradeabilityProxy(
+            _instrumentAddress,
+            address(this)
+        );
 
         // Create Issuance Property
         _issuanceProperties[_lastIssuanceId] = IssuanceProperty({
@@ -226,13 +277,33 @@ contract InstrumentManager is InstrumentManagerInterface {
         });
 
         // Invoke Instrument
-        InstrumentInterface instrument = InstrumentInterface(address(issuanceProxy));
-        instrument.initialize(_lastIssuanceId, _fspAddress, _brokerAddress, address(_instrumentEscrow),
-            address(issuanceEscrow), _instrumentConfig.priceOracleAddress());
-        bytes memory transfersData = instrument.createIssuance(msg.sender, makerParameters);
-        _postProcessing(_lastIssuanceId, instrument.isTerminated(), transfersData);
+        InstrumentInterface instrument = InstrumentInterface(
+            address(issuanceProxy)
+        );
+        instrument.initialize(
+            _lastIssuanceId,
+            _fspAddress,
+            _brokerAddress,
+            address(_instrumentEscrow),
+            address(issuanceEscrow),
+            _instrumentConfig.priceOracleAddress()
+        );
+        bytes memory transfersData = instrument.createIssuance(
+            msg.sender,
+            makerParameters
+        );
+        _postProcessing(
+            _lastIssuanceId,
+            instrument.isTerminated(),
+            transfersData
+        );
 
-        emit IssuanceCreated(_lastIssuanceId, msg.sender, address(issuanceProxy), address(issuanceEscrow));
+        emit IssuanceCreated(
+            _lastIssuanceId,
+            msg.sender,
+            address(issuanceProxy),
+            address(issuanceEscrow)
+        );
     }
 
     /**
@@ -240,20 +311,30 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param issuanceId The id of the issuance
      * @param takerParameters The custom parameters to the new engagement
      */
-    function engageIssuance(uint256 issuanceId, bytes memory takerParameters) public {
+    function engageIssuance(uint256 issuanceId, bytes memory takerParameters)
+        public
+    {
         // Taker is allowed if:
         // 1. Taker whitelist is not enabled;
         // 2. Or taker whitelist is enabled, and this taker is allowed.
         require(_takerWhitelist.isAllowed(msg.sender), "Taker not allowed");
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(!issuanceProperty.terminated, "Issuance terminated");
-        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(
+            issuanceProperty.makerAddress != address(0x0),
+            "Issuance not exist"
+        );
 
         issuanceProperty.takerAddress = msg.sender;
 
         // Invoke Instrument
-        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
-        bytes memory transfersData = instrument.engageIssuance(msg.sender, takerParameters);
+        InstrumentInterface instrument = InstrumentInterface(
+            issuanceProperty.proxyAddress
+        );
+        bytes memory transfersData = instrument.engageIssuance(
+            msg.sender,
+            takerParameters
+        );
         _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
@@ -263,10 +344,17 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function depositToIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
+    function depositToIssuance(
+        uint256 issuanceId,
+        address tokenAddress,
+        uint256 amount
+    ) public {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(amount > 0, "Amount not set");
-        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(
+            issuanceProperty.makerAddress != address(0x0),
+            "Issuance not exist"
+        );
         require(!issuanceProperty.terminated, "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
@@ -279,8 +367,14 @@ contract InstrumentManager is InstrumentManagerInterface {
         _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
-        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
-        bytes memory transfersData = instrument.processTokenDeposit(msg.sender, tokenAddress, amount);
+        InstrumentInterface instrument = InstrumentInterface(
+            issuanceProperty.proxyAddress
+        );
+        bytes memory transfersData = instrument.processTokenDeposit(
+            msg.sender,
+            tokenAddress,
+            amount
+        );
 
         _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
@@ -291,10 +385,17 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param tokenAddress The address of the token. The address for ETH is Contants.getEthAddress().
      * @param amount The amount of ERC20 token transfered
      */
-    function withdrawFromIssuance(uint256 issuanceId, address tokenAddress, uint256 amount) public {
+    function withdrawFromIssuance(
+        uint256 issuanceId,
+        address tokenAddress,
+        uint256 amount
+    ) public {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
         require(amount > 0, "Amount not set");
-        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(
+            issuanceProperty.makerAddress != address(0x0),
+            "Issuance not exist"
+        );
         require(!issuanceProperty.terminated, "Issuance terminated");
 
         Transfer.Data memory transfer = Transfer.Data({
@@ -307,8 +408,14 @@ contract InstrumentManager is InstrumentManagerInterface {
         _processTransfer(issuanceId, transfer);
 
         // Invoke Instrument
-        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
-        bytes memory transfersData = instrument.processTokenWithdraw(msg.sender, tokenAddress, amount);
+        InstrumentInterface instrument = InstrumentInterface(
+            issuanceProperty.proxyAddress
+        );
+        bytes memory transfersData = instrument.processTokenWithdraw(
+            msg.sender,
+            tokenAddress,
+            amount
+        );
         _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
@@ -318,14 +425,27 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param eventName Name of the custom event
      * @param eventPayload Payload of the custom event
      */
-    function notifyCustomEvent(uint256 issuanceId, bytes32 eventName, bytes memory eventPayload) public {
+    function notifyCustomEvent(
+        uint256 issuanceId,
+        bytes32 eventName,
+        bytes memory eventPayload
+    ) public {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
-        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(
+            issuanceProperty.makerAddress != address(0x0),
+            "Issuance not exist"
+        );
         require(!issuanceProperty.terminated, "Issuance terminated");
 
         // Invoke Instrument
-        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
-        bytes memory transfersData = instrument.processCustomEvent(msg.sender, eventName, eventPayload);
+        InstrumentInterface instrument = InstrumentInterface(
+            issuanceProperty.proxyAddress
+        );
+        bytes memory transfersData = instrument.processCustomEvent(
+            msg.sender,
+            eventName,
+            eventPayload
+        );
         _postProcessing(issuanceId, instrument.isTerminated(), transfersData);
     }
 
@@ -334,12 +454,21 @@ contract InstrumentManager is InstrumentManagerInterface {
      * @param issuanceId The id of the issuance
      * @param dataName Name of the custom data
      */
-    function getCustomData(uint256 issuanceId, bytes32 dataName) public view returns (bytes memory) {
+    function getCustomData(uint256 issuanceId, bytes32 dataName)
+        public
+        view
+        returns (bytes memory)
+    {
         IssuanceProperty storage issuanceProperty = _issuanceProperties[issuanceId];
-        require(issuanceProperty.makerAddress != address(0x0), "Issuance not exist");
+        require(
+            issuanceProperty.makerAddress != address(0x0),
+            "Issuance not exist"
+        );
 
         // Invoke Instrument
-        InstrumentInterface instrument = InstrumentInterface(issuanceProperty.proxyAddress);
+        InstrumentInterface instrument = InstrumentInterface(
+            issuanceProperty.proxyAddress
+        );
         return instrument.getCustomData(msg.sender, dataName);
     }
 
@@ -348,23 +477,36 @@ contract InstrumentManager is InstrumentManagerInterface {
      * For one issuance, only the issuance maker, issuance taker and instrument broker can
      * deposit to or withdraw from the issuance.
      */
-    function _isTransferAllowed(uint256 issuanceId, address account) internal view returns (bool) {
+    function _isTransferAllowed(uint256 issuanceId, address account)
+        internal
+        view
+        returns (bool)
+    {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        return property.makerAddress == account || property.takerAddress == account
-            || _brokerAddress == account || Constants.getCustodianAddress() == account;
+        return
+            property.makerAddress == account ||
+            property.takerAddress == account ||
+            _brokerAddress == account ||
+            Constants.getCustodianAddress() == account;
     }
 
     /**
      * @dev Process updated state and transfers after instrument invocation.
      */
-    function _postProcessing(uint256 issuanceId, bool terminated, bytes memory transfersData) internal {
+    function _postProcessing(
+        uint256 issuanceId,
+        bool terminated,
+        bytes memory transfersData
+    ) internal {
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         if (!property.terminated && terminated) {
             property.terminated = true;
             emit IssuanceTerminated(issuanceId);
             if (property.deposit > 0) {
                 // Burns NUTS token
-                IBurnable(_instrumentConfig.depositTokenAddress()).burn(property.deposit);
+                IBurnable(_instrumentConfig.depositTokenAddress()).burn(
+                    property.deposit
+                );
             }
         }
 
@@ -378,50 +520,100 @@ contract InstrumentManager is InstrumentManagerInterface {
     /**
      * @dev Process a single token transfer action.
      */
-    function _processTransfer(uint256 issuanceId, Transfer.Data memory transfer) private {
+    function _processTransfer(uint256 issuanceId, Transfer.Data memory transfer)
+        private
+    {
         // The transfer can only come from issuance maker, issuance taker and instrument broker.
-        require(_isTransferAllowed(issuanceId, transfer.fromAddress)
-            && _isTransferAllowed(issuanceId, transfer.toAddress), "Transfer not allowed");
-        emit TokenTransferred(issuanceId, transfer.transferType, transfer.fromAddress, transfer.toAddress,
-            transfer.tokenAddress, transfer.amount);
+        require(
+            _isTransferAllowed(issuanceId, transfer.fromAddress) &&
+                _isTransferAllowed(issuanceId, transfer.toAddress),
+            "Transfer not allowed"
+        );
+        emit TokenTransferred(
+            issuanceId,
+            transfer.transferType,
+            transfer.fromAddress,
+            transfer.toAddress,
+            transfer.tokenAddress,
+            transfer.amount
+        );
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
-        IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(property.escrowAddress);
+        IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(
+            property.escrowAddress
+        );
         // Check whether it's outbound, inbound, or transfer within the escrow.
         if (transfer.transferType == Transfer.Type.Outbound) {
             // IMPORTANT: transfer.toAddress is not valid in outbound transfer.
             if (transfer.tokenAddress == Constants.getEthAddress()) {
                 // First withdraw ETH from Issuance Escrow to owner
-                issuanceEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
+                issuanceEscrow.withdrawByAdmin(
+                    transfer.fromAddress,
+                    transfer.amount
+                );
                 // Then deposit the ETH from owner to Instrument Escrow
-                _instrumentEscrow.depositByAdmin.value(transfer.amount)(transfer.fromAddress);
+                _instrumentEscrow.depositByAdmin.value(transfer.amount)(
+                    transfer.fromAddress
+                );
             } else {
                 // First withdraw ERC20 token from Issuance Escrow to owner
-                issuanceEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
+                issuanceEscrow.withdrawTokenByAdmin(
+                    transfer.fromAddress,
+                    transfer.tokenAddress,
+                    transfer.amount
+                );
                 // (Important!!!)Then set allowance for Instrument Escrow
-                IERC20(transfer.tokenAddress).safeApprove(address(_instrumentEscrow), transfer.amount);
+                IERC20(transfer.tokenAddress).safeApprove(
+                    address(_instrumentEscrow),
+                    transfer.amount
+                );
                 // Then deposit the ERC20 token from owner to Instrument Escrow
-                _instrumentEscrow.depositTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
+                _instrumentEscrow.depositTokenByAdmin(
+                    transfer.fromAddress,
+                    transfer.tokenAddress,
+                    transfer.amount
+                );
             }
         } else if (transfer.transferType == Transfer.Type.Inbound) {
             // IMPORTANT: transfer.toAddress is not valid in inbound transfer.
             if (transfer.tokenAddress == Constants.getEthAddress()) {
                 // First withdraw ETH from Instrument Escrow
-                _instrumentEscrow.withdrawByAdmin(transfer.fromAddress, transfer.amount);
+                _instrumentEscrow.withdrawByAdmin(
+                    transfer.fromAddress,
+                    transfer.amount
+                );
                 // Then deposit ETH to Issuance Escrow
-                issuanceEscrow.depositByAdmin.value(transfer.amount)(transfer.fromAddress);
+                issuanceEscrow.depositByAdmin.value(transfer.amount)(
+                    transfer.fromAddress
+                );
             } else {
                 // Withdraw ERC20 token from Instrument Escrow
-                _instrumentEscrow.withdrawTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
+                _instrumentEscrow.withdrawTokenByAdmin(
+                    transfer.fromAddress,
+                    transfer.tokenAddress,
+                    transfer.amount
+                );
                 // IMPORTANT: Set allowance before deposit
-                IERC20(transfer.tokenAddress).safeApprove(property.escrowAddress, transfer.amount);
+                IERC20(transfer.tokenAddress).safeApprove(
+                    property.escrowAddress,
+                    transfer.amount
+                );
                 // Deposit ERC20 token to Issuance Escrow
-                issuanceEscrow.depositTokenByAdmin(transfer.fromAddress, transfer.tokenAddress, transfer.amount);
+                issuanceEscrow.depositTokenByAdmin(
+                    transfer.fromAddress,
+                    transfer.tokenAddress,
+                    transfer.amount
+                );
             }
         } else {
             // It's a transfer inside the issuance escrow
-            issuanceEscrow.transferToken(transfer.fromAddress, transfer.toAddress, transfer.tokenAddress, transfer.amount);
+            issuanceEscrow.transferToken(
+                transfer.fromAddress,
+                transfer.toAddress,
+                transfer.tokenAddress,
+                transfer.amount
+            );
         }
     }
 
-    function () external payable {}
+    function() external payable {}
 }
