@@ -74,7 +74,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -84,7 +84,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -97,52 +97,55 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[6] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_transferType(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_fromAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_toAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_tokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_amount(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -162,13 +165,18 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_transferType(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_transferType(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (int64 tmp, uint sz) = ProtoBufRuntime._decode_enum(p, bs);
+    (int64 tmp, uint256 sz) = ProtoBufRuntime._decode_enum(p, bs);
     Transfer.Type x = decode_Type(tmp);
-    if(isNil(r)) {
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.transferType = x;
@@ -185,16 +193,21 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_fromAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_fromAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.fromAddress = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -207,16 +220,21 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_toAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_toAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[3] += 1;
     } else {
       r.toAddress = x;
-      if(counters[3] > 0) counters[3] -= 1;
+      if (counters[3] > 0) counters[3] -= 1;
     }
     return sz;
   }
@@ -229,16 +247,21 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_tokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[4] += 1;
     } else {
       r.tokenAddress = x;
-      if(counters[4] > 0) counters[4] -= 1;
+      if (counters[4] > 0) counters[4] -= 1;
     }
     return sz;
   }
@@ -251,16 +274,21 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_amount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_amount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[5] += 1;
     } else {
       r.amount = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if (counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -275,7 +303,7 @@ function decode_Type(int64 x) internal pure returns (Type) {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -290,21 +318,49 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.Varint, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.Varint, 
+      pointer, 
+      bs
+    );
     int64 _enum_transferType = encode_Type(r.transferType);
     pointer += ProtoBufRuntime._encode_enum(_enum_transferType, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.fromAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      3, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.toAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      4, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.tokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      5, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.amount, pointer, bs);
     return pointer - offset;
   }
@@ -317,18 +373,21 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -342,8 +401,10 @@ function decode_Type(int64 x) internal pure returns (Type) {
    * @param r The struct to be encoded
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory r) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory r
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + ProtoBufRuntime._sz_enum(encode_Type(r.transferType));
     e += 1 + 23;
     e += 1 + 23;
@@ -409,7 +470,7 @@ library Transfers {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -419,7 +480,7 @@ library Transfers {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -432,40 +493,43 @@ library Transfers {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[2] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_actions(pointer, bs, nil(), counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -475,30 +539,30 @@ library Transfers {
     pointer = offset;
     r.actions = new Transfer.Data[](counters[1]);
 
-    while(pointer < offset+sz) {
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_actions(pointer, bs, r, counters);
       }
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -517,16 +581,21 @@ library Transfers {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_actions(uint p, bytes memory bs, Data memory r, uint[2] memory counters) internal pure returns (uint) {
+  function _read_actions(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[2] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (Transfer.Data memory x, uint sz) = _decode_Transfer(p, bs);
-    if(isNil(r)) {
+    (Transfer.Data memory x, uint256 sz) = _decode_Transfer(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.actions[r.actions.length - counters[1]] = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -539,12 +608,15 @@ library Transfers {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_Transfer(uint p, bytes memory bs)
-      internal pure returns (Transfer.Data memory, uint) {
-    uint pointer = p;
-    (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
+  function _decode_Transfer(uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (Transfer.Data memory, uint) 
+  {
+    uint256 pointer = p;
+    (uint256 sz, uint256 bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (Transfer.Data memory r,) = Transfer._decode(pointer, bs, sz);
+    (Transfer.Data memory r, ) = Transfer._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -558,7 +630,7 @@ library Transfers {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -573,13 +645,21 @@ library Transfers {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
-    uint i;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
+    uint256 i;
     for(i = 0; i < r.actions.length; i++) {
-      pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+      pointer += ProtoBufRuntime._encode_key(
+        1, 
+        ProtoBufRuntime.WireType.LengthDelim, 
+        pointer, 
+        bs)
+      ;
       pointer += Transfer._encode_nested(r.actions[i], pointer, bs);
     }
     return pointer - offset;
@@ -593,18 +673,21 @@ library Transfers {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -618,8 +701,10 @@ library Transfers {
    * @param r The struct to be encoded
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory r) internal pure returns (uint) {
-    uint e;uint i;
+  function _estimate(
+    Data memory r
+  ) internal pure returns (uint) {
+    uint256 e;uint256 i;
     for(i = 0; i < r.actions.length; i++) {
       e += 1 + ProtoBufRuntime._sz_lendelim(Transfer._estimate(r.actions[i]));
     }
@@ -635,7 +720,7 @@ library Transfers {
   function store(Data memory input, Data storage output) internal {
 
     output.actions.length = input.actions.length;
-    for(uint i1 = 0; i1 < input.actions.length; i1++) {
+    for(uint256 i1 = 0; i1 < input.actions.length; i1++) {
       Transfer.store(input.actions[i1], output.actions[i1]);
     }
     
@@ -654,7 +739,7 @@ library Transfers {
      * First resize the array. Then add the new element to the end.
      */
     Transfer.Data[] memory tmp = new Transfer.Data[](self.actions.length + 1);
-    for (uint i = 0; i < self.actions.length; i++) {
+    for (uint256 i = 0; i < self.actions.length; i++) {
       tmp[i] = self.actions[i];
     }
     tmp[self.actions.length] = value;

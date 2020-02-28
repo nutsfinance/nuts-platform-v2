@@ -23,7 +23,7 @@ library BorrowingMakerParameters {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -33,7 +33,7 @@ library BorrowingMakerParameters {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -46,55 +46,58 @@ library BorrowingMakerParameters {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[7] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_collateralTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_borrowingTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_borrowingAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_collateralRatio(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_tenorDays(pointer, bs, r, counters);
       }
-      else if(fieldId == 6) {
+      else if (fieldId == 6) {
         pointer += _read_interestRate(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -114,16 +117,21 @@ library BorrowingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralTokenAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_collateralTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[7] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.collateralTokenAddress = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -136,16 +144,21 @@ library BorrowingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_borrowingTokenAddress(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_borrowingTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[7] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.borrowingTokenAddress = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -158,16 +171,21 @@ library BorrowingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_borrowingAmount(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_borrowingAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[7] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[3] += 1;
     } else {
       r.borrowingAmount = x;
-      if(counters[3] > 0) counters[3] -= 1;
+      if (counters[3] > 0) counters[3] -= 1;
     }
     return sz;
   }
@@ -180,16 +198,21 @@ library BorrowingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralRatio(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_collateralRatio(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[7] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint32 x, uint sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
-    if(isNil(r)) {
+    (uint32 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
+    if (isNil(r)) {
       counters[4] += 1;
     } else {
       r.collateralRatio = x;
-      if(counters[4] > 0) counters[4] -= 1;
+      if (counters[4] > 0) counters[4] -= 1;
     }
     return sz;
   }
@@ -202,16 +225,21 @@ library BorrowingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tenorDays(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_tenorDays(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[7] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint32 x, uint sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
-    if(isNil(r)) {
+    (uint32 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
+    if (isNil(r)) {
       counters[5] += 1;
     } else {
       r.tenorDays = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if (counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -224,16 +252,21 @@ library BorrowingMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_interestRate(uint p, bytes memory bs, Data memory r, uint[7] memory counters) internal pure returns (uint) {
+  function _read_interestRate(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[7] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint32 x, uint sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
-    if(isNil(r)) {
+    (uint32 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint32(p, bs);
+    if (isNil(r)) {
       counters[6] += 1;
     } else {
       r.interestRate = x;
-      if(counters[6] > 0) counters[6] -= 1;
+      if (counters[6] > 0) counters[6] -= 1;
     }
     return sz;
   }
@@ -248,7 +281,7 @@ library BorrowingMakerParameters {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -263,22 +296,55 @@ library BorrowingMakerParameters {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.collateralTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.borrowingTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      3, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.borrowingAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      4, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint32(r.collateralRatio, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      5, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint32(r.tenorDays, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      6, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint32(r.interestRate, pointer, bs);
     return pointer - offset;
   }
@@ -291,18 +357,21 @@ library BorrowingMakerParameters {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -315,8 +384,10 @@ library BorrowingMakerParameters {
    * @dev The estimator for a struct
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory /* r */) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory /* r */
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 35;
@@ -391,7 +462,7 @@ library BorrowingProperties {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -401,7 +472,7 @@ library BorrowingProperties {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -414,61 +485,64 @@ library BorrowingProperties {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[9] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_borrowingTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_collateralTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_borrowingAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_collateralRatio(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_collateralAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 6) {
+      else if (fieldId == 6) {
         pointer += _read_interestRate(pointer, bs, r, counters);
       }
-      else if(fieldId == 7) {
+      else if (fieldId == 7) {
         pointer += _read_interestAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 8) {
+      else if (fieldId == 8) {
         pointer += _read_tenorDays(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -488,16 +562,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_borrowingTokenAddress(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_borrowingTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.borrowingTokenAddress = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -510,16 +589,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralTokenAddress(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_collateralTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.collateralTokenAddress = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -532,16 +616,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_borrowingAmount(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_borrowingAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[3] += 1;
     } else {
       r.borrowingAmount = x;
-      if(counters[3] > 0) counters[3] -= 1;
+      if (counters[3] > 0) counters[3] -= 1;
     }
     return sz;
   }
@@ -554,16 +643,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralRatio(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_collateralRatio(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[4] += 1;
     } else {
       r.collateralRatio = x;
-      if(counters[4] > 0) counters[4] -= 1;
+      if (counters[4] > 0) counters[4] -= 1;
     }
     return sz;
   }
@@ -576,16 +670,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_collateralAmount(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_collateralAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[5] += 1;
     } else {
       r.collateralAmount = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if (counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -598,16 +697,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_interestRate(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_interestRate(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[6] += 1;
     } else {
       r.interestRate = x;
-      if(counters[6] > 0) counters[6] -= 1;
+      if (counters[6] > 0) counters[6] -= 1;
     }
     return sz;
   }
@@ -620,16 +724,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_interestAmount(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_interestAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[7] += 1;
     } else {
       r.interestAmount = x;
-      if(counters[7] > 0) counters[7] -= 1;
+      if (counters[7] > 0) counters[7] -= 1;
     }
     return sz;
   }
@@ -642,16 +751,21 @@ library BorrowingProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_tenorDays(uint p, bytes memory bs, Data memory r, uint[9] memory counters) internal pure returns (uint) {
+  function _read_tenorDays(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[9] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[8] += 1;
     } else {
       r.tenorDays = x;
-      if(counters[8] > 0) counters[8] -= 1;
+      if (counters[8] > 0) counters[8] -= 1;
     }
     return sz;
   }
@@ -666,7 +780,7 @@ library BorrowingProperties {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -681,26 +795,69 @@ library BorrowingProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.borrowingTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.collateralTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      3, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.borrowingAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      4, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.collateralRatio, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      5, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.collateralAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      6, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.interestRate, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(7, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      7, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.interestAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(8, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      8, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.tenorDays, pointer, bs);
     return pointer - offset;
   }
@@ -713,18 +870,21 @@ library BorrowingProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -737,8 +897,10 @@ library BorrowingProperties {
    * @dev The estimator for a struct
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory /* r */) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory /* r */
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 35;
@@ -811,7 +973,7 @@ library BorrowingCompleteProperties {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -821,7 +983,7 @@ library BorrowingCompleteProperties {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -834,43 +996,46 @@ library BorrowingCompleteProperties {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[3] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_issuanceProperties(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_borrowingProperties(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -890,16 +1055,21 @@ library BorrowingCompleteProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceProperties(uint p, bytes memory bs, Data memory r, uint[3] memory counters) internal pure returns (uint) {
+  function _read_issuanceProperties(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[3] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (IssuanceProperties.Data memory x, uint sz) = _decode_IssuanceProperties(p, bs);
-    if(isNil(r)) {
+    (IssuanceProperties.Data memory x, uint256 sz) = _decode_IssuanceProperties(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.issuanceProperties = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -912,16 +1082,21 @@ library BorrowingCompleteProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_borrowingProperties(uint p, bytes memory bs, Data memory r, uint[3] memory counters) internal pure returns (uint) {
+  function _read_borrowingProperties(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[3] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (BorrowingProperties.Data memory x, uint sz) = _decode_BorrowingProperties(p, bs);
-    if(isNil(r)) {
+    (BorrowingProperties.Data memory x, uint256 sz) = _decode_BorrowingProperties(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.borrowingProperties = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -934,12 +1109,15 @@ library BorrowingCompleteProperties {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_IssuanceProperties(uint p, bytes memory bs)
-      internal pure returns (IssuanceProperties.Data memory, uint) {
-    uint pointer = p;
-    (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
+  function _decode_IssuanceProperties(uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (IssuanceProperties.Data memory, uint) 
+  {
+    uint256 pointer = p;
+    (uint256 sz, uint256 bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (IssuanceProperties.Data memory r,) = IssuanceProperties._decode(pointer, bs, sz);
+    (IssuanceProperties.Data memory r, ) = IssuanceProperties._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -950,12 +1128,15 @@ library BorrowingCompleteProperties {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_BorrowingProperties(uint p, bytes memory bs)
-      internal pure returns (BorrowingProperties.Data memory, uint) {
-    uint pointer = p;
-    (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
+  function _decode_BorrowingProperties(uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (BorrowingProperties.Data memory, uint) 
+  {
+    uint256 pointer = p;
+    (uint256 sz, uint256 bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (BorrowingProperties.Data memory r,) = BorrowingProperties._decode(pointer, bs, sz);
+    (BorrowingProperties.Data memory r, ) = BorrowingProperties._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -969,7 +1150,7 @@ library BorrowingCompleteProperties {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -984,14 +1165,27 @@ library BorrowingCompleteProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += IssuanceProperties._encode_nested(r.issuanceProperties, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += BorrowingProperties._encode_nested(r.borrowingProperties, pointer, bs);
     return pointer - offset;
   }
@@ -1004,18 +1198,21 @@ library BorrowingCompleteProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -1029,8 +1226,10 @@ library BorrowingCompleteProperties {
    * @param r The struct to be encoded
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory r) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory r
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + ProtoBufRuntime._sz_lendelim(IssuanceProperties._estimate(r.issuanceProperties));
     e += 1 + ProtoBufRuntime._sz_lendelim(BorrowingProperties._estimate(r.borrowingProperties));
     return e;

@@ -127,7 +127,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -137,7 +137,7 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -150,73 +150,76 @@ function decode_State(int64 x) internal pure returns (State) {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[13] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_issuanceId(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_makerAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_takerAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_engagementDueTimestamp(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_issuanceDueTimestamp(pointer, bs, r, counters);
       }
-      else if(fieldId == 6) {
+      else if (fieldId == 6) {
         pointer += _read_creationTimestamp(pointer, bs, r, counters);
       }
-      else if(fieldId == 7) {
+      else if (fieldId == 7) {
         pointer += _read_engagementTimestamp(pointer, bs, r, counters);
       }
-      else if(fieldId == 8) {
+      else if (fieldId == 8) {
         pointer += _read_settlementTimestamp(pointer, bs, r, counters);
       }
-      else if(fieldId == 9) {
+      else if (fieldId == 9) {
         pointer += _read_issuanceProxyAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 10) {
+      else if (fieldId == 10) {
         pointer += _read_issuanceEscrowAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 11) {
+      else if (fieldId == 11) {
         pointer += _read_state(pointer, bs, r, counters);
       }
-      else if(fieldId == 12) {
+      else if (fieldId == 12) {
         pointer += _read_supplementalLineItems(pointer, bs, nil(), counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -226,63 +229,63 @@ function decode_State(int64 x) internal pure returns (State) {
     pointer = offset;
     r.supplementalLineItems = new SupplementalLineItem.Data[](counters[12]);
 
-    while(pointer < offset+sz) {
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_issuanceId(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_makerAddress(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_takerAddress(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_engagementDueTimestamp(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_issuanceDueTimestamp(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 6) {
+      else if (fieldId == 6) {
         pointer += _read_creationTimestamp(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 7) {
+      else if (fieldId == 7) {
         pointer += _read_engagementTimestamp(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 8) {
+      else if (fieldId == 8) {
         pointer += _read_settlementTimestamp(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 9) {
+      else if (fieldId == 9) {
         pointer += _read_issuanceProxyAddress(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 10) {
+      else if (fieldId == 10) {
         pointer += _read_issuanceEscrowAddress(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 11) {
+      else if (fieldId == 11) {
         pointer += _read_state(pointer, bs, nil(), counters);
       }
-      else if(fieldId == 12) {
+      else if (fieldId == 12) {
         pointer += _read_supplementalLineItems(pointer, bs, r, counters);
       }
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -301,16 +304,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceId(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_issuanceId(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.issuanceId = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -323,16 +331,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_makerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_makerAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.makerAddress = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -345,16 +358,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_takerAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_takerAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[3] += 1;
     } else {
       r.takerAddress = x;
-      if(counters[3] > 0) counters[3] -= 1;
+      if (counters[3] > 0) counters[3] -= 1;
     }
     return sz;
   }
@@ -367,16 +385,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementDueTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_engagementDueTimestamp(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[4] += 1;
     } else {
       r.engagementDueTimestamp = x;
-      if(counters[4] > 0) counters[4] -= 1;
+      if (counters[4] > 0) counters[4] -= 1;
     }
     return sz;
   }
@@ -389,16 +412,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceDueTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_issuanceDueTimestamp(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[5] += 1;
     } else {
       r.issuanceDueTimestamp = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if (counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -411,16 +439,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_creationTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_creationTimestamp(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[6] += 1;
     } else {
       r.creationTimestamp = x;
-      if(counters[6] > 0) counters[6] -= 1;
+      if (counters[6] > 0) counters[6] -= 1;
     }
     return sz;
   }
@@ -433,16 +466,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_engagementTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_engagementTimestamp(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[7] += 1;
     } else {
       r.engagementTimestamp = x;
-      if(counters[7] > 0) counters[7] -= 1;
+      if (counters[7] > 0) counters[7] -= 1;
     }
     return sz;
   }
@@ -455,16 +493,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_settlementTimestamp(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_settlementTimestamp(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[8] += 1;
     } else {
       r.settlementTimestamp = x;
-      if(counters[8] > 0) counters[8] -= 1;
+      if (counters[8] > 0) counters[8] -= 1;
     }
     return sz;
   }
@@ -477,16 +520,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceProxyAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_issuanceProxyAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[9] += 1;
     } else {
       r.issuanceProxyAddress = x;
-      if(counters[9] > 0) counters[9] -= 1;
+      if (counters[9] > 0) counters[9] -= 1;
     }
     return sz;
   }
@@ -499,16 +547,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceEscrowAddress(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_issuanceEscrowAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[10] += 1;
     } else {
       r.issuanceEscrowAddress = x;
-      if(counters[10] > 0) counters[10] -= 1;
+      if (counters[10] > 0) counters[10] -= 1;
     }
     return sz;
   }
@@ -521,13 +574,18 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_state(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_state(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (int64 tmp, uint sz) = ProtoBufRuntime._decode_enum(p, bs);
+    (int64 tmp, uint256 sz) = ProtoBufRuntime._decode_enum(p, bs);
     IssuanceProperties.State x = decode_State(tmp);
-    if(isNil(r)) {
+    if (isNil(r)) {
       counters[11] += 1;
     } else {
       r.state = x;
@@ -544,16 +602,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_supplementalLineItems(uint p, bytes memory bs, Data memory r, uint[13] memory counters) internal pure returns (uint) {
+  function _read_supplementalLineItems(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[13] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (SupplementalLineItem.Data memory x, uint sz) = _decode_SupplementalLineItem(p, bs);
-    if(isNil(r)) {
+    (SupplementalLineItem.Data memory x, uint256 sz) = _decode_SupplementalLineItem(p, bs);
+    if (isNil(r)) {
       counters[12] += 1;
     } else {
       r.supplementalLineItems[r.supplementalLineItems.length - counters[12]] = x;
-      if(counters[12] > 0) counters[12] -= 1;
+      if (counters[12] > 0) counters[12] -= 1;
     }
     return sz;
   }
@@ -566,12 +629,15 @@ function decode_State(int64 x) internal pure returns (State) {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_SupplementalLineItem(uint p, bytes memory bs)
-      internal pure returns (SupplementalLineItem.Data memory, uint) {
-    uint pointer = p;
-    (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
+  function _decode_SupplementalLineItem(uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (SupplementalLineItem.Data memory, uint) 
+  {
+    uint256 pointer = p;
+    (uint256 sz, uint256 bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (SupplementalLineItem.Data memory r,) = SupplementalLineItem._decode(pointer, bs, sz);
+    (SupplementalLineItem.Data memory r, ) = SupplementalLineItem._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -585,7 +651,7 @@ function decode_State(int64 x) internal pure returns (State) {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -600,36 +666,99 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
-    uint i;
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
+    uint256 i;
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.issuanceId, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.makerAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      3, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.takerAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      4, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.engagementDueTimestamp, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      5, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.issuanceDueTimestamp, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(6, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      6, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.creationTimestamp, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(7, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      7, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.engagementTimestamp, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(8, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      8, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.settlementTimestamp, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(9, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      9, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.issuanceProxyAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(10, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      10, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.issuanceEscrowAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(11, ProtoBufRuntime.WireType.Varint, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      11, 
+      ProtoBufRuntime.WireType.Varint, 
+      pointer, 
+      bs
+    );
     int64 _enum_state = encode_State(r.state);
     pointer += ProtoBufRuntime._encode_enum(_enum_state, pointer, bs);
     for(i = 0; i < r.supplementalLineItems.length; i++) {
-      pointer += ProtoBufRuntime._encode_key(12, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+      pointer += ProtoBufRuntime._encode_key(
+        12, 
+        ProtoBufRuntime.WireType.LengthDelim, 
+        pointer, 
+        bs)
+      ;
       pointer += SupplementalLineItem._encode_nested(r.supplementalLineItems[i], pointer, bs);
     }
     return pointer - offset;
@@ -643,18 +772,21 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -668,8 +800,10 @@ function decode_State(int64 x) internal pure returns (State) {
    * @param r The struct to be encoded
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory r) internal pure returns (uint) {
-    uint e;uint i;
+  function _estimate(
+    Data memory r
+  ) internal pure returns (uint) {
+    uint256 e;uint256 i;
     e += 1 + 35;
     e += 1 + 23;
     e += 1 + 23;
@@ -707,7 +841,7 @@ function decode_State(int64 x) internal pure returns (State) {
     output.state = input.state;
 
     output.supplementalLineItems.length = input.supplementalLineItems.length;
-    for(uint i12 = 0; i12 < input.supplementalLineItems.length; i12++) {
+    for(uint256 i12 = 0; i12 < input.supplementalLineItems.length; i12++) {
       SupplementalLineItem.store(input.supplementalLineItems[i12], output.supplementalLineItems[i12]);
     }
     
@@ -726,7 +860,7 @@ function decode_State(int64 x) internal pure returns (State) {
      * First resize the array. Then add the new element to the end.
      */
     SupplementalLineItem.Data[] memory tmp = new SupplementalLineItem.Data[](self.supplementalLineItems.length + 1);
-    for (uint i = 0; i < self.supplementalLineItems.length; i++) {
+    for (uint256 i = 0; i < self.supplementalLineItems.length; i++) {
       tmp[i] = self.supplementalLineItems[i];
     }
     tmp[self.supplementalLineItems.length] = value;

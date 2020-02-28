@@ -22,7 +22,7 @@ library SpotSwapMakerParameters {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -32,7 +32,7 @@ library SpotSwapMakerParameters {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -45,52 +45,55 @@ library SpotSwapMakerParameters {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[6] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_inputTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_outputTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_inputAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_outputAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_duration(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -110,16 +113,21 @@ library SpotSwapMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_inputTokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_inputTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.inputTokenAddress = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -132,16 +140,21 @@ library SpotSwapMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_outputTokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_outputTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.outputTokenAddress = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -154,16 +167,21 @@ library SpotSwapMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_inputAmount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_inputAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[3] += 1;
     } else {
       r.inputAmount = x;
-      if(counters[3] > 0) counters[3] -= 1;
+      if (counters[3] > 0) counters[3] -= 1;
     }
     return sz;
   }
@@ -176,16 +194,21 @@ library SpotSwapMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_outputAmount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_outputAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[4] += 1;
     } else {
       r.outputAmount = x;
-      if(counters[4] > 0) counters[4] -= 1;
+      if (counters[4] > 0) counters[4] -= 1;
     }
     return sz;
   }
@@ -198,16 +221,21 @@ library SpotSwapMakerParameters {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_duration(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_duration(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[5] += 1;
     } else {
       r.duration = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if (counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -222,7 +250,7 @@ library SpotSwapMakerParameters {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -237,20 +265,48 @@ library SpotSwapMakerParameters {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.inputTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.outputTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      3, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.inputAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      4, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.outputAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      5, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.duration, pointer, bs);
     return pointer - offset;
   }
@@ -263,18 +319,21 @@ library SpotSwapMakerParameters {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -287,8 +346,10 @@ library SpotSwapMakerParameters {
    * @dev The estimator for a struct
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory /* r */) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory /* r */
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 35;
@@ -358,7 +419,7 @@ library SpotSwapProperties {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -368,7 +429,7 @@ library SpotSwapProperties {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -381,52 +442,55 @@ library SpotSwapProperties {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[6] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_inputTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_outputTokenAddress(pointer, bs, r, counters);
       }
-      else if(fieldId == 3) {
+      else if (fieldId == 3) {
         pointer += _read_inputAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 4) {
+      else if (fieldId == 4) {
         pointer += _read_outputAmount(pointer, bs, r, counters);
       }
-      else if(fieldId == 5) {
+      else if (fieldId == 5) {
         pointer += _read_duration(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -446,16 +510,21 @@ library SpotSwapProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_inputTokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_inputTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.inputTokenAddress = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -468,16 +537,21 @@ library SpotSwapProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_outputTokenAddress(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_outputTokenAddress(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (address x, uint sz) = ProtoBufRuntime._decode_sol_address(p, bs);
-    if(isNil(r)) {
+    (address x, uint256 sz) = ProtoBufRuntime._decode_sol_address(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.outputTokenAddress = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -490,16 +564,21 @@ library SpotSwapProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_inputAmount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_inputAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[3] += 1;
     } else {
       r.inputAmount = x;
-      if(counters[3] > 0) counters[3] -= 1;
+      if (counters[3] > 0) counters[3] -= 1;
     }
     return sz;
   }
@@ -512,16 +591,21 @@ library SpotSwapProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_outputAmount(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_outputAmount(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[4] += 1;
     } else {
       r.outputAmount = x;
-      if(counters[4] > 0) counters[4] -= 1;
+      if (counters[4] > 0) counters[4] -= 1;
     }
     return sz;
   }
@@ -534,16 +618,21 @@ library SpotSwapProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_duration(uint p, bytes memory bs, Data memory r, uint[6] memory counters) internal pure returns (uint) {
+  function _read_duration(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[6] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (uint256 x, uint sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
-    if(isNil(r)) {
+    (uint256 x, uint256 sz) = ProtoBufRuntime._decode_sol_uint256(p, bs);
+    if (isNil(r)) {
       counters[5] += 1;
     } else {
       r.duration = x;
-      if(counters[5] > 0) counters[5] -= 1;
+      if (counters[5] > 0) counters[5] -= 1;
     }
     return sz;
   }
@@ -558,7 +647,7 @@ library SpotSwapProperties {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -573,20 +662,48 @@ library SpotSwapProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.inputTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_address(r.outputTokenAddress, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(3, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      3, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.inputAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(4, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      4, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.outputAmount, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(5, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      5, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += ProtoBufRuntime._encode_sol_uint256(r.duration, pointer, bs);
     return pointer - offset;
   }
@@ -599,18 +716,21 @@ library SpotSwapProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -623,8 +743,10 @@ library SpotSwapProperties {
    * @dev The estimator for a struct
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory /* r */) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory /* r */
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + 23;
     e += 1 + 23;
     e += 1 + 35;
@@ -691,7 +813,7 @@ library SpotSwapCompleteProperties {
    * @return The decoded struct
    */
   function decode(bytes memory bs) internal pure returns (Data memory) {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     return x;
   }
 
@@ -701,7 +823,7 @@ library SpotSwapCompleteProperties {
    * @param bs The bytes array to be decoded
    */
   function decode(Data storage self, bytes memory bs) internal {
-    (Data memory x,) = _decode(32, bs, bs.length);
+    (Data memory x, ) = _decode(32, bs, bs.length);
     store(x, self);
   }
   // inner decoder
@@ -714,43 +836,46 @@ library SpotSwapCompleteProperties {
    * @return The decoded struct
    * @return The number of bytes decoded
    */
-  function _decode(uint p, bytes memory bs, uint sz)
-      internal pure returns (Data memory, uint) {
+  function _decode(uint256 p, bytes memory bs, uint256 sz)
+    internal 
+    pure 
+    returns (Data memory, uint) 
+  {
     Data memory r;
     uint[3] memory counters;
-    uint fieldId;
+    uint256 fieldId;
     ProtoBufRuntime.WireType wireType;
-    uint bytesRead;
-    uint offset = p;
-    uint pointer = p;
-    while(pointer < offset+sz) {
+    uint256 bytesRead;
+    uint256 offset = p;
+    uint256 pointer = p;
+    while (pointer < offset + sz) {
       (fieldId, wireType, bytesRead) = ProtoBufRuntime._decode_key(pointer, bs);
       pointer += bytesRead;
-      if(fieldId == 1) {
+      if (fieldId == 1) {
         pointer += _read_issuanceProperties(pointer, bs, r, counters);
       }
-      else if(fieldId == 2) {
+      else if (fieldId == 2) {
         pointer += _read_spotSwapProperties(pointer, bs, r, counters);
       }
       
       else {
         if (wireType == ProtoBufRuntime.WireType.Fixed64) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed64(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Fixed32) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_fixed32(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.Varint) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_varint(pointer, bs);
           pointer += size;
         }
         if (wireType == ProtoBufRuntime.WireType.LengthDelim) {
-          uint size;
+          uint256 size;
           (, size) = ProtoBufRuntime._decode_lendelim(pointer, bs);
           pointer += size;
         }
@@ -770,16 +895,21 @@ library SpotSwapCompleteProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_issuanceProperties(uint p, bytes memory bs, Data memory r, uint[3] memory counters) internal pure returns (uint) {
+  function _read_issuanceProperties(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[3] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (IssuanceProperties.Data memory x, uint sz) = _decode_IssuanceProperties(p, bs);
-    if(isNil(r)) {
+    (IssuanceProperties.Data memory x, uint256 sz) = _decode_IssuanceProperties(p, bs);
+    if (isNil(r)) {
       counters[1] += 1;
     } else {
       r.issuanceProperties = x;
-      if(counters[1] > 0) counters[1] -= 1;
+      if (counters[1] > 0) counters[1] -= 1;
     }
     return sz;
   }
@@ -792,16 +922,21 @@ library SpotSwapCompleteProperties {
    * @param counters The counters for repeated fields
    * @return The number of bytes decoded
    */
-  function _read_spotSwapProperties(uint p, bytes memory bs, Data memory r, uint[3] memory counters) internal pure returns (uint) {
+  function _read_spotSwapProperties(
+    uint256 p, 
+    bytes memory bs, 
+    Data memory r, 
+    uint[3] memory counters
+  ) internal pure returns (uint) {
     /**
      * if `r` is NULL, then only counting the number of fields.
      */
-    (SpotSwapProperties.Data memory x, uint sz) = _decode_SpotSwapProperties(p, bs);
-    if(isNil(r)) {
+    (SpotSwapProperties.Data memory x, uint256 sz) = _decode_SpotSwapProperties(p, bs);
+    if (isNil(r)) {
       counters[2] += 1;
     } else {
       r.spotSwapProperties = x;
-      if(counters[2] > 0) counters[2] -= 1;
+      if (counters[2] > 0) counters[2] -= 1;
     }
     return sz;
   }
@@ -814,12 +949,15 @@ library SpotSwapCompleteProperties {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_IssuanceProperties(uint p, bytes memory bs)
-      internal pure returns (IssuanceProperties.Data memory, uint) {
-    uint pointer = p;
-    (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
+  function _decode_IssuanceProperties(uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (IssuanceProperties.Data memory, uint) 
+  {
+    uint256 pointer = p;
+    (uint256 sz, uint256 bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (IssuanceProperties.Data memory r,) = IssuanceProperties._decode(pointer, bs, sz);
+    (IssuanceProperties.Data memory r, ) = IssuanceProperties._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -830,12 +968,15 @@ library SpotSwapCompleteProperties {
    * @return The decoded inner-struct
    * @return The number of bytes used to decode
    */
-  function _decode_SpotSwapProperties(uint p, bytes memory bs)
-      internal pure returns (SpotSwapProperties.Data memory, uint) {
-    uint pointer = p;
-    (uint sz, uint bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
+  function _decode_SpotSwapProperties(uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (SpotSwapProperties.Data memory, uint) 
+  {
+    uint256 pointer = p;
+    (uint256 sz, uint256 bytesRead) = ProtoBufRuntime._decode_varint(pointer, bs);
     pointer += bytesRead;
-    (SpotSwapProperties.Data memory r,) = SpotSwapProperties._decode(pointer, bs, sz);
+    (SpotSwapProperties.Data memory r, ) = SpotSwapProperties._decode(pointer, bs, sz);
     return (r, sz + bytesRead);
   }
 
@@ -849,7 +990,7 @@ library SpotSwapCompleteProperties {
    */
   function encode(Data memory r) internal pure returns (bytes memory) {
     bytes memory bs = new bytes(_estimate(r));
-    uint sz = _encode(r, 32, bs);
+    uint256 sz = _encode(r, 32, bs);
     assembly {
       mstore(bs, sz)
     }
@@ -864,14 +1005,27 @@ library SpotSwapCompleteProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
-    uint offset = p;
-    uint pointer = p;
+  function _encode(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
+    uint256 offset = p;
+    uint256 pointer = p;
     
-    pointer += ProtoBufRuntime._encode_key(1, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      1, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += IssuanceProperties._encode_nested(r.issuanceProperties, pointer, bs);
-    pointer += ProtoBufRuntime._encode_key(2, ProtoBufRuntime.WireType.LengthDelim, pointer, bs);
+    pointer += ProtoBufRuntime._encode_key(
+      2, 
+      ProtoBufRuntime.WireType.LengthDelim, 
+      pointer, 
+      bs
+    );
     pointer += SpotSwapProperties._encode_nested(r.spotSwapProperties, pointer, bs);
     return pointer - offset;
   }
@@ -884,18 +1038,21 @@ library SpotSwapCompleteProperties {
    * @param bs The bytes array to be decoded
    * @return The number of bytes encoded
    */
-  function _encode_nested(Data memory r, uint p, bytes memory bs)
-      internal pure returns (uint) {
+  function _encode_nested(Data memory r, uint256 p, bytes memory bs)
+    internal 
+    pure 
+    returns (uint) 
+  {
     /**
      * First encoded `r` into a temporary array, and encode the actual size used.
      * Then copy the temporary array into `bs`.
      */
-    uint offset = p;
-    uint pointer = p;
+    uint256 offset = p;
+    uint256 pointer = p;
     bytes memory tmp = new bytes(_estimate(r));
-    uint tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
-    uint bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
-    uint size = _encode(r, 32, tmp);
+    uint256 tmpAddr = ProtoBufRuntime.getMemoryAddress(tmp);
+    uint256 bsAddr = ProtoBufRuntime.getMemoryAddress(bs);
+    uint256 size = _encode(r, 32, tmp);
     pointer += ProtoBufRuntime._encode_varint(size, pointer, bs);
     ProtoBufRuntime.copyBytes(tmpAddr + 32, bsAddr + pointer, size);
     pointer += size;
@@ -909,8 +1066,10 @@ library SpotSwapCompleteProperties {
    * @param r The struct to be encoded
    * @return The number of bytes encoded in estimation
    */
-  function _estimate(Data memory r) internal pure returns (uint) {
-    uint e;
+  function _estimate(
+    Data memory r
+  ) internal pure returns (uint) {
+    uint256 e;
     e += 1 + ProtoBufRuntime._sz_lendelim(IssuanceProperties._estimate(r.issuanceProperties));
     e += 1 + ProtoBufRuntime._sz_lendelim(SpotSwapProperties._estimate(r.spotSwapProperties));
     return e;
