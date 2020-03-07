@@ -58,8 +58,8 @@ async function generateCSV(logs, issuanceId, location, accountMappings) {
       {id: 'Wallet', title: 'Wallet'},
       {id: 'InstrumentEscrowToken', title: 'Instrument Escrow Token'},
       {id: 'InstrumentEscrowAmount', title: 'Instrument Escrow Amount'},
-      {id: 'IssuranceEscrowToken', title: 'Issurance Escrow Token'},
-      {id: 'IssuranceEscrowAmount', title: 'Issurance Escrow Amount'},
+      {id: 'IssuanceEscrowToken', title: 'Issuance Escrow Token'},
+      {id: 'IssuanceEscrowAmount', title: 'Issuance Escrow Amount'},
       {id: 'ID', title: 'ID'},
       {id: 'Type', title: 'Type'},
       {id: 'Token', title: 'Token'},
@@ -74,7 +74,7 @@ async function generateCSV(logs, issuanceId, location, accountMappings) {
   await csvWriter.writeRecords(generateTransferLogs(logs, issuanceId, accountMappings));
 }
 
-function processTokenDeposited(log, result, targetIssuanceId, instrumentEscrowBalance, issuranceEscrowBalance, accountMappings) {
+function processTokenDeposited(log, result, targetIssuanceId, instrumentEscrowBalance, issuanceEscrowBalance, accountMappings) {
   let amount = parseInt(log['args']['amount']);
   let tokenAddress = log['args']['token'];
   let depositer = log['args']['depositer'];
@@ -88,10 +88,10 @@ function processTokenDeposited(log, result, targetIssuanceId, instrumentEscrowBa
     Role: accountMappings[depositer],
     Wallet: "Deposit"
   };
-  return result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, depositer, baseEntry));
+  return result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, depositer, baseEntry));
 }
 
-function processTokenWithdrawn(log, result, targetIssuanceId, instrumentEscrowBalance, issuranceEscrowBalance, accountMappings) {
+function processTokenWithdrawn(log, result, targetIssuanceId, instrumentEscrowBalance, issuanceEscrowBalance, accountMappings) {
   let amount = parseInt(log['args']['amount']);
   let tokenAddress = log['args']['token'];
   let withdrawer = log['args']['withdrawer'];
@@ -103,10 +103,10 @@ function processTokenWithdrawn(log, result, targetIssuanceId, instrumentEscrowBa
     Role: accountMappings[withdrawer],
     Wallet: "Withdraw"
   };
-  return result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, depositer, baseEntry));
+  return result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, depositer, baseEntry));
 }
 
-function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance, issuranceEscrowBalance, accountMappings) {
+function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance, issuanceEscrowBalance, accountMappings) {
   let issuanceId = log['args']['issuanceId'];
   let tokenAddress = log['args']['tokenAddress'];
   let fromAddress = log['args']['fromAddress'];
@@ -116,9 +116,9 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
   if (transferType === 1) {
     instrumentEscrowBalance[fromAddress][tokenAddress] -= amount;
     if (issuanceId === targetIssuanceId) {
-      issuranceEscrowBalance[fromAddress] = issuranceEscrowBalance[fromAddress] || {};
-      issuranceEscrowBalance[fromAddress][tokenAddress] = issuranceEscrowBalance[fromAddress][tokenAddress] || 0;
-      issuranceEscrowBalance[fromAddress][tokenAddress] += amount;
+      issuanceEscrowBalance[fromAddress] = issuanceEscrowBalance[fromAddress] || {};
+      issuanceEscrowBalance[fromAddress][tokenAddress] = issuanceEscrowBalance[fromAddress][tokenAddress] || 0;
+      issuanceEscrowBalance[fromAddress][tokenAddress] += amount;
     }
     let baseEntry = {
       BlockHeight: log.blockNumber,
@@ -127,14 +127,14 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
       Role: accountMappings[fromAddress],
       Wallet: ""
     };
-    result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
+    result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, fromAddress, baseEntry));
   }
   if (transferType === 2) {
     instrumentEscrowBalance[fromAddress] = instrumentEscrowBalance[fromAddress] || {};
     instrumentEscrowBalance[fromAddress][tokenAddress] = instrumentEscrowBalance[fromAddress][tokenAddress] || 0;
     instrumentEscrowBalance[fromAddress][tokenAddress] += amount;
     if (issuanceId === targetIssuanceId) {
-      issuranceEscrowBalance[fromAddress][tokenAddress] -= amount;
+      issuanceEscrowBalance[fromAddress][tokenAddress] -= amount;
     }
     let baseEntry = {
       BlockHeight: log.blockNumber,
@@ -143,14 +143,14 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
       Role: accountMappings[fromAddress],
       Wallet: ""
     };
-    result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
+    result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, fromAddress, baseEntry));
   }
   if (transferType === 3) {
     if (issuanceId === targetIssuanceId) {
-      issuranceEscrowBalance[fromAddress][tokenAddress] -= amount;
-      issuranceEscrowBalance[toAddress] = issuranceEscrowBalance[toAddress] || {};
-      issuranceEscrowBalance[toAddress][tokenAddress] = issuranceEscrowBalance[toAddress][tokenAddress] || 0;
-      issuranceEscrowBalance[toAddress][tokenAddress] += amount;
+      issuanceEscrowBalance[fromAddress][tokenAddress] -= amount;
+      issuanceEscrowBalance[toAddress] = issuanceEscrowBalance[toAddress] || {};
+      issuanceEscrowBalance[toAddress][tokenAddress] = issuanceEscrowBalance[toAddress][tokenAddress] || 0;
+      issuanceEscrowBalance[toAddress][tokenAddress] += amount;
 
       let baseEntry = {
         BlockHeight: log.blockNumber,
@@ -159,7 +159,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
         Role: accountMappings[fromAddress],
         Wallet: ""
       };
-      result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, fromAddress, baseEntry));
+      result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, fromAddress, baseEntry));
       baseEntry = {
         BlockHeight: log.blockNumber,
         timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
@@ -167,7 +167,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
         Role: accountMappings[toAddress],
         Wallet: ""
       };
-      result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, toAddress, baseEntry));
+      result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, toAddress, baseEntry));
     }
   }
   return result;
@@ -248,18 +248,18 @@ function processLineItemUpdated(log, result, targetIssuanceId, payableMappings, 
 
 function generateTransferLogs(logs, targetIssuanceId, accountMappings) {
   let instrumentEscrowBalance = {};
-  let issuranceEscrowBalance = {};
+  let issuanceEscrowBalance = {};
   let payableMappings = {};
   let result = [];
   for (let log of logs) {
     if (log['event'] == 'TokenDeposited') {
-      result = processTokenDeposited(log, result, targetIssuanceId, instrumentEscrowBalance, issuranceEscrowBalance, accountMappings);
+      result = processTokenDeposited(log, result, targetIssuanceId, instrumentEscrowBalance, issuanceEscrowBalance, accountMappings);
     }
     if (log['event'] == 'TokenWithdrawn') {
-      result = processTokenWithdrawn(log, result, targetIssuanceId, instrumentEscrowBalance, issuranceEscrowBalance, accountMappings);
+      result = processTokenWithdrawn(log, result, targetIssuanceId, instrumentEscrowBalance, issuanceEscrowBalance, accountMappings);
     }
     if (log['event'] == 'TokenTransferred') {
-      result = processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance, issuranceEscrowBalance, accountMappings);
+      result = processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance, issuanceEscrowBalance, accountMappings);
     }
     if (log['event'] == 'SupplementalLineItemCreated') {
       result = processLineItemCreated(log, result, targetIssuanceId, payableMappings, accountMappings);
@@ -276,19 +276,19 @@ function getBalance(entries, user, token) {
   return accountBalance[token] || 0;
 }
 
-function populateBalanceEntry(instrumentEscrowBalance, issuranceEscrowBalance, user, baseEntry) {
+function populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, user, baseEntry) {
   let result = [];
-  let keys = new Set([].concat(Object.keys(instrumentEscrowBalance[user] || {}), Object.keys(issuranceEscrowBalance[user] || {})));
+  let keys = new Set([].concat(Object.keys(instrumentEscrowBalance[user] || {}), Object.keys(issuanceEscrowBalance[user] || {})));
   for (let key of keys) {
     let finalEntry = {};
     Object.assign(finalEntry, baseEntry);
     let instrumentEscrowAmount = getBalance(instrumentEscrowBalance, user, key);
-    let issuanceEscrowAmount = getBalance(issuranceEscrowBalance, user, key);
+    let issuanceEscrowAmount = getBalance(issuanceEscrowBalance, user, key);
     let balanceEntry = {
       InstrumentEscrowToken: key,
       InstrumentEscrowAmount: instrumentEscrowAmount,
-      IssuranceEscrowToken: key,
-      IssuranceEscrowAmount: issuanceEscrowAmount,
+      IssuanceEscrowToken: key,
+      IssuanceEscrowAmount: issuanceEscrowAmount,
     };
     Object.assign(finalEntry, balanceEntry);
     result.push(finalEntry);
