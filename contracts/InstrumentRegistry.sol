@@ -111,11 +111,12 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
      * @dev MOST IMPORTANT method: Activate new financial instrument.
      * @param instrumentAddress Address of Instrument to activate.
      * @param instrumentParameters Custom parameters for this instrument.
+     * @return The ID of the instrument
      */
     function activateInstrument(
         address instrumentAddress,
         bytes memory instrumentParameters
-    ) public returns (InstrumentManagerInterface) {
+    ) public returns (uint256) {
         require(
             instrumentAddress != address(0x0),
             "Instrument address not set"
@@ -156,7 +157,7 @@ contract InstrumentRegistry is Ownable, InstrumentConfig {
             );
         }
 
-        return instrumentManager;
+        return _lastInstrumentId;
     }
 
     /**
