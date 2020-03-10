@@ -167,14 +167,16 @@ contract Lending is InstrumentBase {
         transfers.actions[0] = _createInboundTransfer(
             _makerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal in"
         );
         // Principal token intra-issuance transfer: Maker --> Custodian
         transfers.actions[1] = _createIntraIssuanceTransfer(
             _makerAddress,
             Constants.getCustodianAddress(),
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Custodian in"
         );
         transfersData = Transfers.encode(transfers);
         // Create payable 1: Custodian --> Maker
@@ -261,14 +263,16 @@ contract Lending is InstrumentBase {
         transfers.actions[0] = _createInboundTransfer(
             _takerAddress,
             _collateralTokenAddress,
-            _collateralAmount
+            _collateralAmount,
+            "Collateral in"
         );
         // Collateral token intra-issuance transfer: Taker --> Custodian
         transfers.actions[1] = _createIntraIssuanceTransfer(
             _takerAddress,
             Constants.getCustodianAddress(),
             _collateralTokenAddress,
-            _collateralAmount
+            _collateralAmount,
+            "Custodian in"
         );
         // Create payable 2: Custodian --> Taker
         _createNewPayable(
@@ -284,14 +288,16 @@ contract Lending is InstrumentBase {
             Constants.getCustodianAddress(),
             _makerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Custodian out"
         );
         // Principal token intra-issuance transfer: Maker --> Taker
         transfers.actions[3] = _createIntraIssuanceTransfer(
             _makerAddress,
             _takerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal transfer"
         );
         // Create payable 3: Taker --> Maker
         _createNewPayable(
@@ -317,7 +323,8 @@ contract Lending is InstrumentBase {
         transfers.actions[4] = _createOutboundTransfer(
             _takerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal out"
         );
         transfersData = Transfers.encode(transfers);
     }
@@ -374,7 +381,8 @@ contract Lending is InstrumentBase {
                 Constants.getCustodianAddress(),
                 _makerAddress,
                 _lendingTokenAddress,
-                _lendingAmount
+                _lendingAmount,
+                "Custodian out"
             );
             // Mark payable 1 as paid
             _updatePayable(1, SupplementalLineItem.State.Paid, 0);
@@ -382,7 +390,8 @@ contract Lending is InstrumentBase {
             transfers.actions[1] = _createOutboundTransfer(
                 _makerAddress,
                 _lendingTokenAddress,
-                _lendingAmount
+                _lendingAmount,
+                "Principal out"
             );
             transfersData = Transfers.encode(transfers);
         }
@@ -413,7 +422,8 @@ contract Lending is InstrumentBase {
                 Constants.getCustodianAddress(),
                 _takerAddress,
                 _collateralTokenAddress,
-                _collateralAmount
+                _collateralAmount,
+                "Custodian out"
             );
             // Mark payable 2 as paid
             _updatePayable(2, SupplementalLineItem.State.Paid, 0);
@@ -422,13 +432,15 @@ contract Lending is InstrumentBase {
                 _takerAddress,
                 _makerAddress,
                 _collateralTokenAddress,
-                _collateralAmount
+                _collateralAmount,
+                "Collateral transfer"
             );
             // Collateral token outbound transfer: Maker
             transfers.actions[2] = _createOutboundTransfer(
                 _makerAddress,
                 _collateralTokenAddress,
-                _collateralAmount
+                _collateralAmount,
+                "Collateral out"
             );
             transfersData = Transfers.encode(transfers);
         }
@@ -467,7 +479,8 @@ contract Lending is InstrumentBase {
             Constants.getCustodianAddress(),
             _makerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Custodian out"
         );
         // Mark payable 1 as paid
         _updatePayable(1, SupplementalLineItem.State.Paid, 0);
@@ -475,7 +488,8 @@ contract Lending is InstrumentBase {
         transfers.actions[1] = _createOutboundTransfer(
             _makerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal out"
         );
         transfersData = Transfers.encode(transfers);
     }
@@ -522,13 +536,15 @@ contract Lending is InstrumentBase {
         transfers.actions[0] = _createInboundTransfer(
             _takerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal in"
         );
         // Interest inbound transfer: Taker
         transfers.actions[1] = _createInboundTransfer(
             _takerAddress,
             _lendingTokenAddress,
-            _interestAmount
+            _interestAmount,
+            "Interest in"
         );
 
         // Principal intra-issuance transfer: Taker --> Maker
@@ -536,7 +552,8 @@ contract Lending is InstrumentBase {
             _takerAddress,
             _makerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal transfer"
         );
         // Mark payable 3 as paid
         _updatePayable(3, SupplementalLineItem.State.Paid, 0);
@@ -545,7 +562,8 @@ contract Lending is InstrumentBase {
             _takerAddress,
             _makerAddress,
             _lendingTokenAddress,
-            _interestAmount
+            _interestAmount,
+            "Interest transfer"
         );
         // Mark payable 4 as paid
         _updatePayable(4, SupplementalLineItem.State.Paid, 0);
@@ -554,7 +572,8 @@ contract Lending is InstrumentBase {
             Constants.getCustodianAddress(),
             _takerAddress,
             _collateralTokenAddress,
-            _collateralAmount
+            _collateralAmount,
+            "Custodian out"
         );
         // Mark payable 2 as paid
         _updatePayable(2, SupplementalLineItem.State.Paid, 0);
@@ -562,19 +581,22 @@ contract Lending is InstrumentBase {
         transfers.actions[5] = _createOutboundTransfer(
             _takerAddress,
             _collateralTokenAddress,
-            _collateralAmount
+            _collateralAmount,
+            "Collateral out"
         );
         // Principal outbound transfer: Maker
         transfers.actions[6] = _createOutboundTransfer(
             _makerAddress,
             _lendingTokenAddress,
-            _lendingAmount
+            _lendingAmount,
+            "Principal out"
         );
         // Interest outbound transfer: Maker
         transfers.actions[7] = _createOutboundTransfer(
             _makerAddress,
             _lendingTokenAddress,
-            _interestAmount
+            _interestAmount,
+            "Interest out"
         );
         transfersData = Transfers.encode(transfers);
     }

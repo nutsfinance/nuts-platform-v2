@@ -130,14 +130,16 @@ contract SpotSwap is InstrumentBase {
         transfers.actions[0] = _createInboundTransfer(
             _makerAddress,
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Input in"
         );
         // Input token intra-issuance transfer: Maker --> Custodian
         transfers.actions[1] = _createIntraIssuanceTransfer(
             _makerAddress,
             Constants.getCustodianAddress(),
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Custodian in"
         );
         transfersData = Transfers.encode(transfers);
         // Create payable 1: Custodian --> Maker
@@ -190,14 +192,16 @@ contract SpotSwap is InstrumentBase {
         transfers.actions[0] = _createInboundTransfer(
             _takerAddress,
             _outputTokenAddress,
-            _outputAmount
+            _outputAmount,
+            "Output in"
         );
         // Input token intra-issuance transfer: Custodian --> Maker
         transfers.actions[1] = _createIntraIssuanceTransfer(
             Constants.getCustodianAddress(),
             _makerAddress,
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Custodian out"
         );
         // Maker payable 1 as paid
         _updatePayable(1, SupplementalLineItem.State.Paid, 0);
@@ -206,26 +210,30 @@ contract SpotSwap is InstrumentBase {
             _makerAddress,
             _takerAddress,
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Input transfer"
         );
         // Output token intra-issuance transfer: Taker --> Maker
         transfers.actions[3] = _createIntraIssuanceTransfer(
             _takerAddress,
             _makerAddress,
             _outputTokenAddress,
-            _outputAmount
+            _outputAmount,
+            "Output transfer"
         );
         // Output token outbound transfer: Maker
         transfers.actions[4] = _createOutboundTransfer(
             _makerAddress,
             _outputTokenAddress,
-            _outputAmount
+            _outputAmount,
+            "Output out"
         );
         // Input token outbound transfer: Taker
         transfers.actions[5] = _createOutboundTransfer(
             _takerAddress,
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Input out"
         );
         transfersData = Transfers.encode(transfers);
         emit SwapEngaged(_issuanceId, _takerAddress);
@@ -276,7 +284,8 @@ contract SpotSwap is InstrumentBase {
                 Constants.getCustodianAddress(),
                 _makerAddress,
                 _inputTokenAddress,
-                _inputAmount
+                _inputAmount,
+                "Custodian out"
             );
             // Mark payable 1 as paid
             _updatePayable(1, SupplementalLineItem.State.Paid, 0);
@@ -284,7 +293,8 @@ contract SpotSwap is InstrumentBase {
             transfers.actions[1] = _createOutboundTransfer(
                 _makerAddress,
                 _inputTokenAddress,
-                _inputAmount
+                _inputAmount,
+                "Input out"
             );
             transfersData = Transfers.encode(transfers);
         }
@@ -323,7 +333,8 @@ contract SpotSwap is InstrumentBase {
             Constants.getCustodianAddress(),
             _makerAddress,
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Custodian out"
         );
         // Mark payable 1 as paid
         _updatePayable(1, SupplementalLineItem.State.Paid, 0);
@@ -331,7 +342,8 @@ contract SpotSwap is InstrumentBase {
         transfers.actions[1] = _createOutboundTransfer(
             _makerAddress,
             _inputTokenAddress,
-            _inputAmount
+            _inputAmount,
+            "Input out"
         );
         transfersData = Transfers.encode(transfers);
     }

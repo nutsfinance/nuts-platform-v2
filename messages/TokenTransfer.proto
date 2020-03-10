@@ -23,6 +23,7 @@ message Transfer {
     .solidity.address toAddress = 3;
     .solidity.address tokenAddress = 4;
     .solidity.uint256 amount = 5;
+    .solidity.bytes32 action = 6;
 }
 
 /**

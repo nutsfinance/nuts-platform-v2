@@ -252,14 +252,16 @@ contract InstrumentBase is InstrumentInterface {
     function _createInboundTransfer(
         address account,
         address tokenAddress,
-        uint256 amount
+        uint256 amount,
+        bytes32 action
     ) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.Inbound,
             fromAddress: account,
             toAddress: account,
             tokenAddress: tokenAddress,
-            amount: amount
+            amount: amount,
+            action: action
         });
         return transfer;
     }
@@ -270,14 +272,16 @@ contract InstrumentBase is InstrumentInterface {
     function _createOutboundTransfer(
         address account,
         address tokenAddress,
-        uint256 amount
+        uint256 amount,
+        bytes32 action
     ) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.Outbound,
             fromAddress: account,
             toAddress: account,
             tokenAddress: tokenAddress,
-            amount: amount
+            amount: amount,
+            action: action
         });
         return transfer;
     }
@@ -289,14 +293,16 @@ contract InstrumentBase is InstrumentInterface {
         address fromAddress,
         address toAddress,
         address tokenAddress,
-        uint256 amount
+        uint256 amount,
+        bytes32 action
     ) internal pure returns (Transfer.Data memory) {
         Transfer.Data memory transfer = Transfer.Data({
             transferType: Transfer.Type.IntraIssuance,
             fromAddress: fromAddress,
             toAddress: toAddress,
             tokenAddress: tokenAddress,
-            amount: amount
+            amount: amount,
+            action: action
         });
         return transfer;
     }

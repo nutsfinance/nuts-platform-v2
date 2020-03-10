@@ -97,7 +97,8 @@ contract InstrumentManager is InstrumentManagerInterface {
         address fromAddress,
         address toAddress,
         address tokenAddress,
-        uint256 amount
+        uint256 amount,
+        bytes32 action
     );
 
     /**
@@ -362,7 +363,8 @@ contract InstrumentManager is InstrumentManagerInterface {
             fromAddress: msg.sender,
             toAddress: msg.sender,
             tokenAddress: tokenAddress,
-            amount: amount
+            amount: amount,
+            action: 'Deposit to Issuance'
         });
         _processTransfer(issuanceId, transfer);
 
@@ -403,7 +405,8 @@ contract InstrumentManager is InstrumentManagerInterface {
             fromAddress: msg.sender,
             toAddress: msg.sender,
             tokenAddress: tokenAddress,
-            amount: amount
+            amount: amount,
+            action: "Withdraw from Issuance"
         });
         _processTransfer(issuanceId, transfer);
 
@@ -535,7 +538,8 @@ contract InstrumentManager is InstrumentManagerInterface {
             transfer.fromAddress,
             transfer.toAddress,
             transfer.tokenAddress,
-            transfer.amount
+            transfer.amount,
+            transfer.action
         );
         IssuanceProperty storage property = _issuanceProperties[issuanceId];
         IssuanceEscrowInterface issuanceEscrow = IssuanceEscrowInterface(
