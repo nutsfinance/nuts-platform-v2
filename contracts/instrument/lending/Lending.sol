@@ -323,181 +323,48 @@ contract Lending is InstrumentBase {
     }
 
     /**
-     * @dev An account has made an ERC20 token deposit to the issuance
-     * @param callerAddress Address which invokes this function.
-     * @param tokenAddress The address of the ERC20 token to deposit.
-     * @param amount The amount of ERC20 token to deposit.
-     * @return transfersData The transfers to perform after the invocation
-     */
-    function processTokenDeposit(
-        address callerAddress,
-        address tokenAddress,
-        uint256 amount
-    ) public returns (bytes memory transfersData) {
-        // Important: Token deposit can happen only in repay!
-        require(
-            _state == IssuanceProperties.State.Engaged,
-            "Issuance not in Engaged"
-        );
-        require(callerAddress == _takerAddress, "Only taker can repay");
-        require(
-            tokenAddress == _lendingTokenAddress,
-            "Must repay with lending token"
-        );
-        require(
-            amount == _lendingAmount + _interestAmount,
-            "Must repay in full"
-        );
-
-        // Sets common properties
-        _settlementTimestamp = now;
-
-        // Emits Lending Repaid event
-        emit LendingRepaid(_issuanceId);
-
-        // Updates to Complete Engaged state.
-        _state = IssuanceProperties.State.CompleteEngaged;
-
-        Transfers.Data memory transfers = Transfers.Data(
-            new Transfer.Data[](4)
-        );
-        // Principal token intra-issuance transfer: Taker --> Maker
-        transfers.actions[0] = _createIntraIssuanceTransfer(
-            _takerAddress,
-            _makerAddress,
-            _lendingTokenAddress,
-            _lendingAmount + _interestAmount
-        );
-        // Mark payable 3 & 4 as paid
-        _updatePayable(3, SupplementalLineItem.State.Paid, 0);
-        _updatePayable(4, SupplementalLineItem.State.Paid, 0);
-        // Collateral token intra-issuance transfer: Custodian --> Taker
-        transfers.actions[1] = _createIntraIssuanceTransfer(
-            Constants.getCustodianAddress(),
-            _takerAddress,
-            _collateralTokenAddress,
-            _collateralAmount
-        );
-        // Mark payable 2 as paid
-        _updatePayable(2, SupplementalLineItem.State.Paid, 0);
-        // Collateral token outbound transfer: Taker
-        transfers.actions[2] = _createOutboundTransfer(
-            _takerAddress,
-            _collateralTokenAddress,
-            _collateralAmount
-        );
-        // Principal token outbound transfer: Maker
-        transfers.actions[3] = _createOutboundTransfer(
-            _makerAddress,
-            _lendingTokenAddress,
-            _lendingAmount + _interestAmount
-        );
-        transfersData = Transfers.encode(transfers);
-    }
-
-    /**
      * @dev A custom event is triggered.
      * @param callerAddress Address which invokes this function.
      * @param eventName The name of the custom event.
-     * @return transfersData The transfers to perform after the invocation
+     * @return The transfers to perform after the invocation
      */
     function processCustomEvent(
         address callerAddress,
         bytes32 eventName,
         bytes memory /** eventPayload */
-    ) public returns (bytes memory transfersData) {
+    ) public returns (bytes memory) {
         if (eventName == ENGAGEMENT_DUE_EVENT) {
-            // Engagement Due will be processed only when:
-            // 1. Issuance is in Engageable state
-            // 2. Engagement due timestamp is passed
-            if (
-                _state == IssuanceProperties.State.Engageable &&
-                now >= _engagementDueTimestamp
-            ) {
-                // Emits Lending Complete Not Engaged event
-                emit LendingCompleteNotEngaged(_issuanceId);
-
-                // Updates to Complete Not Engaged state
-                _state = IssuanceProperties.State.CompleteNotEngaged;
-
-                Transfers.Data memory transfers = Transfers.Data(
-                    new Transfer.Data[](2)
-                );
-                // Principal token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = _createIntraIssuanceTransfer(
-                    Constants.getCustodianAddress(),
-                    _makerAddress,
-                    _lendingTokenAddress,
-                    _lendingAmount
-                );
-                // Mark payable 1 as paid
-                _updatePayable(1, SupplementalLineItem.State.Paid, 0);
-                // Principal token outbound transfer: Maker
-                transfers.actions[1] = _createOutboundTransfer(
-                    _makerAddress,
-                    _lendingTokenAddress,
-                    _lendingAmount
-                );
-                transfersData = Transfers.encode(transfers);
-            }
+            return processEngagementDue();
         } else if (eventName == ISSUANCE_DUE_EVENT) {
-            // Lending Due will be processed only when:
-            // 1. Issuance is in Engaged state
-            // 2. Lending due timestamp has passed
-            if (
-                _state == IssuanceProperties.State.Engaged &&
-                now >= _issuanceDueTimestamp
-            ) {
-                // Emits Lending Deliquent event
-                emit LendingDelinquent(_issuanceId);
-
-                // Updates to Delinquent state
-                _state = IssuanceProperties.State.Delinquent;
-
-                Transfers.Data memory transfers = Transfers.Data(
-                    new Transfer.Data[](3)
-                );
-                // Collateral token intra-issuance transfer: Custodian --> Taker
-                transfers.actions[0] = _createIntraIssuanceTransfer(
-                    Constants.getCustodianAddress(),
-                    _takerAddress,
-                    _collateralTokenAddress,
-                    _collateralAmount
-                );
-                // Mark payable 2 as paid
-                _updatePayable(2, SupplementalLineItem.State.Paid, 0);
-                // Collateral token intra-issuance transfer: Taker --> Maker
-                transfers.actions[1] = _createIntraIssuanceTransfer(
-                    _takerAddress,
-                    _makerAddress,
-                    _collateralTokenAddress,
-                    _collateralAmount
-                );
-                // Collateral token outbound transfer: Maker
-                transfers.actions[2] = _createOutboundTransfer(
-                    _makerAddress,
-                    _collateralTokenAddress,
-                    _collateralAmount
-                );
-                transfersData = Transfers.encode(transfers);
-            }
+            return processIssuanceDue();
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
-            // Cancel Issuance must be processed in Engageable state
-            require(
-                _state == IssuanceProperties.State.Engageable,
-                "Cancel issuance not in engageable state"
-            );
-            // Only maker can cancel issuance
-            require(
-                callerAddress == _makerAddress,
-                "Only maker can cancel issuance"
-            );
+            return cancelIssuance(callerAddress);
+        } else if (eventName == REPAY_ISSUANCE_FULL_EVENT) {
+            return repayIssuance(callerAddress);
+        } else {
+            revert("Unknown event");
+        }
+    }
 
-            // Emits Lending Cancelled event
-            emit LendingCancelled(_issuanceId);
+    /**
+     * @dev Processes the Engagement Due event.
+     */
+    function processEngagementDue()
+        private
+        returns (bytes memory transfersData)
+    {
+        // Engagement Due will be processed only when:
+        // 1. Issuance is in Engageable state
+        // 2. Engagement due timestamp is passed
+        if (
+            _state == IssuanceProperties.State.Engageable &&
+            now >= _engagementDueTimestamp
+        ) {
+            // Emits Lending Complete Not Engaged event
+            emit LendingCompleteNotEngaged(_issuanceId);
 
-            // Updates to Cancelled state.
-            _state = IssuanceProperties.State.Cancelled;
+            // Updates to Complete Not Engaged state
+            _state = IssuanceProperties.State.CompleteNotEngaged;
 
             Transfers.Data memory transfers = Transfers.Data(
                 new Transfer.Data[](2)
@@ -518,9 +385,198 @@ contract Lending is InstrumentBase {
                 _lendingAmount
             );
             transfersData = Transfers.encode(transfers);
-        } else {
-            revert("Unknown event");
         }
+    }
+
+    /**
+     * @dev Processes the Issuance Due event.
+     */
+    function processIssuanceDue() private returns (bytes memory transfersData) {
+        // Lending Due will be processed only when:
+        // 1. Issuance is in Engaged state
+        // 2. Lending due timestamp has passed
+        if (
+            _state == IssuanceProperties.State.Engaged &&
+            now >= _issuanceDueTimestamp
+        ) {
+            // Emits Lending Deliquent event
+            emit LendingDelinquent(_issuanceId);
+
+            // Updates to Delinquent state
+            _state = IssuanceProperties.State.Delinquent;
+
+            Transfers.Data memory transfers = Transfers.Data(
+                new Transfer.Data[](3)
+            );
+            // Collateral token intra-issuance transfer: Custodian --> Taker
+            transfers.actions[0] = _createIntraIssuanceTransfer(
+                Constants.getCustodianAddress(),
+                _takerAddress,
+                _collateralTokenAddress,
+                _collateralAmount
+            );
+            // Mark payable 2 as paid
+            _updatePayable(2, SupplementalLineItem.State.Paid, 0);
+            // Collateral token intra-issuance transfer: Taker --> Maker
+            transfers.actions[1] = _createIntraIssuanceTransfer(
+                _takerAddress,
+                _makerAddress,
+                _collateralTokenAddress,
+                _collateralAmount
+            );
+            // Collateral token outbound transfer: Maker
+            transfers.actions[2] = _createOutboundTransfer(
+                _makerAddress,
+                _collateralTokenAddress,
+                _collateralAmount
+            );
+            transfersData = Transfers.encode(transfers);
+        }
+    }
+
+    /**
+     * @dev Cancels the lending issuance.
+     * @param callerAddress Address of the caller who cancels the issuance.
+     */
+    function cancelIssuance(address callerAddress)
+        private
+        returns (bytes memory transfersData)
+    {
+        // Cancel Issuance must be processed in Engageable state
+        require(
+            _state == IssuanceProperties.State.Engageable,
+            "Cancel issuance not in engageable state"
+        );
+        // Only maker can cancel issuance
+        require(
+            callerAddress == _makerAddress,
+            "Only maker can cancel issuance"
+        );
+
+        // Emits Lending Cancelled event
+        emit LendingCancelled(_issuanceId);
+
+        // Updates to Cancelled state.
+        _state = IssuanceProperties.State.Cancelled;
+
+        Transfers.Data memory transfers = Transfers.Data(
+            new Transfer.Data[](2)
+        );
+        // Principal token intra-issuance transfer: Custodian --> Maker
+        transfers.actions[0] = _createIntraIssuanceTransfer(
+            Constants.getCustodianAddress(),
+            _makerAddress,
+            _lendingTokenAddress,
+            _lendingAmount
+        );
+        // Mark payable 1 as paid
+        _updatePayable(1, SupplementalLineItem.State.Paid, 0);
+        // Principal token outbound transfer: Maker
+        transfers.actions[1] = _createOutboundTransfer(
+            _makerAddress,
+            _lendingTokenAddress,
+            _lendingAmount
+        );
+        transfersData = Transfers.encode(transfers);
+    }
+
+    /**
+     * @dev Repays the issuance in full.
+     * @param callerAddress Address of the caller who repays the issuance.
+     */
+    function repayIssuance(address callerAddress)
+        private
+        returns (bytes memory transfersData)
+    {
+        // Important: Token deposit can happen only in repay!
+        require(
+            _state == IssuanceProperties.State.Engaged,
+            "Issuance not in Engaged"
+        );
+        require(callerAddress == _takerAddress, "Only taker can repay");
+
+        uint256 repayAmount = _lendingAmount + _interestAmount;
+        // Validate principal token balance
+        uint256 principalTokenBalance = EscrowBaseInterface(
+            _instrumentEscrowAddress
+        )
+            .getTokenBalance(_takerAddress, _lendingTokenAddress);
+        require(
+            principalTokenBalance >= repayAmount,
+            "Insufficient principal balance"
+        );
+
+        // Sets common properties
+        _settlementTimestamp = now;
+
+        // Emits Lending Repaid event
+        emit LendingRepaid(_issuanceId);
+
+        // Updates to Complete Engaged state.
+        _state = IssuanceProperties.State.CompleteEngaged;
+
+        Transfers.Data memory transfers = Transfers.Data(
+            new Transfer.Data[](8)
+        );
+        // Pricipal inbound transfer: Taker
+        transfers.actions[0] = _createInboundTransfer(
+            _takerAddress,
+            _lendingTokenAddress,
+            _lendingAmount
+        );
+        // Interest inbound transfer: Taker
+        transfers.actions[1] = _createInboundTransfer(
+            _takerAddress,
+            _lendingTokenAddress,
+            _interestAmount
+        );
+
+        // Principal intra-issuance transfer: Taker --> Maker
+        transfers.actions[2] = _createIntraIssuanceTransfer(
+            _takerAddress,
+            _makerAddress,
+            _lendingTokenAddress,
+            _lendingAmount
+        );
+        // Mark payable 3 as paid
+        _updatePayable(3, SupplementalLineItem.State.Paid, 0);
+        // Interest intra-issuance transfer: Taker --> Maker
+        transfers.actions[3] = _createIntraIssuanceTransfer(
+            _takerAddress,
+            _makerAddress,
+            _lendingTokenAddress,
+            _interestAmount
+        );
+        // Mark payable 4 as paid
+        _updatePayable(4, SupplementalLineItem.State.Paid, 0);
+        // Collateral intra-issuance transfer: Custodian --> Taker
+        transfers.actions[4] = _createIntraIssuanceTransfer(
+            Constants.getCustodianAddress(),
+            _takerAddress,
+            _collateralTokenAddress,
+            _collateralAmount
+        );
+        // Mark payable 2 as paid
+        _updatePayable(2, SupplementalLineItem.State.Paid, 0);
+        // Collateral outbound transfer: Taker
+        transfers.actions[5] = _createOutboundTransfer(
+            _takerAddress,
+            _collateralTokenAddress,
+            _collateralAmount
+        );
+        // Principal outbound transfer: Maker
+        transfers.actions[6] = _createOutboundTransfer(
+            _makerAddress,
+            _lendingTokenAddress,
+            _lendingAmount
+        );
+        // Interest outbound transfer: Maker
+        transfers.actions[7] = _createOutboundTransfer(
+            _makerAddress,
+            _lendingTokenAddress,
+            _interestAmount
+        );
+        transfersData = Transfers.encode(transfers);
     }
 
     /**

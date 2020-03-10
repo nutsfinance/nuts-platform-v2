@@ -81,6 +81,7 @@ contract InstrumentBase is InstrumentInterface {
 
     // Custom events
     bytes32 internal constant CANCEL_ISSUANCE_EVENT = "cancel_issuance";
+    bytes32 internal constant REPAY_ISSUANCE_FULL_EVENT = "repay_full";
 
     // Common properties shared by all issuances
     uint256 internal _issuanceId;

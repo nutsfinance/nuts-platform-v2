@@ -243,56 +243,30 @@ contract SpotSwap is InstrumentBase {
         bytes memory /** eventPayload */
     ) public returns (bytes memory transfersData) {
         if (eventName == ISSUANCE_DUE_EVENT) {
-            // Swap Due will be processed only when:
-            // 1. Issuance is in Engageable state
-            // 2. Swap due timestamp is passed
-            if (
-                _state == IssuanceProperties.State.Engageable &&
-                now >= _issuanceDueTimestamp
-            ) {
-                // Emits Swap Complete Not Engaged event
-                emit SwapCompleteNotEngaged(_issuanceId);
-
-                // Updates to Complete Not Engaged state
-                _state = IssuanceProperties.State.CompleteNotEngaged;
-
-                Transfers.Data memory transfers = Transfers.Data(
-                    new Transfer.Data[](2)
-                );
-                // Input token intra-issuance transfer: Custodian --> Maker
-                transfers.actions[0] = _createIntraIssuanceTransfer(
-                    Constants.getCustodianAddress(),
-                    _makerAddress,
-                    _inputTokenAddress,
-                    _inputAmount
-                );
-                // Mark payable 1 as paid
-                _updatePayable(1, SupplementalLineItem.State.Paid, 0);
-                // Input token outbound transfer: Maker
-                transfers.actions[1] = _createOutboundTransfer(
-                    _makerAddress,
-                    _inputTokenAddress,
-                    _inputAmount
-                );
-                transfersData = Transfers.encode(transfers);
-            }
+            return processIssuanceDue();
         } else if (eventName == CANCEL_ISSUANCE_EVENT) {
-            // Cancel Issuance must be processed in Engageable state
-            require(
-                _state == IssuanceProperties.State.Engageable,
-                "Cancel issuance not in engageable state"
-            );
-            // Only maker can cancel issuance
-            require(
-                callerAddress == _makerAddress,
-                "Only maker can cancel issuance"
-            );
+            return cancelIssuance(callerAddress);
+        } else {
+            revert("Unknown event");
+        }
+    }
 
-            // Emits Swap Cancelled event
-            emit SwapCancelled(_issuanceId);
+    /**
+     * @dev Processes the Issuance Due event.
+     */
+    function processIssuanceDue() private returns (bytes memory transfersData) {
+        // Swap Due will be processed only when:
+        // 1. Issuance is in Engageable state
+        // 2. Swap due timestamp is passed
+        if (
+            _state == IssuanceProperties.State.Engageable &&
+            now >= _issuanceDueTimestamp
+        ) {
+            // Emits Swap Complete Not Engaged event
+            emit SwapCompleteNotEngaged(_issuanceId);
 
-            // Updates to Cancelled state.
-            _state = IssuanceProperties.State.Cancelled;
+            // Updates to Complete Not Engaged state
+            _state = IssuanceProperties.State.CompleteNotEngaged;
 
             Transfers.Data memory transfers = Transfers.Data(
                 new Transfer.Data[](2)
@@ -313,11 +287,54 @@ contract SpotSwap is InstrumentBase {
                 _inputAmount
             );
             transfersData = Transfers.encode(transfers);
-        } else {
-            revert("Unknown event");
         }
     }
 
+    /**
+     * @dev Cancels the issuance.
+     * @param callerAddress Address of the caller who cancels the issuance.
+     */
+    function cancelIssuance(address callerAddress)
+        private
+        returns (bytes memory transfersData)
+    {
+        // Cancel Issuance must be processed in Engageable state
+        require(
+            _state == IssuanceProperties.State.Engageable,
+            "Cancel issuance not in engageable state"
+        );
+        // Only maker can cancel issuance
+        require(
+            callerAddress == _makerAddress,
+            "Only maker can cancel issuance"
+        );
+
+        // Emits Swap Cancelled event
+        emit SwapCancelled(_issuanceId);
+
+        // Updates to Cancelled state.
+        _state = IssuanceProperties.State.Cancelled;
+
+        Transfers.Data memory transfers = Transfers.Data(
+            new Transfer.Data[](2)
+        );
+        // Input token intra-issuance transfer: Custodian --> Maker
+        transfers.actions[0] = _createIntraIssuanceTransfer(
+            Constants.getCustodianAddress(),
+            _makerAddress,
+            _inputTokenAddress,
+            _inputAmount
+        );
+        // Mark payable 1 as paid
+        _updatePayable(1, SupplementalLineItem.State.Paid, 0);
+        // Input token outbound transfer: Maker
+        transfers.actions[1] = _createOutboundTransfer(
+            _makerAddress,
+            _inputTokenAddress,
+            _inputAmount
+        );
+        transfersData = Transfers.encode(transfers);
+    }
     /**
      * @dev Get custom data.
      * @param dataName The name of the custom data.
