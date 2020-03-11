@@ -471,7 +471,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     allTransactions.push(await instrumentEscrow.deposit({from: taker1, value: 24000}));
     assert.equal(54000, await instrumentEscrow.getBalance(taker1));
 
-    let depositToIssuance = await instrumentManager.depositToIssuance(1, ethAddress, 24000, {from: taker1});
+    let depositToIssuance = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("repay_full"), web3.utils.fromAscii(""), {from: taker1});
     allTransactions.push(depositToIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
@@ -567,7 +567,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       fromAddress: taker1,
       toAddress: taker1,
       tokenAddress: ethAddress,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: ethAddress,
+      amount: '4000'
     });
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
@@ -583,7 +591,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       fromAddress: taker1,
       toAddress: maker1,
       tokenAddress: ethAddress,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: taker1,
+      toAddress: maker1,
+      tokenAddress: ethAddress,
+      amount: '4000'
     });
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
@@ -599,7 +615,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       fromAddress: maker1,
       toAddress: maker1,
       tokenAddress: ethAddress,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: ethAddress,
+      amount: '4000'
     });
 
     expectEvent(receipt, 'BalanceDecreased', {
@@ -620,12 +644,22 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     expectEvent(receipt, 'BalanceDecreased', {
       account: taker1,
       token: ethAddress,
-      amount: '24000'
+      amount: '4000'
+    });
+    expectEvent(receipt, 'BalanceDecreased', {
+      account: taker1,
+      token: ethAddress,
+      amount: '20000'
     });
     expectEvent(receipt, 'BalanceIncreased', {
       account: taker1,
       token: ethAddress,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'BalanceIncreased', {
+      account: taker1,
+      token: ethAddress,
+      amount: '4000'
     });
   }),
   it('engagement due after due date', async () => {

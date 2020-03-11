@@ -480,7 +480,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
     await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("cancel_issuance"), web3.utils.fromAscii(""), {from: maker1});
     await expectRevert(instrumentManager.engageIssuance(1, [], {from: taker1}), "Issuance terminated");
-    await expectRevert(instrumentManager.depositToIssuance(1, maker1, 1, {from: maker1}), "Issuance terminated");
+    await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("repay_full"), web3.utils.fromAscii(""), {from: maker1}), "Issuance terminated");
     await expectRevert(instrumentManager.withdrawFromIssuance(1, maker1, 1, {from: maker1}), "Issuance terminated");
     await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii(""), [], {from: maker1}), "Issuance terminated");
   }),
@@ -655,7 +655,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     allTransactions.push(await instrumentEscrow.depositToken(lendingToken.address, 24000, {from: taker1}));
     assert.equal(44000, await instrumentEscrow.getTokenBalance(taker1, lendingToken.address));
 
-    let depositToIssuance = await instrumentManager.depositToIssuance(1, lendingToken.address, 24000, {from: taker1});
+    let depositToIssuance = await instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("repay_full"), web3.utils.fromAscii(""), {from: taker1});
     allTransactions.push(depositToIssuance);
     let customData = await instrumentManager.getCustomData(1, web3.utils.fromAscii("lending_data"));
     let properties = protobuf.LendingData.LendingCompleteProperties.deserializeBinary(Uint8Array.from(Buffer.from(customData.substring(2), 'hex')));
@@ -755,7 +755,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       fromAddress: taker1,
       toAddress: taker1,
       tokenAddress: lendingToken.address,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '1',
+      fromAddress: taker1,
+      toAddress: taker1,
+      tokenAddress: lendingToken.address,
+      amount: '4000'
     });
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
@@ -771,7 +779,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       fromAddress: taker1,
       toAddress: maker1,
       tokenAddress: lendingToken.address,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '3',
+      fromAddress: taker1,
+      toAddress: maker1,
+      tokenAddress: lendingToken.address,
+      amount: '4000'
     });
     expectEvent(receipt, 'TokenTransferred', {
       issuanceId: '1',
@@ -787,7 +803,15 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
       fromAddress: maker1,
       toAddress: maker1,
       tokenAddress: lendingToken.address,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'TokenTransferred', {
+      issuanceId: '1',
+      transferType: '2',
+      fromAddress: maker1,
+      toAddress: maker1,
+      tokenAddress: lendingToken.address,
+      amount: '4000'
     });
 
     expectEvent(receipt, 'BalanceDecreased', {
@@ -808,33 +832,63 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     expectEvent(receipt, 'BalanceDecreased', {
       account: taker1,
       token: lendingToken.address,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'BalanceDecreased', {
+      account: taker1,
+      token: lendingToken.address,
+      amount: '4000'
     });
     expectEvent(receipt, 'BalanceIncreased', {
       account: taker1,
       token: lendingToken.address,
-      amount: '24000'
+      amount: '20000'
+    });
+    expectEvent(receipt, 'BalanceIncreased', {
+      account: taker1,
+      token: lendingToken.address,
+      amount: '4000'
     });
 
     expectEvent(receipt, 'Transfer', {
       from: instrumentEscrowAddress,
       to: instrumentManagerAddress,
-      value: '24000'
+      value: '4000'
+    });
+    expectEvent(receipt, 'Transfer', {
+      from: instrumentEscrowAddress,
+      to: instrumentManagerAddress,
+      value: '20000'
     });
     expectEvent(receipt, 'Transfer', {
       from: instrumentManagerAddress,
       to: issuanceEscrowAddress,
-      value: '24000'
+      value: '20000'
+    });
+    expectEvent(receipt, 'Transfer', {
+      from: instrumentManagerAddress,
+      to: issuanceEscrowAddress,
+      value: '4000'
     });
     expectEvent(receipt, 'Transfer', {
       from: issuanceEscrowAddress,
       to: instrumentManagerAddress,
-      value: '24000'
+      value: '20000'
+    });
+    expectEvent(receipt, 'Transfer', {
+      from: issuanceEscrowAddress,
+      to: instrumentManagerAddress,
+      value: '4000'
     });
     expectEvent(receipt, 'Transfer', {
       from: instrumentManagerAddress,
       to: instrumentEscrowAddress,
-      value: '24000'
+      value: '20000'
+    });
+    expectEvent(receipt, 'Transfer', {
+      from: instrumentManagerAddress,
+      to: instrumentEscrowAddress,
+      value: '4000'
     });
     expectEvent(receipt, 'Transfer', {
       from: issuanceEscrowAddress,
@@ -865,7 +919,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
     let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
     let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'LendingCreated').args.escrowAddress;
-    await expectRevert(instrumentManager.depositToIssuance(1, lendingToken.address, 20000, {from: maker1}), "Issuance not in Engaged");
+    await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("repay_full"), web3.utils.fromAscii(""), {from: maker1}), "Issuance not in Engaged");
   }),
   it('repaid not taker', async () => {
     await lendingToken.transfer(maker1, 40000);
@@ -884,25 +938,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1});
     await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
     await lendingToken.approve(instrumentEscrowAddress, 20000, {from: taker2});
-    await expectRevert(instrumentManager.depositToIssuance(1, lendingToken.address, 20000, {from: maker1}), "Only taker can repay");
-  }),
-  it('repaid not lending token', async () => {
-    await lendingToken.transfer(maker1, 20000);
-    await lendingToken.approve(instrumentEscrowAddress, 20000, {from: maker1});
-    await instrumentEscrow.depositToken(lendingToken.address, 20000, {from: maker1});
-    let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentManager.abi);
-
-    let lendingMakerParameters = await parametersUtil.getLendingMakerParameters(collateralToken.address, lendingToken.address, 20000, 15000, 20, 10000);
-    let createdIssuance = await instrumentManager.createIssuance(lendingMakerParameters, {from: maker1});
-    let createdIssuanceEvents = LogParser.logParser(createdIssuance.receipt.rawLogs, abis);
-    let issuanceEscrowAddress = createdIssuanceEvents.find((event) => event.event === 'LendingCreated').args.escrowAddress;
-
-    // Deposit collateral tokens to Lending Instrument Escrow
-    await collateralToken.transfer(taker1, 4000000);
-    await collateralToken.approve(instrumentEscrowAddress, 4000000, {from: taker1});
-    await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1});
-    await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
-    await expectRevert(instrumentManager.depositToIssuance(1, collateralToken.address, 20000, {from: taker1}), "Must repay with lending token");
+    await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("repay_full"), web3.utils.fromAscii(""), {from: maker1}), "Only taker can repay");
   }),
   it('repaid not full amount', async () => {
     await lendingToken.transfer(maker1, 20000);
@@ -920,7 +956,7 @@ contract('Lending', ([owner, proxyAdmin, timerOracle, fsp, maker1, taker1, maker
     await collateralToken.approve(instrumentEscrowAddress, 4000000, {from: taker1});
     await instrumentEscrow.depositToken(collateralToken.address, 4000000, {from: taker1});
     await instrumentManager.engageIssuance(1, '0x0', {from: taker1});
-    await expectRevert(instrumentManager.depositToIssuance(1, lendingToken.address, 20000, {from: taker1}), "Must repay in full");
+    await expectRevert(instrumentManager.notifyCustomEvent(1, web3.utils.fromAscii("repay_full"), web3.utils.fromAscii(""), {from: taker1}), "Insufficient principal balance");
   }),
   it('engagement due after due date', async () => {
     let abis = [].concat(Lending.abi, TokenMock.abi, IssuanceEscrow.abi, InstrumentEscrow.abi, InstrumentManager.abi);

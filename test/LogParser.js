@@ -56,6 +56,7 @@ async function generateCSV(logs, issuanceId, location, accountMappings) {
       {id: 'Address', title: 'Address'},
       {id: 'Role', title: 'Role'},
       {id: 'Wallet', title: 'Wallet'},
+      {id: 'Action', title: 'Action'},
       {id: 'InstrumentEscrowToken', title: 'Instrument Escrow Token'},
       {id: 'InstrumentEscrowAmount', title: 'Instrument Escrow Amount'},
       {id: 'IssuanceEscrowToken', title: 'Issuance Escrow Token'},
@@ -111,6 +112,7 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
   let tokenAddress = log['args']['tokenAddress'];
   let fromAddress = log['args']['fromAddress'];
   let toAddress = log['args']['toAddress'];
+  let action = web3.utils.hexToAscii(log['args']['action']);
   let amount = parseInt(log['args']['amount']);
   let transferType = parseInt(log['args']['transferType']);
   if (transferType === 1) {
@@ -125,7 +127,8 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
       timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
       Address: fromAddress,
       Role: accountMappings[fromAddress],
-      Wallet: ""
+      Wallet: "",
+      Action: action
     };
     result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, fromAddress, baseEntry));
   }
@@ -141,7 +144,8 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
       timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
       Address: fromAddress,
       Role: accountMappings[fromAddress],
-      Wallet: ""
+      Wallet: "",
+      Action: action
     };
     result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, fromAddress, baseEntry));
   }
@@ -157,7 +161,8 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
         timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
         Address: fromAddress,
         Role: accountMappings[fromAddress],
-        Wallet: ""
+        Wallet: "",
+        Action: action
       };
       result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, fromAddress, baseEntry));
       baseEntry = {
@@ -165,7 +170,8 @@ function processTransfers(log, result, targetIssuanceId, instrumentEscrowBalance
         timestamp: new Date(parseInt(log.timestamp) * 1000).toISOString(),
         Address: toAddress,
         Role: accountMappings[toAddress],
-        Wallet: ""
+        Wallet: "",
+        Action: action
       };
       result = result.concat(populateBalanceEntry(instrumentEscrowBalance, issuanceEscrowBalance, toAddress, baseEntry));
     }
